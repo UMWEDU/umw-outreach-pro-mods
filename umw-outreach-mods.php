@@ -14,6 +14,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			add_action( 'global-umw-footer', array( $this, 'prepare_footer' ) );
 			add_action( 'wp_print_styles', array( $this, 'print_styles' ) );
 			add_action( 'umw-header-logo', array( $this, 'get_logo' ) );
+			add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
 			
 			/*add_action( 'plugins_loaded', array( $this, 'use_plugins' ) );*/
 		}
@@ -67,13 +68,46 @@ body .umw-helpful-links .umw-tools {
 		function genesis_tweaks() {
 			remove_all_actions( 'genesis_header' );
 			add_action( 'genesis_header', array( $this, 'get_header' ) );
-			remove_all_actions( 'genesis_footer' );
-			add_action( 'genesis_footer', array( $this, 'get_footer' ) );
+			remove_action( 'genesis_footer', 'genesis_do_footer' );
+			
+			/*remove_all_actions( 'genesis_footer' );
+			add_action( 'genesis_footer', array( $this, 'get_footer' ) );*/
 			
 			/*if ( isset( $GLOBALS['umw_online_tools_obj'] ) ) {
 				global $umw_online_tools_obj;
 				remove_action( 'umw-main-header-bar', array( $umw_online_tools_obj, 'do_wordmark', 5 ) );
 			}*/
+		}
+		
+		function register_sidebars() {
+			genesis_register_sidebar( array(
+				'id' => 'global-footer-top', 
+				'name' => __( 'Global Footer Top' )
+			) );
+			genesis_register_sidebar( array( 
+				'id' => 'global-footer-1', 
+				'name' => __( 'Global Footer 1' ), 
+			) );
+			genesis_register_sidebar( array( 
+				'id' => 'global-footer-2', 
+				'name' => __( 'Global Footer 2' ), 
+			) );
+			genesis_register_sidebar( array( 
+				'id' => 'global-footer-3', 
+				'name' => __( 'Global Footer 3' ), 
+			) );
+			genesis_register_sidebar( array( 
+				'id' => 'global-footer-4', 
+				'name' => __( 'Global Footer 4' ), 
+			) );
+			genesis_register_sidebar( array( 
+				'id' => 'global-footer-bottom-1', 
+				'name' => __( 'Global Footer Bottom 1' ), 
+			) );
+			genesis_register_sidebar( array( 
+				'id' => 'global-footer-bottom-2', 
+				'name' => __( 'Global Footer Bottom 2' ), 
+			) );
 		}
 		
 		function get_header() {
