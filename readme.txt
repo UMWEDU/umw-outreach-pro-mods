@@ -24,3 +24,7 @@ The main function of this plugin is to implement the global header and footer us
 
 = 0.1 =
 * Initial version
+
+== To Do ==
+
+* Make sure styles are implemented for Max Mega Menu
