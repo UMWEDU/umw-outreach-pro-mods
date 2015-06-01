@@ -11,7 +11,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '0.1.5';
+		var $version = '0.1.7';
 		var $header_feed = null;
 		var $footer_feed = null;
 		
@@ -24,8 +24,10 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			add_action( 'global-umw-header', array( $this, 'do_full_header' ) );
 			add_action( 'global-umw-footer', array( $this, 'do_full_footer' ) );
 			
-			$this->header_feed = esc_url( '//umwwebmaster.staging.wpengine.com/feed/global-umw-header/' );
-			$this->footer_feed = esc_url( '//umwwebmaster.staging.wpengine.com/feed/global-umw-footer/' );
+			$this->header_feed = esc_url( sprintf( 'http://%s/feed/umw-global-header/', DOMAIN_CURRENT_SITE ) );
+			$this->footer_feed = esc_url( sprintf( 'http://%s/feed/umw-global-footer/', DOMAIN_CURRENT_SITE ) );
+			
+			$this->transient_timeout = 10;
 		}
 		
 		function test_cascade() {
@@ -58,6 +60,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		}
 		
 		function do_full_header() {
+			delete_site_transient( 'global-umw-header' );
 			$header = get_site_transient( 'global-umw-header' );
 			
 			if ( false === $header ) { /* There was no valid transient */
@@ -69,10 +72,15 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			
 			if ( is_string( $header ) ) {
 				echo $header;
+			} else {
+				print( "<p>For some reason, the header code was not a string. It looked like:</p>\n<pre><code>" );
+				var_dump( $header );
+				print( "</code></pre>\n" );
 			}
 		}
 		
 		function do_full_footer() {
+			delete_site_transient( 'global-umw-footer' );
 			$footer = get_site_transient( 'global-umw-footer' );
 			
 			if ( false === $footer ) { /* There was no valid transient */
@@ -84,30 +92,55 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			
 			if ( is_string( $footer ) ) {
 				echo $footer;
+			} else {
+				print( "<p>For some reason, the footer code was not a string. It looked like:</p>\n<pre><code>" );
+				var_dump( $footer );
+				print( "</code></pre>\n" );
 			}
 		}
 		
 		function get_header_from_feed() {
-			$header = wp_remote_get( esc_url( $this->header_feed ) );
-			if ( is_wp_error( $header ) ) 
+			printf( "\n<!-- Attempting to retrieve '%s' -->\n", esc_url( $this->header_feed ) );
+			$header = wp_remote_get( esc_url( add_query_arg( 'time', time(), $this->header_feed ) ) );
+			if ( is_wp_error( $header ) )  {
+				print( '<pre><code>' );
+				var_dump( $header );
+				print( '</code></pre>' );
 				return $header;
+			}
+				
+			/*print( '<pre><code>' );
+			var_dump( $header );
+			print( '</code></pre>' );
+			wp_die( 'Done' );*/
 				
 			if ( 200 === absint( wp_remote_retrieve_response_code( $header ) ) ) {
+				$header = wp_remote_retrieve_body( $header );
+				/*print( '<pre><code>' );
+				var_dump( $header );
+				print( '</code></pre>' );
+				wp_die( 'Done' );*/
 				set_site_transient( 'global-umw-header', $header, $this->transient_timeout );
 				update_site_option( 'global-umw-header', $header );
-				return wp_remote_retrieve_body( $header );
+				return $header;
 			}
 		}
 		
 		function get_footer_from_feed() {
-			$footer = wp_remote_get( esc_url( $this->footer_feed ) );
-			if ( is_wp_error( $footer ) ) 
+			printf( "\n<!-- Attempting to retrieve '%s' -->\n", esc_url( $this->footer_feed ) );
+			$footer = wp_remote_get( add_query_arg( 'time', time(), $this->footer_feed ) );
+			if ( is_wp_error( $footer ) ) {
+				print( '<pre><code>' );
+				var_dump( $footer );
+				print( '</code></pre>' );
 				return $footer;
+			}
 				
 			if ( 200 === absint( wp_remote_retrieve_response_code( $footer ) ) ) {
+				$footer = wp_remote_retrieve_body( $footer );
 				set_site_transient( 'global-umw-footer', $footer, $this->transient_timeout );
 				update_site_option( 'global-umw-footer', $footer );
-				return wp_remote_retrieve_body( $footer );
+				return $footer;
 			}
 		}
 	}
@@ -116,7 +149,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 	 * Define the class used to manage the global header & footer
 	 */
 	class UMW_Outreach_Mods extends UMW_Outreach_Mods_Sub {
-		var $dbversion = '20150514/090000';
+		var $dbversion = '20150522/090000';
 		
 		function __construct() {
 			parent::__construct();
@@ -129,8 +162,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			add_action( 'umw-header-logo', array( $this, 'get_logo' ) );
 			add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
 			add_action( 'init', array( $this, 'add_feed' ) );
-			
-			/*add_action( 'plugins_loaded', array( $this, 'use_plugins' ) );*/
+			add_action( 'plugins_loaded', array( $this, 'use_plugins' ) );
 		}
 		
 		function test_cascade() {
@@ -160,8 +192,11 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		function use_plugins() {
 			if ( isset( $GLOBALS['umw_online_tools_obj'] ) ) {
 				global $umw_online_tools_obj;
-				add_action( 'umw-above-header', array( $umw_online_tools_obj, 'do_toolbar', 1 ) );
-				add_action( 'umw-above-header', array( $umw_online_tools_obj, 'do_header_bar', 5 ) );
+				$umw_online_tools_obj->enqueue_styles();
+				/*add_action( 'umw-above-header', array( $umw_online_tools_obj, 'do_toolbar', 1 ) );
+				add_action( 'umw-above-header', array( $umw_online_tools_obj, 'do_header_bar', 5 ) );*/
+			} else {
+				print( "\n<!-- The umw_online_tools_obj object doesn't seem to exist -->\n" );
 			}
 		}
 		
@@ -312,12 +347,34 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		}
 		
 		function get_header_for_feed() {
+			print( "\n<!-- UMW Global Header: version {$this->version} -->\n" );
+			$this->gather_styles();
+			
+			do_action( 'genesis_before' );
 			$this->do_full_header();
+			print( "\n<!-- / UMW Global Header -->\n" );
 			exit();
 		}
 		
+		function gather_styles() {
+			global $wp_styles;
+			$wp_styles->do_items( 'umw-online-tools' );
+			$wp_styles->do_items( 'megamenu' );
+			do_action( 'umw-main-header-bar-styles' );
+		}
+		
+		function gather_scripts() {
+			global $umw_search_engine_obj;
+			$umw_search_engine_obj->do_search_choices_js();
+			global $wp_scripts;
+			$wp_scripts->do_items( 'megamenu' );
+		}
+		
 		function get_footer_for_feed() {
+			print( "\n<!-- UMW Global Footer: version {$this->version} -->\n" );
 			$this->do_full_footer();
+			$this->gather_scripts();
+			print( "\n<!-- / UMW Global Footer -->\n" );
 			exit();
 		}
 	}
@@ -325,11 +382,12 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 	define( 'WP_MANAGE_GLOBAL_HEADER_FOOTER', true );
 	
 	function inst_umw_outreach_mods_obj() {
-		global $umw_outreach_mods_obj;
-		if ( defined( 'WP_MANAGE_GLOBAL_HEADER_FOOTER' ) && WP_MANAGE_GLOBAL_HEADER_FOOTER )
+		global $umw_outreach_mods_obj, $blog_id;
+		if ( defined( 'WP_MANAGE_GLOBAL_HEADER_FOOTER' ) && WP_MANAGE_GLOBAL_HEADER_FOOTER && 1 === absint( $blog_id ) ) {
 			$umw_outreach_mods_obj = new UMW_Outreach_Mods;
-		else
+		} else {
 			$umw_outreach_mods_obj = new UMW_Outreach_Mods_Sub;
+		}
 	}
 	inst_umw_outreach_mods_obj();
 }
