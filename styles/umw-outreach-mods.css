@@ -29,3 +29,43 @@ body .umw-header-bar > .wrap,
 body .umw-helpful-links .umw-tools {
 	max-width: 1140px;
 }
+
+/*
+ * A-to-Z Shortcode Styles
+ */
+.atoz-alpha-links {
+	width: 100%;
+	text-align: left;
+	max-width: 100%;
+}
+
+.atoz-alpha-links ul, 
+.atoz-alpha-links li {
+	list-style: none;
+}
+
+.atoz-alpha-links ul {
+	display: block;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.atoz-alpha-links li {
+	display: inline;
+}
+
+.atoz-alpha-links li a {
+	display: inline-block;
+	padding: .25rem .75rem;
+	margin: 0 1rem 1rem 0;
+	border: 1px dotted #eee;
+	background: #e2e2e2;
+	text-decoration: none;
+}
+
+.atoz-alpha-links li a:hover, 
+.atoz-alpha-links li a:focus {
+	background: #eee;
+	border: 1px solid #000;
+}
