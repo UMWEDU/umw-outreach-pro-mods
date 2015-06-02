@@ -11,7 +11,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '0.1.7';
+		var $version = '0.1.8';
 		var $header_feed = null;
 		var $footer_feed = null;
 		
@@ -26,6 +26,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			
 			$this->header_feed = esc_url( sprintf( 'http://%s/feed/umw-global-header/', DOMAIN_CURRENT_SITE ) );
 			$this->footer_feed = esc_url( sprintf( 'http://%s/feed/umw-global-footer/', DOMAIN_CURRENT_SITE ) );
+			
+			add_shortcode( 'atoz', array( $this, 'do_atoz_shortcode' ) );
 			
 			$this->transient_timeout = 10;
 		}
@@ -142,6 +144,100 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				update_site_option( 'global-umw-footer', $footer );
 				return $footer;
 			}
+		}
+		
+		function do_atoz_shortcode( $args=array() ) {
+			$defaults = apply_filters( 'atoz-shortcode-defaults', array(
+				'post_type' => 'post', 
+				'field' => 'title', 
+				'view' => null, 
+				'child_of' => 0, 
+				'numberposts' => -1, 
+				'reverse' => false
+			) );
+			
+			$nonmeta = array( 'ID', 'author', 'title', 'name', 'type', 'date', 'modified', 'parent', 'comment_count', 'menu_order', 'post__in' );
+			
+			$args = shortcode_atts( $defaults, $args );
+			$query = array(
+				'post_type' => $args['post_type'], 
+				'order' => $args['reverse'] ? 'desc' : 'asc', 
+				'numberposts' => $args['numberposts'], 
+				'post_status' => 'publish', 
+			);
+			if ( ! empty( $args['child_of'] ) ) {
+				$query['child_of'] = $args['child_of'];
+			}
+			if ( ! in_array( $args['field'], $nonmeta ) ) {
+				$meta = true;
+				$query['orderby'] = 'meta_value';
+				$query['meta_key'] = $args['field'];
+			} else {
+				$meta = false;
+				$query['orderby'] = $args['field'];
+			}
+			
+			$posts = new WP_Query( $query );
+			$a = null;
+			$list = array();
+			$postlist = array();
+			
+			global $post;
+			if ( $posts->have_posts() ) : while ( $posts->have_posts() ) : $posts->the_post();
+				setup_postdata( $post );
+				if ( $meta ) {
+					$o = (string) get_post_meta( get_the_ID(), $args['field'], true );
+				} else {
+					$o = (string) $post->{$args['field']};
+				}
+				if ( strtolower( $o[0] ) != $a ) {
+					$a = strtolower( $o[0] );
+					$list[] = $a;
+				}
+				if ( ! empty( $args['view'] ) && function_exists( 'render_view' ) ) {
+					$postlist[$a][] = render_view_template( $args['view'], $post );
+				} else {
+					$postlist[$a][] = apply_filters( 'atoz-generic-output', sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', get_permalink(), apply_filters( 'the_title_attribute', get_the_title() ), get_the_title() ), $post );
+				}
+			endwhile; endif;
+			wp_reset_postdata();
+			wp_reset_query();
+			
+			if ( empty( $list ) || empty( $postlist ) ) {
+				return 'The post list was empty';
+			}
+			
+			$list = array_map( array( $this, 'do_alpha_link' ), $list );
+			if ( empty( $args['view'] ) ) {
+				foreach ( $postlist as $a=>$p ) {
+					$postlist[$a] = array_map( array( $this, 'do_generic_alpha_wrapper' ), $p );
+				}
+			}
+			
+			foreach ( $postlist as $a=>$p ) {
+				$postlist[$a] = sprintf( '<section class="atoz-alpha-letter-section"><h2 class="atoz-alpha-header-letter" id="atoz-%1$s">%2$s</h2>%3$s</section>', strtolower( $a ), strtoupper( $a ), '<div>' . implode( '', $p ) . '</div>' );
+			}
+			
+			$output = apply_filters( 'atoz-final-output', 
+				sprintf( '<nav class="atoz-alpha-links"><ul><li>%1$s</li></ul></nav><div class="atoz-alpha-content">%2$s</div>', 
+					implode( '</li><li>', $list ), 
+					implode( '', $postlist ) 
+				), $list, $postlist 
+			);
+			
+			return $output;
+		}
+		
+		function do_alpha_link( $letter ) {
+			$format = apply_filters( 'atoz-alpha-link-format', '<a href="#atoz-%1$s">%2$s</a>' );
+			$args = apply_filters( 'atoz-alpha-link-args', array( strtolower( $letter ), strtoupper( $letter ) ) );
+			return vsprintf( $format, $args );
+		}
+		
+		function do_generic_alpha_wrapper( $value ) {
+			$format = apply_filters( 'atoz-generic-alpha-wrapper-format', '<p class="atoz-item">%1$s</p>' );
+			$args = apply_filters( 'atoz-generic-alpha-wrapper-args', array( $value ) );
+			return vsprintf( $format, $args );
 		}
 	}
 	
@@ -348,7 +444,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		
 		function get_header_for_feed() {
 			print( "\n<!-- UMW Global Header: version {$this->version} -->\n" );
+			print( "\n<!-- UMW Global Header Styles -->\n" );
 			$this->gather_styles();
+			print( "\n<!-- / UMW Global Header Styles -->\n" );
 			
 			do_action( 'genesis_before' );
 			$this->do_full_header();
@@ -358,22 +456,36 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		
 		function gather_styles() {
 			global $wp_styles;
+			if ( class_exists( 'Mega_Menu_Style_Manager' ) ) {
+				$tmp = new Mega_Menu_Style_Manager;
+				$css = $tmp->get_css();
+				printf( '<style type="text/css" title="global-max-megamenu">%s</style>', $css );
+			}
 			$wp_styles->do_items( 'umw-online-tools' );
-			$wp_styles->do_items( 'megamenu' );
 			do_action( 'umw-main-header-bar-styles' );
 		}
 		
 		function gather_scripts() {
-			global $umw_search_engine_obj;
-			$umw_search_engine_obj->do_search_choices_js();
-			global $wp_scripts;
-			$wp_scripts->do_items( 'megamenu' );
+			if ( class_exists( 'UMW_Search_Engine' ) ) {
+				UMW_Search_Engine::do_search_choices_js();
+			}
+			if ( class_exists( 'Mega_Menu_Style_Manager' ) ) {
+				$tmp = new Mega_Menu_Style_Manager;
+				$tmp->enqueue_scripts();
+				
+				global $wp_scripts;
+				$wp_scripts->done[] = 'jquery';
+				$wp_scripts->done[] = 'jquery-migrate';
+				$wp_scripts->do_items( 'megamenu' );
+			}
 		}
 		
 		function get_footer_for_feed() {
 			print( "\n<!-- UMW Global Footer: version {$this->version} -->\n" );
 			$this->do_full_footer();
+			print( "\n<!-- UMW Global Footer Scripts -->\n" );
 			$this->gather_scripts();
+			print( "\n<!-- / UMW Global Footer Scripts -->\n" );
 			print( "\n<!-- / UMW Global Footer -->\n" );
 			exit();
 		}
