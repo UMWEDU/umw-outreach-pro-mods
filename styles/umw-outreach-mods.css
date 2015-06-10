@@ -41,13 +41,17 @@ body .umw-helpful-links .umw-tools {
  * Sidebar Navigation Styles
  */
 
-.widget_pages .children {
+.widget_pages .children, 
+.widget_section_nav .children {
 	display: none;
 }
 
 .widget_pages .current_page_ancestor .children,  
 .widget_pages .current_page_item .children, 
-.widget_pages .current-menu-item .children {
+.widget_pages .current-menu-item .children, 
+.widget_section_nav .current_page_ancestor .children,  
+.widget_section_nav .current_page_item .children, 
+.widget_section_nav .current-menu-item .children {
 	display: block;
 }
 

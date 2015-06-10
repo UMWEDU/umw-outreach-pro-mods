@@ -11,7 +11,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '0.1.12';
+		var $version = '0.1.13';
 		var $header_feed = null;
 		var $footer_feed = null;
 		
@@ -51,6 +51,16 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			
 			remove_all_actions( 'genesis_footer' );
 			add_action( 'genesis_footer', array( $this, 'get_footer' ) );
+			
+			/*unregister_sidebar( 'sidebar' );*/
+			remove_all_actions( 'genesis_sidebar' );
+			add_action( 'genesis_sidebar', array( $this, 'section_navigation' ) );
+		}
+		
+		function section_navigation() {
+			echo '<nav class="widget widget_section_nav"><ul>';
+			wp_list_pages( array( 'title_li' => null ) );
+			echo '</ul></nav>';
 		}
 		
 		function get_header() {
