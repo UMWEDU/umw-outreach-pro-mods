@@ -30,6 +30,27 @@ body .umw-helpful-links .umw-tools {
 	max-width: 1140px;
 }
 
+/**
+ * Home Widget Areas
+ */
+.home-top.widget-area .widget_text {
+	padding: 0;
+}
+
+/**
+ * Sidebar Navigation Styles
+ */
+
+.widget_pages .children {
+	display: none;
+}
+
+.widget_pages .current_page_ancestor .children,  
+.widget_pages .current_page_item .children, 
+.widget_pages .current-menu-item .children {
+	display: block;
+}
+
 /*
  * A-to-Z Shortcode Styles
  */
