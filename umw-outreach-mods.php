@@ -2,7 +2,7 @@
 /**
  * Plugin Name: UMW Outreach Customizations
  * Description: Implements various UMW-specific tweaks to the Outreach Pro Genesis child theme
- * Version: 0.1.5
+ * Version: 0.1.14
  * Author: cgrymala
  * License: GPL2
  */
@@ -11,7 +11,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '0.1.13';
+		var $version = '0.1.14';
 		var $header_feed = null;
 		var $footer_feed = null;
 		
@@ -55,6 +55,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			/*unregister_sidebar( 'sidebar' );*/
 			remove_all_actions( 'genesis_sidebar' );
 			add_action( 'genesis_sidebar', array( $this, 'section_navigation' ) );
+			
+			remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
+			add_action( 'genesis_before_content', 'genesis_do_breadcrumbs' );
 		}
 		
 		function section_navigation() {

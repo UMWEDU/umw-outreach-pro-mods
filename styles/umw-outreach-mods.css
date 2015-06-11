@@ -37,6 +37,20 @@ body .umw-helpful-links .umw-tools {
 	padding: 0;
 }
 
+.home-top.widget-area .wp_rss_retriever_list {
+	display: inline;
+}
+
+.home-top.widget-area .wp_rss_retriever_list .wp_rss_retriever_item {
+	display: inline-block;
+	width: 25%;
+	padding-left: 2rem;
+}
+
+.home-top.widget-area .wp_rss_retriever_list .wp_rss_retriever_item:first-child {
+	padding-left: 0;
+}
+
 /**
  * Sidebar Navigation Styles
  */
