@@ -74,7 +74,7 @@ main.content {margin-bottom: 5px; padding: 0px;}
 #impactStatement {font-family: "MuseoSlab", Georgia, "Times New Roman", Times, serif; font-size: 22px; color: #002b5a; background: #ccd5de; text-align: center; padding: 1em;}
 footer.site-footer {background-color: #3a5b7d !important; text-align: left;}
 #calendarLink {clear: both; text-align: right;}
-
+.home-bottom {padding-top: 20px;}
 /**
  * Sidebar Navigation Styles
  */
