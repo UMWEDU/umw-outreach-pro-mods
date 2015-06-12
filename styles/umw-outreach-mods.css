@@ -143,6 +143,21 @@ footer.site-footer {background-color: #3a5b7d !important; text-align: left;}
 	border: 1px solid #000;
 }
 /*
+ * Campus directory styles
+ */
+body.single-employee > div.site-container > div > div > div > main > article > header {display: none;}
+.entry-meta {display: none;}
+#directoryNav .one-fourth {text-align: center; font-size: 1.5em; background-color: #ccd5de;}
+
+/* .wp_rss styles aren't unique to the directory. We need to find a way to differentiate, commit to one styling, or just do something else. */
+ .wp_rss_retriever_image {clear: both; float: left; padding-right: .5em; padding-top: .25em;}
+.wp_rss_retriever_title {clear: both; font-weight: bold; display: block;}
+.wp_rss_retriever_item {padding:  .50em; /*max-width: 250px; float: left; */margin-bottom: .25em; background-color: #eee;}
+.entry-content ul.wp_rss_retriever_list > li {list-style-type: none;}
+.entry-content ul.wp_rss_retriever_list {margin-left: 0px;}
+.wp_rss_retriever_metadata {font-style: italic; font-size: .75em;}
+
+/*
  * Footer styles
  */
 footer.site-footer div h4.widget-title.widgettitle {color: #fff; font-weight: 500;}
