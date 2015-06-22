@@ -164,3 +164,39 @@ body.single-employee > div.site-container > div > div > div > main > article > h
 footer.site-footer div h4.widget-title.widgettitle {color: #fff; font-weight: 500;}
 footer.site-footer a.genericon {font-size: 2em;}
 footer.site-footer .widget {margin-bottom: 0px;}
+
+.umw-global-footer {
+	background: #4d6b8b;
+}
+
+.umw-global-footer .global-footer-top, 
+.umw-global-footer .primary-global-footer {
+	margin: 0 auto;
+	max-width: 1000px;
+}
+
+.umw-global-footer .primary-global-footer {
+	border-bottom: 1px solid #e2e2e2;
+	border-top: 1px solid #e2e2e2;
+}
+
+.umw-global-footer .primary-global-footer:after {
+	display: block;
+	content: " ";
+	clear: both;
+	float: none;
+}
+
+.umw-global-footer .global-footer-bottom-2 {
+	text-align: right;
+}
+
+.umw-global-footer .widget {
+	background: none;
+	margin: 0;
+	color: #fff;
+}
+
+.umw-global-footer .widget .widget-title {
+	color: #fff;
+}
