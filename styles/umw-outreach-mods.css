@@ -3,7 +3,7 @@ h1, h2, h3, h4, h5, h6 {font-family: "MuseoSlab", Georgia, "Times New Roman", Ti
 
 .umw-global-header {
 	background-color: #002b5a;
-	border-top: 1px solid #4d6b8b;
+	border-top: 1px solid #2b4f75;
 }
 
 #umw-full-logo-img {
@@ -166,18 +166,42 @@ footer.site-footer a.genericon {font-size: 2em;}
 footer.site-footer .widget {margin-bottom: 0px;}
 
 .umw-global-footer {
-	background: #4d6b8b;
+	background: #4c6a8b;
+	padding: 0;
+	font-size: 12px;
+	font-size: .75rem;
+}
+
+.umw-global-footer h4.widget-title, 
+.umw-global-footer h4.widgettitle {
+	font-family: MuseoSans, Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-transform: none;
+	font-size: 16px;
+	font-size: 1rem;
+	font-weight: 500;
+}
+
+.umw-global-footer > .wrap {
+	max-width: 100%;
+	width: 100%;
 }
 
 .umw-global-footer .global-footer-top, 
-.umw-global-footer .primary-global-footer {
+.umw-global-footer .primary-global-footer > .wrap {
 	margin: 0 auto;
 	max-width: 1000px;
 }
 
+.umw-global-footer .secondary-global-footer {
+	max-width: 1140px;
+	margin: 0 auto;
+}
+
 .umw-global-footer .primary-global-footer {
-	border-bottom: 1px solid #e2e2e2;
-	border-top: 1px solid #e2e2e2;
+	border-bottom: 1px solid #728aa4;
+	border-top: 1px solid #728aa4;
+	max-width: 100%;
+	width: 100%;
 }
 
 .umw-global-footer .primary-global-footer:after {
