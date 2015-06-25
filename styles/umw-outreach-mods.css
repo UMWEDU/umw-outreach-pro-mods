@@ -6,10 +6,16 @@ h1, h2, h3, h4, h5, h6 {font-family: "MuseoSlab", Georgia, "Times New Roman", Ti
 	border-top: 1px solid #2b4f75;
 }
 
+body .umw-logo-block > a {
+	display: block;
+	margin: 0;
+	padding: 5px 0;
+}
+
 #umw-full-logo-img {
-	width: 250px;
+	width: 200px;
 	max-width: 100%;
-	height: 101px;
+	height: 81px;
 	max-height: 32.89902280130293%;
 }
 
@@ -223,4 +229,18 @@ footer.site-footer .widget {margin-bottom: 0px;}
 
 .umw-global-footer .widget .widget-title {
 	color: #fff;
+}
+
+#menu-footer-legal-links li.menu-item {
+	display: inline-block;
+	padding: 0 0 0 8px;
+	padding: 0 0 0 .5rem;
+	margin: 0 0 0 8px;
+	margin: 0 0 0 .5rem;
+	border: none;
+	border-left: 1px solid #fff;
+}
+
+#menu-footer-legal-links li.menu-item:first-child {
+	border: none;
 }
