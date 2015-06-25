@@ -244,3 +244,58 @@ footer.site-footer .widget {margin-bottom: 0px;}
 #menu-footer-legal-links li.menu-item:first-child {
 	border: none;
 }
+
+/**
+ * Home Page Slideshow Styles
+ */
+.home-top .flexslider {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+.home-top .flexslider .slides > li {
+	position: relative;
+}
+
+.home-top .flex-control-thumbs, 
+.home-top .flexslider .slide-caption {
+	width: 300px;
+	width: 18.75rem;
+	padding: 0 48px;
+	padding: 0 3rem;
+	max-width: 80%;
+	position: absolute;
+	left: 10%;
+	bottom: 0;
+}
+
+.home-top .flexslider .slide-caption {
+	top: 0;
+	background: rgba(0, 43, 90, 0.7);
+	margin-top: 0;
+	padding: 64px 32px 100px;
+	padding: 4rem 2rem 6.25rem;
+	color: #fff;
+}
+
+.home-top .flexslider .slide-caption a {
+	color: #fff;
+}
+
+.home-top .flexslider .slide-caption h1 {
+	font-family: MuseoSlab, Georgia, 'Times New Roman', Times, serif;
+	font-size: 32px;
+	font-size: 2rem;
+	color: #fff;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.home-top .flex-control-thumbs li {
+	width: 35px;
+	height: 35px;
+	margin: 2px;
+	float: none;
+	display: inline-block;
+}
