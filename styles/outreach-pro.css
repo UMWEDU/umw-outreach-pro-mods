@@ -249,7 +249,7 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: MuseoSlab, Georgia, 'Times New Roman', Times, serif
+	font-family: MuseoSlab, Georgia, 'Times New Roman', Times, serif;
 	font-weight: 500;
 	line-height: 1.2;
 	margin: 0 0 10px;
@@ -1751,18 +1751,11 @@ Theme Colors
 .outreach-pro-blue input:hover[type="button"],
 .outreach-pro-blue input:hover[type="reset"],
 .outreach-pro-blue input:hover[type="submit"] {
-	background-color: #1e6dad;
 	color: #fff;
 }
 
 .outreach-pro-blue .sub-footer {
 	background-color: #edf3f4;
-}
-
-.outreach-pro-blue .author-box,
-.outreach-pro-blue .nav-secondary .wrap,
-.outreach-pro-blue .sidebar .widget  {
-	background-color: #17222b;
 }
 
 .outreach-pro-blue .nav-secondary .genesis-nav-menu .sub-menu,
@@ -1840,24 +1833,11 @@ Theme Colors
 .outreach-pro-orange input:hover[type="button"],
 .outreach-pro-orange input:hover[type="reset"],
 .outreach-pro-orange input:hover[type="submit"] {
-	background-color: #ef6c00;
 	color: #fff;
 }
 
 .outreach-pro-orange .sub-footer {
 	background-color: #f6f1e9;
-}
-
-.outreach-pro-orange,
-.outreach-pro-orange .footer-widgets,
-.outreach-pro-orange .site-footer {
-	background-color: #3c3a36;
-}
-
-.outreach-pro-orange .author-box,
-.outreach-pro-orange .nav-secondary .wrap,
-.outreach-pro-orange .sidebar .widget  {
-	background-color: #302e29;
 }
 
 .outreach-pro-orange .nav-secondary .genesis-nav-menu .sub-menu,
@@ -2020,18 +2000,6 @@ Theme Colors
 
 .outreach-pro-red .sub-footer {
 	background-color: #f6f1e9;
-}
-
-.outreach-pro-red,
-.outreach-pro-red .footer-widgets,
-.outreach-pro-red .site-footer {
-	background-color: #3c3a36;
-}
-
-.outreach-pro-red .author-box,
-.outreach-pro-red .nav-secondary .wrap,
-.outreach-pro-red .sidebar .widget {
-	background-color: #302e29;
 }
 
 .outreach-pro-red .nav-secondary .genesis-nav-menu .sub-menu,
