@@ -1,6 +1,10 @@
-* {border-radius: 0px !important;} 
-h1, h2, h3, h4, h5, h6 {font-family: "MuseoSlab", Georgia, "Times New Roman", Times, serif;} 
+* {
+	border-radius: 0px !important;
+}
 
+/**
+ * Global Header
+ */
 .umw-global-header {
 	background-color: #002b5a;
 	border-top: 1px solid #2b4f75;
@@ -19,8 +23,7 @@ body .umw-logo-block > a {
 	max-height: 32.89902280130293%;
 }
 
-#umw-full-logo-img path.style0, 
-#umw-full-logo-img path.style1 {
+#umw-full-logo-img path.style0, #umw-full-logo-img path.style1 {
 	fill: #fff;
 }
 
@@ -29,32 +32,23 @@ body .umw-logo-block > a {
 	max-width: 100%;
 	float: left;
 }
+
 .site-header {
-	background-color: #002b5a !important;
 	clear: both;
 }
-.site-header .wrap {
-  padding: 0 !important; }
+
 .site-header .widget-area {
-  padding-top: 34px;}
-  
-body .umw-header-bar > .wrap, 
-body .umw-helpful-links .umw-tools {
+	padding-top: 34px;
+}
+
+body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	max-width: 1140px;
 }
-body {background-color: #fff !important; font-family: "MuseoSans", Helvetica, Arial, Tahoma, sans-serif;}
-.site-inner {padding-top: 0px;}
-div.breadcrumb {
-    background-color: #fff;
-    font-size: 12px;
-    margin-bottom: 0px !important;
-    padding: 10px 16px;
-}
-main.content {margin-bottom: 5px; padding: 0px;}
 
 /**
  * Home Widget Areas
  */
+
 .home-top.widget-area .widget_text {
 	padding: 0;
 }
@@ -73,103 +67,93 @@ main.content {margin-bottom: 5px; padding: 0px;}
 	padding-left: 0;
 }
 
-#homepageCTA {color: #002b5a;}
-#homepageCTA h1 {font-size: 1.75em;}
-#homepageCTA span.genericon {font-size: 5em; float: left;}
-#homepageCTA .one-third {border-left: 1px solid #e6eaee; border-bottom: 1px solid #e6eaee; padding-bottom: .5em; padding-top: .5em;}
-#impactStatement {font-family: "MuseoSlab", Georgia, "Times New Roman", Times, serif; font-size: 22px; color: #002b5a; background: #ccd5de; text-align: center; padding: 1em;}
-footer.site-footer {background-color: #3a5b7d !important; text-align: left;}
-#calendarLink {clear: both; text-align: right;}
-.home-bottom {padding-top: 20px;}
+.home-bottom {
+	padding-top: 20px;
+}
+
+#homepageCTA {
+	color: #002b5a;
+}
+
+#homepageCTA h1 {
+	font-size: 1.75em;
+}
+
+#homepageCTA span.genericon {
+	font-size: 5em;
+	float: left;
+}
+
+#homepageCTA .one-third {
+	border-left: 1px solid #e6eaee;
+	border-bottom: 1px solid #e6eaee;
+	padding-bottom: .5em;
+	padding-top: .5em;
+}
+
+#impactStatement {
+	font-family: "MuseoSlab", Georgia, "Times New Roman", Times, serif;
+	font-size: 22px;
+	color: #002b5a;
+	background: #ccd5de;
+	text-align: center;
+	padding: 1em;
+}
+
+#calendarLink {
+	clear: both;
+	text-align: right;
+}
+
 /**
  * Sidebar Navigation Styles
  */
 
-.widget_pages .children, 
-.widget_section_nav .children {
+.widget_pages .children, .widget_section_nav .children {
 	display: none;
 }
 
 .current_page_item > a {
-  font-weight: bold;}
+	font-weight: bold;
+}
 
-.widget_pages .current_page_ancestor .children,  
-.widget_pages .current_page_item .children, 
-.widget_pages .current-menu-item .children, 
-.widget_section_nav .current_page_ancestor .children,  
-.widget_section_nav .current_page_item .children, 
-.widget_section_nav .current-menu-item .children {
+.widget_pages .current_page_ancestor .children, .widget_pages .current_page_item .children, .widget_pages .current-menu-item .children, .widget_section_nav .current_page_ancestor .children, .widget_section_nav .current_page_item .children, .widget_section_nav .current-menu-item .children {
 	display: block;
 }
 
-.widget li {border-bottom: 1px solid #E6EAEE;}
-
-.sidebar .widget {background-color: #3A5B7D !important; color: #fff; padding: 15px !important;}
-.sidebar .widget a {color: #fff;}
-.sidebar .widget a:hover {color: #eee; text-decoration: underline;}
-
-
-/*
- * A-to-Z Shortcode Styles
- */
-.atoz-alpha-links {
-	width: 100%;
-	text-align: left;
-	max-width: 100%;
+.widget li {
+	border-bottom: 1px solid #E6EAEE;
 }
 
-.atoz-alpha-links ul, 
-.atoz-alpha-links li {
-	list-style: none;
+.sidebar .widget a {
+	color: #fff;
 }
 
-.atoz-alpha-links ul {
-	display: block;
-	width: 100%;
-	margin: 0;
-	padding: 0;
+.sidebar .widget a:hover {
+	color: #eee;
+	text-decoration: underline;
 }
-
-.atoz-alpha-links li {
-	display: inline;
-}
-
-.atoz-alpha-links li a {
-	display: inline-block;
-	padding: .25rem .75rem;
-	margin: 0 1rem 1rem 0;
-	border: 1px dotted #eee;
-	background: #e2e2e2;
-	text-decoration: none;
-}
-
-.atoz-alpha-links li a:hover, 
-.atoz-alpha-links li a:focus {
-	background: #eee;
-	border: 1px solid #000;
-}
-/*
- * Campus directory styles
- */
-body.single-employee > div.site-container > div > div > div > main > article > header {display: none;}
-.entry-meta {display: none;}
-#directoryNav .one-fourth {text-align: center; font-size: 1.5em; background-color: #ccd5de;}
-
-/* .wp_rss styles aren't unique to the directory. We need to find a way to differentiate, commit to one styling, or just do something else. */
- .wp_rss_retriever_image {clear: both; float: left; padding-right: .5em; padding-top: .25em;}
-.wp_rss_retriever_title {clear: both; font-weight: bold; display: block;}
-.wp_rss_retriever_item {padding:  .50em; /*max-width: 250px; float: left; */margin-bottom: .25em; background-color: #eee;}
-.entry-content ul.wp_rss_retriever_list > li {list-style-type: none;}
-.entry-content ul.wp_rss_retriever_list {margin-left: 0px;}
-.wp_rss_retriever_metadata {font-style: italic; font-size: .75em;}
 
 /*
  * Universal Footer styles - might need tweaks
  */
- #reportProblem {text-align: center;}
-footer.site-footer div h4.widget-title.widgettitle {color: #fff; font-weight: 500;}
-footer.site-footer a.genericon {font-size: 2em;}
-footer.site-footer .widget {margin-bottom: 0px;}
+ 
+#reportProblem {
+	text-align: center;
+}
+
+footer.site-footer div h4.widget-title.widgettitle {
+	color: #fff;
+	font-weight: 500;
+}
+
+footer.site-footer a.genericon {
+	font-size: 2em;
+}
+
+footer.site-footer .widget {
+	margin-bottom: 0px;
+}
 
 .umw-global-footer {
 	background: #4c6a8b;
@@ -178,8 +162,7 @@ footer.site-footer .widget {margin-bottom: 0px;}
 	font-size: .75rem;
 }
 
-.umw-global-footer h4.widget-title, 
-.umw-global-footer h4.widgettitle {
+.umw-global-footer h4.widget-title, .umw-global-footer h4.widgettitle {
 	font-family: MuseoSans, Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
 	text-transform: none;
 	font-size: 16px;
@@ -192,8 +175,7 @@ footer.site-footer .widget {margin-bottom: 0px;}
 	width: 100%;
 }
 
-.umw-global-footer .global-footer-top, 
-.umw-global-footer .primary-global-footer > .wrap {
+.umw-global-footer .global-footer-top, .umw-global-footer .primary-global-footer > .wrap {
 	margin: 0 auto;
 	max-width: 1000px;
 }
@@ -248,6 +230,7 @@ footer.site-footer .widget {margin-bottom: 0px;}
 /**
  * Home Page Slideshow Styles
  */
+ 
 .home-top .flexslider {
 	border: none;
 	padding: 0;
@@ -258,8 +241,7 @@ footer.site-footer .widget {margin-bottom: 0px;}
 	position: relative;
 }
 
-.home-top .flex-control-thumbs, 
-.home-top .flexslider .slide-caption {
+.home-top .flex-control-thumbs, .home-top .flexslider .slide-caption {
 	width: 300px;
 	width: 18.75rem;
 	padding: 0 48px;
@@ -299,3 +281,94 @@ footer.site-footer .widget {margin-bottom: 0px;}
 	float: none;
 	display: inline-block;
 }
+
+/*
+ * Campus directory styles
+ */
+ 
+body.single-employee > div.site-container > div > div > div > main > article > header {
+	display: none;
+}
+
+.entry-meta {
+	display: none;
+}
+
+#directoryNav .one-fourth {
+	text-align: center;
+	font-size: 1.5em;
+	background-color: #ccd5de;
+}
+
+/* .wp_rss styles aren't unique to the directory. We need to find a way to differentiate, commit to one styling, or just do something else. */
+.wp_rss_retriever_image {
+	clear: both;
+	float: left;
+	padding-right: .5em;
+	padding-top: .25em;
+}
+
+.wp_rss_retriever_title {
+	clear: both;
+	font-weight: bold;
+	display: block;
+}
+
+.wp_rss_retriever_item {
+	padding: .50em; /*max-width: 250px; float: left; */
+	margin-bottom: .25em;
+	background-color: #eee;
+}
+
+.entry-content ul.wp_rss_retriever_list > li {
+	list-style-type: none;
+}
+
+.entry-content ul.wp_rss_retriever_list {
+	margin-left: 0px;
+}
+
+.wp_rss_retriever_metadata {
+	font-style: italic;
+	font-size: .75em;
+}
+
+/*
+ * A-to-Z Shortcode Styles
+ */
+ 
+.atoz-alpha-links {
+	width: 100%;
+	text-align: left;
+	max-width: 100%;
+}
+
+.atoz-alpha-links ul, .atoz-alpha-links li {
+	list-style: none;
+}
+
+.atoz-alpha-links ul {
+	display: block;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.atoz-alpha-links li {
+	display: inline;
+}
+
+.atoz-alpha-links li a {
+	display: inline-block;
+	padding: .25rem .75rem;
+	margin: 0 1rem 1rem 0;
+	border: 1px dotted #eee;
+	background: #e2e2e2;
+	text-decoration: none;
+}
+
+.atoz-alpha-links li a:hover, .atoz-alpha-links li a:focus {
+	background: #eee;
+	border: 1px solid #000;
+}
+

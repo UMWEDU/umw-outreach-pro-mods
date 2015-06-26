@@ -1,3 +1,11 @@
+/**
+ * This is a slightly modified version of the base style sheet
+ * 		used for the Outreach Pro theme by StudioPress
+ * Any unnecessary elements should be removed from this style sheet
+ * Any extra styles for the UMW implementation of Outreach Pro should 
+ * 		be added to the umw-outreach-mods.css file, instead of here
+ */
+
 /*
 	Theme Name: Outreach Pro
 	Theme URI: http://my.studiopress.com/themes/outreach/
@@ -148,9 +156,9 @@ Defaults
 --------------------------------------------- */
 
 body {
-	background-color: #222;
+	background-color: #fff;
 	color: #333;
-	font-family: 'Lato', sans-serif;
+	font-family: MuseoSans, Helvetica, Arial, Tahoma, sans-serif;
 	font-size: 16px;
 	font-weight: 400;
 	line-height: 1.625;
@@ -241,7 +249,8 @@ h3,
 h4,
 h5,
 h6 {
-	font-weight: 400;
+	font-family: MuseoSlab, Georgia, 'Times New Roman', Times, serif
+	font-weight: 500;
 	line-height: 1.2;
 	margin: 0 0 10px;
 }
@@ -401,7 +410,7 @@ input[type="submit"],
 .button {
 	background-color: #6ab446;
 	border: none;
-	border-radius: 3px;
+	border-radius: 0px;
 	color: #fff;
 	cursor: pointer;
 	font-size: 16px;
@@ -476,7 +485,7 @@ Structure and Layout
 	clear: both;
 	font-size: 16px;
 	overflow: hidden;
-	padding-top: 30px;
+	padding-top: 0px;
 }
 
 .outreach-pro-home .site-inner {
@@ -511,10 +520,10 @@ Structure and Layout
 
 .content {
 	background-color: #fff;
-	border-radius: 3px;
+	border-radius: 0px;
 	float: right;
-	margin-bottom: 30px;
-	padding: 40px;
+	margin-bottom: 5px;
+	padding: 0px;
 	width: 760px;
 }
 
@@ -646,10 +655,12 @@ Common Classes
 --------------------------------------------- */
 
 .breadcrumb {
-	background-color: #f5f5f5;
+	background-color: #fff;
 	font-size: 12px;
-	margin-bottom: 30px;
+	font-size: .75rem;
+	margin-bottom: 0px;
 	padding: 10px 16px;
+	padding: .625rem 1rem;
 }
 
 .archive-description {
@@ -1028,7 +1039,7 @@ Site Header
 ---------------------------------------------------------------------------------------------------- */
 
 .site-header {
-	background-color: #589b37;
+	background-color: #002b5a;
 	color: #fff;
 	min-height: 110px;
 }
@@ -1038,7 +1049,7 @@ Site Header
 }
 
 .site-header .wrap {
-	padding: 20px 0;
+	padding: 0;
 }
 
 /* Title Area
@@ -1558,14 +1569,15 @@ Sidebars
 ---------------------------------------------------------------------------------------------------- */
 
 .sidebar {
-	color: #ccc;
+	color: #fff;
 	font-size: 14px;
 }
 
 .sidebar .widget {
-	background-color: #111;
-	border-radius: 3px;
-	padding: 30px;
+	background-color: #3A5B7D;
+	border-radius: 0px;
+	padding: 15px;
+	padding: .9375rem;
 }
 
 .sidebar li a {
@@ -1651,13 +1663,13 @@ Site Footer
 ---------------------------------------------------------------------------------------------------- */
 
 .site-footer {
-	background-color: #222;
+	background-color: #3a5b7d;
 	border-top: 1px solid rgba(0, 0, 0, 0.2);
 	box-shadow: inset 0 1px rgba(255, 255, 255, 0.07);
 	color: #666;
 	font-size: 14px;
 	padding: 40px 0;
-	text-align: center;
+	text-align: left;
 }
 
 .site-footer a {
@@ -1745,12 +1757,6 @@ Theme Colors
 
 .outreach-pro-blue .sub-footer {
 	background-color: #edf3f4;
-}
-
-.outreach-pro-blue,
-.outreach-pro-blue .footer-widgets,
-.outreach-pro-blue .site-footer {
-	background-color: #222e37;
 }
 
 .outreach-pro-blue .author-box,

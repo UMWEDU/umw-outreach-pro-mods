@@ -16,8 +16,6 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		var $footer_feed = null;
 		
 		function __construct() {
-			add_action( 'wp_print_scripts', array( $this, 'test_cascade' ) );
-			
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 			add_action( 'after_setup_theme', array( $this, 'genesis_tweaks' ), 11 );
 			
@@ -32,30 +30,36 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			$this->transient_timeout = 10;
 		}
 		
-		function test_cascade() {
-			print( "\n<!-- This is the sub class -->\n" );
-		}
-		
 		function enqueue_styles() {
-			wp_enqueue_style( 'umw-outreach-mods', plugins_url( '/styles/umw-outreach-mods.css', __FILE__ ), array(), $this->version, 'all' );
+			wp_dequeue_style( 'google-fonts' );
+			/* Register our modified copy of the Outreach Pro base style sheet */
+			wp_register_style( 'outreach-pro', plugins_url( '/styles/outreach-pro.css', __FILE__ ), array(), $this->version, 'all' );
+			/* Enqueue our additional styles */
+			wp_enqueue_style( 'umw-outreach-mods', plugins_url( '/styles/umw-outreach-mods.css', __FILE__ ), array( 'outreach-pro' ), $this->version, 'all' );
 		}
 		
 		function genesis_tweaks() {
 			if ( ! function_exists( 'genesis' ) )
 				return false;
 				
+			/* Remove the default Genesis style sheet */
+			remove_action( 'genesis_meta', 'genesis_load_stylesheet' );
+			
+			/* Get rid of the standard header & replace it with our global header */
 			remove_all_actions( 'genesis_header' );
 			add_action( 'genesis_header', array( $this, 'get_header' ) );
 			
 			add_theme_support( 'category-thumbnails' );
 			
+			/* Get rid of the standard footer & replace it with our global footer */
 			remove_all_actions( 'genesis_footer' );
 			add_action( 'genesis_footer', array( $this, 'get_footer' ) );
 			
-			/*unregister_sidebar( 'sidebar' );*/
+			/* Get everything out of the primary sidebar & replace it with just navigation */
 			remove_all_actions( 'genesis_sidebar' );
 			add_action( 'genesis_sidebar', array( $this, 'section_navigation' ) );
 			
+			/* Move the breadcrumbs to appear above the content-sidebar wrap */
 			remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
 			add_action( 'genesis_before_content', 'genesis_do_breadcrumbs' );
 		}
