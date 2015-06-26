@@ -241,7 +241,20 @@ footer.site-footer .widget {
 	position: relative;
 }
 
-.home-top .flex-control-thumbs, .home-top .flexslider .slide-caption {
+.home-top .uhp-slider-wrap {
+	position: relative;
+}
+
+.home-top .uhp-slider {
+	position: relative;
+	z-index: 9;
+}
+
+.home-top .uhp-slider-nav {
+	z-index: 10;
+}
+
+.home-top .flex-control-thumbs, .home-top .flexslider .slide-caption, .home-top .uhp-slider-nav {
 	width: 300px;
 	width: 18.75rem;
 	padding: 0 48px;
@@ -250,6 +263,7 @@ footer.site-footer .widget {
 	position: absolute;
 	left: 10%;
 	bottom: 0;
+	background: none;
 }
 
 .home-top .flexslider .slide-caption {
@@ -274,7 +288,7 @@ footer.site-footer .widget {
 	text-transform: uppercase;
 }
 
-.home-top .flex-control-thumbs li {
+.home-top .flex-control-thumbs li, .home-top .uhp-slider-nav .slide {
 	width: 35px;
 	height: 35px;
 	margin: 2px;
