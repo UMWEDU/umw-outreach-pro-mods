@@ -45,6 +45,8 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	max-width: 1140px;
 }
 
+.outreach-pro-home .site-inner {padding: 0px !important;}
+
 /**
  * Home Widget Areas
  */
@@ -73,6 +75,7 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 
 #homepageCTA {
 	color: #002b5a;
+	margin-top: 1em;
 }
 
 #homepageCTA h1 {
@@ -98,6 +101,8 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	background: #ccd5de;
 	text-align: center;
 	padding: 1em;
+	margin-top: 1em; 
+	margin-bottom: 1em;
 }
 
 #calendarLink {
@@ -331,7 +336,6 @@ body.single-employee > div.site-container > div > div > div > main > article > h
 .wp_rss_retriever_item {
 	padding: .50em; /*max-width: 250px; float: left; */
 	margin-bottom: .25em;
-	background-color: #eee;
 }
 
 .entry-content ul.wp_rss_retriever_list > li {
