@@ -408,7 +408,7 @@ input[type="button"],
 input[type="reset"],
 input[type="submit"],
 .button {
-	background-color: #6ab446;
+	background-color: #4c6a8b;
 	border: none;
 	border-radius: 0px;
 	color: #fff;
@@ -425,7 +425,7 @@ input:hover[type="button"],
 input:hover[type="reset"],
 input:hover[type="submit"],
 .button:hover {
-	background-color: #5b9b3c;
+	background-color: #3a5b7d;
 	color: #fff;
 }
 
@@ -732,11 +732,11 @@ Common Classes
 }
 
 .content .entry-title a:hover {
-	color: #6ab446;
+	color: #4c6a8b;
 }
 
 .widget-title {
-	color: #6ab446;
+	color: #4c6a8b;
 	font-size: 16px;
 	margin-bottom: 20px;
 	text-transform: uppercase;
@@ -905,7 +905,7 @@ Plugins
 }
 
 .enews-widget input:hover[type="submit"] {
-	background-color: #eee;
+	background-color: #e6eaee;
 	color: #333;
 }
 
@@ -933,7 +933,7 @@ Plugins
 
 .content #genesis-responsive-slider a,
 .content #genesis-responsive-slider h2 a:hover {
-	color: #6ab446;
+	color: #4c6a8b;
 }
 
 #genesis-responsive-slider li {
@@ -1195,7 +1195,7 @@ Site Navigation
 }
 
 .genesis-nav-menu .sub-menu a {
-	background-color: #eee;
+	background-color: #e6eaee;
 	border: 1px solid #fff;
 	border-top: none;
 	color: #333;
@@ -1273,7 +1273,7 @@ Site Navigation
 --------------------------------------------- */
 
 .nav-primary {
-	background-color: #6ab446;
+	background-color: #4c6a8b;
 }
 
 /* Secondary Navigation
@@ -1295,7 +1295,7 @@ Site Navigation
 .nav-secondary .genesis-nav-menu .sub-menu a:hover,
 .nav-secondary .genesis-nav-menu a:hover,
 .nav-secondary .genesis-nav-menu li:hover > a {
-	color: #6ab446;
+	color: #4c6a8b;
 }
 
 .nav-secondary .genesis-nav-menu .sub-menu a {
@@ -1503,7 +1503,7 @@ p.entry-meta a:hover {
 
 .archive-pagination li a:hover,
 .archive-pagination .active a {
-	background-color: #6ab446;
+	background-color: #4c6a8b;
 }
 
 /* Comments
@@ -1594,7 +1594,7 @@ Sub Footer
 ---------------------------------------------------------------------------------------------------- */
 
 .sub-footer {
-	background-color: #f2f6e9;
+	background-color: #ced6de;
 	padding: 60px 0 30px;
 }
 
@@ -1766,7 +1766,7 @@ Theme Colors
 }
 
 .outreach-pro-blue .enews-widget input:hover[type="submit"] {
-	background-color: #eee;
+	background-color: #e6eaee;
 	color: #333;
 }
 
