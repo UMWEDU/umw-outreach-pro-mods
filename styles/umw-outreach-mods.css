@@ -88,6 +88,8 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 #homepageCTA span.dashicon {
 	font-size: 5em;
 	float: left;
+	width: auto;
+	height: auto;
 }
 
 #homepageCTA .one-third {
