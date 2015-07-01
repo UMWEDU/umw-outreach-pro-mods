@@ -389,3 +389,5 @@ body.single-employee > div.site-container > div > div > div > main > article > h
 	border: 1px solid #000;
 }
 
+/* general system-wide styles */
+a.genericon {font-size: 2em;}
