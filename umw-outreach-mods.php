@@ -2,7 +2,7 @@
 /**
  * Plugin Name: UMW Outreach Customizations
  * Description: Implements various UMW-specific tweaks to the Outreach Pro Genesis child theme
- * Version: 0.1.16
+ * Version: 0.1.17
  * Author: cgrymala
  * License: GPL2
  */
@@ -11,7 +11,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '0.1.16';
+		var $version = '0.1.17';
 		var $header_feed = null;
 		var $footer_feed = null;
 		
@@ -35,7 +35,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			/* Register our modified copy of the Outreach Pro base style sheet */
 			wp_register_style( 'outreach-pro', plugins_url( '/styles/outreach-pro.css', __FILE__ ), array(), $this->version, 'all' );
 			/* Enqueue our additional styles */
-			wp_enqueue_style( 'umw-outreach-mods', plugins_url( '/styles/umw-outreach-mods.css', __FILE__ ), array( 'outreach-pro' ), $this->version, 'all' );
+			wp_enqueue_style( 'umw-outreach-mods', plugins_url( '/styles/umw-outreach-mods.css', __FILE__ ), array( 'outreach-pro', 'genericons', 'dashicons' ), $this->version, 'all' );
 		}
 		
 		function genesis_tweaks() {
@@ -297,8 +297,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		
 		function genesis_tweaks() {
 			parent::genesis_tweaks();
-			add_action( 'umw-footer', array( $this, 'do_footer_top' ) );
 			add_action( 'umw-footer', array( $this, 'do_footer_primary' ) );
+			add_action( 'umw-footer', array( $this, 'do_footer_top' ) );
 			add_action( 'umw-footer', array( $this, 'do_footer_secondary' ) );
 		}
 		
