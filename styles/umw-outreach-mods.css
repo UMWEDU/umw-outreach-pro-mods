@@ -327,12 +327,16 @@ body.single-employee > div.site-container > div > div > div > main > article > h
 .entry-meta {
 	display: none;
 }
+#directoryNav {min-height: 4em;}
 
 #directoryNav .one-fourth {
 	text-align: center;
 	font-size: 1em;
 	background-color: #ccd5de;
 }
+#directoryNav .one-fourth a {color: #fff;}
+
+#directoryNav .one-fourth a:hover {color: #e6eaee;}
 
 /* .wp_rss styles aren't unique to the directory. We need to find a way to differentiate, commit to one styling, or just do something else. */
 .wp_rss_retriever_image {
