@@ -197,9 +197,19 @@ footer.site-footer .widget {
 
 .umw-global-footer .primary-global-footer {
 	border-bottom: 1px solid #728aa4;
-	border-top: 1px solid #728aa4;
 	max-width: 100%;
 	width: 100%;
+}
+
+.umw-global-footer .global-footer-top {
+	max-width: 100%;
+	width: 100%;
+	border-bottom: 1px solid #728aa4;
+}
+
+.umw-global-footer .global-footer-top .widget {
+	max-width: 1140px;
+	margin: 0 auto;
 }
 
 .umw-global-footer .primary-global-footer:after {
