@@ -85,6 +85,10 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	font-size: 5em;
 	float: left;
 }
+#homepageCTA span.dashicon {
+	font-size: 5em;
+	float: left;
+}
 
 #homepageCTA .one-third {
 	border-left: 1px solid #e6eaee;
@@ -391,3 +395,9 @@ body.single-employee > div.site-container > div > div > div > main > article > h
 
 /* general system-wide styles */
 a.genericon {font-size: 2em;}
+a.dashicon {font-size: 2em;}
+
+/* Site title & value proposition */
+.siteInfo {background-color: #e6eaee; font-size: 14px; padding: .5em;}
+.siteTitle {width: 100%; font-family: MuseoSlab; color: #002b5a; font-weight: 500; text-transform: uppercase; font-size: 1.5em;}
+.siteContacts {}
