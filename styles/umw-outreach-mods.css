@@ -412,6 +412,8 @@ body.single-employee > div.site-container > div > div > div > main > article > h
 /* general system-wide styles */
 a.genericon {font-size: 2em;}
 a.dashicon {font-size: 2em;}
+div.entry-content a {color: #b81237; font-weight: bold;}
+div.entry-content a:hover {color: #002b5a; text-decoration: underline;}
 
 /* Site title & value proposition */
 .siteInfo {background-color: #e6eaee; font-size: 14px; padding: .5em;}
