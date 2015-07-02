@@ -425,6 +425,7 @@ div.entry-content a {color: #b81237; font-weight: bold; font-family: MuseoSlab, 
 a.genericon, div.entry-content a.genericon {font-size: 2em; font-weight: normal; font-family: "Genericons";}
 a.dashicons, div.entry-content a.dashicons {font-size: 2em; font-weight: normal; font-family: dashicons;}
 div.entry-content a:hover {color: #002b5a; text-decoration: underline;}
+a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 
 /* Site title & value proposition */
 .siteInfo {background-color: #e6eaee; font-size: 14px; padding: .5em;}
