@@ -431,3 +431,6 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 .siteInfo {background-color: #e6eaee; font-size: 14px; padding: .5em;}
 .siteTitle {width: 100%; font-family: MuseoSlab; color: #002b5a; font-weight: 500; text-transform: uppercase; font-size: 1.5em;}
 .siteContacts {}
+
+/*System-wide Timely styles*/
+.ai1ec-bf-container {border: 0px;}
