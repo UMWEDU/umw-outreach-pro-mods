@@ -155,14 +155,14 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	text-decoration: underline;
 }
 
-body.content-sidebaralt .sidebar-secondary, 
+body.content-sidebaralt .sidebar-secondary,
 body.sidebaralt-content .sidebar-secondary {
 	width: 100%;
 	float: none;
 	clear: both;
 }
 
-body.content-sidebaralt .content-sidebar-wrap, 
+body.content-sidebaralt .content-sidebar-wrap,
 body.sidebaralt-content .content-sidebar-wrap {
 	width: 100%;
 	float: none;
@@ -170,14 +170,14 @@ body.sidebaralt-content .content-sidebar-wrap {
 }
 
 @media all and (min-width: 768px) {
-	body.content-sidebaralt .sidebar-secondary, 
+	body.content-sidebaralt .sidebar-secondary,
 	body.sidebaralt-content .sidebar-secondary {
 		width: 30%;
 		float: right;
 		clear: none;
 	}
-	
-	body.content-sidebaralt .content-sidebar-wrap, 
+
+	body.content-sidebaralt .content-sidebar-wrap,
 	body.sidebaralt-content .content-sidebar-wrap {
 		width: 68%;
 		float: left;
@@ -186,14 +186,14 @@ body.sidebaralt-content .content-sidebar-wrap {
 }
 
 @media all and (min-width: 1140px) {
-	body.content-sidebaralt .sidebar-secondary, 
+	body.content-sidebaralt .sidebar-secondary,
 	body.sidebaralt-content .sidebar-secondary {
 		width: 240px;
 		float: right;
 		clear: none;
 	}
-	
-	body.content-sidebaralt .content-sidebar-wrap, 
+
+	body.content-sidebaralt .content-sidebar-wrap,
 	body.sidebaralt-content .content-sidebar-wrap {
 		width: 880px;
 		float: left;
@@ -215,7 +215,7 @@ footer.site-footer div h4.widget-title.widgettitle {
 }
 
 footer.site-footer a.genericon {
-	font-size: 2em;
+	font-size: 3em;
 }
 
 footer.site-footer .widget {
