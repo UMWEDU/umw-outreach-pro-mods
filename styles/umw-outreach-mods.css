@@ -6,7 +6,7 @@
  * If you need to change any existing styles for Outreach Pro, 
  * 		those changes should be made within outreach-pro.css
  *
- * @version 0.1.20
+ * @version 0.1.21
  */
 
 * {
@@ -198,7 +198,7 @@ footer.site-footer .widget {
 
 .umw-global-footer .global-footer-top, .umw-global-footer .primary-global-footer > .wrap {
 	margin: 0 auto;
-	max-width: 1000px;
+	/*max-width: 1000px;*/
 }
 
 .umw-global-footer .secondary-global-footer {
