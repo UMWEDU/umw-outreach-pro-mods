@@ -389,6 +389,21 @@ body.single-employee > div.site-container > div > div > div > main > article > h
 	width: 100%;
 	text-align: left;
 	max-width: 100%;
+	
+	/* Columns */
+	-webkit-column-width: 15.625rem;
+	-moz-column-width: 15.625rem;
+	-o-column-width: 15.625rem;
+	-ms-column-width: 15.625rem;
+	column-width: 15.625rem;
+}
+
+.atoz-alpha-letter-section {
+	-webkit-column-break-inside: avoid;
+	-moz-column-break-inside: avoid;
+	-o-column-break-inside: avoid;
+	-ms-column-break-inside: avoid;
+	column-break-inside: avoid;
 }
 
 .atoz-alpha-links ul, .atoz-alpha-links li {
