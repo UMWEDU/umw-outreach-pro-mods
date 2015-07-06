@@ -2,7 +2,7 @@
  * This is a slightly modified version of the base style sheet
  * 		used for the Outreach Pro theme by StudioPress
  * Any unnecessary elements should be removed from this style sheet
- * Any extra styles for the UMW implementation of Outreach Pro should 
+ * Any extra styles for the UMW implementation of Outreach Pro should
  * 		be added to the umw-outreach-mods.css file, instead of here
  */
 
@@ -13,12 +13,12 @@
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 	Version: 3.1
-	
+
 	Tags: black, green, white, one-column, two-columns, three-columns, left-sidebar, right-sidebar, responsive-layout, custom-menu, full-width-template, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready, premise-landing-page
-	
+
 	Template: genesis
 	Template Version: 2.1
-	
+
 	License: GPL-2.0+
 	License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -1700,7 +1700,7 @@ Theme Colors
 .outreach-pro-blue .nav-secondary .genesis-nav-menu li:hover > a,
 .outreach-pro-blue .widget-title,
 .outreach-pro-blue a {
-	color: #2483d0;
+	color: #4C6A8B;
 }
 
 .outreach-pro-blue a:hover {
@@ -1741,7 +1741,7 @@ Theme Colors
 .outreach-pro-blue input[type="button"],
 .outreach-pro-blue input[type="reset"],
 .outreach-pro-blue input[type="submit"] {
-	background-color: #2483d0;
+	background-color: #4C6A8B;
 	color: #fff;
 }
 
@@ -1784,7 +1784,7 @@ Media Queries
 	.content #genesis-responsive-slider .flex-direction-nav li a {
 		background-image: url(images/icon-direction-nav@2x.png);
 	}
-	
+
 }
 
 @media only screen and (max-width: 1180px) {
@@ -1792,35 +1792,35 @@ Media Queries
 	.wrap {
 		max-width: 960px;
 	}
-	
+
 	.content-sidebar-sidebar .content-sidebar-wrap,
 	.sidebar-content-sidebar .content-sidebar-wrap,
 	.sidebar-sidebar-content .content-sidebar-wrap {
 		width: 750px;
 	}
-	
+
 	.sub-footer-left {
 		width: 710px;
 	}
-	
+
 	.content {
 		width: 630px;
 	}
-	
+
 	.site-header .widget-area {
 		width: 600px;
 	}
-	
+
 	.sidebar-content-sidebar .content,
 	.sidebar-sidebar-content .content,
 	.content-sidebar-sidebar .content {
 		width: 420px;
 	}
-	
+
 	.sidebar-primary {
 		width: 300px;
 	}
-	
+
 	.footer-widgets-1,
 	.footer-widgets-2,
 	.footer-widgets-3,
@@ -1828,7 +1828,7 @@ Media Queries
 	.sub-footer-right {
 		width: 210px;
 	}
-	
+
 	.outreach-pro-home .site-inner .wrap {
 		max-width: none;
 	}
@@ -1836,11 +1836,11 @@ Media Queries
 }
 
 @media only screen and (max-width: 1023px) {
-	
+
 	.wrap {
 		max-width: 768px;
 	}
-	
+
 	.content,
 	.content-sidebar-sidebar .content,
 	.content-sidebar-sidebar .content-sidebar-wrap,
@@ -1858,25 +1858,25 @@ Media Queries
 	.title-area {
 		width: 100%;
 	}
-	
+
 	.site-header .wrap {
 		padding: 20px 5% 16px;
 	}
-	
+
 	.header-image .site-title a {
 		background-position: top !important;
 	}
-	
+
 	.site-header .widget-area {
 		padding: 0;
 	}
-	
+
 	.genesis-nav-menu li,
 	.site-header .search-form,
 	.site-header ul.genesis-nav-menu {
 		float: none;
 	}
-	
+
 	.genesis-nav-menu,
 	.nav-primary,
 	.site-description,
@@ -1886,7 +1886,7 @@ Media Queries
 	.site-title {
 		text-align: center;
 	}
-	
+
 	.site-header .simple-social-icons .alignleft,
 	.site-header .simple-social-icons .alignright,
 	.site-header .simple-social-icons ul li {
@@ -1894,43 +1894,43 @@ Media Queries
 		float: none;
 		text-align: center;
 	}
-	
+
 	.genesis-nav-menu a,
 	.genesis-nav-menu > .first > a,
 	.genesis-nav-menu > .last > a {
 		padding: 18px 12px;
 	}
-	
+
 	.site-header .search-form {
 		margin: 16px auto;
 	}
-	
+
 	.genesis-nav-menu li.right {
 		display: none;
 	}
-	
+
 	.sub-footer-left {
 		width: 520px;
 	}
-	
+
 	.footer-widgets-1,
 	.footer-widgets-2 {
 		margin-right: 0;
 	}
-	
+
 }
 
 @media only screen and (max-width: 860px) {
-	
+
 	.wrap {
 		padding-left: 5%;
 		padding-right: 5%;
 	}
-	
+
 	.outreach-pro-home .site-inner .wrap {
 		padding: 0;
 	}
-	
+
 	.archive-description,
 	.author-box,
 	.comment-respond,
@@ -1940,11 +1940,11 @@ Media Queries
 	.sidebar .widget {
 		box-shadow: none;
 	}
-	
+
 	.archive-pagination li a {
 		margin-bottom: 4px;
 	}
-	
+
 	.five-sixths,
 	.four-sixths,
 	.one-fourth,
@@ -1961,28 +1961,28 @@ Media Queries
 		margin: 0;
 		width: 100%;
 	}
-	
+
 	.content #genesis-responsive-slider .flex-direction-nav li .next,
 	.content #genesis-responsive-slider .flex-direction-nav li .prev,
 	.content .slide-excerpt {
 		display: none;
 	}
-	
+
 	.home-bottom .widget {
 		text-align: center;
 		width: 48%;
 	}
-	
+
 	.home-bottom .widget:nth-of-type(2n) {
 		clear: none;
 		margin-left: 2.564102564102564%;
 	}
-	
+
 	.home-bottom .widget:nth-of-type(2n+1) {
 		clear: both;
 		margin-left: 0;
 	}
-	
+
 }
 
 @media only screen and (max-width: 600px) {
@@ -1996,7 +1996,7 @@ Media Queries
 	.responsive-menu-icon {
 		display: block;
 	}
-	
+
 	.genesis-nav-menu.responsive-menu .menu-item {
 		margin: 0;
 	}
@@ -2004,7 +2004,7 @@ Media Queries
 	.genesis-nav-menu.responsive-menu .menu-item:hover {
 		position: static;
 	}
-	
+
 	.genesis-nav-menu.responsive-menu .current-menu-item > a,
 	.genesis-nav-menu.responsive-menu .sub-menu .current-menu-item > a:hover,
 	.genesis-nav-menu.responsive-menu > .first > a,
@@ -2017,9 +2017,9 @@ Media Queries
 		line-height: 1;
 		padding: 18px 20px;
 	}
-	
+
 	.genesis-nav-menu.responsive-menu .menu-item-has-children {
-		cursor: pointer;	
+		cursor: pointer;
 	}
 
 	.genesis-nav-menu.responsive-menu .menu-item-has-children > a {
@@ -2040,7 +2040,7 @@ Media Queries
 	.genesis-nav-menu.responsive-menu .menu-open.menu-item-has-children:before {
 		content: "\f343";
 	}
-	
+
 	.nav-primary .genesis-nav-menu.responsive-menu > .menu-item-has-children:before {
 		color: #fff;
 	}
@@ -2075,14 +2075,14 @@ Media Queries
 		position: relative;
 		width: 100%;
 	}
-	
+
 	.entry-categories,
 	.entry-comments-link,
 	.entry-tags {
 		display: block;
 		float: none;
 	}
-			
+
 }
 
 @media only screen and (max-width: 480px) {
@@ -2090,7 +2090,7 @@ Media Queries
 	.content {
 		padding: 30px;
 	}
-	
+
 	.content #genesis-responsive-slider .flex-control-nav {
 		display: none;
 	}
@@ -2100,7 +2100,7 @@ Media Queries
 		margin: 0;
 		width: 100%;
 	}
-	
+
 	.header-image .site-title a {
 		background-size: contain !important;
 	}
