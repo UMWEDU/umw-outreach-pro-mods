@@ -180,7 +180,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				'post_type' => $args['post_type'], 
 				'order' => $args['reverse'] ? 'desc' : 'asc', 
 				'numberposts' => $args['numberposts'], 
-				posts_per_page' => $args['numberposts'], 
+				'posts_per_page' => $args['numberposts'], 
 				'post_status' => 'publish', 
 			);
 			if ( ! empty( $args['child_of'] ) ) {
