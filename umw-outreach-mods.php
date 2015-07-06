@@ -331,10 +331,10 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				'id' => 'global-footer-3', 
 				'name' => __( 'Global Footer 3' ), 
 			) );
-			/*genesis_register_sidebar( array( 
+			genesis_register_sidebar( array( 
 				'id' => 'global-footer-4', 
 				'name' => __( 'Global Footer 4' ), 
-			) );*/
+			) );
 			genesis_register_sidebar( array( 
 				'id' => 'global-footer-bottom-1', 
 				'name' => __( 'Global Footer Bottom 1' ), 
@@ -383,7 +383,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		
 		function do_footer_primary() {
 			$sidebars = array();
-			$footers = array( 'global-footer-1', 'global-footer-2', 'global-footer-3'/*, 'global-footer-4'*/ );
+			$footers = array( 'global-footer-1', 'global-footer-2', 'global-footer-3', 'global-footer-4' );
 			foreach ( $footers as $f ) {
 				if ( is_active_sidebar( $f ) ) {
 					$sidebars[] = $f;
