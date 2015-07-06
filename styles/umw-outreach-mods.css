@@ -6,7 +6,7 @@
  * If you need to change any existing styles for Outreach Pro, 
  * 		those changes should be made within outreach-pro.css
  *
- * @version 0.1.22
+ * @version 0.1.24
  */
 
 * {
@@ -153,52 +153,6 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 .sidebar .widget a:hover {
 	color: #eee;
 	text-decoration: underline;
-}
-
-body.content-sidebaralt .sidebar-secondary, 
-body.sidebaralt-content .sidebar-secondary {
-	width: 100%;
-	float: none;
-	clear: both;
-}
-
-body.content-sidebaralt .content-sidebar-wrap, 
-body.sidebaralt-content .content-sidebar-wrap {
-	width: 100%;
-	float: none;
-	clear: both;
-}
-
-@media all and (min-width: 768px) {
-	body.content-sidebaralt .sidebar-secondary, 
-	body.sidebaralt-content .sidebar-secondary {
-		width: 30%;
-		float: right;
-		clear: none;
-	}
-	
-	body.content-sidebaralt .content-sidebar-wrap, 
-	body.sidebaralt-content .content-sidebar-wrap {
-		width: 68%;
-		float: left;
-		clear: none;
-	}
-}
-
-@media all and (min-width: 1140px) {
-	body.content-sidebaralt .sidebar-secondary, 
-	body.sidebaralt-content .sidebar-secondary {
-		width: 240px;
-		float: right;
-		clear: none;
-	}
-	
-	body.content-sidebaralt .content-sidebar-wrap, 
-	body.sidebaralt-content .content-sidebar-wrap {
-		width: 880px;
-		float: left;
-		clear: none;
-	}
 }
 
 /*
