@@ -2,7 +2,7 @@
 /**
  * Plugin Name: UMW Outreach Customizations
  * Description: Implements various UMW-specific tweaks to the Outreach Pro Genesis child theme
- * Version: 0.1.19
+ * Version: 0.1.20
  * Author: cgrymala
  * License: GPL2
  */
@@ -170,7 +170,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				'view' => null, 
 				'child_of' => 0, 
 				'numberposts' => -1, 
-				'reverse' => false
+				'reverse' => false, 
 			) );
 			
 			$nonmeta = array( 'ID', 'author', 'title', 'name', 'type', 'date', 'modified', 'parent', 'comment_count', 'menu_order', 'post__in' );
@@ -180,6 +180,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				'post_type' => $args['post_type'], 
 				'order' => $args['reverse'] ? 'desc' : 'asc', 
 				'numberposts' => $args['numberposts'], 
+				posts_per_page' => $args['numberposts'], 
 				'post_status' => 'publish', 
 			);
 			if ( ! empty( $args['child_of'] ) ) {
