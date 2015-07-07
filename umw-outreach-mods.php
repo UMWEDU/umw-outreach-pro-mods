@@ -237,7 +237,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			$nonmeta = array( 'ID', 'author', 'title', 'name', 'type', 'date', 'modified', 'parent', 'comment_count', 'menu_order', 'post__in' );
 			
 			$args = shortcode_atts( $defaults, $args );
-			$transient_key = sprintf( 'atoz-%s', base64_encode( $args ) );
+			$transient_key = sprintf( 'atoz-%s', base64_encode( implode( '|', $args ) ) );
 			
 			$r = get_site_transient( $transient_key );
 			if ( false !== $r )
@@ -300,11 +300,12 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			}
 			
 			foreach ( $postlist as $a=>$p ) {
-				$postlist[$a] = sprintf( '<section class="atoz-alpha-letter-section"><h2 class="atoz-alpha-header-letter" id="atoz-%1$s">%2$s</h2>%3$s</section>', strtolower( $a ), strtoupper( $a ), '<div>' . implode( '', $p ) . '</div>' );
+				$rtlink = sprintf( '<p><a href="#%1$s" title="%2$s"><span class="%3$s"></span> %4$s</a></p>', 'letter-links-' . $transient_key, __( 'Return to the top of the list' ), 'genericon genericon-top', __( 'Return to top' ) );
+				$postlist[$a] = sprintf( '<section class="atoz-alpha-letter-section"><h2 class="atoz-alpha-header-letter" id="atoz-%1$s">%2$s</h2>%3$s%4$s</section>', strtolower( $a ), strtoupper( $a ), '<div>' . implode( '', $p ) . '</div>', $rtlink );
 			}
 			
 			$output = apply_filters( 'atoz-final-output', 
-				sprintf( '<nav class="atoz-alpha-links"><ul><li>%1$s</li></ul></nav><div class="atoz-alpha-content">%2$s</div>', 
+				sprintf( '<nav class="atoz-alpha-links" id="' . 'letter-links-' . $transient_key . '"><ul><li>%1$s</li></ul></nav><div class="atoz-alpha-content">%2$s</div>', 
 					implode( '</li><li>', $list ), 
 					implode( '', $postlist ) 
 				), $list, $postlist 
@@ -342,11 +343,21 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		 * 		in the atoz list is updated or inserted
 		 */
 		function clear_atoz_transients() {
+			if ( wp_is_post_revision( $post_id ) )
+				return;
+			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+				return;
+			
 			global $wpdb;
 			$transients = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->sitemeta} WHERE meta_key LIKE %s", '_site_transient_atoz-%' ) );
+			
+			error_log( '[A to Z Debug] Effected Transient List:' );
+			error_log( print_r( $transients, true ) );
+			
 			foreach ( $transients as $t ) {
-				$key = str_ireplace( '_site_transient_atoz', 'atoz' );
+				$key = str_ireplace( '_site_transient_atoz', 'atoz', $t );
 				delete_site_transient( $key );
+				error_log( '[A to Z Debug] Deleted site transient ' . $key );
 			}
 		}
 	}
