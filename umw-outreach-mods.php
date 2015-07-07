@@ -422,7 +422,11 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		function get_correct_logo_info( $info=array() ) {
 			$host = $_SERVER['HTTP_HOST'];
 			if ( stristr( $host, 'wpengine.com' ) ) {
-				$info['link'] = esc_url( '//umwwebmaster.wpengine.com/' );
+				if ( stristr( $host, 'staging' ) ) {
+					$info['link'] = esc_url( '//umwwebmaster.staging.wpengine.com/' );
+				} else {
+					$info['link'] = esc_url( '//umwwebmaster.wpengine.com/' );
+				}
 			} else {
 				$tmp = explode( '.', $host );
 				if ( count( $tmp ) > 2 ) {
