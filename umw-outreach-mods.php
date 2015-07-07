@@ -351,13 +351,17 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			global $wpdb;
 			$transients = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->sitemeta} WHERE meta_key LIKE %s", '_site_transient_atoz-%' ) );
 			
-			error_log( '[A to Z Debug] Effected Transient List:' );
-			error_log( print_r( $transients, true ) );
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( '[A to Z Debug] Effected Transient List:' );
+				error_log( print_r( $transients, true ) );
+			}
 			
 			foreach ( $transients as $t ) {
 				$key = str_ireplace( '_site_transient_atoz', 'atoz', $t );
 				delete_site_transient( $key );
-				error_log( '[A to Z Debug] Deleted site transient ' . $key );
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log( '[A to Z Debug] Deleted site transient ' . $key );
+				}
 			}
 		}
 	}
