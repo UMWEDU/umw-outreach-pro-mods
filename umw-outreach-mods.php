@@ -68,6 +68,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			if ( empty( $current ) || ! is_array( $current ) )
 				return;
 			
+			if ( empty( $current['site-title'] ) && empty( $current['statement'] ) && empty( $current['content'] ) )
+				return;
+			
 			$current['statement'] = html_entity_decode( $current['statement'] );
 			$current['content'] = html_entity_decode( $current['content'] );
 			
