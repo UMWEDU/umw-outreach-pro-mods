@@ -2,7 +2,7 @@
 /**
  * Plugin Name: UMW Outreach Customizations
  * Description: Implements various UMW-specific tweaks to the Outreach Pro Genesis child theme
- * Version: 0.1.25
+ * Version: 0.1.26
  * Author: cgrymala
  * License: GPL2
  */
@@ -11,7 +11,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '0.1.24';
+		var $version = '0.1.26';
 		var $header_feed = null;
 		var $footer_feed = null;
 		
@@ -31,6 +31,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			$this->footer_feed = esc_url( sprintf( 'http://%s/feed/umw-global-footer/', DOMAIN_CURRENT_SITE ) );
 			
 			add_shortcode( 'atoz', array( $this, 'do_atoz_shortcode' ) );
+			add_shortcode( 'wpv-last-modified', array( $this, 'wpv_last_modified' ) );
 			
 			/**
 			 * Build a list of post types that, when updated, need to invalidate the atoz transients
@@ -363,6 +364,18 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 					error_log( '[A to Z Debug] Deleted site transient ' . $key );
 				}
 			}
+		}
+		
+		/**
+		 * Set up a shortcode for Views that outputs the last modified date
+		 */
+		function wpv_last_modified( $atts=array() ) {
+			$atts = shortcode_atts( array( 'format' => get_option( 'date_format', 'F j, Y h:i:s' ) ), $atts, 'wpv-last-modified' );
+			$tempDate = 0;
+			if ( $tempDate < get_the_modified_date( 'U' ) ) {
+				return get_the_modified_date( $atts['format'] );
+			}
+			return '';
 		}
 	}
 	
