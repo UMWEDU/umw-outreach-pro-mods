@@ -6,7 +6,7 @@
  * If you need to change any existing styles for Outreach Pro,
  * 		those changes should be made within outreach-pro.css
  *
- * @version 0.1.27
+ * @version 0.1.28
  */
 
 * {
@@ -453,8 +453,8 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 
 
 /* Site title & value proposition */
-.siteInfo {background-color: #e6eaee; font-size: 14px; padding: .5em;}
-.siteTitle {width: 100%; font-family: MuseoSlab; color: #002b5a; font-weight: 500; text-transform: uppercase; font-size: 1.5em;}
+.site-info {background-color: #e6eaee; font-size: 14px; padding: .5em;}
+.site-info-title {width: 100%; font-family: MuseoSlab; color: #002b5a; font-weight: 500; text-transform: uppercase; font-size: 1.5em; line-height: 1.625; margin-bottom: 0;}
 .siteContacts {}
 
 /*System-wide Timely styles*/

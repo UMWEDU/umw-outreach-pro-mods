@@ -11,7 +11,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '0.1.27';
+		var $version = '0.1.28';
 		var $header_feed = null;
 		var $footer_feed = null;
 		var $settings_field = null;
@@ -87,7 +87,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				}
 				$format .= '
 		</div>
-		<div class="one-fifth">
+		<div class="one-sixth">
 			%4$s
 		</div>';
 			} else if ( ! empty( $current['content'] ) ) {
@@ -132,7 +132,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				return $return;
 			
 			$title = ! empty( $data->title ) && is_string( $data->title ) ? $data->title : '';
-			$return = '<img src="' . esc_url( $data->url ) . '" alt="' . esc_attr($title) . '" width="' . esc_attr($data->width) . '" height="' . esc_attr($data->height) . '" />';
+			return '<img src="' . esc_url( $data->url ) . '" alt="' . esc_attr($title) . '" width="' . esc_attr($data->width) . '" height="' . esc_attr($data->height) . '" />';
 		}
 		
 		/**
@@ -180,119 +180,50 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			add_action( 'admin_init', array( $this, 'sanitizer_filters' ) );
 			add_filter( 'genesis_available_sanitizer_filters', array( $this, 'add_sanitizer_filter' ) );
 			add_filter( 'genesis_theme_settings_defaults', array( $this, 'settings_defaults' ) );
-		}
-		
-		function add_sanitizer_filter( $filters=array() ) {
-			$filters['umw_outreach_settings_filter'] = array( $this, 'sanitize_settings' );
-			return $filters;
-		}
-		
-		function settings_defaults( $defaults=array() ) {
-			$settings[$this->setting_name] = apply_filters( 'umw-outreach-settings-defaults', array(
-				'site-title' => null, 
-				'statement'  => null, 
-				'content'    => null, 
-				'image'      => array(
-					'url'       => null, 
-					'title'     => null, 
-					'subtitle'  => null, 
-					'link'      => null
-				)
-			) );
-			return $settings;
-		}
-		
-		function sanitizer_filters() {
-			genesis_add_option_filter( 
-				'umw_outreach_settings_filter', 
-				$this->settings_field, 
-				array( 
-					$this->setting_name, 
-				)
-			);
-		}
-		
-		function get_option( $key, $blog=false, $default=false ) {
-			if ( empty( $blog ) || intval( $blog ) === $GLOBALS['blog_id'] ) {
-				$opt = genesis_get_option( $key );
-			} else {
-				$opt = get_blog_option( $blog, GENESIS_SETTINGS_FIELD );
-				if ( ! is_array( $opt ) || ! array_key_exists( $key, $opt ) )
-					$opt = $default;
-				else
-					$opt = $opt[$key];
-			}
 			
-			if ( empty( $opt ) ) {
-				$tmp = $this->settings_defaults(array());
-				return $tmp[$this->setting_name];
-			}
-			
-			return $opt;
+			add_action( 'genesis_loop', array( $this, 'home_featured_image' ), 9 );
 		}
 		
-		function metaboxes( $pagehook ) {
-			add_meta_box( 'genesis-theme-settings-umw-outreach-settings', __( 'UMW Settings', 'genesis' ), array( $this, 'settings_box' ), $pagehook, 'main' );
-		}
-		
-		function get_field_id( $name ) {
-			return sprintf( '%s[%s][%s]', GENESIS_SETTINGS_FIELD, $this->setting_name, $name );
-		}
-		
-		function field_id( $name ) {
-			echo $this->get_field_id( $name );
-		}
-		
-		function get_field_name( $name ) {
-			return sprintf( '%s[%s][%s]', GENESIS_SETTINGS_FIELD, $this->setting_name, $name );
-		}
-		
-		function field_name( $name ) {
-			echo $this->get_field_name( $name );
-		}
-		
-		function settings_box() {
-			$current = $this->get_option( $this->setting_name );
-			do_action( 'pre-umw-outreach-settings' );
-?>
-<p><label for="<?php $this->field_id( 'site-title' ) ?>"><?php _e( 'Site Title' ) ?></label> 
-	<input class="widefat" type="text" name="<?php $this->field_name( 'site-title' ) ?>" id="<?php $this->field_id( 'site-title' ) ?>" value="<?php echo $current['site-title'] ?>"/></p>
-<div><label for="<?php $this->field_id( 'statement' ) ?>"><?php _e( 'Statement' ) ?></label><br/> 
-	<?php wp_editor( $current['statement'], $this->get_field_id( 'statement' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'statement' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
-<div><label for="<?php $this->field_id( 'content' ) ?>"><?php _e( 'Secondary Content' ) ?></label><br/> 
-	<?php wp_editor( $current['content'], $this->get_field_id( 'content' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'content' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
-<?php do_action( 'pre-umw-outreach-image-settings' ) ?>
-<fieldset style="padding: 1em; border: 1px solid #e2e2e2;">
-	<legend style="font-weight: 700"><?php _e( 'Featured Image' ) ?></legend>
-	<p><label for="<?php $this->field_id( 'image-url' ) ?>"><?php _e( 'SmugMug URL' ) ?></label> 
-		<input class="widefat" type="url" id="<?php $this->field_id( 'image-url' ) ?>" name="<?php $this->field_name( 'image-url' ) ?>" value="<?php echo esc_url( $current['image']['url'] ) ?>"/></p>
-	<p><label for="<?php $this->field_id( 'image-title' ) ?>"><?php _e( 'Title/Caption' ) ?></label> 
-		<input class="widefat" type="text" id="<?php $this->field_id( 'image-title' ) ?>" name="<?php $this->field_name( 'image-title' ) ?>" value="<?php echo $current['image']['title'] ?>"/></p>
-	<div><label for="<?php $this->field_id( 'image-subtitle' ) ?>"><?php _e( 'Subtext' ) ?></label><br/> 
-		<?php wp_editor( $current['image-subtitle'], $this->get_field_id( 'image-subtitle' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'image-subtitle' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
-	<p><label for="<?php $this->field_id( 'image-link' ) ?>"><?php _e( 'Link Address' ) ?></label> 
-		<input class="widefat" type="url" name="<?php $this->field_name( 'image-link' ) ?>" id="<?php $this->field_id( 'image-link' ) ?>" value="<?php echo esc_url( $current['image']['link'] ) ?>"/></p>
-</fieldset>
-<?php
-			do_action( 'post-umw-outreach-settings' );
-		}
-		
-		function sanitize_settings( $val=array() ) {
-			if ( empty( $val ) ) 
-				return null;
+		/**
+		 * Output the featured image, if necessary, at the top of the home page
+		 */
+		function home_featured_image() {
+			if ( ! is_front_page() )
+				return;
 				
-			$rt = array();
+			$current = $this->get_option( $this->setting_name );
+			if ( ! is_array( $current ) || ! array_key_exists( 'image', $current ) )
+				return;
 			
-			$rt['site-title'] = empty( $val['site-title'] ) ? null : esc_attr( $val['site-title'] );
-			$rt['statement'] = empty( $val['statement'] ) ? null : esc_textarea( $val['statement'] );
-			$rt['content'] = empty( $val['content'] ) ? null : esc_textarea( $val['content'] );
-			$rt['image'] = array();
-			$rt['image']['url'] = esc_url( $val['image-url'] ) ? esc_url( $val['image-url'] ) : null;
-			$rt['image']['title'] = empty( $val['image-title'] ) ? null : esc_attr( $val['image-title'] );
-			$rt['image']['subtitle'] = empty( $val['image-subtitle'] ) ? null : esc_textarea( $val['image-subtitle'] );
-			$rt['image']['link'] = esc_url( $val['image-link'] ) ? esc_url( $val['image-link'] ) : null;
+			$img = $current['image'];
+			if ( ! is_array( $img ) || ! array_key_exists( 'url', $img ) || ! esc_url( $img['url'] ) )
+				return;
 			
-			return $rt;
+			$embed = wp_oembed_get( esc_url( $img['url'] ), array( 'width' => 1140 ) );
+			if ( false === $embed ) {
+				print( '<pre><code>The embed for ' . $img['url'] . ' could not be retrieved for some reason.</code></pre>' );
+				return;
+			}
+				
+			$format = '<figure class="home-featured-image">';
+			if ( esc_url( $img['link'] ) ) {
+				$format .= '<a href="%1$s" title="%2$s">%3$s</a>';
+			} else {
+				$format .= '%3$s';
+			}
+			if ( ! empty( $img['title'] ) || ! empty( $img['subtitle'] ) ) {
+				$format .= '<figcaption>';
+				if ( ! empty( $img['title'] ) ) {
+					$format .= '<h2 class="home-feature-title">%2$s</h2>';
+				}
+				if ( ! empty( $img['subtitle'] ) ) {
+					$format .= '<div class="home-feature-subtitle">%4$s</div>';
+				}
+				$format .= '</figcaption>';
+			}
+			$format .= '</figure>';
+			
+			printf( $format, esc_url( $img['url'] ), html_entity_decode( $img['title'] ), $embed, apply_filters( 'the_content', $img['subtitle'] ) );
 		}
 		
 		/**
@@ -567,6 +498,152 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 					error_log( '[A to Z Debug] Deleted site transient ' . $key );
 				}
 			}
+		}
+		
+		/**
+		 * Add a new filter for our settings to the available filters list in Genesis
+		 */
+		function add_sanitizer_filter( $filters=array() ) {
+			$filters['umw_outreach_settings_filter'] = array( $this, 'sanitize_settings' );
+			return $filters;
+		}
+		
+		/**
+		 * Add our default settings to the Genesis settings array
+		 */
+		function settings_defaults( $defaults=array() ) {
+			$settings[$this->setting_name] = apply_filters( 'umw-outreach-settings-defaults', array(
+				'site-title' => null, 
+				'statement'  => null, 
+				'content'    => null, 
+				'image'      => array(
+					'url'       => null, 
+					'title'     => null, 
+					'subtitle'  => null, 
+					'link'      => null
+				)
+			) );
+			return $settings;
+		}
+		
+		/**
+		 * Tell Genesis to use our new filter to sanitize our settings
+		 */
+		function sanitizer_filters() {
+			genesis_add_option_filter( 
+				'umw_outreach_settings_filter', 
+				$this->settings_field, 
+				array( 
+					$this->setting_name, 
+				)
+			);
+		}
+		
+		/**
+		 * Retrive a specific Genesis option
+		 */
+		function get_option( $key, $blog=false, $default=false ) {
+			if ( empty( $blog ) || intval( $blog ) === $GLOBALS['blog_id'] ) {
+				$opt = genesis_get_option( $key );
+			} else {
+				$opt = get_blog_option( $blog, GENESIS_SETTINGS_FIELD );
+				if ( ! is_array( $opt ) || ! array_key_exists( $key, $opt ) )
+					$opt = $default;
+				else
+					$opt = $opt[$key];
+			}
+			
+			if ( empty( $opt ) ) {
+				$tmp = $this->settings_defaults(array());
+				return $tmp[$this->setting_name];
+			}
+			
+			return $opt;
+		}
+		
+		/**
+		 * Add any metaboxes that need to appear on the Genesis settings page
+		 */
+		function metaboxes( $pagehook ) {
+			add_meta_box( 'genesis-theme-settings-umw-outreach-settings', __( 'UMW Settings', 'genesis' ), array( $this, 'settings_box' ), $pagehook, 'main' );
+		}
+		
+		/**
+		 * Retrieve a formatted HTML ID for a settings field
+		 */
+		function get_field_id( $name ) {
+			return sprintf( '%s[%s][%s]', GENESIS_SETTINGS_FIELD, $this->setting_name, $name );
+		}
+		
+		/**
+		 * Echo a formatted HTML ID for a settings field
+		 */
+		function field_id( $name ) {
+			echo $this->get_field_id( $name );
+		}
+		
+		/**
+		 * Retrieve a formatted HTML name for a settings field
+		 */
+		function get_field_name( $name ) {
+			return sprintf( '%s[%s][%s]', GENESIS_SETTINGS_FIELD, $this->setting_name, $name );
+		}
+		
+		/**
+		 * Echo a formatted HTML name for a settings field
+		 */
+		function field_name( $name ) {
+			echo $this->get_field_name( $name );
+		}
+		
+		/**
+		 * Output the settings metabox
+		 */
+		function settings_box() {
+			$current = $this->get_option( $this->setting_name );
+			do_action( 'pre-umw-outreach-settings' );
+?>
+<p><label for="<?php $this->field_id( 'site-title' ) ?>"><?php _e( 'Site Title' ) ?></label> 
+	<input class="widefat" type="text" name="<?php $this->field_name( 'site-title' ) ?>" id="<?php $this->field_id( 'site-title' ) ?>" value="<?php echo $current['site-title'] ?>"/></p>
+<div><label for="<?php $this->field_id( 'statement' ) ?>"><?php _e( 'Statement' ) ?></label><br/> 
+	<?php wp_editor( $current['statement'], $this->get_field_id( 'statement' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'statement' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
+<div><label for="<?php $this->field_id( 'content' ) ?>"><?php _e( 'Secondary Content' ) ?></label><br/> 
+	<?php wp_editor( $current['content'], $this->get_field_id( 'content' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'content' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
+<?php do_action( 'pre-umw-outreach-image-settings' ) ?>
+<fieldset style="padding: 1em; border: 1px solid #e2e2e2;">
+	<legend style="font-weight: 700"><?php _e( 'Featured Image' ) ?></legend>
+	<p><label for="<?php $this->field_id( 'image-url' ) ?>"><?php _e( 'SmugMug URL' ) ?></label> 
+		<input class="widefat" type="url" id="<?php $this->field_id( 'image-url' ) ?>" name="<?php $this->field_name( 'image-url' ) ?>" value="<?php echo esc_url( $current['image']['url'] ) ?>"/></p>
+	<p><label for="<?php $this->field_id( 'image-title' ) ?>"><?php _e( 'Title/Caption' ) ?></label> 
+		<input class="widefat" type="text" id="<?php $this->field_id( 'image-title' ) ?>" name="<?php $this->field_name( 'image-title' ) ?>" value="<?php echo $current['image']['title'] ?>"/></p>
+	<div><label for="<?php $this->field_id( 'image-subtitle' ) ?>"><?php _e( 'Subtext' ) ?></label><br/> 
+		<?php wp_editor( $current['image-subtitle'], $this->get_field_id( 'image-subtitle' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'image-subtitle' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
+	<p><label for="<?php $this->field_id( 'image-link' ) ?>"><?php _e( 'Link Address' ) ?></label> 
+		<input class="widefat" type="url" name="<?php $this->field_name( 'image-link' ) ?>" id="<?php $this->field_id( 'image-link' ) ?>" value="<?php echo esc_url( $current['image']['link'] ) ?>"/></p>
+</fieldset>
+<?php
+			do_action( 'post-umw-outreach-settings' );
+		}
+		
+		/**
+		 * Sanitize all of our custom settings
+		 */
+		function sanitize_settings( $val=array() ) {
+			if ( empty( $val ) ) 
+				return null;
+				
+			$rt = array();
+			
+			$rt['site-title'] = empty( $val['site-title'] ) ? null : esc_attr( $val['site-title'] );
+			$rt['statement'] = empty( $val['statement'] ) ? null : esc_textarea( $val['statement'] );
+			$rt['content'] = empty( $val['content'] ) ? null : esc_textarea( $val['content'] );
+			$rt['image'] = array();
+			$rt['image']['url'] = esc_url( $val['image-url'] ) ? esc_url( $val['image-url'] ) : null;
+			$rt['image']['title'] = empty( $val['image-title'] ) ? null : esc_attr( $val['image-title'] );
+			$rt['image']['subtitle'] = empty( $val['image-subtitle'] ) ? null : esc_textarea( $val['image-subtitle'] );
+			$rt['image']['link'] = esc_url( $val['image-link'] ) ? esc_url( $val['image-link'] ) : null;
+			
+			return $rt;
 		}
 		
 		/**
