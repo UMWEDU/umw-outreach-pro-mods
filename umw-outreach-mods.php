@@ -116,7 +116,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 	</div>
 </div>';
 			
-			printf( $format, get_bloginfo( 'url' ), $current['site-title'], apply_filters( 'the_content', $current['statement'] ), apply_filters( 'the_content', $current['content'] ) );
+			printf( $format, esc_url( get_bloginfo( 'url' ) ), esc_attr( $current['site-title'] ), wpautop( $current['statement'] ), wpautop( $current['content'] ) );
 		}
 		
 		/**
@@ -203,7 +203,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				return;
 			
 			add_filter( 'embed_defaults', array( $this, 'remove_default_oembed_width' ) );
-			if ( stristr( $img['url'], 'flick' ) ) {
+			if ( stristr( $img['url'], 'flickr' ) ) {
 				$args = array();
 			} else {
 				$args = array( 'width' => 1140 );
@@ -222,14 +222,18 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				
 			$format = '<figure class="home-featured-image">';
 			if ( esc_url( $img['link'] ) ) {
-				$format .= '<a href="%1$s" title="%2$s">%3$s</a>';
+				$format .= '<a href="%5$s" title="%2$s">%3$s</a>';
 			} else {
 				$format .= '%3$s';
 			}
 			if ( ! empty( $img['title'] ) || ! empty( $img['subtitle'] ) ) {
 				$format .= '<figcaption>';
 				if ( ! empty( $img['title'] ) ) {
-					$format .= '<h2 class="home-feature-title">%2$s</h2>';
+					if ( ! empty( $img['link'] ) ) {
+						$format .= '<h2 class="home-feature-title"><a href="%5$s">%2$s</a></h2>';
+					} else {
+						$format .= '<h2 class="home-feature-title">%2$s</h2>';
+					}
 				}
 				if ( ! empty( $img['subtitle'] ) ) {
 					$format .= '<div class="home-feature-subtitle">%4$s</div>';
@@ -238,7 +242,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			}
 			$format .= '</figure>';
 			
-			printf( $format, esc_url( $img['url'] ), html_entity_decode( $img['title'] ), $embed, apply_filters( 'the_content', $img['subtitle'] ) );
+			printf( $format, esc_url( $img['url'] ), strip_tags( html_entity_decode( $img['title'] ), array() ), $embed, wpautop( $img['subtitle'] ), $img['link'] );
 		}
 		
 		/**
@@ -640,7 +644,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 	<p><label for="<?php $this->field_id( 'image-title' ) ?>"><?php _e( 'Title/Caption' ) ?></label> 
 		<input class="widefat" type="text" id="<?php $this->field_id( 'image-title' ) ?>" name="<?php $this->field_name( 'image-title' ) ?>" value="<?php echo $current['image']['title'] ?>"/></p>
 	<div><label for="<?php $this->field_id( 'image-subtitle' ) ?>"><?php _e( 'Subtext' ) ?></label><br/> 
-		<?php wp_editor( $current['image-subtitle'], $this->get_field_id( 'image-subtitle' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'image-subtitle' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
+		<?php wp_editor( $current['image']['subtitle'], $this->get_field_id( 'image-subtitle' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'image-subtitle' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
 	<p><label for="<?php $this->field_id( 'image-link' ) ?>"><?php _e( 'Link Address' ) ?></label> 
 		<input class="widefat" type="url" name="<?php $this->field_name( 'image-link' ) ?>" id="<?php $this->field_id( 'image-link' ) ?>" value="<?php echo esc_url( $current['image']['link'] ) ?>"/></p>
 </fieldset>

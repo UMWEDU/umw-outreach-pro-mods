@@ -261,14 +261,23 @@ footer.site-footer .widget {
 /**
  * Home Page Slideshow Styles
  */
-
-.home-top .flexslider {
+.home-top .flexslider, 
+.home-featured-image {
 	border: none;
 	padding: 0;
 	margin: 0;
 }
 
-.home-top .flexslider .slides > li {
+.home-featured-image {
+	max-height: 300px;
+	max-height: 18.75rem;
+	overflow: hidden;
+	width: 100%;
+	max-width: 100%;
+}
+
+.home-top .flexslider .slides > li, 
+.home-featured-image {
 	position: relative;
 }
 
@@ -285,7 +294,10 @@ footer.site-footer .widget {
 	z-index: 10;
 }
 
-.home-top .flex-control-thumbs, .home-top .flexslider .slide-caption, .home-top .uhp-slider-nav {
+.home-top .flex-control-thumbs, 
+.home-top .flexslider .slide-caption, 
+.home-top .uhp-slider-nav, 
+.home-featured-image figcaption {
 	width: 300px;
 	width: 18.75rem;
 	padding: 0 48px;
@@ -297,7 +309,8 @@ footer.site-footer .widget {
 	background: none;
 }
 
-.home-top .flexslider .slide-caption {
+.home-top .flexslider .slide-caption, 
+.home-featured-image figcaption {
 	top: 0;
 	background: rgba(0, 43, 90, 0.7);
 	margin-top: 0;
@@ -306,11 +319,13 @@ footer.site-footer .widget {
 	color: #fff;
 }
 
-.home-top .flexslider .slide-caption a {
+.home-top .flexslider .slide-caption a, 
+.home-featured-image figcaption a {
 	color: #fff;
 }
 
-.home-top .flexslider .slide-caption h1 {
+.home-top .flexslider .slide-caption h1, 
+.home-featured-image figcaption h2 {
 	font-family: MuseoSlab, Georgia, 'Times New Roman', Times, serif;
 	font-size: 32px;
 	font-size: 2rem;
@@ -319,12 +334,20 @@ footer.site-footer .widget {
 	text-transform: uppercase;
 }
 
-.home-top .flex-control-thumbs li, .home-top .uhp-slider-nav .slide {
+.home-top .flex-control-thumbs li, 
+.home-top .uhp-slider-nav .slide {
 	width: 35px;
 	height: 35px;
 	margin: 2px;
 	float: none;
 	display: inline-block;
+}
+
+.home-featured-image > a,
+.home-featured-image img {
+	display: block;
+	padding: 0;
+	margin: 0;
 }
 
 /*
@@ -455,6 +478,15 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 /* Site title & value proposition */
 .site-info {background-color: #e6eaee; font-size: 14px; font-size: .875rem; padding: .5rem;}
 .site-info-title {width: 100%; font-family: MuseoSlab; color: #002b5a; font-weight: 500; text-transform: uppercase; font-size: 1.3125rem; line-height: 1.625; margin-bottom: 0;}
+.site-info p {margin-bottom: 0;}
+@media all and (max-width: 860px) {
+	.site-info { padding-left: 20px; padding-left: 1.25rem; padding-right: 20px; padding-right: 1.25rem; }
+	/* Make sure they don't butt up against each other when they stack */
+	.site-info .five-sixths {
+		padding-bottom: 16px;
+		padding-bottom: 1rem;
+	}
+}
 .siteContacts {}
 
 /*System-wide Timely styles*/

@@ -524,7 +524,12 @@ Structure and Layout
 	float: right;
 	margin-bottom: 5px;
 	padding: 0px;
-	width: 760px;
+	width: 790px;
+}
+
+.content > .entry {
+	padding: 20px 20px 0;
+	padding: 1.25rem 1.25rem 0;
 }
 
 .outreach-pro-home .content {
@@ -542,7 +547,7 @@ Structure and Layout
 .content-sidebar-sidebar .content,
 .sidebar-content-sidebar .content,
 .sidebar-sidebar-content .content {
-	width: 550px;
+	width: 580px;
 }
 
 .full-width-content .content {
@@ -1932,8 +1937,9 @@ Media Queries
 @media only screen and (max-width: 860px) {
 
 	.wrap {
-		padding-left: 5%;
-		padding-right: 5%;
+		padding-left: 0;
+		padding-right: 0;
+		max-width: 100%;
 	}
 
 	.outreach-pro-home .site-inner .wrap {
