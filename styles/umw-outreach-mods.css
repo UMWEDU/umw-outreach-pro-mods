@@ -351,6 +351,30 @@ footer.site-footer .widget {
 	margin: 0;
 }
 
+@media all and (max-width: 860px) {
+	.home-top .flexslider .slide-caption, 
+	.home-featured-image figcaption {
+		width: 100%;
+		max-width: 100%;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		padding: 20px;
+	}
+	
+	.home-top .flex-control-thumbs,
+	.home-top .flexslider .slide-caption .slide-caption-text,
+	.home-top .uhp-slider-nav,
+	.home-featured-image figcaption .home-feature-subtitle {
+		display: none;
+	}
+	
+	.home-top .flexslider .slide-caption h1 {
+		font-size: 1.5rem;
+	}
+}
+
 /*
  * Campus directory styles
  */
