@@ -478,6 +478,8 @@ div.entry-content a:hover {color: #002b5a; text-decoration: underline;}
 a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 .inlineAttention {font-family: MuseoSlab; font-weight: 700; font-size: 16pt; float: left; padding: .35em 1em; border-right: 1px solid #b81237; margin-right: 1em; height: 125px;}
 .blocklistitem {margin-top: 2em; clear: both;}
+.entry-content h2 {font-weight: 900; color: #b81237;}
+
 
 
 
