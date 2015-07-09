@@ -126,7 +126,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			if ( 'photo' != $data->type )
 				return $return;
 			
-			if ( ! in_array( $data->provider_name, apply_filters( 'oembed-image-providers-no-link', array( 'SmugMug' ) ) ) )
+			if ( ! in_array( $data->provider_name, apply_filters( 'oembed-image-providers-no-link', array( 'SmugMug', 'Flickr' ) ) ) )
 				return $return;
 			
 			if ( empty( $data->url ) || empty( $data->width ) || empty( $data->height ) )
@@ -202,11 +202,23 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			if ( ! is_array( $img ) || ! array_key_exists( 'url', $img ) || ! esc_url( $img['url'] ) )
 				return;
 			
-			$embed = wp_oembed_get( esc_url( $img['url'] ), array( 'width' => 1140 ) );
+			add_filter( 'embed_defaults', array( $this, 'remove_default_oembed_width' ) );
+			if ( stristr( $img['url'], 'flick' ) ) {
+				$args = array();
+			} else {
+				$args = array( 'width' => 1140 );
+			}
+			$embed = wp_oembed_get( esc_url( $img['url'] ), $args );
+			if ( false === $embed ) {
+				if ( in_array( substr( $img['url'], -3 ), array( 'jpg', 'png', 'gif' ) ) ) {
+					$embed = sprintf( '<img src="%1$s" alt="%2$s"/>', $img['url'], $img['title'] );
+				}
+			}
 			if ( false === $embed ) {
 				print( '<pre><code>The embed for ' . $img['url'] . ' could not be retrieved for some reason.</code></pre>' );
 				return;
 			}
+			remove_filter( 'embed_defaults', array( $this, 'remove_default_oembed_width' ) );
 				
 			$format = '<figure class="home-featured-image">';
 			if ( esc_url( $img['link'] ) ) {
@@ -227,6 +239,13 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			$format .= '</figure>';
 			
 			printf( $format, esc_url( $img['url'] ), html_entity_decode( $img['title'] ), $embed, apply_filters( 'the_content', $img['subtitle'] ) );
+		}
+		
+		/**
+		 * Let's get rid of the default maxwidth property on oEmbeds so Flickr might behave better
+		 */
+		function remove_default_oembed_width( $defaults=array() ) {
+			return array();
 		}
 		
 		/**
@@ -615,8 +634,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 <?php do_action( 'pre-umw-outreach-image-settings' ) ?>
 <fieldset style="padding: 1em; border: 1px solid #e2e2e2;">
 	<legend style="font-weight: 700"><?php _e( 'Featured Image' ) ?></legend>
-	<p><label for="<?php $this->field_id( 'image-url' ) ?>"><?php _e( 'SmugMug URL' ) ?></label> 
-		<input class="widefat" type="url" id="<?php $this->field_id( 'image-url' ) ?>" name="<?php $this->field_name( 'image-url' ) ?>" value="<?php echo esc_url( $current['image']['url'] ) ?>"/></p>
+	<p><label for="<?php $this->field_id( 'image-url' ) ?>"><?php _e( 'Image URL' ) ?></label> 
+		<input class="widefat" type="url" id="<?php $this->field_id( 'image-url' ) ?>" name="<?php $this->field_name( 'image-url' ) ?>" value="<?php echo esc_url( $current['image']['url'] ) ?>"/><br/> 
+		<span style="font-style: italic; font-size: .9em"><strong>Note:</strong> You can use the URL for <a href="http://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">any oEmbeddable image provider,</a> or use the direct URL of any image</span></p>
 	<p><label for="<?php $this->field_id( 'image-title' ) ?>"><?php _e( 'Title/Caption' ) ?></label> 
 		<input class="widefat" type="text" id="<?php $this->field_id( 'image-title' ) ?>" name="<?php $this->field_name( 'image-title' ) ?>" value="<?php echo $current['image']['title'] ?>"/></p>
 	<div><label for="<?php $this->field_id( 'image-subtitle' ) ?>"><?php _e( 'Subtext' ) ?></label><br/> 
