@@ -6,7 +6,7 @@
  * If you need to change any existing styles for Outreach Pro,
  * 		those changes should be made within outreach-pro.css
  *
- * @version 0.1.28
+ * @version 0.1.30
  */
 
 * {
@@ -269,11 +269,12 @@ footer.site-footer .widget {
 }
 
 .home-featured-image {
-	max-height: 300px;
-	max-height: 18.75rem;
-	overflow: hidden;
 	width: 100%;
 	max-width: 100%;
+}
+
+.home-featured-image .fve-video-wrapper {
+	margin: 0;
 }
 
 .home-top .flexslider .slides > li,
