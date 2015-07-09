@@ -254,8 +254,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			 */
 			if ( 'photo' != $data->type ) {
 				$args['width'] = 1140;
-				$args['height'] = 400;
-				return sprintf( '<div class="home-feature-media-container" style="max-width: 100%%">%s</div>', wp_oembed_get( $url, $args ) );
+				$args['height'] = 800;
+				return apply_filters( 'the_content', '[embed width="1140" height="800"]' . $url . '[/embed]' );
 			}
 			$srcs['small'] = array( 'url' => $data->url, 'width' => $data->width, 'height' => $data->height );
 			
