@@ -202,23 +202,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			if ( ! is_array( $img ) || ! array_key_exists( 'url', $img ) || ! esc_url( $img['url'] ) )
 				return;
 			
-			add_filter( 'embed_defaults', array( $this, 'remove_default_oembed_width' ) );
-			if ( stristr( $img['url'], 'flickr' ) ) {
-				$args = array();
-			} else {
-				$args = array( 'width' => 1140 );
-			}
-			$embed = wp_oembed_get( esc_url( $img['url'] ), $args );
-			if ( false === $embed ) {
-				if ( in_array( substr( $img['url'], -3 ), array( 'jpg', 'png', 'gif' ) ) ) {
-					$embed = sprintf( '<img src="%1$s" alt="%2$s"/>', $img['url'], $img['title'] );
-				}
-			}
-			if ( false === $embed ) {
-				print( '<pre><code>The embed for ' . $img['url'] . ' could not be retrieved for some reason.</code></pre>' );
+			$embed = $this->get_embedded_image( esc_url( $img['url'] ), $img );
+			if ( false === $embed )
 				return;
-			}
-			remove_filter( 'embed_defaults', array( $this, 'remove_default_oembed_width' ) );
 				
 			$format = '<figure class="home-featured-image">';
 			if ( esc_url( $img['link'] ) ) {
@@ -243,6 +229,91 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			$format .= '</figure>';
 			
 			printf( $format, esc_url( $img['url'] ), strip_tags( html_entity_decode( $img['title'] ), array() ), $embed, wpautop( $img['subtitle'] ), $img['link'] );
+		}
+		
+		/**
+		 * Attempt to retrieve the appropriate code for an embedded image
+		 */
+		function get_embedded_image( $url, $img=array('title'=>null) ) {
+			add_filter( 'embed_defaults', array( $this, 'remove_default_oembed_width' ) );
+			$embed = $srcs = array( 'small' => '', 'mid' => '', 'full' => '' );
+			$args = array( 'width' => 400 );
+			
+			require_once( ABSPATH . WPINC . '/class-oembed.php' );
+			$oembed = _wp_oembed_get_object();
+			$provider = $oembed->get_provider( $url, $args );
+			if ( false === $provider )
+				return $this->get_embedded_image_direct( $url, $img );
+			
+			$data = $oembed->fetch( $provider, $url, $args );
+			if ( false === $data )
+				return $this->get_embedded_image_direct( $url, $img );
+			
+			/**
+			 * Add support for oEmbeddable videos, just in case
+			 */
+			if ( 'photo' != $data->type ) {
+				$args['width'] = 1140;
+				$args['height'] = 400;
+				return sprintf( '<div class="home-feature-media-container" style="max-width: 100%%">%s</div>', wp_oembed_get( $url, $args ) );
+			}
+			$srcs['small'] = array( 'url' => $data->url, 'width' => $data->width, 'height' => $data->height );
+			
+			$embed['small'] = sprintf( '<img src="%1$s" width="%2$d" height="%3$d" alt="%4$s"/>', esc_url( $data->url ), esc_attr( $data->height ), esc_attr( $data->width ), esc_attr( $img['title'] ) );
+			
+			$args['width'] = 800;
+			$data = $oembed->fetch( $provider, $url, $args );
+			if ( false !== $data ) {
+				$embed['mid'] = sprintf( '<source media="(min-width:860px and max-width: 1023px)" srcset="%1$s"/>', $data->url );
+				$srcs['mid'] = array( 'url' => $data->url, 'width' => $data->width, 'height' => $data->height );
+			}
+			
+			if ( stristr( $url, 'flickr' ) ) {
+				$args = array();
+			} else {
+				$args['width'] = 1140;
+			}
+			$data = $oembed->fetch( $provider, $url, $args );
+			if ( false !== $data ) {
+				$embed['full'] = sprintf( '<source media="(min-width: 1024px)" srcset="%1$s"/>', $data->url );
+				$srcs['full'] = array( 'url' => $data->url, 'width' => $data->width, 'height' => $data->height );
+			}
+			
+			remove_filter( 'embed_defaults', array( $this, 'remove_default_oembed_width' ) );
+			
+			if ( ! empty( $srcs['full'] ) && ! empty( $srcs['mid'] ) && ! empty( $srcs['small'] ) ) {
+				return sprintf( '<img srcset="%1$s %2$s, %3$s %4$s" sizes="%5$s, %6$s" src="%7$s" alt="%8$s" width="%9$d" height="%10$d"/>', 
+					/* 1 */$srcs['small']['url'], 
+					/* 2 */$srcs['small']['width'] . 'w', 
+					/* 3 */$srcs['mid']['url'], 
+					/* 4 */$srcs['mid']['width'] . 'w', 
+					/* 5 */'(max-width: 500px)', 
+					/* 6 */'(max-width: 1024px)', 
+					/* 7 */$srcs['full']['url'], 
+					/* 8 */esc_attr( $img['title'] ), 
+					/* 9 */$srcs['full']['width'], 
+					/* 10 */$srcs['full']['height']
+				);
+			} else if ( ! empty( $srcs['full'] ) ) {
+				return sprintf( '<img src="%1$s" alt="%2$s" width="%3$d" height="%4$d"/>', esc_url( $srcs['full']['url'] ), esc_attr( $img['title'] ), esc_attr( $srcs['full']['width'] ), esc_attr( $srcs['full']['height'] ) );
+			} else {
+				return false;
+			}
+		}
+		
+		/**
+		 * Handle direct links to images that need to be embedded
+		 */
+		function get_embedded_image_direct( $url, $img=array('title'=>'') ) {
+			remove_filter( 'embed_defaults', array( $this, 'remove_default_oembed_width' ) );
+			
+			if ( ! in_array( substr( $url, -3 ), array( 'jpg', 'peg', 'png', 'gif' ) ) )
+				return false;
+			
+			if ( ! esc_url( $url ) )
+				return false;
+			
+			return sprintf( '<img src="%1$s" alt="%2$s"/>', esc_url( $url ), $img['title'] );
 		}
 		
 		/**
