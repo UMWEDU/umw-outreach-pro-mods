@@ -183,6 +183,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			add_filter( 'genesis_theme_settings_defaults', array( $this, 'settings_defaults' ) );
 			
 			add_action( 'genesis_loop', array( $this, 'home_featured_image' ), 9 );
+			
+			add_image_size( 'news-feature', 250, 155, true );
 		}
 		
 		/**
