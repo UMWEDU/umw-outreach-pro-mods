@@ -126,6 +126,30 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	text-align: right;
 }
 
+.home ul.post-list>li.listed-post {
+	width: 23%;
+	max-width: 23%;
+	min-width: 200px;
+	min-width: 12.5rem;
+	margin: 0;
+	margin-left: 2.666666666666667%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 14px;
+	font-size: .875rem;
+	font-weight: 300;
+}
+
+.home .listed-post a {
+	font-weight: 700;
+}
+
+.home ul.post-list>li.listed-post:first-child {
+	margin-left: 0;
+}
+
 /**
  * Sidebar Navigation Styles
  */
