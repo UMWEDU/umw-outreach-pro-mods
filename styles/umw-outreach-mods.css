@@ -27,6 +27,9 @@ body .umw-logo-block > a {
 	padding: 5px 0;
 }
 
+body.home #content .page h1.entry-title
+{display: none;}
+
 #umw-full-logo-img {
 	width: 225px;
 	max-width: 100%;
