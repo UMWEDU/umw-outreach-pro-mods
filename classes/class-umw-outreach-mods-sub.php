@@ -56,6 +56,119 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			add_filter( 'oembed_dataparse', array( $this, 'remove_oembed_link_wrapper' ), 10, 3 );
 			
 			$this->transient_timeout = 10;
+			
+			/**
+			 * Fix the employee/building/department archives until I find a better way to handle this
+			 */
+			add_action( 'template_redirect', array( $this, 'do_directory_archives' ) );
+		}
+		
+		/**
+		 * Fix the directory post type archives
+		 */
+		function do_directory_archives() {
+			if ( ! is_post_type_archive() )
+				return;
+			
+			if ( is_post_type_archive( 'employee' ) ) {
+				remove_action( 'genesis_loop', 'genesis_do_loop' );
+				add_action( 'genesis_loop', array( $this, 'do_employee_loop' ) );
+			} else if ( is_post_type_archive( 'building' ) ) {
+				remove_action( 'genesis_loop', 'genesis_do_loop' );
+				add_action( 'genesis_loop', array( $this, 'do_building_loop' ) );
+			} else if ( is_post_type_archive( 'department' ) ) {
+				remove_action( 'genesis_loop', 'genesis_do_loop' );
+				add_action( 'genesis_loop', array( $this, 'do_department_loop' ) );
+			}
+		}
+		
+		function custom_genesis_loop( $content ) {
+			do_action( 'genesis_before_while' );
+			do_action( 'genesis_before_entry' );
+			printf( '<article %s>', genesis_attr( 'entry' ) );
+			do_action( 'genesis_entry_header' );
+			do_action( 'genesis_before_entry_content' );
+			printf( '<div %s>', genesis_attr( 'entry-content' ) );
+			
+			echo $content;
+			
+			echo '</div>';
+			do_action( 'genesis_after_entry_content' );
+			do_action( 'genesis_entry_footer' );
+			echo '</article>';
+			do_action( 'genesis_after_entry' );
+			do_action( 'genesis_after_endwhile' );
+		}
+		
+		/**
+		 * Output the employee A to Z list
+		 */
+		function do_employee_loop() {
+			$content = do_shortcode( '[atoz post_type="employee" field="wpcf-last-name" view="363"]' );
+			
+			add_filter( 'genesis_post_title_text', function( $title ) { return __( 'Employees A to Z' ); } );
+			add_filter( 'genesis_link_post_title', function( $e ) { return false; } );
+			$this->custom_genesis_loop( $content );
+			remove_filter( 'genesis_link_post_title', function( $e ) { return false; } );
+			remove_filter( 'genesis_post_title_text', function( $title ) { return __( 'Employees A to Z' ); } );
+		}
+		
+		/**
+		 * Output the list of buildings
+		 */
+		function do_building_loop() {
+			$args = array( 
+				'post_type'   => 'building', 
+				'orderby'     => 'title', 
+				'order'       => 'asc', 
+				'posts_per_page' => -1, 
+				'numberposts' => -1, 
+				'post_status' => 'publish', 
+			);
+			
+			query_posts( $args );
+			
+			$content = render_view( array( 'id' => 79 ) );
+			
+			wp_reset_postdata();
+			wp_reset_query();
+			
+			add_filter( 'genesis_post_title_text', function( $title ) { return __( 'Buildings' ); } );
+			add_filter( 'genesis_link_post_title', function( $e ) { return false; } );
+			$this->custom_genesis_loop( $content );
+			remove_filter( 'genesis_link_post_title', function( $e ) { return false; } );
+			remove_filter( 'genesis_post_title_text', function( $title ) { return __( 'Buildings' ); } );
+			
+			return;
+		}
+		
+		/**
+		 * Render the Departments archive page
+		 */
+		function do_department_loop() {
+			$args = array( 
+				'post_type'   => 'department', 
+				'orderby'     => 'title', 
+				'order'       => 'asc', 
+				'posts_per_page' => -1, 
+				'numberposts' => -1, 
+				'post_status' => 'publish', 
+			);
+			
+			query_posts( $args );
+			
+			$content = render_view( array( 'id' => 82 ) );
+			
+			wp_reset_postdata();
+			wp_reset_query();
+			
+			add_filter( 'genesis_post_title_text', function( $title ) { return __( 'Departments' ); } );
+			add_filter( 'genesis_link_post_title', function( $e ) { return false; } );
+			$this->custom_genesis_loop( $content );
+			remove_filter( 'genesis_link_post_title', function( $e ) { return false; } );
+			remove_filter( 'genesis_post_title_text', function( $title ) { return __( 'Departments' ); } );
+			
+			return;
 		}
 		
 		/**
