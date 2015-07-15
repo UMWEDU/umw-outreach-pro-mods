@@ -72,6 +72,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			if ( ! is_singular( 'atom-feed' ) )
 				return;
 			
+			get_transient( 'custom-feed-testing' );
+			set_transient( 'custom-feed-testing', 'CAG', HOUR_IN_SECONDS );
+			
 			global $post;
 			while( have_posts() ) : the_post();
 				$content = $post->post_content;
@@ -98,22 +101,25 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 ?>
 	>
 <?php
+			ob_start();
+			self_link();
+			$self_link = ob_get_clean();
+			$transient_key = 'custom-feed-' . base64_encode( $self_link );
+			
 			printf( "\n\t" . '<title type="text">%s</title>', get_bloginfo_rss( 'name' ) . get_wp_title_rss() );
 			printf( "\n\t" . '<updated>%s</updated>', mysql2date( 'Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false ) );
 			printf( "\n\t" . '<link rel="alternate" type="%1$s" href="%2$s" />', get_bloginfo_rss('html_type'), get_bloginfo_rss('url') );
 			printf( "\n\t" . '<id>%s</id>', get_bloginfo('atom_url') );
-			echo "\n\t" . '<link rel="self" type="application/atom+xml" href="';
-			self_link();
-			echo '"/>';
+			printf( "\n\t" . '<link rel="self" type="application/atom+xml" href="%s"/>', $self_link );
+			printf( "\n\t" . '<transient-key>%s</transient-key>', $transient_key );
+			echo "\n";
 			do_action( 'atom_head' );
 			
-			ob_start();
-			self_link();
-			$self_link = ob_get_clean();
-			$feed = get_transient( 'custom-feed-' . base64_encode( $self_link ) );
+			delete_transient( $transient_key );
+			$feed = get_transient( $transient_key );
 			if ( false === $feed ) {
 				$feed = do_shortcode( $content );
-				set_transient( 'custom-feed-' . base64_encode( $self_link ), $feed, HOUR_IN_SECONDS );
+				set_transient( $transient_key, $feed, HOUR_IN_SECONDS );
 			}
 			echo $feed;
 ?>
