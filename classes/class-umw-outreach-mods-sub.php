@@ -83,7 +83,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		}
 		
 		function custom_genesis_loop( $content ) {
-			do_action( 'genesis_before_while' );
+			/*do_action( 'genesis_before_while' );*/
 			do_action( 'genesis_before_entry' );
 			printf( '<article %s>', genesis_attr( 'entry' ) );
 			do_action( 'genesis_entry_header' );
@@ -97,7 +97,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			do_action( 'genesis_entry_footer' );
 			echo '</article>';
 			do_action( 'genesis_after_entry' );
-			do_action( 'genesis_after_endwhile' );
+			/*do_action( 'genesis_after_endwhile' );*/
 		}
 		
 		/**
@@ -106,11 +106,11 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		function do_employee_loop() {
 			$content = do_shortcode( '[atoz post_type="employee" field="wpcf-last-name" view="363"]' );
 			
-			add_filter( 'genesis_post_title_text', function( $title ) { return __( 'Employees A to Z' ); } );
-			add_filter( 'genesis_link_post_title', function( $e ) { return false; } );
+			add_filter( 'genesis_post_title_text', array( $this, 'do_employee_archive_title' ) );
+			add_filter( 'genesis_link_post_title', array( $this, '_return_false' ) );
 			$this->custom_genesis_loop( $content );
-			remove_filter( 'genesis_link_post_title', function( $e ) { return false; } );
-			remove_filter( 'genesis_post_title_text', function( $title ) { return __( 'Employees A to Z' ); } );
+			remove_filter( 'genesis_link_post_title', array( $this, '_return_false' ) );
+			remove_filter( 'genesis_post_title_text', array( $this, 'do_employee_archive_title' ) );
 		}
 		
 		/**
@@ -133,11 +133,11 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			wp_reset_postdata();
 			wp_reset_query();
 			
-			add_filter( 'genesis_post_title_text', function( $title ) { return __( 'Buildings' ); } );
-			add_filter( 'genesis_link_post_title', function( $e ) { return false; } );
+			add_filter( 'genesis_post_title_text', array( $this, 'do_building_archive_title' ) );
+			add_filter( 'genesis_link_post_title', array( $this, '_return_false' ) );
 			$this->custom_genesis_loop( $content );
-			remove_filter( 'genesis_link_post_title', function( $e ) { return false; } );
-			remove_filter( 'genesis_post_title_text', function( $title ) { return __( 'Buildings' ); } );
+			remove_filter( 'genesis_link_post_title', array( $this, '_return_false' ) );
+			remove_filter( 'genesis_post_title_text', array( $this, 'do_building_archive_title' ) );
 			
 			return;
 		}
@@ -162,13 +162,41 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			wp_reset_postdata();
 			wp_reset_query();
 			
-			add_filter( 'genesis_post_title_text', function( $title ) { return __( 'Departments' ); } );
-			add_filter( 'genesis_link_post_title', function( $e ) { return false; } );
+			add_filter( 'genesis_post_title_text', array( $this, 'do_department_archive_title' ) );
+			add_filter( 'genesis_link_post_title', array( $this, '_return_false' ) );
 			$this->custom_genesis_loop( $content );
-			remove_filter( 'genesis_link_post_title', function( $e ) { return false; } );
-			remove_filter( 'genesis_post_title_text', function( $title ) { return __( 'Departments' ); } );
+			remove_filter( 'genesis_link_post_title', array( $this, '_return_false' ) );
+			remove_filter( 'genesis_post_title_text', array( $this, 'do_department_archive_title' ) );
 			
 			return;
+		}
+		
+		/**
+		 * Return boolean false
+		 */
+		function _return_false() {
+			return false;
+		}
+		
+		/**
+		 * Return the title for the employee archive page
+		 */
+		function do_employee_archive_title( $title ) {
+			return __( 'Employees A to Z' );
+		}
+		
+		/**
+		 * Return the title for the department archive page
+		 */
+		function do_department_archive_title( $title ) {
+			return __( 'Departments' );
+		}
+		
+		/**
+		 * Returnt he title for the building archive page
+		 */
+		function do_building_archive_title( $title ) {
+			return __( 'Buildings' );
 		}
 		
 		/**
