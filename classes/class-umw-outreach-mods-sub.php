@@ -61,6 +61,65 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			 * Fix the employee/building/department archives until I find a better way to handle this
 			 */
 			add_action( 'template_redirect', array( $this, 'do_directory_archives' ) );
+			
+			add_action( 'template_redirect', array( $this, 'do_custom_feeds' ) );
+		}
+		
+		/**
+		 * Output a custom Atom feed
+		 */
+		function do_custom_feeds() {
+			if ( ! is_singular( 'atom-feed' ) )
+				return;
+			
+			global $post;
+			while( have_posts() ) : the_post();
+				$content = $post->post_content;
+			endwhile;
+			
+			header('Content-Type: ' . feed_content_type('atom') . '; charset=' . get_option('blog_charset'), true);
+			$more = 1;
+			
+			echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
+			do_action( 'rss_tag_pre', 'atom' );
+?>
+<feed
+	xmlns="http://www.w3.org/2005/Atom"
+	xmlns:thr="http://purl.org/syndication/thread/1.0"
+	xml:lang="<?php bloginfo_rss( 'language' ); ?>"
+	xml:base="<?php bloginfo_rss('url') ?>/wp-atom.php"
+<?php
+/**
+ * Fires at end of the Atom feed root to add namespaces.
+ *
+ * @since 2.0.0
+ */
+	do_action( 'atom_ns' );
+?>
+	>
+<?php
+			printf( "\n\t" . '<title type="text">%s</title>', get_bloginfo_rss( 'name' ) . get_wp_title_rss() );
+			printf( "\n\t" . '<updated>%s</updated>', mysql2date( 'Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false ) );
+			printf( "\n\t" . '<link rel="alternate" type="%1$s" href="%2$s" />', get_bloginfo_rss('html_type'), get_bloginfo_rss('url') );
+			printf( "\n\t" . '<id>%s</id>', get_bloginfo('atom_url') );
+			echo "\n\t" . '<link rel="self" type="application/atom+xml" href="';
+			self_link();
+			echo '"/>';
+			do_action( 'atom_head' );
+			
+			ob_start();
+			self_link();
+			$self_link = ob_get_clean();
+			$feed = get_transient( 'custom-feed-' . base64_encode( $self_link ) );
+			if ( false === $feed ) {
+				$feed = do_shortcode( $content );
+				set_transient( 'custom-feed-' . base64_encode( $self_link ), $feed, HOUR_IN_SECONDS );
+			}
+			echo $feed;
+?>
+</feed>
+<?php
+			exit();
 		}
 		
 		/**
