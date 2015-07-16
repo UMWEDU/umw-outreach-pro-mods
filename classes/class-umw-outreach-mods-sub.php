@@ -132,10 +132,10 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 * Fix the directory post type archives
 		 */
 		function do_directory_archives() {
-			if ( ! is_post_type_archive() )
+			if ( ! is_post_type_archive() && ! is_tax() )
 				return;
 			
-			if ( is_post_type_archive( 'employee' ) ) {
+			if ( is_post_type_archive( 'employee' ) || is_tax( 'employee-type' ) ) {
 				remove_action( 'genesis_loop', 'genesis_do_loop' );
 				add_action( 'genesis_loop', array( $this, 'do_employee_loop' ) );
 			} else if ( is_post_type_archive( 'building' ) ) {
@@ -169,7 +169,26 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 * Output the employee A to Z list
 		 */
 		function do_employee_loop() {
-			$content = do_shortcode( '[atoz post_type="employee" field="wpcf-last-name" view="363"]' );
+			$args = array(
+				'post_type' => 'employee', 
+				'field'     => 'wpcf-last-name', 
+				'view'      => 363
+			);
+			if ( is_tax( 'employee-type' ) ) {
+				$ob = get_queried_object();
+				if ( is_object( $ob ) && ! is_wp_error( $ob ) ) {
+					$args['tax_name'] = $ob->taxonomy;
+					$args['tax_term'] = $ob->slug;
+				}
+			}
+			$meat = '';
+			foreach ( $args as $k=>$v ) {
+				if ( is_numeric( $v ) )
+					$meat .= sprintf( ' %s=%d', $k, $v );
+				else
+					$meat .= sprintf( ' %s="%s"', $k, $v );
+			}
+			$content = do_shortcode( sprintf( '[atoz%s]', $meat ) );
 			
 			add_filter( 'genesis_post_title_text', array( $this, 'do_employee_archive_title' ) );
 			add_filter( 'genesis_link_post_title', array( $this, '_return_false' ) );
@@ -247,6 +266,12 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 * Return the title for the employee archive page
 		 */
 		function do_employee_archive_title( $title ) {
+			if ( is_tax( 'employee-type' ) ) {
+				$ob = get_queried_object();
+				if ( is_object( $ob ) && ! is_wp_error( $ob ) ) {
+					return __( $ob->name . ' A to Z' );
+				}
+			}
 			return __( 'Employees A to Z' );
 		}
 		
@@ -670,16 +695,41 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 				'child_of' => 0, 
 				'numberposts' => -1, 
 				'reverse' => false, 
+				'tax_name' => null, 
+				'tax_term' => null, 
 			) );
+			
+			$atts = array();
+			foreach ( $args as $k=>$v ) {
+				if ( ! is_numeric( $k ) ) {
+					$atts[$k] = $v;
+					continue;
+				}
+				
+				if ( stristr( $v, '=' ) ) {
+					$tmp = explode( '=', $v );
+					if ( count( $tmp ) <= 1 )
+						continue;
+					
+					$key = array_shift( $tmp );
+					$val = implode( '=', $tmp );
+					
+					$atts[$key] = trim( $val, ' "\'' );
+				}
+			}
+			$args = $atts;
+			$atts = null;
 			
 			$nonmeta = array( 'ID', 'author', 'title', 'name', 'type', 'date', 'modified', 'parent', 'comment_count', 'menu_order', 'post__in' );
 			
+			$atts = wp_parse_args( $args, $defaults );
 			$args = shortcode_atts( $defaults, $args );
+			
 			$transient_key = sprintf( 'atoz-%s', base64_encode( implode( '|', $args ) ) );
 			
-			$r = get_site_transient( $transient_key );
+			/*$r = get_site_transient( $transient_key );
 			if ( false !== $r )
-				return $r;
+				return $r;*/
 			
 			$query = array(
 				'post_type' => $args['post_type'], 
@@ -698,6 +748,45 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			} else {
 				$meta = false;
 				$query['orderby'] = $args['field'];
+			}
+			if ( ! empty( $args['tax_name'] ) && ! empty( $args['tax_term'] ) ) {
+				$query['tax_query'] = array(
+					array( 
+						'taxonomy' => $args['tax_name'], 
+						'field' => is_numeric( $args['tax_term'] ) ? 'term_id' : 'slug', 
+						'terms' => explode( ' ', $args['tax_term'] )
+					), 
+				);
+			}
+			
+			/**
+			 * Attempt to separate out custom fields or taxonomy terms
+			 */
+			$taxes = array_diff_key( $atts, $args );
+			if ( is_array( $taxes ) && count( $taxes ) ) {
+				foreach ( $taxes as $k => $v ) {
+					$tmp = get_taxonomy( $k );
+					if ( is_object( $tmp ) && ! is_wp_error( $tmp ) ) {
+						if ( ! array_key_exists( 'tax_query', $query ) ) {
+							$query['tax_query'] = array();
+						}
+						$query['tax_query'][] = array(
+							'taxonomy' => $k, 
+							'field'    => is_numeric( $v ) ? 'term_id' : 'slug', 
+							'terms'    => explode( ' ', $v )
+						);
+						continue;
+					} else {
+						if ( ! array_key_exists( 'meta_query', $query ) ) {
+							$query['meta_query'] = array();
+						}
+						$query['meta_query'][] = array(
+							'key'      => $k, 
+							'value'    => array( $v ), 
+							'compare'  => 'IN'
+						);
+					}
+				}
 			}
 			
 			$posts = new WP_Query( $query );
