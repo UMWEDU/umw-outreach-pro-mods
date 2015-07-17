@@ -594,8 +594,7 @@ Structure and Layout
 .three-sixths,
 .two-fourths,
 .two-sixths,
-.two-thirds,
-.home-top .pcs-entry {
+.two-thirds {
 	float: left;
 	margin-left: 2.564102564102564%;
 }
@@ -616,8 +615,7 @@ Structure and Layout
 	width: 65.81196581196582%;
 }
 
-.one-fourth, 
-.home-top .pcs-entry {
+.one-fourth {
 	width: 23.076923076923077%;
 }
 
@@ -633,8 +631,7 @@ Structure and Layout
 	width: 82.90598290598291%;
 }
 
-.first, 
-.home-top .pcs-entry:nth-child(4n+1) {
+.first {
 	clear: both;
 	margin-left: 0;
 }
@@ -1967,8 +1964,7 @@ Media Queries
 
 	.five-sixths,
 	.four-sixths,
-	.one-fourth, 
-	.home-top .pcs-entry,
+	.one-fourth,
 	.one-half,
 	.one-sixth,
 	.one-third,
