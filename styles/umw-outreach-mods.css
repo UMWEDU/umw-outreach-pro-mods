@@ -65,8 +65,8 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
  */
 
 .home-top .pcs-entry h1 {
-	font-size: 12px;
-	font-size: .75rem;
+	font-size: 14px;
+	font-size: .875rem;
 	font-weight: 700;
 	color: rgb(0,43,90);
 }
@@ -76,14 +76,115 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 }
 
 .home-top .pcs-entry {
-	font-size: 11px;
-	font-size: .6875rem;
+	font-size: 12px;
+	font-size: .75rem;
 	font-weight: 300;
 	color: rgb(0,43,90);
+	padding-bottom: 1rem;
 }
 
-.home-top.widget-area .widget_text {
+.home-top .pcs-featured-image {
+	display: block;
+	margin: 0 0 .5rem 0;
 	padding: 0;
+}
+
+.home-top .pcs-featured-image img {
+	display: block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+}
+
+.home-top.widget-area .widget_text, 
+.home-top.widget-area .pcs-list-widget {
+	padding: 0;
+}
+
+@media all and (max-width: 860px) {
+	.home-top.widget-area .pcs-list-widget {
+		padding: 0 1rem;
+	}
+	
+	.home-top .one-fourth {
+		width: 50%;
+		margin: 0;
+		float: left;
+		padding-left: 5%;
+	}
+	
+	.home-top .one-fourth:nth-child(2n+1) {
+		padding-left: 0;
+		padding-right: 5%;
+		clear: left;
+	}
+	
+	.home-top .one-fourth:nth-child(2n+2) {
+		clear: right;
+	}
+	
+	.home-top .pcs-featured-image {
+		max-width: 250px;
+		float: left;
+		clear: left;
+		margin: 0 1rem 1rem 0;
+	}
+}
+
+@media all and (max-width: 820px) {
+	.home-top .pcs-featured-image {
+		max-width: 100%;
+		float: none;
+		clear: both;
+		margin: 0 0 1rem 0;
+	}
+}
+
+@media all and (max-width: 480px) {
+	.home-top.widget-area .pcs-list-widget {
+		padding: 0 1rem;
+	}
+	
+	.home-top .pcs-featured-image img, 
+	.home-top .pcs-featured-image {
+		width: 100%;
+		max-width: 100%;
+		float: none;
+		clear: both;
+		margin: 0;
+		padding: 0;
+		display: block;
+		height: auto;
+	}
+	
+	.home-top .pcs-featured-image {
+		padding-bottom: .5rem;
+	}
+	
+	.home-top .pcs-entry {
+		padding-bottom: 1rem;
+	}
+	
+	.home-top .one-fourth {
+		width: 100%;
+		margin: 0;
+		float: none;
+		clear: none;
+		padding-left: 0;
+		padding-right: 0;
+	}
+	
+	.home-top .one-fourth:nth-child(2n+1) {
+		padding-left: 0;
+		padding-right: 0;
+		clear: both;
+	}
+	
+	.home-top .one-fourth:nth-child(2n+2) {
+		clear: both;
+	}
 }
 
 .home-top.widget-area .wp_rss_retriever_list {
