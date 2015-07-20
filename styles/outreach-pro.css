@@ -160,6 +160,7 @@ body {
 	color: #333;
 	font-family: MuseoSans, Helvetica, Arial, Tahoma, sans-serif;
 	font-size: 16px;
+	font-size: 1rem;
 	font-weight: 400;
 	line-height: 1.625;
 }
@@ -230,6 +231,7 @@ blockquote::before {
 	content: "\201C";
 	display: block;
 	font-size: 30px;
+	font-size: 1.875rem;
 	height: 0;
 	left: -20px;
 	position: relative;
@@ -257,26 +259,32 @@ h6 {
 
 h1 {
 	font-size: 36px;
+	font-size: 2.25rem;
 }
 
 h2 {
 	font-size: 28px;
+	font-size: 1.75rem;
 }
 
 h3 {
 	font-size: 24px;
+	font-size: 1.5rem;
 }
 
 h4 {
 	font-size: 20px;
+	font-size: 1.25rem;
 }
 
 h5 {
 	font-size: 18px;
+	font-size: 1.125rem;
 }
 
 h6 {
 	font-size: 16px;
+	font-size: 1rem;
 }
 
 /* Objects
@@ -375,6 +383,7 @@ textarea {
 	border: 1px solid #ddd;
 	color: #999;
 	font-size: 14px;
+	font-size: .875rem;
 	font-weight: 400;
 	padding: 16px;
 	width: 100%;
@@ -414,6 +423,7 @@ input[type="submit"],
 	color: #fff;
 	cursor: pointer;
 	font-size: 16px;
+	font-size: 1rem;
 	font-weight: 400;
 	padding: 16px 24px;
 	text-transform: uppercase;
@@ -484,6 +494,7 @@ Structure and Layout
 .site-inner {
 	clear: both;
 	font-size: 16px;
+	font-size: 1rem;
 	overflow: hidden;
 	padding-top: 0px;
 }
@@ -688,6 +699,7 @@ Common Classes
 
 .author-box-title {
 	font-size: 16px;
+	font-size: 1rem;
 	font-weight: 700;
 	margin-bottom: 4px;
 }
@@ -730,10 +742,12 @@ Common Classes
 
 .archive-title {
 	font-size: 20px;
+	font-size: 1.25rem;
 }
 
 .entry-title {
 	font-size: 30px;
+	font-size: 1.875rem;
 	font-weight: 700;
 }
 
@@ -881,6 +895,7 @@ Widgets
 
 .featured-content .entry-title {
 	font-size: 20px;
+	font-size: 1.25rem;
 }
 
 .featured-content .entry-comments-link {
@@ -1026,7 +1041,9 @@ div.gform_wrapper input[type="text"],
 div.gform_wrapper textarea,
 div.gform_wrapper .ginput_complex label {
 	font-size: 16px;
+	font-size: 1rem;
 	padding: 16px;
+	padding: 1rem;
 }
 
 div.gform_wrapper .ginput_complex label {
@@ -1079,6 +1096,7 @@ Site Header
 
 .site-title {
 	font-size: 43px;
+	font-size: 2.6875rem;
 	font-weight: 700;
 	line-height: 1;
 	text-transform: uppercase;
@@ -1102,6 +1120,7 @@ Site Header
 .site-description {
 	color: #999;
 	font-size: 16px;
+	font-size: 1rem;
 	font-weight: 400;
 	height: 0;
 	line-height: 1.5;
@@ -1161,6 +1180,7 @@ Site Navigation
 .genesis-nav-menu {
 	clear: both;
 	font-size: 14px;
+	font-size: .875rem;
 	line-height: 1.5;
 	width: 100%;
 }
@@ -1212,7 +1232,9 @@ Site Navigation
 	border-top: none;
 	color: #333;
 	font-size: 12px;
+	font-size: .75rem;
 	padding: 14px 20px;
+	padding: .875rem 1.25rem;
 	position: relative;
 	width: 200px;
 }
@@ -1268,7 +1290,9 @@ Site Navigation
 
 .genesis-nav-menu input[type="search"] {
 	font-size: 14px;
+	font-size: .875rem;
 	padding: 10px 16px;
+	padding: .625rem 1rem;
 }
 
 /* Site Header Navigation
@@ -1437,6 +1461,7 @@ Content Area
 p.entry-meta {
 	color: #999;
 	font-size: 12px;
+	font-size: .75rem;
 	margin-bottom: 0;
 	text-transform: uppercase;
 }
@@ -1583,6 +1608,7 @@ Sidebars
 .sidebar {
 	color: #fff;
 	font-size: 14px;
+	font-size: .875rem;
 }
 
 .sidebar .widget {
@@ -1618,11 +1644,13 @@ Sub Footer
 .sub-footer-right {
 	float: right;
 	font-size: 14px;
+	font-size: .875rem;
 	width: 235px;
 }
 
 .sub-footer-left .entry-title {
 	font-size: 30px;
+	font-size: 1.875rem;
 }
 
 
@@ -1635,7 +1663,9 @@ Footer Widgets
 	color: #ccc;
 	clear: both;
 	font-size: 14px;
+	font-size: .875rem;
 	padding: 60px 0 30px;
+	padding: 3.75rem 0 1.875rem;
 }
 
 .footer-widgets input {
@@ -1680,6 +1710,7 @@ Site Footer
 	box-shadow: inset 0 1px rgba(255, 255, 255, 0.07);
 	color: #666;
 	font-size: 14px;
+	font-size: .875rem;
 	padding: 40px 0;
 	text-align: left;
 }
