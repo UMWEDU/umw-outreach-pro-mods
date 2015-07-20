@@ -416,6 +416,20 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			add_action( 'genesis_loop', array( $this, 'home_featured_image' ), 9 );
 			
 			add_image_size( 'news-feature', 250, 155, true );
+			
+			add_filter( 'genesis_attr_content', array( $this, 'add_content_id' ), 99, 2 );
+		}
+		
+		/**
+		 * Add an HTML ID to the <main> element to allow skip-links to work
+		 */
+		function add_content_id( $attr, $context ) {
+			if ( 'content' != $context ) 
+				return $attr;
+				
+			$attr['id'] = 'umw-main-content';
+			
+			return $attr;
 		}
 		
 		/**
