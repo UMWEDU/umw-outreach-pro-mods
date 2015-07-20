@@ -390,6 +390,14 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			/* Remove the default Genesis style sheet */
 			remove_action( 'genesis_meta', 'genesis_load_stylesheet' );
 			
+			/* Remove the default favicon & replace it with ours */
+			if ( ! has_action( 'genesis_meta', 'genesis_load_favicon' ) )
+				add_action( 'genesis_meta', 'genesis_load_favicon' );
+			add_filter( 'genesis_pre_load_favicon', array( $this, 'favicon_url' ) );
+			
+			if ( is_admin() )
+				add_action( 'admin_head', 'genesis_load_favicon' );
+			
 			/* Get rid of the standard header & replace it with our global header */
 			remove_all_actions( 'genesis_header' );
 			add_action( 'genesis_header', array( $this, 'get_header' ) );
@@ -423,6 +431,13 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			 */
 			if ( ! function_exists( 'genwpacc_activation_check' ) && ! function_exists( 'genesis_a11y' ) )
 				add_filter( 'genesis_attr_content', array( $this, 'add_content_id' ), 99, 2 );
+		}
+		
+		/**
+		 * Return the URL to our custom favicon
+		 */
+		function favicon_url( $url ) {
+			return plugins_url( '/images/favicon.ico', dirname( __FILE__ ) );
 		}
 		
 		/**
