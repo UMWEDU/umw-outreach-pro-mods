@@ -5,8 +5,12 @@ if ( ! class_exists( 'UMW_Default_Settings' ) ) {
 			add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
 			add_action( 'plugins_loaded', array( $this, 'set_gforms_defaults' ) );
 			add_action( 'plugins_loaded', array( $this, 'set_cas_maestro_defaults' ) );
+			add_action( 'plugins_loaded', array( $this, 'set_genesis_a11y_defaults' ) );
+			add_action( 'plugins_loaded', array( $this, 'set_wpa11y_defaults' ) );
 			add_filter( 'option_blogdescription', array( $this, 'get_default_tagline' ), 99 );
 			add_action( 'populate_options', array( $this, 'default_tagline' ) );
+			add_action( 'update_option_genwpacc-settings', array( $this, 'clear_genesis_a11y_sync_status' ) );
+			add_action( 'update_option', array( $this, 'clear_wp_a11y_sync_status' ) );
 		}
 		
 		function after_setup_theme() {
@@ -72,6 +76,136 @@ if ( ! class_exists( 'UMW_Default_Settings' ) ) {
 			);
 			
 			update_option( 'wpCAS_settings', $opts );
+		}
+		
+		/**
+		 * Set up default options for the Genesis Accessible plugin
+		 * In this case, we want to set our options on the root site, 
+		 * 		and not allow any other sub-sites to override those
+		 * 		options.
+		 */
+		function set_genesis_a11y_defaults() {
+			/*$opts = get_option( 'genwpacc-settings', false );
+			if ( false !== $opts )
+				return $opts;*/
+			
+			if ( 1 == $GLOBALS['blog_id'] ) {
+				return;
+			}
+			
+			$done = get_site_option( 'synced-genwpacc-settings', array() );
+			if ( is_array( $done ) && in_array( $GLOBALS['blog_id'], $done ) )
+				return;
+			
+			$opts = get_blog_option( 1, 'genwpacc-settings', false );
+			if ( false !== $opts ) {
+				update_option( 'genwpacc-settings', $opts );
+			}
+			
+			$opts = array (
+				'genwpacc_skiplinks' => 1,
+				'genwpacc_skiplinks_css' => 1,
+				'genwpacc_widget_headings' => 1,
+				'genwpacc_404' => '1',
+				'genwpacc_sitemap' => '1',
+				'genwpacc_read_more' => 1,
+				'genwpacc_tinymce' => 1,
+				'genwpacc_screen_reader_text' => 0,
+				'genwpacc_no_title_attr' => 0,
+				'genwpacc_dropdown' => 0,
+				'genwpacc_remove_genesis_widgets' => 0,
+			);
+			
+			update_option( 'genwpacc-settings', $opts );
+			$done[] = $GLOBALS['blog_id'];
+			update_site_option( 'synced-genwpacc-settings', $done );
+		}
+		
+		/**
+		 * Clear out the fact that we've already synced Genesis A11y settings
+		 */
+		function clear_genesis_a11y_sync_status() {
+			delete_site_option( 'synced-genwpacc-settings' );
+		}
+		
+		/**
+		 * Get a list of all of the options WPA11y Uses
+		 */
+		function get_wp_a11y_option_names() {
+			return array(
+				/* Title Attribute Settings */
+				'rta_from_tag_clouds', 
+				'rta_from_archive_links', 
+				/* Add Skiplinks Settings */
+				'asl_enable', 
+				'asl_visible', 
+				'asl_content', 
+				'asl_navigation', 
+				'asl_sitemap', 
+				'asl_extra_target', 
+				'asl_extra_text', 
+				'asl_styles_focus', 
+				'asl_styles_passive', 
+				/* Miscellaneous Accessibility Settings */
+				'wpa_lang', 
+				'wpa_more', 
+				'wpa_continue', 
+				'wpa_insert_roles', 
+				'wpa_complementary_container', 
+				'wpa_labels', 
+				'wpa_target', 
+				'wpa_search', 
+				'wpa_tabindex', 
+				'wpa_underline', 
+				'wpa_longdesc', 
+				'wpa_admin_css', 
+				'wpa_row_actions', 
+				'wpa_image_titles', 
+				'wpa_toolbar', 
+				'wpa_toolbar_size', 
+				'wpa_widget_toolbar', 
+				'wpa_toolbar_gs', 
+				'wpa_diagnostics', 
+				'wpa_focus', 
+				'wpa_focus_color', 
+			);
+		}
+		
+		/**
+		 * Sync the WP A11y Settings from the main site
+		 */
+		function set_wpa11y_defaults() {
+			if ( 1 == $GLOBALS['blog_id'] ) {
+				return;
+			}
+			
+			$done = get_site_option( 'synced-wpa11y-settings', array() );
+			if ( is_array( $done ) && in_array( $GLOBALS['blog_id'], $done ) )
+				return;
+			
+			$optnames = $this->get_wp_a11y_option_names();
+			remove_action( 'update_option', array( $this, 'clear_wp_a11y_sync_status' ) );
+			foreach ( $optnames as $optname ) {
+				$opt = get_blog_option( 1, $optname, false );
+				if ( false !== $opt ) {
+					update_option( $optname, $opt );
+				}
+			}
+			add_action( 'update_option', array( $this, 'clear_wp_a11y_sync_status' ) );
+
+			$done[] = $GLOBALS['blog_id'];
+			update_site_option( 'synced-wpa11y-settings', $done );
+		}
+		
+		/**
+		 * Clear out the fact that we've already synced the WPA11y settings
+		 */
+		function clear_wp_a11y_sync_status( $option ) {
+			$optnames = $this->get_wp_a11y_option_names();
+			if ( ! in_array( $option, $optnames ) )
+				return;
+			
+			delete_site_option( 'synced-wpa11y-settings' );
 		}
 		
 		/**
