@@ -417,7 +417,12 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			
 			add_image_size( 'news-feature', 250, 155, true );
 			
-			add_filter( 'genesis_attr_content', array( $this, 'add_content_id' ), 99, 2 );
+			/**
+			 * If Genesis Accessible isn't active and this is a version of Genesis older than 2.2, 
+			 * 		add an HTML ID to the main content section
+			 */
+			if ( ! function_exists( 'genwpacc_activation_check' ) && ! function_exists( 'genesis_a11y' ) )
+				add_filter( 'genesis_attr_content', array( $this, 'add_content_id' ), 99, 2 );
 		}
 		
 		/**
@@ -427,7 +432,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			if ( 'content' != $context ) 
 				return $attr;
 				
-			$attr['id'] = 'umw-main-content';
+			$attr['id'] = 'genesis-content';
 			
 			return $attr;
 		}
