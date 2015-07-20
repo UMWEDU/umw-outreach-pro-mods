@@ -85,10 +85,6 @@ if ( ! class_exists( 'UMW_Default_Settings' ) ) {
 		 * 		options.
 		 */
 		function set_genesis_a11y_defaults() {
-			/*$opts = get_option( 'genwpacc-settings', false );
-			if ( false !== $opts )
-				return $opts;*/
-			
 			if ( 1 == $GLOBALS['blog_id'] ) {
 				return;
 			}
@@ -100,6 +96,9 @@ if ( ! class_exists( 'UMW_Default_Settings' ) ) {
 			$opts = get_blog_option( 1, 'genwpacc-settings', false );
 			if ( false !== $opts ) {
 				update_option( 'genwpacc-settings', $opts );
+				$done[] = $GLOBALS['blog_id'];
+				update_site_option( 'synced-genwpacc-settings', $done );
+				return;
 			}
 			
 			$opts = array (
