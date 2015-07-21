@@ -63,6 +63,55 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			add_action( 'template_redirect', array( $this, 'do_directory_archives' ) );
 			
 			add_action( 'template_redirect', array( $this, 'do_custom_feeds' ) );
+			
+			add_filter( 'jetpack_shortcodes_to_include', array( $this, 'remove_youtube_and_vimeo_from_jetpack_shortcodes' ) );
+			
+			/*add_action( 'plugins_loaded', array( $this, 'jetpack_fluid_video_embeds' ) );*/
+			
+			/*add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );*/
+		}
+		
+		function jetpack_fluid_video_embeds() {
+			global $fve;
+			if ( ! isset( $fve ) && class_exists( 'FluidVideoEmbed' ) )
+				FluidVideoEmbed::instance();
+			else if ( ! class_exists( 'FluidVideoEmbed' ) )
+				return;
+			
+			add_filter( 'wp_video_shortcode', array( &$this, 'fve_jetpack_filter_video_embed' ), 16, 2 );
+			add_filter( 'video_embed_html', array( &$this, 'fve_jetpack_filter_video_embed' ), 16 );
+		}
+		
+		function fve_jetpack_filter_video_embed( $html, $atts=array() ) {
+			if ( ! stristr( $html, 'youtube' ) && ! stristr( $html, 'vimeo' ) )
+				return $html;
+			
+			if ( is_array( $atts ) && array_key_exists( 'src', $atts ) ) {
+				global $fve;
+				return $fve->filter_video_embed( '', $atts['src'] );
+			}
+				
+			preg_match( '`http(s*?):\/\/(www\.*?)youtube.com\/embed\/([a-zA-Z0-9]{1,})`', $html, $matches );
+			
+			global $fve;
+			return $fve->filter_video_embed( $html, sprintf( 'https://youtube.com/watch?v=%s', $matches[3] ), null );
+		}
+		
+		function remove_youtube_and_vimeo_from_jetpack_shortcodes( $shortcodes=array() ) {
+			$good_shortcodes = array();
+			foreach ( $shortcodes as $s ) {
+				if ( stristr( $s, 'youtube' ) || stristr( $s, 'vimeo' ) )
+					continue;
+					
+				$good_shortcodes[] = $s;
+			}
+			
+			return $good_shortcodes;
+		}
+		
+		function add_theme_support() {
+			/* Try using the JetPack responsive videos module instead of Fluid Video Embeds */
+			add_theme_support( 'jetpack-responsive-videos' );
 		}
 		
 		/**
@@ -388,7 +437,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		function genesis_tweaks() {
 			if ( ! function_exists( 'genesis' ) )
 				return false;
-				
+			
 			/* Remove the default Genesis style sheet */
 			remove_action( 'genesis_meta', 'genesis_load_stylesheet' );
 			
