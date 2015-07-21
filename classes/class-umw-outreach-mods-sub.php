@@ -376,6 +376,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			/* Register our modified copy of the Outreach Pro base style sheet */
 			wp_register_style( 'outreach-pro', plugins_url( '/styles/outreach-pro.css', dirname( __FILE__ ) ), array(), $this->version, 'all' );
 			/* Enqueue our additional styles */
+			if ( ! wp_style_is( 'genericons', 'registered' ) ) 
+				wp_register_style( 'genericons', plugins_url( '/styles/genericons/genericons.css', dirname( __FILE__ ) ), array(), $GLOBALS['wp_version'], 'all' );
 			wp_enqueue_style( 'umw-outreach-mods', plugins_url( '/styles/umw-outreach-mods.css', dirname( __FILE__ ) ), array( 'outreach-pro', 'genericons', 'dashicons' ), $this->version, 'all' );
 		}
 		
