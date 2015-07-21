@@ -10,6 +10,7 @@ if ( ! class_exists( 'UMW_Default_Settings' ) ) {
 			add_filter( 'option_blogdescription', array( $this, 'get_default_tagline' ), 99 );
 			add_action( 'populate_options', array( $this, 'default_tagline' ) );
 			add_action( 'update_option_genwpacc-settings', array( $this, 'clear_genesis_a11y_sync_status' ) );
+			add_action( 'update_option_wpCAS_settings', array( $this, 'clear_cas_maestro_sync_status' ) );
 			add_action( 'update_option', array( $this, 'clear_wp_a11y_sync_status' ) );
 		}
 		
@@ -36,9 +37,20 @@ if ( ! class_exists( 'UMW_Default_Settings' ) ) {
 		 * Set the default settings for CAS Maestro
 		 */
 		function set_cas_maestro_defaults() {
-			$opt = get_option( 'wpCAS_settings', false );
-			if ( false !== $opt )
+			if ( 1 == $GLOBALS['blog_id'] )
 				return;
+			
+			$done = get_site_option( 'synced-cas-maestro-settings', array() );
+			if ( is_array( $done ) && in_array( $GLOBALS['blog_id'], $done ) )
+				return;
+			
+			$opts = get_blog_option( 1, 'wpCAS_settings', false );
+			if ( false !== $opts ) {
+				update_option( 'wpCAS_settings', $opts );
+				$done[] = $GLOBALS['blog_id'];
+				update_site_option( 'synced-cas-maestro-settings', $done );
+				return;
+			}
 			
 			$opts = array (
 				'cas_menu_location' => 'settings',
@@ -76,6 +88,12 @@ if ( ! class_exists( 'UMW_Default_Settings' ) ) {
 			);
 			
 			update_option( 'wpCAS_settings', $opts );
+			$done[] = $GLOBALS['blog_id'];
+			update_site_option( 'synced-cas-maestro-settings', $done );
+		}
+		
+		function clear_cas_maestro_sync_status() {
+			delete_site_option( 'synced-cas-maestro-settings' );
 		}
 		
 		/**
