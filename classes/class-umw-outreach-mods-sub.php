@@ -474,7 +474,27 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			
 			add_action( 'genesis_loop', array( $this, 'home_featured_image' ), 9 );
 			
+			/**
+			 * Add image size to be used in home page news widget
+			 */
 			add_image_size( 'news-feature', 250, 155, true );
+			/**
+			 * Add image size to be used as Post Featured Image
+			 */
+			add_image_size( 'post-feature', 680, 453, true );
+			/**
+			 * Add image size to be used in Post Feed Widget
+			 */
+			add_image_size( 'post-feed-feature', 285, 160, true );
+			/**
+			 * Add image size to be used as Featured Story in Slider & 
+			 *		Page Feature Image
+			 */
+			add_image_size( 'page-feature', 1140, 460, true );
+			/**
+			 * Add image size to be used as Feature Story in Sidebar
+			 */
+			add_image_size( 'sidebar-feature', 310, 155, true );
 			
 			/**
 			 * If Genesis Accessible isn't active and this is a version of Genesis older than 2.2, 
