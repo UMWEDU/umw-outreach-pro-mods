@@ -728,3 +728,5 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 
 /*System-wide Timely styles*/
 .ai1ec-bf-container {border: none;}
+
+.hidden { display: block; margin: 0; padding: 0; line-height: 0; font-size: 0; width: 0; height: 0; overflow: hidden; text-indent: -99999em; }
