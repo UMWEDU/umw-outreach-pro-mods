@@ -2,18 +2,20 @@
 /**
  * Sets up the base class for UMW Outreach modifications
  * @package UMW Outreach Customizations
- * @version 0.1.31
+ * @version 0.1.37
  */
 if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 	/**
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '0.1.30';
+		var $version = '0.1.37';
 		var $header_feed = null;
 		var $footer_feed = null;
 		var $settings_field = null;
 		var $setting_name = 'umw_outreach_settings';
+		var $is_root = false;
+		var $root_url = null;
 		
 		/**
 		 * Build our UMW_Outreach_Mods_Sub object
@@ -69,6 +71,20 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			/*add_action( 'plugins_loaded', array( $this, 'jetpack_fluid_video_embeds' ) );*/
 			
 			/*add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );*/
+			
+			global $content_width;
+			$content_width = 1100;
+			
+			if ( defined( 'UMW_IS_ROOT' ) ) {
+				if ( is_numeric( UMW_IS_ROOT ) && $GLOBALS['blog_id'] == UMW_IS_ROOT ) {
+					$this->is_root = true;
+					$this->root_url = get_bloginfo( 'url' );
+				} else if ( is_numeric( UMW_IS_ROOT ) ) {
+					$this->root_url = get_blog_option( UMW_IS_ROOT, 'home_url', null );
+				} else {
+					$this->root_url = esc_url( UMW_IS_ROOT );
+				}
+			}
 		}
 		
 		function jetpack_fluid_video_embeds() {
@@ -345,6 +361,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			$current = $this->get_option( $this->setting_name );
 			if ( empty( $current ) || ! is_array( $current ) )
 				return;
+			
+			if ( false == $this->is_root )
+				$current['site-title'] = get_bloginfo( 'name' );
 			
 			if ( empty( $current['site-title'] ) && empty( $current['statement'] ) && empty( $current['content'] ) )
 				return;
