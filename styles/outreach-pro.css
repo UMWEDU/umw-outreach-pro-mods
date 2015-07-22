@@ -876,6 +876,37 @@ Widgets
 	padding-bottom: 0;
 }
 
+.widget .responsive-tabs ul > li.responsive-tabs__list__item:last-child {
+	background: transparent;
+	border: 1px solid transparent;
+	border-bottom: none;
+	color: #999999;
+	font-size: 18px;
+	line-height: 19px;
+	text-transform: inherit;
+	margin: 1px 12px 0 0;
+	padding: 10px 12px 10px;
+	white-space: nowrap;
+	float: left;
+	-webkit-user-select: none;
+}
+
+.widget .responsive-tabs ul > li.responsive-tabs__list__item:last-child:hover {
+	color: #333333;
+	background: transparent;
+}
+
+.widget .responsive-tabs ul > li.responsive-tabs__list__item.responsive-tabs__list__item--active:last-child, 
+.widget .responsive-tabs ul > li.responsive-tabs__list__item--active:last-child:hover {
+	background: #ffffff;
+	border-color: #dddddd;
+	color: #666666;
+	padding-bottom: 11px;
+	margin-top: 0;
+	position: relative;
+	top: 1px;
+}
+
 .widget_calendar table {
 	border-color: #494949;
 	width: 100%;
