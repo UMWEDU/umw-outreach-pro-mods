@@ -6,7 +6,7 @@
  * If you need to change any existing styles for Outreach Pro,
  * 		those changes should be made within outreach-pro.css
  *
- * @version 0.1.30
+ * @version 0.1.37
  */
 
 * {
@@ -489,6 +489,14 @@ footer.site-footer .widget {
 	margin: 2px;
 	float: none;
 	display: inline-block;
+}
+
+.home-top .flex-control-thumbs img {
+	border: 1px solid #728aa4;
+}
+
+.home-top .flex-control-thumbs img.flex-active {
+	border: 1px solid #fff;
 }
 
 .home-featured-image > a,
