@@ -34,6 +34,11 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
 			add_action( 'init', array( $this, 'add_feed' ) );
 			add_action( 'plugins_loaded', array( $this, 'use_plugins' ) );
+			
+			$this->shortcodes_to_unregister = apply_filters( 'umw-global-header-footer-shortcodes-to-unregister', array(
+				'current-url', 
+				'current-date', 
+			) );
 		}
 		
 		/**
@@ -282,6 +287,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		}
 		
 		function get_header_for_feed() {
+			foreach ( $this->shortcodes_to_unregister as $s ) {
+				remove_shortcode( $s );
+			}
 			print( "\n<!-- UMW Global Header: version {$this->version} -->\n" );
 			print( "\n<!-- UMW Global Header Styles -->\n" );
 			$this->gather_styles();
@@ -320,6 +328,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		}
 		
 		function get_footer_for_feed() {
+			foreach ( $this->shortcodes_to_unregister as $s ) {
+				remove_shortcode( $s );
+			}
 			print( "\n<!-- UMW Global Footer: version {$this->version} -->\n" );
 			$this->do_full_footer();
 			print( "\n<!-- UMW Global Footer Scripts -->\n" );
