@@ -35,6 +35,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			
 			add_shortcode( 'atoz', array( $this, 'do_atoz_shortcode' ) );
 			add_shortcode( 'wpv-last-modified', array( $this, 'wpv_last_modified' ) );
+			add_shortcode( 'current-date', array( $this, 'do_current_date_shortcode' ) );
+			add_shortcode( 'current-url', array( $this, 'do_current_url_shortcode' ) );
 			
 			/**
 			 * Build a list of post types that, when updated, need to invalidate the atoz transients
@@ -1172,6 +1174,33 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			if ( $tempDate < get_the_modified_date( 'U' ) ) {
 				return get_the_modified_date( $atts['format'] );
 			}
+			return '';
+		}
+		
+		/**
+		 * Set up a shortcode to output the current date (useful for copyrights)
+		 */
+		function do_current_date_shortcode( $atts=array() ) {
+			$atts = shortcode_atts( array( 'format' => get_option( 'date_format', 'F j, Y h:i:s' ), 'before' => '', 'after' => '' ), $atts, 'current-date' );
+			$tempDate = 0;
+			if ( $tempDate < date( 'U' ) ) {
+				return $atts['before'] . date( $atts['format'] ) . $atts['after'];
+			}
+			return '';
+		}
+		
+		/**
+		 * Set up a shortcode to output the URL of the current page
+		 */
+		function do_current_url_shortcode( $atts=array() ) {
+			$atts = shortcode_atts( array( 'sanitize' => false, 'before' => '', 'after' => '' ), $atts, 'current-url' );
+			$tempURL = esc_url( $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] );
+			if ( in_array( $atts['sanitize'], array( 1, '1', 'true', true ), true ) ) {
+				$tempURL = urlencode( $tempURL );
+			}
+			if ( ! empty( $tempURL ) )
+				return $atts['before'] . $tempURL . $atts['after'];
+			
 			return '';
 		}
 	}
