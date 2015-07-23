@@ -33,10 +33,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			$this->header_feed = esc_url( sprintf( 'http://%s/feed/umw-global-header/', DOMAIN_CURRENT_SITE ) );
 			$this->footer_feed = esc_url( sprintf( 'http://%s/feed/umw-global-footer/', DOMAIN_CURRENT_SITE ) );
 			
-			add_shortcode( 'atoz', array( $this, 'do_atoz_shortcode' ) );
-			add_shortcode( 'wpv-last-modified', array( $this, 'wpv_last_modified' ) );
-			add_shortcode( 'current-date', array( $this, 'do_current_date_shortcode' ) );
-			add_shortcode( 'current-url', array( $this, 'do_current_url_shortcode' ) );
+			$this->add_shortcodes();
 			
 			/**
 			 * Build a list of post types that, when updated, need to invalidate the atoz transients
@@ -77,6 +74,13 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			global $content_width;
 			$content_width = 1100;
 			
+			$this->umw_is_root();
+		}
+		
+		/**
+		 * Check to see if this is the root site of the system
+		 */
+		function umw_is_root() {
 			if ( defined( 'UMW_IS_ROOT' ) ) {
 				if ( is_numeric( UMW_IS_ROOT ) && $GLOBALS['blog_id'] == UMW_IS_ROOT ) {
 					$this->is_root = true;
@@ -87,6 +91,16 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 					$this->root_url = esc_url( UMW_IS_ROOT );
 				}
 			}
+		}
+		
+		/**
+		 * Regsiter any shortcodes we need to use
+		 */
+		function add_shortcodes() {
+			add_shortcode( 'atoz', array( $this, 'do_atoz_shortcode' ) );
+			add_shortcode( 'wpv-last-modified', array( $this, 'wpv_last_modified' ) );
+			add_shortcode( 'current-date', array( $this, 'do_current_date_shortcode' ) );
+			add_shortcode( 'current-url', array( $this, 'do_current_url_shortcode' ) );
 		}
 		
 		function jetpack_fluid_video_embeds() {
@@ -495,6 +509,20 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			
 			add_action( 'genesis_loop', array( $this, 'home_featured_image' ), 9 );
 			
+			$this->add_image_sizes();
+			
+			/**
+			 * If Genesis Accessible isn't active and this is a version of Genesis older than 2.2, 
+			 * 		add an HTML ID to the main content section
+			 */
+			if ( ! function_exists( 'genwpacc_activation_check' ) && ! function_exists( 'genesis_a11y' ) )
+				add_filter( 'genesis_attr_content', array( $this, 'add_content_id' ), 99, 2 );
+		}
+		
+		/**
+		 * Register any image sizes we need for this theme
+		 */
+		function add_image_sizes() {
 			/**
 			 * Add image size to be used in home page news widget
 			 */
@@ -516,13 +544,6 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			 * Add image size to be used as Feature Story in Sidebar
 			 */
 			add_image_size( 'sidebar-feature', 310, 155, true );
-			
-			/**
-			 * If Genesis Accessible isn't active and this is a version of Genesis older than 2.2, 
-			 * 		add an HTML ID to the main content section
-			 */
-			if ( ! function_exists( 'genwpacc_activation_check' ) && ! function_exists( 'genesis_a11y' ) )
-				add_filter( 'genesis_attr_content', array( $this, 'add_content_id' ), 99, 2 );
 		}
 		
 		/**
@@ -750,6 +771,17 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		}
 		
 		/**
+		 * Check to see if a shortcode exists
+		 */
+		function shortcode_exists( $shortcode = '' ) {
+			global $shortcode_tags;
+			if ( empty( $shortcode ) )
+				return false;
+			
+			return array_key_exists( $shortcode, $shortcode_tags );
+		}
+		
+		/**
 		 * Retrieve the global UMW header from the feed on the root site
 		 */
 		function get_header_from_feed() {
@@ -769,6 +801,10 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 				
 			if ( 200 === absint( wp_remote_retrieve_response_code( $header ) ) ) {
 				$header = wp_remote_retrieve_body( $header );
+				if ( ! $this->shortcode_exists( 'current-date' ) || ! $this->shortcode_exists( 'current-url' ) )
+					$this->add_shortcodes();
+					
+				$header = do_shortcode( $header );
 				/*print( '<pre><code>' );
 				var_dump( $header );
 				print( '</code></pre>' );
@@ -794,6 +830,10 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 				
 			if ( 200 === absint( wp_remote_retrieve_response_code( $footer ) ) ) {
 				$footer = wp_remote_retrieve_body( $footer );
+				if ( ! $this->shortcode_exists( 'current-date' ) || ! $this->shortcode_exists( 'current-url' ) )
+					$this->add_shortcodes();
+					
+				$footer = do_shortcode( $footer );
 				set_site_transient( 'global-umw-footer', $footer, $this->transient_timeout );
 				update_site_option( 'global-umw-footer', $footer );
 				return $footer;
@@ -1181,9 +1221,12 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 * Set up a shortcode to output the current date (useful for copyrights)
 		 */
 		function do_current_date_shortcode( $atts=array() ) {
-			$atts = shortcode_atts( array( 'format' => get_option( 'date_format', 'F j, Y h:i:s' ), 'before' => '', 'after' => '' ), $atts, 'current-date' );
+			$atts = shortcode_atts( array( 'format' => get_option( 'date_format', 'F j, Y h:i:s' ), 'before' => '', 'after' => '', 'ignore' => '' ), $atts, 'current-date' );
 			$tempDate = 0;
 			if ( $tempDate < date( 'U' ) ) {
+				$date = date( $atts['format'] );
+				if ( $date == $atts['ignore'] )
+					return '';
 				return $atts['before'] . date( $atts['format'] ) . $atts['after'];
 			}
 			return '';
