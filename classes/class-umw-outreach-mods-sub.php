@@ -1213,13 +1213,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			$tempDate = 0;
 			
 			if ( ! empty( $atts['id'] ) ) {
-				$p = get_post( $atts['id'] );
-				if ( empty( $p ) || is_wp_error( $p ) )
-					return '';
-				
 				$date = '';
-				if ( $tempDate < date( 'U', strtotime( $p->last_modified ) ) ) {
-					$date = date( $atts['format'], strtotime( $p->last_modified ) );
+				if ( $tempDate < get_post_modified_time( 'U', false, $atts['id'] ) ) {
+					$date = apply_filters( 'get_the_modified_date', get_post_modified_time( $atts['format'], false, $atts['id'] ), $atts['format'] );
 				}
 				return $date;
 			}
