@@ -1209,8 +1209,21 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 * Set up a shortcode for Views that outputs the last modified date
 		 */
 		function wpv_last_modified( $atts=array() ) {
-			$atts = shortcode_atts( array( 'format' => get_option( 'date_format', 'F j, Y h:i:s' ) ), $atts, 'wpv-last-modified' );
+			$atts = shortcode_atts( array( 'format' => get_option( 'date_format', 'F j, Y h:i:s' ), 'id' => 0 ), $atts, 'wpv-last-modified' );
 			$tempDate = 0;
+			
+			if ( ! empty( $atts['id'] ) ) {
+				$p = get_post( $atts['id'] );
+				if ( empty( $p ) || is_wp_error( $p ) )
+					return '';
+				
+				$date = '';
+				if ( $tempDate < date( 'U', strtotime( $p->last_modified ) ) ) {
+					$date = date( $atts['format'], strtotime( $p->last_modified ) );
+				}
+				return $date;
+			}
+			
 			if ( $tempDate < get_the_modified_date( 'U' ) ) {
 				return get_the_modified_date( $atts['format'] );
 			}
