@@ -1207,6 +1207,14 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		
 		/**
 		 * Set up a shortcode for Views that outputs the last modified date
+		 * @uses get_post_modified_time() to retrieve the modification date of a non-current post
+		 * @uses get_the_modified_date() to retrieve the modification date of the current post
+		 * @uses get_option( 'date_format' ) to retrieve the default date format
+		 * @uses shortcode_atts() to sanitize the list of attributes
+		 * @uses apply_filters( 'get_the_modified_date' ) to format the date of a non-current post
+		 *
+		 * @param array $atts the array of shortcode attributes
+		 * @return string the modification date
 		 */
 		function wpv_last_modified( $atts=array() ) {
 			$atts = shortcode_atts( array( 'format' => get_option( 'date_format', 'F j, Y h:i:s' ), 'id' => 0 ), $atts, 'wpv-last-modified' );
@@ -1228,6 +1236,12 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		
 		/**
 		 * Set up a shortcode to output the current date (useful for copyrights)
+		 * @uses shortcode_atts() to sanitize the list of shortcode attributes
+		 * @uses get_option( 'date_format' ) to retrieve the default date format
+		 * @uses date() to format the date
+		 * 
+		 * @param array $atts the array of attributes sent to the shortcode
+		 * @return string the formatted date
 		 */
 		function do_current_date_shortcode( $atts=array() ) {
 			$atts = shortcode_atts( array( 'format' => get_option( 'date_format', 'F j, Y h:i:s' ), 'before' => '', 'after' => '', 'ignore' => '' ), $atts, 'current-date' );
@@ -1243,6 +1257,13 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		
 		/**
 		 * Set up a shortcode to output the URL of the current page
+		 * @uses shortcode_atts() to sanitize the list of shortcode attributes
+		 * @uses esc_url() to escape/sanitize the URL that gets returned
+		 * @uses $_SERVER to retrieve the current URL
+		 * @uses urlencode() to urlencode the URL if the sanitize attribute is set to true
+		 * 
+		 * @param array $atts the array of attributes sent to the shortcode
+		 * @return string the URL
 		 */
 		function do_current_url_shortcode( $atts=array() ) {
 			$atts = shortcode_atts( array( 'sanitize' => false, 'before' => '', 'after' => '' ), $atts, 'current-url' );
