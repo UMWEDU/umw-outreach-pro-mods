@@ -25,6 +25,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		function __construct() {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 			add_action( 'after_setup_theme', array( $this, 'genesis_tweaks' ), 11 );
+			add_action( 'genesis_before', array( $this, 'do_analytics_code' ), 1 );
 			
 			add_action( 'global-umw-header', array( $this, 'do_full_header' ) );
 			add_action( 'global-umw-footer', array( $this, 'do_full_footer' ) );
@@ -75,6 +76,23 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			$content_width = 1100;
 			
 			$this->umw_is_root();
+		}
+		
+		function do_analytics_code() {
+?>
+<!-- New Universal Analytics Code Snippet -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-65596701-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<!-- / New Universal Analytics Code Snippet -->
+<?php
 		}
 		
 		/**
