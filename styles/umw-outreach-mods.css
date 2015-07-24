@@ -228,6 +228,7 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	margin-top: 1em;
 	margin-bottom: 1em;
 }
+#impactStatement a {color: #b81237;}
 
 #calendarLink {
 	clear: both;
