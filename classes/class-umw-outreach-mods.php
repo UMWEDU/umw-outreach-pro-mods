@@ -39,6 +39,17 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				'current-url', 
 				'current-date', 
 			) );
+			
+			add_filter( 'body_class', array( $this, 'add_root_body_class' ) );
+		}
+		
+		/**
+		 * Add a special class to the root site in the system in case 
+		 * 		we need to apply special CSS or JS for the root
+		 */
+		function add_root_body_class( $classes=array() ) {
+			$classes[] = 'umw-is-root';
+			return $classes;
 		}
 		
 		/**

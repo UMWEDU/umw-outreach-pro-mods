@@ -68,6 +68,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			
 			add_filter( 'jetpack_shortcodes_to_include', array( $this, 'remove_youtube_and_vimeo_from_jetpack_shortcodes' ) );
 			
+			add_filter( 'body_class', array( $this, 'add_site_to_body_class' ) );
+			
 			/*add_action( 'plugins_loaded', array( $this, 'jetpack_fluid_video_embeds' ) );*/
 			
 			/*add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );*/
@@ -76,6 +78,19 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			$content_width = 1100;
 			
 			$this->umw_is_root();
+		}
+		
+		/**
+		 * Apply a unique class to the body for each individual site, just in case 
+		 * 		we need to add special CSS for a specific area
+		 */
+		function add_site_to_body_class( $classes=array() ) {
+			$url = get_bloginfo( 'url' );
+			$url = str_replace( array( 'http://', 'https://' ), array( '', '' ), $url );
+			$url = sanitize_title( $url );
+			
+			$classes[] = sanitize_title( $url );
+			return $classes;
 		}
 		
 		function do_analytics_code() {
