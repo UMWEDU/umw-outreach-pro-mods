@@ -219,7 +219,7 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 }
 
 #impactStatement {
-	font-family: "MuseoSlab", Georgia, "Times New Roman", Times, serif;
+	font-family: MuseoSlab, "museo-slab", Georgia, "Times New Roman", Times, serif;
 	font-size: 22px;
 	color: #002b5a;
 	background: #ccd5de;
@@ -318,7 +318,7 @@ footer.site-footer .widget {
 
 .umw-global-footer h4.widget-title, 
 .umw-global-footer h4.widgettitle {
-	font-family: MuseoSans, Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: MuseoSans, "museo-sans", Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
 	text-transform: none;
 	font-size: 18px;
 	font-size: 1.125rem;
@@ -461,7 +461,7 @@ footer.site-footer .widget {
 
 .home-top .flexslider .slide-caption h1,
 .home-featured-image figcaption h2 {
-	font-family: MuseoSlab, Georgia, 'Times New Roman', Times, serif;
+	font-family: MuseoSlab, "museo-slab", Georgia, 'Times New Roman', Times, serif;
 	font-size: 32px;
 	font-size: 2rem;
 	color: #fff;
@@ -694,12 +694,12 @@ p.employee-name {margin-bottom: .5em; font-size: 14px;}
 /* general system-wide styles */
 div.footer-widgets a {color: #fff;}
 div.footer-widgets a:hover {color: #fff; text-decoration: underline;}
-div.entry-content a {color: #b81237; font-weight: bold; font-family: MuseoSlab, serif;}
+div.entry-content a {color: #b81237; font-weight: bold; font-family: MuseoSlab, "museo-slab", serif;}
 a.genericon, div.entry-content a.genericon {font-size: 2em; font-weight: normal; font-family: "Genericons";}
 a.dashicons, div.entry-content a.dashicons {font-size: 2em; font-weight: normal; font-family: dashicons;}
 div.entry-content a:hover {color: #002b5a; text-decoration: underline;}
 a.genericon:hover, a.dashicons:hover {text-decoration: none;}
-.inlineAttention {font-family: MuseoSlab; font-weight: 700; font-size: 16pt; float: left; padding: .35em 1em; border-right: 1px solid #b81237; margin-right: 1em; height: 125px;}
+.inlineAttention {font-family: MuseoSlab, "museo-slab"; font-weight: 700; font-size: 16pt; float: left; padding: .35em 1em; border-right: 1px solid #b81237; margin-right: 1em; height: 125px;}
 .blocklistitem {margin-top: 2em; clear: both;}
 .entry-content h2 {font-weight: 900; color: #b81237;}
 .home-featured-image img {width: 100%;}
@@ -709,7 +709,7 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 
 /* Site title & value proposition */
 .site-info {background-color: #e6eaee; font-size: 14px; font-size: .875rem; padding: .5rem;}
-.site-info-title {width: 100%; font-family: MuseoSlab; color: #002b5a; font-weight: 500; text-transform: uppercase; font-size: 1.3125rem; line-height: 1.625; margin-bottom: 0;}
+.site-info-title {width: 100%; font-family: MuseoSlab, "museo-slab"; color: #002b5a; font-weight: 500; text-transform: uppercase; font-size: 1.3125rem; line-height: 1.625; margin-bottom: 0;}
 .site-info p {margin-bottom: 0;}
 @media all and (max-width: 860px) {
 	.site-info { padding-left: 20px; padding-left: 1.25rem; padding-right: 20px; padding-right: 1.25rem; }
@@ -725,3 +725,56 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 .ai1ec-bf-container {border: none;}
 
 .hidden { display: block; margin: 0; padding: 0; line-height: 0; font-size: 0; width: 0; height: 0; overflow: hidden; text-indent: -99999em; }
+
+/* Program Icons */
+.program-icon {
+	font-size: 12px;
+	vertical-align: baseline;
+	text-align: center;
+	-moz-transition: color .1s ease-in 0;
+	-webkit-transition: color .1s ease-in 0;
+	display: inline-block;
+	font-family: MuseoSans, "museo-sans", "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+	font-style: normal;
+	font-weight: 300;
+	font-variant: normal;
+	line-height: 1;
+	text-decoration: inherit;
+	text-transform: none;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	speak: none;
+	width: 2em;
+	height: 1.5em;
+}
+
+.program-icon:before {
+	color: #fff;
+	padding: .25em .5em;
+	vertical-align: middle;
+}
+
+.program-icon.major:before {
+	content: "M";
+	background: #1d5b24;
+}
+
+.program-icon.minor:before {
+	content: "m";
+	background: #78c043;
+}
+
+.program-icon.completion:before {
+	content: "D";
+	background: #ff7900;
+}
+
+.program-icon.pre-professional:before {
+	content: "P";
+	background: #3db8d3;
+}
+
+.program-icon.certificate:before {
+	content: "C";
+	background: #663990;
+}
