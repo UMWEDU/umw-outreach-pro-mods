@@ -601,15 +601,28 @@ p.employee-name {margin-bottom: .5em; font-size: 14px;}
 }
 
 .umwwebmaster-wpengine-comstudy .atoz-alpha-content ul, 
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content li {
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content li, 
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content li:last-child {
 	list-style: none;
-	padding-left: 0;
-	margin-left: 0;
+	border: none;
+	padding: 0 0 .75rem 0;
+	padding: 0 0 12px 0;
+	margin: 0;
 }
 
 .umwwebmaster-wpengine-comstudy .atoz-alpha-content a {
 	font-weight: 500;
 	color: #4C6A8B;
+}
+
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content a:hover, 
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content a:focus {
+	text-decoration: underline;
+}
+
+.umwwebmaster-wpengine-comstudy h2.atoz-alpha-header-letter {
+	font-weight: 700;
+	color: #b81237;
 }
 
 @media all and (min-width: 480px) {
@@ -821,4 +834,55 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 .program-icon.certificate:before {
 	content: "C";
 	background: #663990;
+}
+
+.solid-button {
+	color: #fff;
+	padding: .5rem;
+	padding: 8px;
+	font-size: 1rem;
+	font-size: 16px;
+	font-weight: 700;
+	font-family: MuseoSlab, 'museo-slab', Times, serif;
+	text-align: center;
+	margin-bottom: 1rem;
+}
+
+.solid-button:hover, 
+.solid-button:focus {
+	color: #fff;
+	text-decoration: underline;
+}
+
+.solid-button:after {
+	content: ">";
+	font-size: 11px;
+	background: #fff;
+	border-radius: 50%;
+	margin-left: .5rem;
+	padding: 0 .25rem;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.solid-button.undergraduate {
+	background: #b71237;
+}
+
+.solid-button.undergraduate:after {
+	color: #b71237;
+}
+
+.solid-button.graduate {
+	background: #002b5a;
+}
+
+.solid-button.graduate:after {
+	color: #002b5a;
+}
+
+@media all and (max-width: 480px) {
+	.a11y-toolbar {
+		display: none;
+	}
 }
