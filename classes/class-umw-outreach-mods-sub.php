@@ -43,6 +43,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 				'employee', 
 				'building', 
 				'department', 
+				'areas', 
 			) );
 			if ( ! empty( $this->types_that_clear_atoz_transients ) ) {
 				foreach ( $this->types_that_clear_atoz_transients as $t ) {
@@ -58,11 +59,6 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			add_filter( 'oembed_dataparse', array( $this, 'remove_oembed_link_wrapper' ), 10, 3 );
 			
 			$this->transient_timeout = 10;
-			
-			/**
-			 * Fix the employee/building/department archives until I find a better way to handle this
-			 */
-			add_action( 'template_redirect', array( $this, 'do_directory_archives' ) );
 			
 			add_action( 'template_redirect', array( $this, 'do_custom_feeds' ) );
 			
@@ -195,9 +191,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			if ( ! is_singular( 'atom-feed' ) )
 				return;
 			
-			get_transient( 'custom-feed-testing' );
-			set_transient( 'custom-feed-testing', 'CAG', HOUR_IN_SECONDS );
-			
 			global $post;
 			while( have_posts() ) : the_post();
 				$content = $post->post_content;
@@ -251,25 +244,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			exit();
 		}
 		
-		/**
-		 * Fix the directory post type archives
-		 */
-		function do_directory_archives() {
-			if ( ! is_post_type_archive() && ! is_tax() )
-				return;
-			
-			if ( is_post_type_archive( 'employee' ) || is_tax( 'employee-type' ) ) {
-				remove_action( 'genesis_loop', 'genesis_do_loop' );
-				add_action( 'genesis_loop', array( $this, 'do_employee_loop' ) );
-			} else if ( is_post_type_archive( 'building' ) ) {
-				remove_action( 'genesis_loop', 'genesis_do_loop' );
-				add_action( 'genesis_loop', array( $this, 'do_building_loop' ) );
-			} else if ( is_post_type_archive( 'department' ) ) {
-				remove_action( 'genesis_loop', 'genesis_do_loop' );
-				add_action( 'genesis_loop', array( $this, 'do_department_loop' ) );
-			}
-		}
-		
 		function custom_genesis_loop( $content ) {
 			/*do_action( 'genesis_before_while' );*/
 			do_action( 'genesis_before_entry' );
@@ -289,127 +263,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		}
 		
 		/**
-		 * Output the employee A to Z list
-		 */
-		function do_employee_loop() {
-			$args = array(
-				'post_type' => 'employee', 
-				'field'     => 'wpcf-last-name', 
-				'view'      => 363
-			);
-			if ( is_tax( 'employee-type' ) ) {
-				$ob = get_queried_object();
-				if ( is_object( $ob ) && ! is_wp_error( $ob ) ) {
-					$args['tax_name'] = $ob->taxonomy;
-					$args['tax_term'] = $ob->slug;
-				}
-			}
-			$meat = '';
-			foreach ( $args as $k=>$v ) {
-				if ( is_numeric( $v ) )
-					$meat .= sprintf( ' %s=%d', $k, $v );
-				else
-					$meat .= sprintf( ' %s="%s"', $k, $v );
-			}
-			$content = do_shortcode( sprintf( '[atoz%s]', $meat ) );
-			
-			add_filter( 'genesis_post_title_text', array( $this, 'do_employee_archive_title' ) );
-			add_filter( 'genesis_link_post_title', array( $this, '_return_false' ) );
-			$this->custom_genesis_loop( $content );
-			remove_filter( 'genesis_link_post_title', array( $this, '_return_false' ) );
-			remove_filter( 'genesis_post_title_text', array( $this, 'do_employee_archive_title' ) );
-		}
-		
-		/**
-		 * Output the list of buildings
-		 */
-		function do_building_loop() {
-			$args = array( 
-				'post_type'   => 'building', 
-				'orderby'     => 'title', 
-				'order'       => 'asc', 
-				'posts_per_page' => -1, 
-				'numberposts' => -1, 
-				'post_status' => 'publish', 
-			);
-			
-			query_posts( $args );
-			
-			$content = render_view( array( 'id' => 79 ) );
-			
-			wp_reset_postdata();
-			wp_reset_query();
-			
-			add_filter( 'genesis_post_title_text', array( $this, 'do_building_archive_title' ) );
-			add_filter( 'genesis_link_post_title', array( $this, '_return_false' ) );
-			$this->custom_genesis_loop( $content );
-			remove_filter( 'genesis_link_post_title', array( $this, '_return_false' ) );
-			remove_filter( 'genesis_post_title_text', array( $this, 'do_building_archive_title' ) );
-			
-			return;
-		}
-		
-		/**
-		 * Render the Departments archive page
-		 */
-		function do_department_loop() {
-			$args = array( 
-				'post_type'   => 'department', 
-				'orderby'     => 'title', 
-				'order'       => 'asc', 
-				'posts_per_page' => -1, 
-				'numberposts' => -1, 
-				'post_status' => 'publish', 
-			);
-			
-			query_posts( $args );
-			
-			$content = render_view( array( 'id' => 82 ) );
-			
-			wp_reset_postdata();
-			wp_reset_query();
-			
-			add_filter( 'genesis_post_title_text', array( $this, 'do_department_archive_title' ) );
-			add_filter( 'genesis_link_post_title', array( $this, '_return_false' ) );
-			$this->custom_genesis_loop( $content );
-			remove_filter( 'genesis_link_post_title', array( $this, '_return_false' ) );
-			remove_filter( 'genesis_post_title_text', array( $this, 'do_department_archive_title' ) );
-			
-			return;
-		}
-		
-		/**
 		 * Return boolean false
 		 */
 		function _return_false() {
 			return false;
-		}
-		
-		/**
-		 * Return the title for the employee archive page
-		 */
-		function do_employee_archive_title( $title ) {
-			if ( is_tax( 'employee-type' ) ) {
-				$ob = get_queried_object();
-				if ( is_object( $ob ) && ! is_wp_error( $ob ) ) {
-					return __( $ob->name . ' A to Z' );
-				}
-			}
-			return __( 'Employees A to Z' );
-		}
-		
-		/**
-		 * Return the title for the department archive page
-		 */
-		function do_department_archive_title( $title ) {
-			return __( 'Departments' );
-		}
-		
-		/**
-		 * Returnt he title for the building archive page
-		 */
-		function do_building_archive_title( $title ) {
-			return __( 'Buildings' );
 		}
 		
 		/**
@@ -905,6 +762,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				'reverse' => false, 
 				'tax_name' => null, 
 				'tax_term' => null, 
+				'return_link' => true, 
+				'alpha_links' => true, 
 			) );
 			
 			$atts = array();
@@ -932,6 +791,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			
 			$atts = wp_parse_args( $args, $defaults );
 			$args = shortcode_atts( $defaults, $args );
+			$args['return_link'] = in_array( $args['return_link'], array( true, 'true', 1, '1' ), true );
+			$args['alpha_links'] = in_array( $args['alpha_links'], array( true, 'true', 1, '1' ), true );
 			
 			$transient_key = sprintf( 'atoz-%s', base64_encode( implode( '|', $args ) ) );
 			
@@ -1001,6 +862,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			$a = null;
 			$list = array();
 			$postlist = array();
+			$wrapper = '<div>%1$s</div>';
 			
 			global $post;
 			if ( $posts->have_posts() ) : while ( $posts->have_posts() ) : $posts->the_post();
@@ -1008,14 +870,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				if ( $meta ) {
 					$o = (string) get_post_meta( get_the_ID(), $args['field'], true );
 				} else {
-					$o = (string) $post->{$args['field']};
+					if ( property_exists( $post, $args['field'] ) ) {
+						$o = (string) $post->{$args['field']};
+					} else if ( property_exists( $post, sprintf( 'post_%s', $args['field'] ) ) ) {
+						$o = (string) $post->{sprintf( 'post_%s', $args['field'] )};
+					}
 				}
 				if ( strtolower( $o[0] ) != $a ) {
 					$a = strtolower( $o[0] );
 					$list[] = $a;
 				}
 				if ( ! empty( $args['view'] ) && function_exists( 'render_view' ) ) {
-					$postlist[$a][] = render_view_template( $args['view'], $post );
+					$tmp = render_view_template( $args['view'], $post );
+					if ( substr( $tmp, 0, 3 ) == '<li' ) {
+						$wrapper = '<ul>%1$s</ul>';
+					}
+					$postlist[$a][] = $tmp;
 				} else {
 					$postlist[$a][] = apply_filters( 'atoz-generic-output', sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', get_permalink(), apply_filters( 'the_title_attribute', get_the_title() ), get_the_title() ), $post );
 				}
@@ -1035,12 +905,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			}
 			
 			foreach ( $postlist as $a=>$p ) {
-				$rtlink = sprintf( '<p><a href="#%1$s" title="%2$s"><span class="%3$s"></span> %4$s</a></p>', 'letter-links-' . $transient_key, __( 'Return to the top of the list' ), 'genericon genericon-top', __( 'Return to top' ) );
-				$postlist[$a] = sprintf( '<section class="atoz-alpha-letter-section"><h2 class="atoz-alpha-header-letter" id="atoz-%1$s">%2$s</h2>%3$s%4$s</section>', strtolower( $a ), strtoupper( $a ), '<div>' . implode( '', $p ) . '</div>', $rtlink );
+				if ( $args['return_link'] ) {
+					$rtlink = sprintf( '<p><a href="#%1$s" title="%2$s"><span class="%3$s"></span> %4$s</a></p>', 'letter-links-' . $transient_key, __( 'Return to the top of the list' ), 'genericon genericon-top', __( 'Return to top' ) );
+				} else {
+					$rtlink = '';
+				}
+				$postlist[$a] = sprintf( '<section class="atoz-alpha-letter-section"><h2 class="atoz-alpha-header-letter" id="atoz-%1$s">%2$s</h2>%3$s%4$s</section>', strtolower( $a ), strtoupper( $a ), sprintf( $wrapper, implode( '', $p ) ), $rtlink );
+			}
+			
+			if ( $args['alpha_links'] ) {
+				$alpha_links = '<nav class="atoz-alpha-links" id="' . 'letter-links-' . $transient_key . '"><ul><li>%1$s</li></ul></nav>';
+			} else {
+				$alpha_links = '';
 			}
 			
 			$output = apply_filters( 'atoz-final-output', 
-				sprintf( '<nav class="atoz-alpha-links" id="' . 'letter-links-' . $transient_key . '"><ul><li>%1$s</li></ul></nav><div class="atoz-alpha-content">%2$s</div>', 
+				sprintf( $alpha_links . '<div class="atoz-alpha-content">%2$s</div>', 
 					implode( '</li><li>', $list ), 
 					implode( '', $postlist ) 
 				), $list, $postlist 
