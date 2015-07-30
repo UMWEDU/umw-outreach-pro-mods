@@ -911,6 +911,15 @@ div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
 	}
 }
 
+.umwwebmaster-wpengine-comstudy .home-top .widget {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.umwwebmaster-wpengine-comstudy .home-top .widget:first-child {
+	padding-bottom: 0;
+}
+
 .umwwebmaster-wpengine-comstudy .home-bottom .widget {
 	float: left;
 	margin-left: 2.564102564102564%;
