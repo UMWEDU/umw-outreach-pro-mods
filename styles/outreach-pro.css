@@ -1765,81 +1765,81 @@ Theme Colors
 /* Outreach Pro Blue
 --------------------------------------------- */
 
-.outreach-pro-blue .content .entry-title a:hover,
-.outreach-pro-blue .content #genesis-responsive-slider a,
-.outreach-pro-blue .content #genesis-responsive-slider h2 a:hover,
-.outreach-pro-blue .nav-secondary .genesis-nav-menu .current-menu-item > a,
-.outreach-pro-blue .nav-secondary .genesis-nav-menu .sub-menu a:hover,
-.outreach-pro-blue .nav-secondary .genesis-nav-menu a:hover,
-.outreach-pro-blue .nav-secondary .genesis-nav-menu li:hover > a,
-.outreach-pro-blue .widget-title,
-.outreach-pro-blue a {
+.content .entry-title a:hover,
+.content #genesis-responsive-slider a,
+.content #genesis-responsive-slider h2 a:hover,
+.nav-secondary .genesis-nav-menu .current-menu-item > a,
+.nav-secondary .genesis-nav-menu .sub-menu a:hover,
+.nav-secondary .genesis-nav-menu a:hover,
+.nav-secondary .genesis-nav-menu li:hover > a,
+.widget-title,
+a {
 	color: #4C6A8B;
 }
 
-.outreach-pro-blue a:hover {
+a:hover {
 	color: #1e6dad;
 }
 
-.outreach-pro-blue .content #genesis-responsive-slider a:hover,
-.outreach-pro-blue .content #genesis-responsive-slider h2 a,
-.outreach-pro-blue .footer-widgets .widget-title,
-.outreach-pro-blue .genesis-nav-menu a,
-.outreach-pro-blue .site-footer a:hover,
-.outreach-pro-blue .site-header .widget-title,
-.outreach-pro-blue .site-title a,
-.outreach-pro-blue .site-title a:hover {
+.content #genesis-responsive-slider a:hover,
+.content #genesis-responsive-slider h2 a,
+.footer-widgets .widget-title,
+.genesis-nav-menu a,
+.site-footer a:hover,
+.site-header .widget-title,
+.site-title a,
+.site-title a:hover {
 	color: #fff;
 }
 
-.outreach-pro-blue .site-footer a {
+.site-footer a {
 	color: #666;
 }
 
-.outreach-pro-blue .genesis-nav-menu .sub-menu a,
-.outreach-pro-blue .home-bottom .widget-title {
+.genesis-nav-menu .sub-menu a,
+.home-bottom .widget-title {
 	color: #333;
 }
 
-.outreach-pro-blue .genesis-nav-menu a:hover,
-.outreach-pro-blue .genesis-nav-menu .current-menu-item > a,
-.outreach-pro-blue .genesis-nav-menu .sub-menu .current-menu-item > a:hover {
+.genesis-nav-menu a:hover,
+.genesis-nav-menu .current-menu-item > a,
+.genesis-nav-menu .sub-menu .current-menu-item > a:hover {
 	color: #000;
 }
 
-.outreach-pro-blue .archive-pagination .active a,
-.outreach-pro-blue .archive-pagination li a:hover,
-.outreach-pro-blue .button,
-.outreach-pro-blue .nav-primary,
-.outreach-pro-blue button,
-.outreach-pro-blue input[type="button"],
-.outreach-pro-blue input[type="reset"],
-.outreach-pro-blue input[type="submit"] {
+.archive-pagination .active a,
+.archive-pagination li a:hover,
+.button,
+.nav-primary,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
 	background-color: #4C6A8B;
 	color: #fff;
 }
 
-.outreach-pro-blue .button:hover,
-.outreach-pro-blue .site-header,
-.outreach-pro-blue button:hover,
-.outreach-pro-blue input:hover[type="button"],
-.outreach-pro-blue input:hover[type="reset"],
-.outreach-pro-blue input:hover[type="submit"] {
+.button:hover,
+.site-header,
+button:hover,
+input:hover[type="button"],
+input:hover[type="reset"],
+input:hover[type="submit"] {
 	color: #fff;
 }
 
-.outreach-pro-blue .sub-footer {
+.sub-footer {
 	background-color: #edf3f4;
 }
 
-.outreach-pro-blue .nav-secondary .genesis-nav-menu .sub-menu,
-.outreach-pro-blue .nav-secondary .genesis-nav-menu .sub-menu a {
+.nav-secondary .genesis-nav-menu .sub-menu,
+.nav-secondary .genesis-nav-menu .sub-menu a {
 	background-color: #17222b;
 	border-color: #2d3b45;
 	color: #fff;
 }
 
-.outreach-pro-blue .enews-widget input:hover[type="submit"] {
+.enews-widget input:hover[type="submit"] {
 	background-color: #e6eaee;
 	color: #333;
 }
