@@ -821,7 +821,7 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 	background: #78c043;
 }
 
-.program-icon.completion:before {
+.program-icon.degree-completion:before {
 	content: "D";
 	background: #ff7900;
 }
@@ -855,14 +855,17 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 }
 
 .solid-button:after {
-	content: ">";
+	font-family: dashicons;
+	content: "\f345";
 	font-size: 11px;
+	font-weight: 100;
 	background: #fff;
 	border-radius: 50%;
 	margin-left: .5rem;
-	padding: 0 .25rem;
+	padding: 0 .2rem;
+	padding: 0 3.2px;
 	display: inline-block;
-	vertical-align: middle;
+	vertical-align: text-top;
 }
 
 .solid-button.undergraduate {
