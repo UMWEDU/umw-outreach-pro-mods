@@ -894,7 +894,7 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 }
 
 /*Call to Action buttons - uses secondary palette only*/
-.CTAbutton {padding: 1em; text-align: center; color: white; font-size: 2em; font-family: MuseoSlab; font-weight: 700;"}
+.CTAbutton {padding: 1em; text-align: center; color: white; font-size: 2em; font-family: MuseoSlab; font-weight: 700;}
 .CTAbutton a {color: white;}
 .CTAbutton a.hover {color: #e6eaee; text-decoration: none;}
 .CTAblue {background-color: #3db8d3;}
