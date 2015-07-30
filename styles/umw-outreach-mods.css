@@ -886,3 +886,6 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 		display: none;
 	}
 }
+.sidebar-secondary .widget .widget-title {
+  color: #fff;
+}
