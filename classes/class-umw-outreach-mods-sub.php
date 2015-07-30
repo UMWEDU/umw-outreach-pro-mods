@@ -1052,7 +1052,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		 * Retrieve a formatted HTML ID for a settings field
 		 */
 		function get_field_id( $name ) {
-			return sprintf( '%s[%s][%s]', GENESIS_SETTINGS_FIELD, $this->setting_name, $name );
+			$id = '';
+			switch ( $name ) {
+				case 'statement' : 
+					$id = 'umwstatement';
+					break;
+				case 'content' : 
+					$id = 'umwcontent';
+					break;
+				case 'image-subtitle' : 
+					$id = 'umwimagesubtitle';
+					break;
+				default : 
+					$id = sprintf( '%s[%s][%s]', GENESIS_SETTINGS_FIELD, $this->setting_name, $name );
+					break;
+			}
+			return $id;
 		}
 		
 		/**
@@ -1086,9 +1101,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <p><label for="<?php $this->field_id( 'site-title' ) ?>"><?php _e( 'Site Title' ) ?></label> 
 	<input class="widefat" type="text" name="<?php $this->field_name( 'site-title' ) ?>" id="<?php $this->field_id( 'site-title' ) ?>" value="<?php echo $current['site-title'] ?>"/></p>
 <div><label for="<?php $this->field_id( 'statement' ) ?>"><?php _e( 'Statement' ) ?></label><br/> 
-	<?php wp_editor( $current['statement'], $this->get_field_id( 'statement' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'statement' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
+	<?php wp_editor( html_entity_decode( $current['statement'] ), $this->get_field_id( 'statement' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'statement' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
 <div><label for="<?php $this->field_id( 'content' ) ?>"><?php _e( 'Secondary Content' ) ?></label><br/> 
-	<?php wp_editor( $current['content'], $this->get_field_id( 'content' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'content' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
+	<?php wp_editor( html_entity_decode( $current['content'] ), $this->get_field_id( 'content' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'content' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
 <?php do_action( 'pre-umw-outreach-image-settings' ) ?>
 <fieldset style="padding: 1em; border: 1px solid #e2e2e2;">
 	<legend style="font-weight: 700"><?php _e( 'Featured Image' ) ?></legend>
@@ -1098,7 +1113,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	<p><label for="<?php $this->field_id( 'image-title' ) ?>"><?php _e( 'Title/Caption' ) ?></label> 
 		<input class="widefat" type="text" id="<?php $this->field_id( 'image-title' ) ?>" name="<?php $this->field_name( 'image-title' ) ?>" value="<?php echo $current['image']['title'] ?>"/></p>
 	<div><label for="<?php $this->field_id( 'image-subtitle' ) ?>"><?php _e( 'Subtext' ) ?></label><br/> 
-		<?php wp_editor( $current['image']['subtitle'], $this->get_field_id( 'image-subtitle' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'image-subtitle' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
+		<?php wp_editor( html_entity_decode( $current['image']['subtitle'] ), $this->get_field_id( 'image-subtitle' ), array( 'media_buttons' => false, 'textarea_name' => $this->get_field_name( 'image-subtitle' ), 'textarea_rows' => 6, 'teeny' => true ) ) ?></div>
 	<p><label for="<?php $this->field_id( 'image-link' ) ?>"><?php _e( 'Link Address' ) ?></label> 
 		<input class="widefat" type="url" name="<?php $this->field_name( 'image-link' ) ?>" id="<?php $this->field_id( 'image-link' ) ?>" value="<?php echo esc_url( $current['image']['link'] ) ?>"/></p>
 </fieldset>
