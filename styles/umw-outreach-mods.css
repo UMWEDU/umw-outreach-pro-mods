@@ -950,3 +950,16 @@ div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
 		text-align: left;
 	}
 }
+
+.clear {
+	width: 0;
+	height: 0;
+	font-size: 0;
+	line-height: 0;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	display: block;
+	clear: both;
+	float: none;
+}
