@@ -594,37 +594,6 @@ p.employee-name {margin-bottom: .5em; font-size: 14px;}
 	column-gap: 2rem;*/
 }
 
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content {
-	font-size: 14px;
-	font-size: .875rem;
-	line-height: 2rem;
-}
-
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content ul, 
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content li, 
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content li:last-child {
-	list-style: none;
-	border: none;
-	padding: 0 0 .75rem 0;
-	padding: 0 0 12px 0;
-	margin: 0;
-}
-
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content a {
-	font-weight: 500;
-	color: #4C6A8B;
-}
-
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content a:hover, 
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content a:focus {
-	text-decoration: underline;
-}
-
-.umwwebmaster-wpengine-comstudy h2.atoz-alpha-header-letter {
-	font-weight: 700;
-	color: #b81237;
-}
-
 @media all and (min-width: 480px) {
 	.atoz-alpha-content {
 		-webkit-column-count: 2;
@@ -668,19 +637,6 @@ p.employee-name {margin-bottom: .5em; font-size: 14px;}
 		-ms-column-gap: 1.5rem;
 		column-gap: 1.5rem;
 	}
-	
-	.umwwebmaster-wpengine-comstudy .atoz-alpha-content {
-		-webkit-column-count: 3;
-		-moz-column-count: 3;
-		-o-column-count: 3;
-		-ms-column-count: 3;
-		column-count: 3;
-		-webkit-column-gap: 1.5rem;
-		-moz-column-gap: 1.5rem;
-		-o-column-gap: 1.5rem;
-		-ms-column-gap: 1.5rem;
-		column-gap: 1.5rem;
-	}
 }
 
 @media all and (min-width: 1100px) {
@@ -690,19 +646,6 @@ p.employee-name {margin-bottom: .5em; font-size: 14px;}
 		-o-column-count: 5;
 		-ms-column-count: 5;
 		column-count: 5;
-		-webkit-column-gap: 1.5rem;
-		-moz-column-gap: 1.5rem;
-		-o-column-gap: 1.5rem;
-		-ms-column-gap: 1.5rem;
-		column-gap: 1.5rem;
-	}
-	
-	.umwwebmaster-wpengine-comstudy .atoz-alpha-content {
-		-webkit-column-count: 3;
-		-moz-column-count: 3;
-		-o-column-count: 3;
-		-ms-column-count: 3;
-		column-count: 3;
 		-webkit-column-gap: 1.5rem;
 		-moz-column-gap: 1.5rem;
 		-o-column-gap: 1.5rem;
@@ -903,3 +846,107 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 .CTAorange {background-color: #ff7900;}
 .CTAburgundy {background-color: #b71237;}
 .CTApurple {background-color:#663990;}
+
+/**
+ * Specialized styles for Study site
+ */
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content {
+	font-size: 14px;
+	font-size: .875rem;
+	line-height: 2rem;
+}
+
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content ul, 
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content li, 
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content li:last-child {
+	list-style: none;
+	border: none;
+	padding: 0 0 .75rem 0;
+	padding: 0 0 12px 0;
+	margin: 0;
+}
+
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content a {
+	font-weight: 500;
+	color: #4C6A8B;
+}
+
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content a:hover, 
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content a:focus {
+	text-decoration: underline;
+}
+
+.umwwebmaster-wpengine-comstudy h2.atoz-alpha-header-letter {
+	font-weight: 700;
+	color: #b81237;
+}
+
+@media all and (min-width: 960px) {
+	.umwwebmaster-wpengine-comstudy .atoz-alpha-content {
+		-webkit-column-count: 3;
+		-moz-column-count: 3;
+		-o-column-count: 3;
+		-ms-column-count: 3;
+		column-count: 3;
+		-webkit-column-gap: 1.5rem;
+		-moz-column-gap: 1.5rem;
+		-o-column-gap: 1.5rem;
+		-ms-column-gap: 1.5rem;
+		column-gap: 1.5rem;
+	}
+}
+
+@media all and (min-width: 1100px) {
+	.umwwebmaster-wpengine-comstudy .atoz-alpha-content {
+		-webkit-column-count: 3;
+		-moz-column-count: 3;
+		-o-column-count: 3;
+		-ms-column-count: 3;
+		column-count: 3;
+		-webkit-column-gap: 1.5rem;
+		-moz-column-gap: 1.5rem;
+		-o-column-gap: 1.5rem;
+		-ms-column-gap: 1.5rem;
+		column-gap: 1.5rem;
+	}
+}
+
+.umwwebmaster-wpengine-comstudy .home-bottom .widget {
+	float: left;
+	margin-left: 2.564102564102564%;
+	width: 48.717948717948715%;
+	background: #ced6de;
+	color: #002b5a;
+}
+
+.umwwebmaster-wpengine-comstudy .home-bottom .widget .widget-wrap > * {
+	margin-left: 1rem;
+	margin-right: 1rem;
+	margin-bottom: 1rem;
+	margin-left: 16px;
+	margin-right: 16px;
+	margin-bottom: 16px;
+}
+
+.umwwebmaster-wpengine-comstudy .home-bottom .widget .widget-wrap > .widget-title, 
+.umwwebmaster-wpengine-comstudy .home-bottom .widget .widget-wrap > .widgettitle {
+	background: #002b5a;
+	color: #fff;
+	padding: .5rem 1rem;
+	padding: 8px 16px;
+	margin: 0 0 1rem 0;
+	margin: 0 0 16px 0;
+}
+
+.umwwebmaster-wpengine-comstudy .home-bottom .widget:nth-child(2n+1) {
+	clear: both;
+	margin-left: 0;
+}
+
+@media only screen and (max-width: 860px) {
+	.umwwebmaster-wpengine-comstudy .home-bottom .widget {
+		margin: 0;
+		width: 100%;
+		text-align: left;
+	}
+}
