@@ -894,9 +894,9 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 }
 
 /*Call to Action buttons - uses secondary palette only*/
-.CTAbutton {margin-bottom: .5em; padding: .75em; text-align: center; color: white; font-size: 2em; font-family: MuseoSlab; font-weight: 700; line-height: 1em;}
-.CTAbutton a {color: white;}
-.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
+div.CTAbutton {margin-bottom: .5em; padding: .75em; text-align: center; color: white; font-size: 2em; font-family: MuseoSlab; font-weight: 700; line-height: 1em;}
+div.CTAbutton a {color: white;}
+div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
 .CTAblue {background-color: #3db8d3;}
 .CTAgreen {background-color: #78c043;}
 .CTAdkgreen {background-color: #1d5b24;}
