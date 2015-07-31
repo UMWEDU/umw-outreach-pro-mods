@@ -98,7 +98,7 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	height: auto;
 }
 
-.home-top.widget-area .widget_text, 
+.home-top.widget-area .widget_text,
 .home-top.widget-area .pcs-list-widget {
 	padding: 0;
 }
@@ -107,24 +107,24 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	.home-top.widget-area .pcs-list-widget {
 		padding: 0 1rem;
 	}
-	
+
 	.home-top .one-fourth {
 		width: 50%;
 		margin: 0;
 		float: left;
 		padding-left: 5%;
 	}
-	
+
 	.home-top .one-fourth:nth-child(2n+1) {
 		padding-left: 0;
 		padding-right: 5%;
 		clear: left;
 	}
-	
+
 	.home-top .one-fourth:nth-child(2n+2) {
 		clear: right;
 	}
-	
+
 	.home-top .pcs-featured-image {
 		max-width: 250px;
 		float: left;
@@ -146,8 +146,8 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	.home-top.widget-area .pcs-list-widget {
 		padding: 0 1rem;
 	}
-	
-	.home-top .pcs-featured-image img, 
+
+	.home-top .pcs-featured-image img,
 	.home-top .pcs-featured-image {
 		width: 100%;
 		max-width: 100%;
@@ -158,15 +158,15 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 		display: block;
 		height: auto;
 	}
-	
+
 	.home-top .pcs-featured-image {
 		padding-bottom: .5rem;
 	}
-	
+
 	.home-top .pcs-entry {
 		padding-bottom: 1rem;
 	}
-	
+
 	.home-top .one-fourth {
 		width: 100%;
 		margin: 0;
@@ -175,13 +175,13 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 		padding-left: 0;
 		padding-right: 0;
 	}
-	
+
 	.home-top .one-fourth:nth-child(2n+1) {
 		padding-left: 0;
 		padding-right: 0;
 		clear: both;
 	}
-	
+
 	.home-top .one-fourth:nth-child(2n+2) {
 		clear: both;
 	}
@@ -316,7 +316,7 @@ footer.site-footer .widget {
 	font-size: .75rem;
 }
 
-.umw-global-footer h4.widget-title, 
+.umw-global-footer h4.widget-title,
 .umw-global-footer h4.widgettitle {
 	font-family: MuseoSans, "museo-sans", Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
 	text-transform: none;
@@ -494,7 +494,7 @@ footer.site-footer .widget {
 }
 
 @media all and (max-width: 860px) {
-	.home-top .flexslider .slide-caption, 
+	.home-top .flexslider .slide-caption,
 	.home-featured-image figcaption {
 		width: 100%;
 		max-width: 100%;
@@ -504,14 +504,14 @@ footer.site-footer .widget {
 		bottom: 0;
 		padding: 20px;
 	}
-	
+
 	.home-top .flex-control-thumbs,
 	.home-top .flexslider .slide-caption .slide-caption-text,
 	.home-top .uhp-slider-nav,
 	.home-featured-image figcaption .home-feature-subtitle {
 		display: none;
 	}
-	
+
 	.home-top .flexslider .slide-caption h1 {
 		font-size: 1.5rem;
 	}
@@ -791,7 +791,7 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 	margin-bottom: 1rem;
 }
 
-.solid-button:hover, 
+.solid-button:hover,
 .solid-button:focus {
 	color: #fff;
 	text-decoration: underline;
@@ -850,22 +850,22 @@ div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
 /**
  * Specialized styles for Study site
  */
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content, 
-.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content, 
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content,
+.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content,
 .www-umw-edustudy .atoz-alpha-content {
 	font-size: 14px;
 	font-size: .875rem;
 	line-height: 2rem;
 }
 
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content ul, 
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content li, 
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content li:last-child, 
-.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content ul, 
-.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content li, 
-.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content li:last-child, 
-.www-umw-edustudy .atoz-alpha-content ul, 
-.www-umw-edustudy .atoz-alpha-content li, 
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content ul,
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content li,
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content li:last-child,
+.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content ul,
+.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content li,
+.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content li:last-child,
+.www-umw-edustudy .atoz-alpha-content ul,
+.www-umw-edustudy .atoz-alpha-content li,
 .www-umw-edustudy .atoz-alpha-content li:last-child {
 	list-style: none;
 	border: none;
@@ -874,32 +874,32 @@ div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
 	margin: 0;
 }
 
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content a, 
-.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content a, 
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content a,
+.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content a,
 .www-umw-edustudy .atoz-alpha-content a {
 	font-weight: 500;
 	color: #4C6A8B;
 }
 
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content a:hover, 
-.umwwebmaster-wpengine-comstudy .atoz-alpha-content a:focus, 
-.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content a:hover, 
-.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content a:focus, 
-.www-umw-edustudy .atoz-alpha-content a:hover, 
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content a:hover,
+.umwwebmaster-wpengine-comstudy .atoz-alpha-content a:focus,
+.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content a:hover,
+.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content a:focus,
+.www-umw-edustudy .atoz-alpha-content a:hover,
 .www-umw-edustudy .atoz-alpha-content a:focus {
 	text-decoration: underline;
 }
 
-.umwwebmaster-wpengine-comstudy h2.atoz-alpha-header-letter, 
-.umwwebmaster-staging-wpengine-comstudy h2.atoz-alpha-header-letter, 
+.umwwebmaster-wpengine-comstudy h2.atoz-alpha-header-letter,
+.umwwebmaster-staging-wpengine-comstudy h2.atoz-alpha-header-letter,
 .www-umw-edustudy h2.atoz-alpha-header-letter {
 	font-weight: 700;
 	color: #b81237;
 }
 
 @media all and (min-width: 960px) {
-	.umwwebmaster-wpengine-comstudy .atoz-alpha-content, 
-	.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content, 
+	.umwwebmaster-wpengine-comstudy .atoz-alpha-content,
+	.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content,
 	.www-umw-edustudy .atoz-alpha-content {
 		-webkit-column-count: 3;
 		-moz-column-count: 3;
@@ -915,8 +915,8 @@ div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
 }
 
 @media all and (min-width: 1100px) {
-	.umwwebmaster-wpengine-comstudy .atoz-alpha-content, 
-	.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content, 
+	.umwwebmaster-wpengine-comstudy .atoz-alpha-content,
+	.umwwebmaster-staging-wpengine-comstudy .atoz-alpha-content,
 	.www-umw-edustudy .atoz-alpha-content {
 		-webkit-column-count: 3;
 		-moz-column-count: 3;
@@ -931,21 +931,21 @@ div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
 	}
 }
 
-.umwwebmaster-wpengine-comstudy .home-top .widget, 
-.umwwebmaster-staging-wpengine-comstudy .home-top .widget, 
+.umwwebmaster-wpengine-comstudy .home-top .widget,
+.umwwebmaster-staging-wpengine-comstudy .home-top .widget,
 .www-umw-edustudy .home-top .widget {
 	padding-left: 0;
 	padding-right: 0;
 }
 
-.umwwebmaster-wpengine-comstudy .home-top .widget:first-child, 
-.umwwebmaster-staging-wpengine-comstudy .home-top .widget:first-child, 
+.umwwebmaster-wpengine-comstudy .home-top .widget:first-child,
+.umwwebmaster-staging-wpengine-comstudy .home-top .widget:first-child,
 .www-umw-edustudy .home-top .widget:first-child {
 	padding-bottom: 0;
 }
 
-.umwwebmaster-wpengine-comstudy .home-bottom .widget, 
-.umwwebmaster-staging-wpengine-comstudy .home-bottom .widget, 
+.umwwebmaster-wpengine-comstudy .home-bottom .widget,
+.umwwebmaster-staging-wpengine-comstudy .home-bottom .widget,
 .www-umw-edustudy .home-bottom .widget {
 	float: left;
 	margin-left: 2.564102564102564%;
@@ -954,8 +954,8 @@ div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
 	color: #002b5a;
 }
 
-.umwwebmaster-wpengine-comstudy .home-bottom .widget .widget-wrap > *, 
-.umwwebmaster-staging-wpengine-comstudy .home-bottom .widget .widget-wrap > *, 
+.umwwebmaster-wpengine-comstudy .home-bottom .widget .widget-wrap > *,
+.umwwebmaster-staging-wpengine-comstudy .home-bottom .widget .widget-wrap > *,
 .www-umw-edustudy .home-bottom .widget .widget-wrap > * {
 	margin-left: 1rem;
 	margin-right: 1rem;
@@ -965,11 +965,11 @@ div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
 	margin-bottom: 16px;
 }
 
-.umwwebmaster-wpengine-comstudy .home-bottom .widget .widget-wrap > .widget-title, 
-.umwwebmaster-wpengine-comstudy .home-bottom .widget .widget-wrap > .widgettitle, 
-.umwwebmaster-staging-wpengine-comstudy .home-bottom .widget .widget-wrap > .widget-title, 
-.umwwebmaster-staging-wpengine-comstudy .home-bottom .widget .widget-wrap > .widgettitle, 
-.www-umw-edustudy .home-bottom .widget .widget-wrap > .widget-title, 
+.umwwebmaster-wpengine-comstudy .home-bottom .widget .widget-wrap > .widget-title,
+.umwwebmaster-wpengine-comstudy .home-bottom .widget .widget-wrap > .widgettitle,
+.umwwebmaster-staging-wpengine-comstudy .home-bottom .widget .widget-wrap > .widget-title,
+.umwwebmaster-staging-wpengine-comstudy .home-bottom .widget .widget-wrap > .widgettitle,
+.www-umw-edustudy .home-bottom .widget .widget-wrap > .widget-title,
 .www-umw-edustudy .home-bottom .widget .widget-wrap > .widgettitle {
 	background: #002b5a;
 	color: #fff;
@@ -979,16 +979,16 @@ div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
 	margin: 0 0 16px 0;
 }
 
-.umwwebmaster-wpengine-comstudy .home-bottom .widget:nth-child(2n+1), 
-.umwwebmaster-staging-wpengine-comstudy .home-bottom .widget:nth-child(2n+1), 
+.umwwebmaster-wpengine-comstudy .home-bottom .widget:nth-child(2n+1),
+.umwwebmaster-staging-wpengine-comstudy .home-bottom .widget:nth-child(2n+1),
 .www-umw-edustudy .home-bottom .widget:nth-child(2n+1) {
 	clear: both;
 	margin-left: 0;
 }
 
 @media only screen and (max-width: 860px) {
-	.umwwebmaster-wpengine-comstudy .home-bottom .widget, 
-	.umwwebmaster-staging-wpengine-comstudy .home-bottom .widget, 
+	.umwwebmaster-wpengine-comstudy .home-bottom .widget,
+	.umwwebmaster-staging-wpengine-comstudy .home-bottom .widget,
 	.www-umw-edustudy .home-bottom .widget {
 		margin: 0;
 		width: 100%;
@@ -1010,3 +1010,10 @@ div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
 }
 
 /* Timely calendar widget styles */
+#ai1ec-calendar, .timely {font-family: MuseoSans, Helvetica, Arial, Tahoma, sans serif !important;}
+.ai1ec-agenda-view span.ai1ec-event-title {font-family: font-family: MuseoSans, Helvetica, Arial, Tahoma, sans serif !important; font-weight: 500 !important; font-size: 14px !important;}
+a.ai1ec-load-event {line-height: 18px !important;}
+div.ai1ec-default_avatar {display: none;}
+.ai1ec-agenda-view div.ai1ec-event {border-left: 1px solid #e6eaee !important; border-bottom: 0px; border-right: 0px; border-top: 0px;}
+.ai1ec-category-filter {display: none;}
+.ai1ec-tag-filter {display: none;}
