@@ -1058,7 +1058,7 @@ div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
 
 /* Timely calendar widget styles */
 #ai1ec-calendar, .timely {font-family: MuseoSans, Helvetica, Arial, Tahoma, sans serif !important;}
-.ai1ec-agenda-view span.ai1ec-event-title {font-family: font-family: MuseoSans, Helvetica, Arial, Tahoma, sans serif !important; font-weight: 500 !important; font-size: 14px !important;}
+.ai1ec-agenda-view span.ai1ec-event-title {font-family: MuseoSans, Helvetica, Arial, Tahoma, sans serif !important; font-weight: 500 !important; font-size: 14px !important;}
 a.ai1ec-load-event {line-height: 18px !important;}
 div.ai1ec-default_avatar {display: none;}
 .ai1ec-agenda-view div.ai1ec-event {border-left: 1px solid #e6eaee !important; border-bottom: 0px; border-right: 0px; border-top: 0px;}
