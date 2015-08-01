@@ -235,6 +235,7 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	text-align: center;
 	padding: 10px;
 	border-top: 1em solid #fff;
+		border-bottom: 1em solid #fff;
 	color: white;
 	background-color: #b81237;
 }
