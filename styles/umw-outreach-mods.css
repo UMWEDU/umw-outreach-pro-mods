@@ -1071,9 +1071,9 @@ div.ai1ec-default_avatar {display: none;}
 /*create more whitespace in agenda view*/
 .ai1ec-agenda-view div.ai1ec-event {border-left: 1px solid #e6eaee !important; border-bottom: 0px; border-right: 0px; border-top: 0px;}
 /* hide some of the filter dropdowns */
-/*ul.ai1ec-filters li.ai1ec-category-filter {display: none;}
+ul.ai1ec-filters li.ai1ec-category-filter {display: none;}
 ul.ai1ec-filters li.ai1ec-tag-filter {display: none;}
-ul.ai1ec-filters li.ai1ec-clubs-organizations-filter {display: none;}*/
+ul.ai1ec-filters li.ai1ec-clubs-organizations-filter {display: none;}
 /*force MuseoSans or other sans - Timely is picking up default content styles as dominant*/
 div.ai1ec-event-title, span.ai1ec-event-title {font-family: MuseoSans, Helvetica, Arial, Tahoma, sans serif !important;}
 /* Timely menus in a widget pick up widget styling from site stylesheet - bad */
