@@ -102,8 +102,8 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 .home-top.widget-area .pcs-list-widget {
 	padding: 0;
 }
-
-div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.widgettitle {font-weight: bold; border-bottom: 1px solid #gray !important;}
+/* Note the color and border are being overwritten elsewhere. Return to this. */
+div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.widgettitle {font-weight: bold; border-bottom: 1px solid #gray !important; color: #b81237;}
 
 @media all and (max-width: 860px) {
 	.home-top.widget-area .pcs-list-widget {
