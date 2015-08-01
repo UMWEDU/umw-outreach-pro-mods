@@ -230,16 +230,17 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 }
 #impactStatement a {color: #b81237;}
 
-#calendarLink {
+.calendarLink {
 	clear: both;
 	text-align: center;
 	padding: 10px;
+	margin-top: 1em;
 	color: white;
 	background-color: #b81237;
 }
 
-#calendarLink a {color: white;}
-#calendarLink a:hover {color: #ebeaee;}
+.calendarLink a {color: white;}
+.calendarLink a:hover {color: #ebeaee;}
 
 .home ul.post-list>li.listed-post {
 	width: 23%;
