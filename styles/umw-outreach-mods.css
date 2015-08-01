@@ -103,7 +103,7 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	padding: 0;
 }
 
-.home-top h3.widgettitle, .home-bottom h3.widgettitle, .sub-footer h3.widgettitle {color: ##b81237 !important; font-weight: bold;}
+div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.widgettitle {color: ##b81237 !important; font-weight: bold;}
 
 @media all and (max-width: 860px) {
 	.home-top.widget-area .pcs-list-widget {
