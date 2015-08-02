@@ -1082,3 +1082,4 @@ ul.ai1ec-filters li.ai1ec-clubs-organizations-filter {display: none;}
 div.ai1ec-event-title, span.ai1ec-event-title {font-family: MuseoSans, Helvetica, Arial, Tahoma, sans serif !important;}
 /* Timely menus in a widget pick up widget styling from site stylesheet - bad */
 .widget ul.ai1ec-nav li.ai1ec-dropdown {border-bottom: 0px; margin-bottom: 0px; padding-bottom: 0px;}
+.ai1ec-bf-container {border: 0px !important;}
