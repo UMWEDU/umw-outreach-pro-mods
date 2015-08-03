@@ -221,6 +221,7 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	padding-bottom: .5em;
 	padding-top: .5em;
 }
+#homepageCTA a:hover {text-decoration: underline;}
 
 #impactStatement {
 	font-family: MuseoSlab, "museo-slab", Georgia, "Times New Roman", Times, serif;
