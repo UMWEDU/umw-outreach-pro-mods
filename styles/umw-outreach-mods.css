@@ -102,7 +102,7 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 .home-top.widget-area .pcs-list-widget {
 	padding: 0;
 }
-/* Note the color and border are being overwritten elsewhere. Return to this. */
+/* Note the border is being overwritten elsewhere. Return to this. */
 div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.widgettitle {font-weight: bold; border-bottom: 1px solid #gray !important; color: #b81237;}
 
 @media all and (max-width: 860px) {
@@ -535,6 +535,7 @@ body.single-employee > div.site-container > div > div > div > main > article > h
 	display: none;
 }
 
+/* Pretty sure this can be removed now. Testing the theory.
 #directoryNav {min-height: 2em;}
 
 #directoryNav .one-fourth {
@@ -544,7 +545,7 @@ body.single-employee > div.site-container > div > div > div > main > article > h
 }
 #directoryNav .one-fourth a {color: #fff;}
 
-#directoryNav .one-fourth a:hover {color: #e6eaee;}
+#directoryNav .one-fourth a:hover {color: #e6eaee;}*/
 
 p.employee-name {margin-bottom: .5em; font-size: 14px;}
 
