@@ -147,7 +147,10 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 }
 
 @media all and (max-width: 480px) {
-	.sidebar .widget {
+	.sidebar .widget, 
+	.sub-footer .widget, 
+	.home-top .widget, 
+	.footer-widgets .widget {
 		padding-left: 1rem;
 		padding-right: 1rem;
 		padding-left: 16px;
