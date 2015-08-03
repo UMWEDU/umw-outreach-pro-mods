@@ -756,11 +756,6 @@ a.genericon:hover, a.dashicons:hover {text-decoration: none;}
 }
 .siteContacts {}
 
-/*System-wide Timely styles*/
-.ai1ec-bf-container {border: none;}
-
-.hidden { display: block; margin: 0; padding: 0; line-height: 0; font-size: 0; width: 0; height: 0; overflow: hidden; text-indent: -99999em; }
-
 /* Program Icons */
 .program-icon {
 	font-size: 12px;
@@ -1090,6 +1085,11 @@ div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
 	clear: both;
 	float: none;
 }
+/*System-wide Timely styles*/
+.ai1ec-bf-container {border: none;}
+.timely-widget {background-color: #fff;}
+
+.hidden { display: block; margin: 0; padding: 0; line-height: 0; font-size: 0; width: 0; height: 0; overflow: hidden; text-indent: -99999em; }
 
 /* Timely calendar widget styles */
 #ai1ec-calendar, .timely {font-family: MuseoSans, Helvetica, Arial, Tahoma, sans serif !important;}
@@ -1109,7 +1109,7 @@ div.ai1ec-event-title, span.ai1ec-event-title {font-family: MuseoSans, Helvetica
 .widget ul.ai1ec-nav li.ai1ec-dropdown {border-bottom: 0px; margin-bottom: 0px; padding-bottom: 0px;}
 .ai1ec-bf-container {border: 0px !important;}
 #ai1ec-calendar-view .ai1ec-agenda-view .ai1ec-today {background: #F8F9FA;}
-div.ai1ec-agenda-widget-view {max-width: 100%;}
+div.ai1ec-agenda-widget-view {max-width: 600px;}
 .ai1ec-agenda-widget-view .ai1ec-event > a {border: 0px !important;}
 div.ai1ec-agenda-widget-view div div.ai1ec-date {background: #fff !important;}
 
