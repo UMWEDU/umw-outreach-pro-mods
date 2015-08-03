@@ -1090,7 +1090,7 @@ div.ai1ec-event-title, span.ai1ec-event-title {font-family: MuseoSans, Helvetica
 /* Timely menus in a widget pick up widget styling from site stylesheet - bad */
 .widget ul.ai1ec-nav li.ai1ec-dropdown {border-bottom: 0px; margin-bottom: 0px; padding-bottom: 0px;}
 .ai1ec-bf-container {border: 0px !important;}
-#ai1ec-calendar-view .ai1ec-agenda-view .ai1ec-today {background: #e6eaee;}
+#ai1ec-calendar-view .ai1ec-agenda-view .ai1ec-today {background: #F8F9FA;}
 
 /* Correcting for other links that don't underline on hover */
 .breadcrumb a:hover, .pcs-post-title a:hover, .site-info a:hover {text-decoration: underline;}
