@@ -150,7 +150,8 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	.sidebar .widget, 
 	.sub-footer .widget, 
 	.home-top .widget, 
-	.footer-widgets .widget {
+	.footer-widgets .widget, 
+	.widget-area .widget {
 		padding-left: 1rem;
 		padding-right: 1rem;
 		padding-left: 16px;
