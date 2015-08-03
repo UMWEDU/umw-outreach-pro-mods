@@ -240,8 +240,7 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	clear: both;
 	text-align: center;
 	padding: 10px;
-	border-top: .5em solid #fff;
-		border-bottom: .5em solid #fff;
+	border: .35em solid #fff;
 	color: white;
 	background-color: #b81237;
 }
