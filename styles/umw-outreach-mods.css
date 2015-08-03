@@ -30,6 +30,8 @@ body .umw-logo-block > a {
 body.home #content .page h1.entry-title
 {display: none;}
 
+.entry-title a:hover {text-decoration: underline;}
+
 #umw-full-logo-img {
 	width: 225px;
 	max-width: 100%;
