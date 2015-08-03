@@ -231,6 +231,7 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	margin-bottom: 1em;
 }
 #impactStatement a {color: #b81237; font-weight: bold;}
+#impactStatement a:hover {text-decoration: underline;}
 
 .calendarLink {
 	clear: both;
@@ -562,6 +563,8 @@ p.employee-name {margin-bottom: .5em; font-size: 14px;}
 	font-weight: bold;
 	display: block;
 }
+
+a.wp_rss_retriever_title:hover {text-decoration: underline;}
 
 .wp_rss_retriever_item {
 	padding: .50em; /*max-width: 250px; float: left; */
@@ -1084,3 +1087,6 @@ div.ai1ec-event-title, span.ai1ec-event-title {font-family: MuseoSans, Helvetica
 /* Timely menus in a widget pick up widget styling from site stylesheet - bad */
 .widget ul.ai1ec-nav li.ai1ec-dropdown {border-bottom: 0px; margin-bottom: 0px; padding-bottom: 0px;}
 .ai1ec-bf-container {border: 0px !important;}
+
+/* Correcting for other links that don't underline on hover */
+.breadcrumb a:hover, .pcs-post-title a:hover, .site-info a:hover {text-decoration: underline;}
