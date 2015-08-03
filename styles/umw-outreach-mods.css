@@ -526,7 +526,8 @@ footer.site-footer .widget {
 		display: none;
 	}
 
-	.home-top .flexslider .slide-caption h1 {
+	.home-top .flexslider .slide-caption h1, 
+	.home-featured-image figcaption h2 {
 		font-size: 1.5rem;
 	}
 }
