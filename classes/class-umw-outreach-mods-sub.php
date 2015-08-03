@@ -86,6 +86,23 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			$url = sanitize_title( $url );
 			
 			$classes[] = sanitize_title( $url );
+			
+			if ( ! is_multisite() ) {
+				return $classes;
+			}
+			
+			if ( ! defined( 'SUBDOMAIN_INSTALL' ) || false == SUBDOMAIN_INSTALL ) {
+				global $wpdb;
+				$path = $wpdb->get_var( $wpdb->prepare( "SELECT path FROM {$wpdb->blogs} WHERE blog_id=%d", $GLOBALS['blog_id'] ) );
+				if ( '/' == $path ) {
+					$path = 'root';
+				} else {
+					$path = sanitize_title( $path );
+				}
+				
+				$classes[] = 'site-' . $path;
+			}
+			
 			return $classes;
 		}
 		
