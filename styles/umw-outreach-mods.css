@@ -147,17 +147,17 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 }
 
 @media all and (max-width: 480px) {
-	.sidebar .widget, 
-	.sub-footer .widget, 
-	.home-top .widget, 
-	.footer-widgets .widget, 
+	.sidebar .widget,
+	.sub-footer .widget,
+	.home-top .widget,
+	.footer-widgets .widget,
 	.widget-area .widget {
 		padding-left: 1rem;
 		padding-right: 1rem;
 		padding-left: 16px;
 		padding-right: 16px;
 	}
-	
+
 	.home-top.widget-area .pcs-list-widget {
 		padding: 0 1rem;
 	}
@@ -1109,7 +1109,7 @@ div.ai1ec-event-title, span.ai1ec-event-title {font-family: MuseoSans, Helvetica
 .widget ul.ai1ec-nav li.ai1ec-dropdown {border-bottom: 0px; margin-bottom: 0px; padding-bottom: 0px;}
 .ai1ec-bf-container {border: 0px !important;}
 #ai1ec-calendar-view .ai1ec-agenda-view .ai1ec-today {background: #F8F9FA;}
-div.ai1ec-agenda-widget-view {max-width: 600px;}
+div.ai1ec-agenda-widget-view {max-width: 700px;}
 .ai1ec-agenda-widget-view .ai1ec-event > a {border: 0px !important;}
 div.ai1ec-agenda-widget-view div div.ai1ec-date {background: #fff !important;}
 
