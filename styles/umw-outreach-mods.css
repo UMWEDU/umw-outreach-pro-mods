@@ -1112,6 +1112,7 @@ div.ai1ec-event-title, span.ai1ec-event-title {font-family: MuseoSans, Helvetica
 div.ai1ec-agenda-widget-view {max-width: 700px;}
 .ai1ec-agenda-widget-view .ai1ec-event > a {border: 0px !important;}
 div.ai1ec-agenda-widget-view div div.ai1ec-date {background: #fff !important;}
+div.ai1ec-popover {display: none !important;}
 
 /* Correcting for other links that don't underline on hover */
 .breadcrumb a:hover, .pcs-post-title a:hover, .site-info a:hover {text-decoration: underline;}
