@@ -1109,7 +1109,7 @@ div.ai1ec-event-title, span.ai1ec-event-title {font-family: MuseoSans, Helvetica
 .widget ul.ai1ec-nav li.ai1ec-dropdown {border-bottom: 0px; margin-bottom: 0px; padding-bottom: 0px;}
 .ai1ec-bf-container {border: 0px !important;}
 #ai1ec-calendar-view .ai1ec-agenda-view .ai1ec-today {background: #F8F9FA;}
-div.ai1ec-agenda-widget-view {max-width: 700px;}
+div.ai1ec-agenda-widget-view {max-width: 100%;}
 .ai1ec-agenda-widget-view .ai1ec-event > a {border: 0px !important;}
 div.ai1ec-agenda-widget-view div div.ai1ec-date {background: #fff !important;}
 div.ai1ec-popover {display: none !important;}
