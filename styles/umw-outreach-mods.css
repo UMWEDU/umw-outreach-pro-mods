@@ -1121,7 +1121,8 @@ div.ai1ec-agenda-widget-view div.ai1ec-subscribe-dropdown {display: none !import
 .breadcrumb a:hover, .pcs-post-title a:hover, .site-info a:hover {text-decoration: underline;}
 
 @media all and (max-width: 600px) {
-    .site-directory .dirfaxColumn {
+    .site-directory .mobileHideColumn {
         display: none;
     }
+		h1.employeeName {clear: both; display: block;}
 }
