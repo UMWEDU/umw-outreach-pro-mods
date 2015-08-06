@@ -1155,15 +1155,19 @@ blockquote::before {
  * Styles specific to the Areas of Study website
  */
 .program-feature {
-	padding-left: 20px;
-	padding-right: 20px;
-	padding-left: 1.25rem;
-	padding-right: 1.25rem;
+	padding-left: 60px;
+	padding-right: 60px;
+	padding-left: 3.75rem;
+	padding-right: 3.75rem;
 	background: #4d6b8b;
 }
 
 .program-feature .fve-video-wrapper {
 	margin: 0 auto;
+}
+
+.program-feature img {
+	display: block;
 }
 
 .site-study .sidebar-secondary {
