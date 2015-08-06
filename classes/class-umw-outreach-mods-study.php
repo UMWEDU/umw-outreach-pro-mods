@@ -20,7 +20,31 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Study' ) ) {
 			 * Fix the Areas of Study archives until I find a better way to handle this
 			 */
 			add_action( 'template_redirect', array( $this, 'do_study_archives' ) );
-			add_action( 'genesis_before_content', array( $this, 'do_program_feature' ), 11 );
+			add_action( 'genesis_before_loop', array( $this, 'do_program_feature' ), 11 );
+			
+			add_shortcode( 'wpv-oembed', array( $this, 'do_wpv_oembed' ) );
+		}
+		
+		function do_wpv_oembed( $atts=array(), $content='' ) {
+			$content = do_shortcode( $content );
+			if ( ! esc_url( $content ) )
+				return '';
+			
+			$atts = shortcode_atts( array( 'width' => 1140, 'height' => 0 ), $atts, 'wpv-oembed' );
+			$args = array();
+			if ( isset( $atts['width'] ) && is_numeric( $atts['width'] ) && ! empty( $atts['width'] ) )
+				$args['width'] = $atts['width'];
+			if ( isset( $atts['height'] ) && is_numeric( $atts['height'] ) && ! empty( $atts['height'] ) )
+				$args['height'] = $atts['height'];
+			global $fve;
+			if ( ! isset( $fve ) && class_exists( 'FluidVideoEmbed' ) ) {
+				FluidVideoEmbed::instance();
+				return $fve->filter_video_embed( '', $content );
+			} else if ( ! class_exists( 'FluidVideoEmbed' ) ) {
+				return wp_oembed_get( $content, $atts );
+			} else {
+				return $fve->filter_video_embed( '', $content );
+			}
 		}
 		
 		/**

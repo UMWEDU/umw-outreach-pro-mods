@@ -813,7 +813,7 @@ figure.wp-caption {background-color: #E6EAEE;}
 	background: #663990;
 }
 
-.program-icon.graudate:before {
+.program-icon.graduate:before {
 	content: "G";
 	background: #b71237;
 }
@@ -1161,10 +1161,7 @@ blockquote::before {
  * Styles specific to the Areas of Study website
  */
 .program-feature {
-	padding-left: 60px;
-	padding-right: 60px;
-	padding-left: 3.75rem;
-	padding-right: 3.75rem;
+	padding: 0;
 	background: #4d6b8b;
 }
 
