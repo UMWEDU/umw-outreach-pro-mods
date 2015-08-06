@@ -1118,6 +1118,29 @@ div.ai1ec-agenda-widget-view div div.ai1ec-date {background: #fff !important;}
 div.ai1ec-popover {display: none !important;}
 div.ai1ec-agenda-widget-view div.ai1ec-subscribe-dropdown {display: none !important;}
 
+blockquote {
+	margin: 40px;
+font-family: MuseoSlab, serif;
+color: #002b5a;
+padding: 5px;
+padding-top: 10px;
+background-color: #f5f7f8;
+border-top: 5px solid #4c6a8b;
+font-style: italic;
+}
+blockquote .quote {font-size: 1.5rem;}
+blockquote .quoted {clear: both; width: 100%; text-align: right; font-style: normal; font-family: MuseoSans, Helvetica, Verdana, Tahoma, Arial, sans;}
+
+blockquote::before {
+	content: "\201C";
+	display: block;
+	font-size: 40px;
+	font-size: 2rem;
+	height: 0;
+	left: -20px;
+	position: relative;
+}
+
 /* Correcting for other links that don't underline on hover */
 .breadcrumb a:hover, .pcs-post-title a:hover, .site-info a:hover {text-decoration: underline;}
 
