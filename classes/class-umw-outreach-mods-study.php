@@ -20,6 +20,35 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Study' ) ) {
 			 * Fix the Areas of Study archives until I find a better way to handle this
 			 */
 			add_action( 'template_redirect', array( $this, 'do_study_archives' ) );
+			add_action( 'genesis_before_content', array( $this, 'do_program_feature' ), 11 );
+		}
+		
+		/**
+		 * Insert the featured video or image above the content area
+		 * 		on an individual program
+		 */
+		function do_program_feature() {
+			if ( ! is_singular( 'areas' ) )
+				return;
+			
+			$video = esc_url( get_post_meta( get_the_ID(), 'wpcf-video', true ) );
+			if ( empty( $video ) && ! has_post_thumbnail() ) {
+				return;
+			}
+			
+			if ( empty( $video ) ) {
+				$feature = get_the_post_thumbnail( get_the_ID(), 'page-feature' );
+			} else {
+				global $fve;
+				if ( ! isset( $fve ) && class_exists( 'FluidVideoEmbed' ) )
+					FluidVideoEmbed::instance();
+				if ( ! isset( $fve ) )
+					$feature = wp_oembed_get( $video, array( 'width' => 1140 ) );
+				else
+					$feature = $fve->filter_video_embed( '', $video );
+			}
+			
+			echo '<figure class="program-feature"><div class="wrap">' . $feature . '</div></figure>';
 		}
 		
 		/**

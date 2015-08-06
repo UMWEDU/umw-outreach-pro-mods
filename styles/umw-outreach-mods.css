@@ -1150,3 +1150,45 @@ blockquote::before {
     }
 		h1.employeeName {clear: both; display: block;}
 }
+
+/**
+ * Styles specific to the Areas of Study website
+ */
+.program-feature {
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-left: 1.25rem;
+	padding-right: 1.25rem;
+	background: #4d6b8b;
+}
+
+.site-study .sidebar-secondary {
+	background: #e6eaee;
+}
+
+.site-study .sidebar-secondary .widget-title, 
+.site-study .sidebar-secondary .widgettitle {
+	color: #b81237;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 1rem;
+	font-size: 16px;
+}
+
+.site-study .sidebar-secondary .widget .button {
+	color: #fff;
+	display: block;
+	padding: .5rem 1rem;
+	text-align: left;
+	text-transform: uppercase;
+	text-decoration: none;
+	background: #4d6b8b;
+}
+
+.site-study .sidebar-secondary .widget .button.even {
+	background: #002b5a;
+}
+
+.site-study .sidebar-secondary .widget {
+	background: none;
+}
