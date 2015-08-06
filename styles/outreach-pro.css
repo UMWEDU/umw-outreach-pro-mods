@@ -218,7 +218,7 @@ li {
 	list-style-type: none;
 }
 
-blockquote,
+/*blockquote,
 blockquote::before {
 	color: #999;
 }
@@ -237,7 +237,7 @@ blockquote::before {
 	position: relative;
 	top: -10px;
 }
-
+*/
 cite {
 	font-style: normal;
 }
@@ -549,8 +549,8 @@ Structure and Layout
 
 .content-sidebar .content,
 .content-sidebar-sidebar .content,
-.sidebar-content-sidebar .content, 
-.content-sidebaralt .content, 
+.sidebar-content-sidebar .content,
+.content-sidebaralt .content,
 .sidebaralt-content .content {
 	float: left;
 }
@@ -567,15 +567,15 @@ Structure and Layout
 
 /* Primary Sidebar */
 
-.sidebar-primary, 
-.content-sidebaralt .sidebar-secondary, 
+.sidebar-primary,
+.content-sidebaralt .sidebar-secondary,
 .sidebaralt-content .sidebar-secondary {
 	float: right;
 	width: 350px;
 }
 
 .sidebar-content .sidebar-primary,
-.sidebar-sidebar-content .sidebar-primary, 
+.sidebar-sidebar-content .sidebar-primary,
 .sidebaralt-content .sidebar-secondary {
 	float: left;
 }
@@ -896,7 +896,7 @@ Widgets
 	background: transparent;
 }
 
-.widget .responsive-tabs ul > li.responsive-tabs__list__item.responsive-tabs__list__item--active:last-child, 
+.widget .responsive-tabs ul > li.responsive-tabs__list__item.responsive-tabs__list__item--active:last-child,
 .widget .responsive-tabs ul > li.responsive-tabs__list__item--active:last-child:hover {
 	background: #ffffff;
 	border-color: #dddddd;
@@ -1891,8 +1891,8 @@ Media Queries
 		width: 420px;
 	}
 
-	.sidebar-primary, 
-	.content-sidebaralt .sidebar-secondary, 
+	.sidebar-primary,
+	.content-sidebaralt .sidebar-secondary,
 	.sidebaralt-content .sidebar-secondary {
 		width: 300px;
 	}
@@ -1931,8 +1931,8 @@ Media Queries
 	.sidebar-sidebar-content .content,
 	.sidebar-sidebar-content .content-sidebar-wrap,
 	.site-header .widget-area,
-	.title-area, 
-	.sidebaralt-content .sidebar-secondary, 
+	.title-area,
+	.sidebaralt-content .sidebar-secondary,
 	.content-sidebaralt .sidebar-secondary {
 		width: 100%;
 	}
