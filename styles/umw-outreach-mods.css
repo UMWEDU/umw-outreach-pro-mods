@@ -762,7 +762,7 @@ figure.wp-caption {background-color: #E6EAEE;}
 
 /* Program Icons */
 .program-icon {
-	font-size: 12px;
+	font-size: .857em;
 	vertical-align: baseline;
 	text-align: center;
 	-moz-transition: color .1s ease-in 0;
@@ -811,6 +811,11 @@ figure.wp-caption {background-color: #E6EAEE;}
 .program-icon.certificate:before {
 	content: "C";
 	background: #663990;
+}
+
+.program-icon.graudate:before {
+	content: "G";
+	background: #b71237;
 }
 
 .solid-button {
