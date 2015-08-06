@@ -1162,8 +1162,13 @@ blockquote::before {
 	background: #4d6b8b;
 }
 
+.program-feature .fve-video-wrapper {
+	margin: 0 auto;
+}
+
 .site-study .sidebar-secondary {
 	background: #e6eaee;
+	color: #002b5a;
 }
 
 .site-study .sidebar-secondary .widget-title, 
@@ -1176,6 +1181,8 @@ blockquote::before {
 }
 
 .site-study .sidebar-secondary .widget .button {
+	font-family: MuseoSlab, 'museo-slab', Times, serif;
+	font-weight: 500;
 	color: #fff;
 	display: block;
 	padding: .5rem 1rem;
