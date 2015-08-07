@@ -742,6 +742,7 @@ div.entry-content a.genericon, div.entry-content a.dashicons {text-decoration: n
 .entry-content h2 {font-weight: 900; color: #b81237;}
 .home-featured-image img {width: 100%;}
 figure.wp-caption {background-color: #E6EAEE;}
+.archive-description,.taxonomy-description {display: none;}
 
 
 
