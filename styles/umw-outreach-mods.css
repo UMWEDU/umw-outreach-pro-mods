@@ -1170,3 +1170,8 @@ blockquote::before {
 .site-study .sidebar-secondary .widget {
 	background: none;
 }
+
+/**
+ * Styles for the Study home page mosaic are managed within the View
+ * 		CSS Editor for the View that controls that display
+ */
