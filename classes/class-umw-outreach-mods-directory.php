@@ -155,7 +155,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Directory' ) ) {
 		 * Returnt he title for the building archive page
 		 */
 		function do_building_archive_title( $title ) {
-			return __( 'Buildings' );
+			return __( 'Campuses and Buildings' );
 		}
 		
 	}
