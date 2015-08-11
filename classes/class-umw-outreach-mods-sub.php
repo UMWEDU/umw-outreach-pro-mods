@@ -156,6 +156,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			add_shortcode( 'wpv-last-modified', array( $this, 'wpv_last_modified' ) );
 			add_shortcode( 'current-date', array( $this, 'do_current_date_shortcode' ) );
 			add_shortcode( 'current-url', array( $this, 'do_current_url_shortcode' ) );
+			add_shortcode( 'wpv-tel-link', array( $this, 'do_tel_link_shortcode' ) );
 		}
 		
 		function jetpack_fluid_video_embeds() {
@@ -1186,6 +1187,72 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				return get_the_modified_date( $atts['format'] );
 			}
 			return '';
+		}
+		
+		/**
+		 * Set up a shortcode to format a telephone number & wrap it in a tel link
+		 * @uses shortcode_atts() to sanitize the list of shortcode attributes
+		 *
+		 * @param array $atts the array of attributes sent to the shortcode
+		 *		* format - the format in which the phone number should be output on the screen
+		 * 		* area - the 3-digit default area code
+		 * 		* exchange - the 3-digit default exchange
+		 * 		* country - the 1-digit country code
+		 * 		* title - the name of the person/office/place to which the phone number belongs
+		 * @param string $content the telephone number that should be formatted
+		 * @return the formatted string with a link around it
+		 */
+		function do_tel_link_shortcode( $atts=array(), $content='' ) {
+			$original = $content;
+			$content = do_shortcode( $content );
+			
+			error_log( '[Tel Link Debug]: Original, shortcoded content: ' . $content );
+			
+			$atts = shortcode_atts( array( 'format' => '(###) ###-####', 'area' => '540', 'exchange' => '654', 'country' => '1', 'title' => '' ), $atts );
+			$content = preg_replace( '/[^0-9]/', '', $content );
+			error_log( '[Tel Link Debug]: Original content, stripped of non-numeric characters: ' . $content );
+			$area = substr( preg_replace( '/[^0-9]/', '', $atts['area'] ), 0, 3 );
+			$exchange = substr( preg_replace( '/[^0-9]/', '', $atts['exchange'] ), 0, 3 );
+			$country = substr( preg_replace( '/[^0-9]/', '', $atts['country'] ), 0, 1 );
+			// Let's make sure the phone number ends up having 11 digits
+			switch( strlen( $content ) ) {
+				/* Original number was just an extension */
+				case 4 : 
+					$content = $atts['country'] . $atts['area'] . $atts['exchange'] . $content;
+					break;
+				/* Original number was just exchange + extension */
+				case 7 : 
+					$content = $atts['country'] . $atts['area'] . $content;
+					break;
+				/* Original number included area code, exchange and extension */
+				case 10 : 
+					$content = $atts['country'] . $content;
+					break;
+				/* Original number was complete, including country code */
+				case 11 : 
+					break;
+				/* If the original number didn't have 4, 7, 10 or 11 digits in the first place, it 
+						probably wasn't valid to begin with, so just return it all by itself */
+				default : 
+					return $original;
+			}
+			/* If we somehow ended up with a number that doesn't have 11 digits, just bail out */
+			if ( strlen( $content ) !== 11 )
+				return $original;
+			
+			/* Set up the printf format based on the format argument; replacing number signs with digit placeholders */
+			$format = str_replace( '#', '%d', $atts['format'] );
+			$link = '<a href="tel:+%1$s"%2$s>%3$s</a>';
+			/* Store the 11-digit all-numeric string in a var to use as the link address */
+			$linknum = $content;
+			/* Split the 11-digit all-numeric string into individual characters */
+			$linktext = str_split( $linknum );
+			/* Shift the country code off of the front of the array */
+			array_shift( $linktext );
+			/* Output the phone number in the desired format */
+			$format = vsprintf( $format, $linktext );
+			$title = do_shortcode( $atts['title'] );
+			return sprintf( $link, $linknum, empty( $atts['title'] ) ? '' : esc_attr( 'Call ' . $title ), $format );
 		}
 		
 		/**
