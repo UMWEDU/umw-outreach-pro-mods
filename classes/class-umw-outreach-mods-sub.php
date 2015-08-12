@@ -1205,6 +1205,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		function do_tel_link_shortcode( $atts=array(), $content='' ) {
 			$original = $content;
 			$content = do_shortcode( $content );
+			if ( empty( $content ) )
+				return '';
 			
 			error_log( '[Tel Link Debug]: Original, shortcoded content: ' . $content );
 			
