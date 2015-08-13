@@ -336,6 +336,12 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				$wp_scripts->done[] = 'jquery-migrate';
 				$wp_scripts->do_items( 'megamenu' );
 			}
+			if ( wp_script_is( 'umw-online-tools', 'enqueued' ) ) {
+				global $wp_scripts;
+				$wp_scripts->done[] = 'jquery';
+				$wp_scripts->done[] = 'jquery-migrate';
+				$wp_scripts->do_items( 'umw-online-tools' );
+			}
 		}
 		
 		function get_footer_for_feed() {
