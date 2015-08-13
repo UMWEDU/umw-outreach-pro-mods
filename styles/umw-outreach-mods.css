@@ -44,17 +44,27 @@ body.home #content .page h1.entry-title
 }
 
 .umw-logo-block {
-	width: 250px;
 	max-width: 100%;
 	float: left;
+	text-align: center;
+	width: 100%;
+}
+
+@media all and (min-width: 480px) {
+	.umw-logo-block {
+		width: 250px;
+		text-align: left;
+	}
 }
 
 .site-header {
 	clear: both;
 }
 
-.site-header .widget-area {
-	padding-top: 25px;
+@media all and (min-width: 480px) {
+	.site-header .widget-area {
+		padding-top: 25px;
+	}
 }
 
 body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
