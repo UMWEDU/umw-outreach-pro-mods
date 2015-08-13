@@ -50,7 +50,7 @@ body.home #content .page h1.entry-title
 	width: 100%;
 }
 
-@media all and (min-width: 480px) {
+@media all and (min-width: 601px) {
 	.umw-logo-block {
 		width: 250px;
 		text-align: left;
