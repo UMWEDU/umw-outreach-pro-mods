@@ -157,6 +157,23 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	}
 }
 
+@media all and (max-width: 860px) {
+	.sidebar .widget,
+	.sub-footer .widget,
+	.home-top .widget,
+	.footer-widgets .widget,
+	.widget-area .widget {
+		padding-left: 1rem;
+		padding-right: 1rem;
+		padding-left: 16px;
+		padding-right: 16px;
+	}
+
+	.home-top.widget-area .pcs-list-widget {
+		padding: 0 1rem;
+	}
+}
+
 @media all and (max-width: 480px) {
 	.sidebar .widget,
 	.sub-footer .widget,
