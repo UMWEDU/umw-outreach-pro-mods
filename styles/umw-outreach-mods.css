@@ -581,7 +581,7 @@ footer.site-footer .widget {
  * Campus directory styles
  */
 
-body.single-employee > div.site-container > div > div > div > main > article > header {
+.views-template-faculty--expertfile > div.site-container > div > div > div > main > article > header {
 	display: none;
 }
 
