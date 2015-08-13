@@ -58,7 +58,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			
 			add_filter( 'oembed_dataparse', array( $this, 'remove_oembed_link_wrapper' ), 10, 3 );
 			
-			$this->transient_timeout = 10;
+			$this->transient_timeout = HOUR_IN_SECONDS;
 			
 			add_action( 'template_redirect', array( $this, 'do_custom_feeds' ) );
 			
@@ -249,7 +249,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			echo "\n";
 			do_action( 'atom_head' );
 			
-			delete_transient( $transient_key );
 			$feed = get_transient( $transient_key );
 			if ( false === $feed ) {
 				$feed = str_replace( array( '<!&#091;CDATA&#091;', '&#093;&#093;>' ), array( '<![CDATA[', ']]>' ), do_shortcode( $content ) );
@@ -645,7 +644,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		 * Output the global UMW header
 		 */
 		function do_full_header() {
-			delete_site_transient( 'global-umw-header' );
 			$header = get_site_transient( 'global-umw-header' );
 			
 			if ( false === $header ) { /* There was no valid transient */
@@ -668,7 +666,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		 * Output the global UMW footer
 		 */
 		function do_full_footer() {
-			delete_site_transient( 'global-umw-footer' );
 			$footer = get_site_transient( 'global-umw-footer' );
 			
 			if ( false === $footer ) { /* There was no valid transient */
@@ -814,9 +811,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			
 			$transient_key = sprintf( 'atoz-%s', base64_encode( implode( '|', $args ) ) );
 			
-			/*$r = get_site_transient( $transient_key );
+			$r = get_site_transient( $transient_key );
 			if ( false !== $r )
-				return $r;*/
+				return $r;
 			
 			$query = array(
 				'post_type' => $args['post_type'], 
