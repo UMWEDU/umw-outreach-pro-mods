@@ -515,8 +515,8 @@ footer.site-footer .widget {
 .home-top .flexslider .slide-caption h1,
 .home-featured-image figcaption h2 {
 	font-family: MuseoSlab, "museo-slab", Georgia, 'Times New Roman', Times, serif;
-	font-size: 32px;
-	font-size: 2rem;
+	font-size: 26px;
+	font-size: 1.625rem;
 	color: #fff;
 	font-weight: 700;
 	text-transform: uppercase;
