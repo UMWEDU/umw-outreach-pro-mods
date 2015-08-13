@@ -656,9 +656,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			if ( is_string( $header ) ) {
 				echo $header;
 			} else {
-				print( "<p>For some reason, the header code was not a string. It looked like:</p>\n<pre><code>" );
+				$header = get_site_option( 'global-umw-header', false );
+				if ( false !== $header ) {
+					echo $header;
+				}
+				/*print( "<p>For some reason, the header code was not a string. It looked like:</p>\n<pre><code>" );
 				var_dump( $header );
-				print( "</code></pre>\n" );
+				print( "</code></pre>\n" );*/
 			}
 		}
 		
@@ -678,9 +682,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			if ( is_string( $footer ) ) {
 				echo $footer;
 			} else {
-				print( "<p>For some reason, the footer code was not a string. It looked like:</p>\n<pre><code>" );
+				$footer = get_site_option( 'global-umw-footer', false );
+				if ( false !== $footer ) {
+					echo $footer;
+				}
+				/*print( "<p>For some reason, the footer code was not a string. It looked like:</p>\n<pre><code>" );
 				var_dump( $footer );
-				print( "</code></pre>\n" );
+				print( "</code></pre>\n" );*/
 			}
 		}
 		
@@ -702,9 +710,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			printf( "\n<!-- Attempting to retrieve '%s' -->\n", esc_url( $this->header_feed ) );
 			$header = wp_remote_get( esc_url( add_query_arg( 'time', time(), $this->header_feed ) ) );
 			if ( is_wp_error( $header ) )  {
-				print( '<pre><code>' );
+				/*print( '<pre><code>' );
 				var_dump( $header );
-				print( '</code></pre>' );
+				print( '</code></pre>' );*/
 				return $header;
 			}
 				
@@ -736,9 +744,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			printf( "\n<!-- Attempting to retrieve '%s' -->\n", esc_url( $this->footer_feed ) );
 			$footer = wp_remote_get( add_query_arg( 'time', time(), $this->footer_feed ) );
 			if ( is_wp_error( $footer ) ) {
-				print( '<pre><code>' );
+				/*print( '<pre><code>' );
 				var_dump( $footer );
-				print( '</code></pre>' );
+				print( '</code></pre>' );*/
 				return $footer;
 			}
 				
