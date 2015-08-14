@@ -76,6 +76,15 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			$this->umw_is_root();
 		}
 		
+		function do_doctype() {
+			genesis_do_doctype();
+			$this->ie_compatibility_tag();
+		}
+		
+		function ie_compatibility_tag() {
+			echo '<meta http-equiv="X-UA-Compatible" content="IE=10; IE=9; IE=8; IE=7; IE=EDGE" />';
+		}
+		
 		/**
 		 * Apply a unique class to the body for each individual site, just in case 
 		 * 		we need to add special CSS for a specific area
@@ -379,6 +388,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		function genesis_tweaks() {
 			if ( ! function_exists( 'genesis' ) )
 				return false;
+			
+			remove_action( 'genesis_doctype', 'genesis_do_doctype' );
+			add_action( 'genesis_doctype', array( $this, 'do_doctype' ) );
 			
 			/* Remove the default Genesis style sheet */
 			remove_action( 'genesis_meta', 'genesis_load_stylesheet' );
