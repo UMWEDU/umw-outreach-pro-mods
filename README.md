@@ -7,9 +7,9 @@
 
 **Requires at least:** 4.2
 
-**Tested up to:** 4.2.1
+**Tested up to:** 4.3
 
-**Stable tag:** 0.1
+**Stable tag:** 1.0
 
 **License:** GPLv2 or later
 
@@ -26,13 +26,12 @@ The main function of this plugin is to implement the global header and footer us
 
 ## Installation ##
 
-1. Upload `umw-outreach-mods.php` to the `/wp-content/mu-plugins/` directory
+1. Upload the contents of the `umw-outreach-mods` folder to the `/wp-content/mu-plugins/` directory, including all sub-folders and files
 
 ## Changelog ##
 
+### 1.0 ###
+* All features for initial launch are now included
+
 ### 0.1 ###
 * Initial version
-
-## To Do ##
-
-* Make sure styles are implemented for Max Mega Menu
