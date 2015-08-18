@@ -1216,11 +1216,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			if ( empty( $content ) )
 				return '';
 			
-			error_log( '[Tel Link Debug]: Original, shortcoded content: ' . $content );
-			
 			$atts = shortcode_atts( array( 'format' => '(###) ###-####', 'area' => '540', 'exchange' => '654', 'country' => '1', 'title' => '' ), $atts );
 			$content = preg_replace( '/[^0-9]/', '', $content );
-			error_log( '[Tel Link Debug]: Original content, stripped of non-numeric characters: ' . $content );
 			$area = substr( preg_replace( '/[^0-9]/', '', $atts['area'] ), 0, 3 );
 			$exchange = substr( preg_replace( '/[^0-9]/', '', $atts['exchange'] ), 0, 3 );
 			$country = substr( preg_replace( '/[^0-9]/', '', $atts['country'] ), 0, 1 );
@@ -1257,8 +1254,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			$linknum = $content;
 			/* Split the 11-digit all-numeric string into individual characters */
 			$linktext = str_split( $linknum );
-			/* Shift the country code off of the front of the array */
-			array_shift( $linktext );
+			/* Make sure the number that will be formatted has the right number of digits */
+			$output_digits = mb_substr_count( $atts['format'], '#' );
+			$linktext = array_slice( $linktext, ( 0 - absint( $output_digits ) ) );
 			/* Output the phone number in the desired format */
 			$format = vsprintf( $format, $linktext );
 			$title = do_shortcode( $atts['title'] );
