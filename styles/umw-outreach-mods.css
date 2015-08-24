@@ -30,7 +30,7 @@ body .umw-logo-block > a {
 body.home #content .page h1.entry-title
 {display: none;}
 
-.entry-title a:hover {text-decoration: underline;}
+.entry-title a:hover, .entry-title a:focus {text-decoration: underline;}
 
 #umw-full-logo-img {
 	width: 225px;
@@ -260,7 +260,7 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	padding-bottom: .5em;
 	padding-top: .5em;
 }
-#homepageCTA a:hover {text-decoration: underline;}
+#homepageCTA a:hover, #homepageCTA a:focus {text-decoration: underline;}
 
 #impactStatement {
 	font-family: MuseoSlab, "museo-slab", Georgia, "Times New Roman", Times, serif;
@@ -273,7 +273,7 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	margin-bottom: 1em;
 }
 #impactStatement a {color: #b81237; font-weight: bold;}
-#impactStatement a:hover {text-decoration: underline;}
+#impactStatement a:hover, #impactStatement a:focus {text-decoration: underline;}
 
 .calendarLink {
 	clear: both;
@@ -286,7 +286,7 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 }
 
 .calendarLink a {color: white;}
-.calendarLink a:hover {color: #ebeaee;}
+.calendarLink a:hover, .calendarLink a:focus {color: #ebeaee;}
 
 .home ul.post-list>li.listed-post {
 	width: 23%;
@@ -332,11 +332,16 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	border-bottom: 1px solid #E6EAEE;
 }
 
+.sidebar .widget.focusable:focus .widget-wrap {
+	color: #fff;
+}
+
 .sidebar .widget a {
 	color: #fff;
 }
 
-.sidebar .widget a:hover {
+.sidebar .widget a:hover, 
+.sidebar .widget a:focus {
 	color: #eee;
 	text-decoration: underline;
 }
@@ -595,7 +600,7 @@ footer.site-footer .widget {
 }
 #directoryNav .one-fourth a {color: #fff;}
 
-#directoryNav .one-fourth a:hover {color: #e6eaee;}*/
+#directoryNav .one-fourth a:hover, #directoryNav .one-fourth a:focus {color: #e6eaee;}*/
 
 p.employee-name {margin-bottom: .5em; font-size: 14px;}
 
@@ -613,7 +618,7 @@ p.employee-name {margin-bottom: .5em; font-size: 14px;}
 	display: block;
 }
 
-a.wp_rss_retriever_title:hover {text-decoration: underline;}
+a.wp_rss_retriever_title:hover, a.wp_rss_retriever_title:focus {text-decoration: underline;}
 
 .wp_rss_retriever_item {
 	padding: .50em; /*max-width: 250px; float: left; */
@@ -756,12 +761,13 @@ a.wp_rss_retriever_title:hover {text-decoration: underline;}
 
 /* general system-wide styles */
 div.footer-widgets a {color: #fff;}
-div.footer-widgets a:hover {color: #fff; text-decoration: underline;}
+div.footer-widgets a:hover, div.footer-widgets a:focus {color: #fff; text-decoration: underline;}
+.footer-widgets .widget.focusable:focus .widget-wrap { color: #ccc; }
 div.entry-content a {color: #b81237; font-weight: bold; text-decoration: underline; font-family: MuseoSlab, "museo-slab", serif;}
 a.genericon, div.entry-content a.genericon {font-size: 2em; font-weight: normal; font-family: "Genericons";}
 a.dashicons, div.entry-content a.dashicons {font-size: 2em; font-weight: normal; font-family: dashicons;}
-div.entry-content a:hover {color: #002b5a;}
-a.genericon:hover, a.dashicons:hover, a.genericon, a.dashicons {text-decoration: none;}
+div.entry-content a:hover, div.entry-content a:focus {color: #002b5a;}
+a.genericon:hover, a.dashicons:hover, a.genericon:focus, a.dashicons:focus, a.genericon, a.dashicons {text-decoration: none;}
 div.entry-content a span.dashicons {text-decoration: none;}
 div.entry-content a.genericon, div.entry-content a.dashicons {text-decoration: none;}
 .inlineAttention {font-family: MuseoSlab, "museo-slab"; font-weight: 700; font-size: 16pt; float: left; padding: .35em 1em; border-right: 1px solid #b81237; margin-right: 1em; height: 125px;}
@@ -952,7 +958,7 @@ figure.wp-caption {background-color: #E6EAEE;}
 /*Call to Action buttons - uses secondary palette only*/
 div.CTAbutton {margin-bottom: .5em; padding: .75em; text-align: center; color: white; font-size: 2em; font-family: MuseoSlab; font-weight: 700; line-height: 1em;}
 div.CTAbutton a {color: white;}
-div.CTAbutton a:hover {color: #e6eaee; text-decoration: none;}
+div.CTAbutton a:hover, div.CTAbutton a:focus {color: #e6eaee; text-decoration: none;}
 .CTAblue {background-color: #3db8d3;}
 .CTAgreen {background-color: #78c043;}
 .CTAdkgreen {background-color: #1d5b24;}
@@ -1139,7 +1145,7 @@ blockquote::before {
 }
 
 /* Correcting for other links that don't underline on hover */
-.breadcrumb a:hover, .pcs-post-title a:hover, .site-info a:hover {text-decoration: underline;}
+.breadcrumb a:hover, .pcs-post-title a:hover, .site-info a:hover, .breadcrumb a:focus, .pcs-post-title a:focus, .site-info a:focus {text-decoration: underline;}
 
 @media all and (max-width: 600px) {
     .site-directory .mobileHideColumn {
