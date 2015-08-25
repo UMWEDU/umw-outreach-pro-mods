@@ -9,7 +9,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '1.0.2';
+		var $version = '1.0.16';
 		var $header_feed = null;
 		var $footer_feed = null;
 		var $settings_field = null;
@@ -23,6 +23,18 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 * 		for the root site of the entire system.
 		 */
 		function __construct() {
+			/**
+			 * Somewhat hacky way to use just the small pieces we need if we're still 
+			 * 		on the old UMW site
+			 */
+			if ( defined( 'WP_DEFAULT_THEME' ) && 'umw' == WP_DEFAULT_THEME ) {
+				add_action( 'after_setup_theme', array( $this, 'do_legacy_theme_setup' ) );
+				return;
+			}
+			
+			/**
+			 * Back to normal
+			 */
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 			add_action( 'after_setup_theme', array( $this, 'genesis_tweaks' ), 11 );
 			add_action( 'genesis_before', array( $this, 'do_analytics_code' ), 1 );
@@ -31,8 +43,14 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			add_action( 'global-umw-footer', array( $this, 'do_full_footer' ) );
 			add_action( 'global-umw-header', array( $this, 'do_value_prop' ) );
 			
-			$this->header_feed = esc_url( sprintf( 'http://%s/feed/umw-global-header/', DOMAIN_CURRENT_SITE ) );
-			$this->footer_feed = esc_url( sprintf( 'http://%s/feed/umw-global-footer/', DOMAIN_CURRENT_SITE ) );
+			if ( defined( 'UMW_IS_ROOT' ) && ! is_numeric( UMW_IS_ROOT ) ) {
+				$feedsite = UMW_IS_ROOT;
+			} else if ( defined( 'DOMAIN_CURRENT_SITE' ) ) {
+				$feedsite = sprintf( 'http://%s/', DOMAIN_CURRENT_SITE );
+			}
+			
+			$this->header_feed = esc_url( sprintf( '%sfeed/umw-global-header/', $feedsite ) );
+			$this->footer_feed = esc_url( sprintf( '%sfeed/umw-global-footer/', $feedsite ) );
 			
 			$this->add_shortcodes();
 			
@@ -76,6 +94,50 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			$this->umw_is_root();
 		}
 		
+		/**
+		 * Load only the pieces we need for the old UMW theme/site
+		 */
+		function do_legacy_theme_setup() {
+			if ( ! function_exists( 'umw_is_umw_homepage' ) ) {
+				return false;
+			}
+			
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_legacy_styles' ) );
+			
+			remove_all_actions( 'genesis_footer' );
+			add_action( 'global-umw-footer', array( $this, 'do_full_footer' ) );
+			
+			if ( defined( 'UMW_IS_ROOT' ) && ! is_numeric( UMW_IS_ROOT ) ) {
+				$feedsite = UMW_IS_ROOT;
+			} else if ( defined( 'DOMAIN_CURRENT_SITE' ) ) {
+				$feedsite = sprintf( 'http://%s/', DOMAIN_CURRENT_SITE );
+			}
+			
+			$this->footer_feed = esc_url( sprintf( '%sfeed/umw-global-footer/', $feedsite ) );
+			
+			$this->transient_timeout = HOUR_IN_SECONDS;
+			
+			global $content_width;
+			$content_width = 1100;
+			
+			$this->umw_is_root();
+			
+			/* Get rid of the standard footer & replace it with our global footer */
+			remove_all_actions( 'genesis_footer' );
+			add_action( 'genesis_footer', array( $this, 'get_footer' ) );
+		}
+		
+		/**
+		 * Set up a separate style sheet just for the pieces we're using on the old 
+		 * 		UMW site
+		 */
+		function enqueue_legacy_styles() {
+			wp_enqueue_style( 'umw-global-footer-legacy', plugins_url( '/styles/legacy-umw-styles.css', dirname( __FILE__ ) ), array(), $this->version, 'all' );
+		}
+		
+		/**
+		 * Add the IE compatibility tag to the very top of the document
+		 */
 		function do_doctype() {
 			genesis_do_doctype();
 			$this->ie_compatibility_tag();
