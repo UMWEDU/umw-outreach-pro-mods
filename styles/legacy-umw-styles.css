@@ -1,0 +1,212 @@
+/*
+ * Universal Footer styles - might need tweaks
+ */
+
+.widget-title {
+    font-family: MuseoSlab, "museo-slab", 'MuseoSlab500', Georgia, 'Times New Roman', Times, serif;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0 0 10px;
+	font-size: 1.125rem;
+	margin-bottom: 1.25rem;
+	text-transform: uppercase;
+}
+
+#reportProblem {
+	text-align: center;
+}
+
+footer.site-footer div h3.widget-title.widgettitle {
+	color: #fff;
+	font-weight: 500;
+}
+
+footer.site-footer a.genericon {
+	font-size: 3em;
+}
+
+footer.site-footer .widget {
+	margin-bottom: 0px;
+	padding: 15px;
+}
+
+.umw-global-footer .widget-area .textwidget {
+	padding: 0;
+}
+
+.umw-global-footer {
+	background: #4c6a8b;
+	padding: 0;
+	font-size: 14px;
+	padding-top: 16px;
+	position: relative;
+	z-index: 10;
+}
+
+.umw-global-footer .genericon {
+	width: auto;
+	height: auto;
+}
+
+.umw-global-footer a, 
+.widget-area li a {
+	color: #fff;
+	text-decoration: none;
+}
+
+.umw-global-footer a:hover, 
+.umw-global-footer a:focus, 
+.widget-area li a:hover, 
+.widget-area li a:focus {
+	color: #e2e2e2;
+	text-decoration: underline;
+}
+
+.umw-global-footer .widget li {
+	border-bottom: 1px solid rgb(230, 234, 238);
+	margin-bottom: 10px;
+    padding-bottom: 10px;
+    text-align: left;
+}
+
+.umw-global-footer .sidebar, 
+.umw-global-footer .sidebar p {
+	padding: 0;
+	font-size: 14px;
+	line-height: 1.625;
+}
+
+.umw-global-footer h4.widget-title,
+.umw-global-footer h4.widgettitle {
+	font-family: MuseoSans, "museo-sans", 'MuseoSans500', Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-transform: none;
+	font-size: 18px;
+	font-size: 1.125rem;
+	font-weight: 500;
+}
+
+.umw-global-footer > .wrap {
+	max-width: 100%;
+	width: 100%;
+	background: none;
+}
+
+.umw-global-footer .global-footer-top, .umw-global-footer .primary-global-footer > .wrap {
+	margin: 0 auto;
+	width: 100%;
+	max-width: 960px;
+}
+
+.umw-global-footer .secondary-global-footer {
+	width: 100%;
+	max-width: 960px;
+	margin: 0 auto;
+}
+
+.umw-global-footer .primary-global-footer {
+	border-bottom: 1px solid #728aa4;
+	max-width: 100%;
+	width: 100%;
+}
+
+.umw-global-footer .global-footer-top {
+	max-width: 100%;
+	width: 100%;
+	border-bottom: 1px solid #728aa4;
+}
+
+.umw-global-footer .global-footer-top .widget {
+	width: 100%;
+	max-width: 960px;
+	margin: 0 auto;
+	padding: 15px;
+}
+
+.umw-global-footer .primary-global-footer:after {
+	display: block;
+	content: " ";
+	clear: both;
+	float: none;
+}
+
+.umw-global-footer .global-footer-bottom-2 {
+	text-align: right;
+}
+
+.umw-global-footer .widget {
+	background: none;
+	margin: 0;
+	color: #fff;
+}
+
+.umw-global-footer .widget .widget-title {
+	color: #fff;
+}
+
+#menu-footer-legal-links li.menu-item {
+	display: inline-block;
+	padding: 0 0 0 8px;
+	padding: 0 0 0 .5rem;
+	margin: 0 0 0 8px;
+	margin: 0 0 0 .5rem;
+	border: none;
+	border-left: 1px solid #fff;
+}
+
+#menu-footer-legal-links li.menu-item:first-child {
+	border: none;
+}
+
+.umw-global-footer, 
+.umw-global-footer * {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+/* Column Classes
+	Link: http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css
+--------------------------------------------- */
+
+.umw-global-footer .five-sixths,
+.umw-global-footer .four-sixths,
+.umw-global-footer .one-fourth,
+.umw-global-footer .one-half,
+.umw-global-footer .one-sixth,
+.umw-global-footer .one-third,
+.umw-global-footer .three-fourths,
+.umw-global-footer .three-sixths,
+.umw-global-footer .two-fourths,
+.umw-global-footer .two-sixths,
+.umw-global-footer .two-thirds {
+  float: left;
+  margin-left: 2.564102564102564%;
+}
+.umw-global-footer .one-half,
+.umw-global-footer .three-sixths,
+.umw-global-footer .two-fourths {
+  width: 48.717948717948715%;
+}
+.umw-global-footer .one-third,
+.umw-global-footer .two-sixths {
+  width: 31.623931623931625%;
+}
+.umw-global-footer .four-sixths,
+.umw-global-footer .two-thirds {
+  width: 65.81196581196582%;
+}
+.umw-global-footer .one-fourth {
+  width: 23.076923076923077%;
+}
+.umw-global-footer .three-fourths {
+  width: 74.35897435897436%;
+}
+.umw-global-footer .one-sixth {
+  width: 14.52991452991453%;
+}
+.umw-global-footer .five-sixths {
+  width: 82.90598290598291%;
+}
+.umw-global-footer .first {
+  clear: both;
+  margin-left: 0;
+}
