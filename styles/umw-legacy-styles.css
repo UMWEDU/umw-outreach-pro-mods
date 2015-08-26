@@ -104,15 +104,15 @@ footer.site-footer .widget {
 }
 
 .umw-global-footer a, 
-.widget-area li a {
+.umw-global-footer .widget-area li a {
 	color: #fff;
 	text-decoration: none;
 }
 
 .umw-global-footer a:hover, 
 .umw-global-footer a:focus, 
-.widget-area li a:hover, 
-.widget-area li a:focus {
+.umw-global-footer .widget-area li a:hover, 
+.umw-global-footer .widget-area li a:focus {
 	color: #e2e2e2;
 	text-decoration: underline;
 }
