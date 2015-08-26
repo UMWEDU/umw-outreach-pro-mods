@@ -2,14 +2,14 @@
 /**
  * Sets up the base class for UMW Outreach modifications
  * @package UMW Outreach Customizations
- * @version 0.1.37
+ * @version 1.0.16.5
  */
 if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 	/**
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '1.0.16.4';
+		var $version = '1.0.16.5';
 		var $header_feed = null;
 		var $footer_feed = null;
 		var $settings_field = null;
@@ -132,7 +132,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 * 		UMW site
 		 */
 		function enqueue_legacy_styles() {
-			wp_enqueue_style( 'umw-global-footer-legacy', plugins_url( '/styles/legacy-umw-styles.css', dirname( __FILE__ ) ), array(), $this->version, 'all' );
+			wp_enqueue_style( 'umw-global-footer-legacy', plugins_url( '/styles/umw-legacy-styles.css', dirname( __FILE__ ) ), array(), $this->version, 'all' );
 		}
 		
 		/**
