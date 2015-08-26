@@ -125,6 +125,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			/* Get rid of the standard footer & replace it with our global footer */
 			remove_all_actions( 'genesis_footer' );
 			add_action( 'genesis_footer', array( $this, 'get_footer' ) );
+			
+			add_shortcode( 'current-date', array( $this, 'do_current_date_shortcode' ) );
+			add_shortcode( 'current-url', array( $this, 'do_current_url_shortcode' ) );
 		}
 		
 		/**
@@ -745,10 +748,18 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			}
 			
 			if ( is_string( $footer ) ) {
+				if ( ! $this->shortcode_exists( 'current-date' ) || ! $this->shortcode_exists( 'current-url' ) )
+					$this->add_shortcodes();
+					
+				$footer = do_shortcode( $footer );
 				echo $footer;
 			} else {
 				$footer = get_site_option( 'global-umw-footer', false );
 				if ( false !== $footer ) {
+					if ( ! $this->shortcode_exists( 'current-date' ) || ! $this->shortcode_exists( 'current-url' ) )
+						$this->add_shortcodes();
+						
+					$footer = do_shortcode( $footer );
 					echo $footer;
 				}
 				/*print( "<p>For some reason, the footer code was not a string. It looked like:</p>\n<pre><code>" );
@@ -817,10 +828,6 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 				
 			if ( 200 === absint( wp_remote_retrieve_response_code( $footer ) ) ) {
 				$footer = wp_remote_retrieve_body( $footer );
-				if ( ! $this->shortcode_exists( 'current-date' ) || ! $this->shortcode_exists( 'current-url' ) )
-					$this->add_shortcodes();
-					
-				$footer = do_shortcode( $footer );
 				set_site_transient( 'global-umw-footer', $footer, $this->transient_timeout );
 				update_site_option( 'global-umw-footer', $footer );
 				return $footer;
