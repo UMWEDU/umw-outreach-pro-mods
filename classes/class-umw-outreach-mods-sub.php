@@ -156,9 +156,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 */
 		function umw_login_link() {
 			if ( is_user_logged_in() ) {
-				$link = sprintf( '| <a href="%1$s" title="Go to the administration area for %2$s">%3$s</a>', admin_url(), esc_attr( get_bloginfo( 'name' ) ), __( 'Website Admin' ) );
+				$link = sprintf( '| <a rel="noindex, nofollow" href="%1$s" title="Go to the administration area for %2$s">%3$s</a>', admin_url(), esc_attr( get_bloginfo( 'name' ) ), __( 'Website Admin' ) );
 			} else {
-				$link = sprintf( '| <a href="%1$s" title="Login to the administration area for %2$s">%3$s</a>', wp_login_url(), esc_attr( get_bloginfo( 'name' ) ), __( 'Login' ) );
+				$link = sprintf( '| <a rel="noindex, nofollow" href="%1$s" title="Login to the administration area for %2$s">%3$s</a>', wp_login_url(), esc_attr( get_bloginfo( 'name' ) ), __( 'Login' ) );
 			}
 			echo json_encode( array( 'link' => $link ) );
 			wp_die();
