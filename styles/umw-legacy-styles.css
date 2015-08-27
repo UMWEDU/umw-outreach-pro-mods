@@ -50,6 +50,22 @@
   margin-left: 0;
 }
 
+@media all and (max-width: 860px) {
+	.umw-global-footer .five-sixths,
+	.umw-global-footer .four-sixths,
+	.umw-global-footer .one-fourth,
+	.umw-global-footer .one-half,
+	.umw-global-footer .one-sixth,
+	.umw-global-footer .one-third,
+	.umw-global-footer .three-fourths,
+	.umw-global-footer .three-sixths,
+	.umw-global-footer .two-fourths,
+	.umw-global-footer .two-sixths,
+	.umw-global-footer .two-thirds {
+		width: 100%;
+		margin: 0;
+	}
+}
 
 /* Main Footer Classes
 --------------------------------------------- */
