@@ -9,7 +9,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '1.0.16.5';
+		var $version = '1.0.16.6';
 		var $header_feed = null;
 		var $footer_feed = null;
 		var $settings_field = null;
