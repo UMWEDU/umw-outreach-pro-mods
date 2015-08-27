@@ -84,6 +84,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			
 			add_filter( 'body_class', array( $this, 'add_site_to_body_class' ) );
 			
+			$this->login_link_ajax_hooks();
+			
 			/*add_action( 'plugins_loaded', array( $this, 'jetpack_fluid_video_embeds' ) );*/
 			
 			/*add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );*/
@@ -128,6 +130,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			
 			add_shortcode( 'current-date', array( $this, 'do_current_date_shortcode' ) );
 			add_shortcode( 'current-url', array( $this, 'do_current_url_shortcode' ) );
+			
+			$this->login_link_ajax_hooks();
 		}
 		
 		/**
@@ -136,6 +140,65 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 */
 		function enqueue_legacy_styles() {
 			wp_enqueue_style( 'umw-global-footer-legacy', plugins_url( '/styles/umw-legacy-styles.css', dirname( __FILE__ ) ), array(), $this->version, 'all' );
+		}
+		
+		/**
+		 * Register the AJAX calls that will add the login link
+		 */
+		function login_link_ajax_hooks() {
+			add_action( 'wp_ajax_umw_login_link', array( $this, 'umw_login_link' ) );
+			add_action( 'wp_ajax_nopriv_umw_login_link', array( $this, 'umw_login_link' ) );
+			add_action( 'wp_print_footer_scripts', array( $this, 'login_link_ajax_scripts' ) );
+		}
+		
+		/**
+		 * Output a login link if the user is on-campus
+		 */
+		function umw_login_link() {
+			if ( is_user_logged_in() ) {
+				$link = sprintf( '| <a href="%1$s" title="Go to the administration area for %2$s">%3$s</a>', admin_url(), esc_attr( get_bloginfo( 'name' ) ), __( 'Website Admin' ) );
+			} else {
+				$link = sprintf( '| <a href="%1$s" title="Login to the administration area for %2$s">%3$s</a>', wp_login_url(), esc_attr( get_bloginfo( 'name' ) ), __( 'Login' ) );
+			}
+			echo json_encode( array( 'link' => $link ) );
+			wp_die();
+		}
+		
+		function get_real_ip( $echo=false ) {
+			/*if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) && ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
+				$ip = $_SERVER['HTTP_CLIENT_IP'];
+			} else*/ if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+				$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			} else {
+				$ip = $_SERVER['REMOTE_ADDR'];
+			}
+			
+			if ( $echo ) {
+				echo $ip;
+			}
+			return $ip;
+		}
+		
+		/**
+		 * Output the scripts that handle retrieving and outputting the login link
+		 */
+		function login_link_ajax_scripts() {
+?>
+<script>
+jQuery( function() {
+	if ( document.querySelectorAll( '.login-link' ).length <= 0 ) {
+		return;
+	}
+	jQuery.getJSON(
+		'<?php echo admin_url( 'admin-ajax.php' ) ?>', 
+		{ 'action' : 'umw_login_link' }, 
+		function( data ) {
+			jQuery( '.login-link' ).html( data.link );
+		}
+	);
+} );
+</script>
+<?php
 		}
 		
 		/**
