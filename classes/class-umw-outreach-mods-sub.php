@@ -103,8 +103,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 * We should only apply this if the site is being loaded over SSL, just in case
 		 */
 		function protocol_relative_plugins_url( $url ) {
-			if ( ! is_ssl() )
-				return $url;
+			/*if ( ! is_ssl() )
+				return $url;*/
 			
 			return str_replace( array( 'http://', 'https://' ), array( '//', '//' ), $url );
 		}
@@ -530,6 +530,9 @@ jQuery( function() {
 			if ( ! function_exists( 'genesis' ) )
 				return false;
 			
+			remove_action ( 'genesis_before_header', 'genesis_skip_links', 5 );
+			add_action( 'genesis_before', 'genesis_skip_links', 1 );
+			
 			remove_action( 'genesis_doctype', 'genesis_do_doctype' );
 			add_action( 'genesis_doctype', array( $this, 'do_doctype' ) );
 			
@@ -788,6 +791,10 @@ jQuery( function() {
 		 * Output the global UMW header
 		 */
 		function do_full_header() {
+			if ( isset( $_GET['delete_transients'] ) ) {
+				delete_site_transient( 'global-umw-header' );
+				delete_site_option( 'global-umw-header' );
+			}
 			$header = get_site_transient( 'global-umw-header' );
 			
 			if ( false === $header ) { /* There was no valid transient */

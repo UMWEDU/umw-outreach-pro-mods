@@ -316,7 +316,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			global $wp_styles;
 			if ( class_exists( 'Mega_Menu_Style_Manager' ) ) {
 				$tmp = new Mega_Menu_Style_Manager;
-				$css = $tmp->get_css();
+				$css = str_replace( array( 'http://', 'https://' ), array( '//', '//' ), $tmp->get_css() );
 				printf( '<style type="text/css" title="global-max-megamenu">%s</style>', $css );
 			}
 			$wp_styles->do_items( 'umw-online-tools' );
@@ -334,6 +334,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				global $wp_scripts;
 				$wp_scripts->done[] = 'jquery';
 				$wp_scripts->done[] = 'jquery-migrate';
+				$wp_scripts->done[] = 'hoverIntent';
 				$wp_scripts->do_items( 'megamenu' );
 			}
 			if ( wp_script_is( 'umw-online-tools', 'enqueued' ) ) {
