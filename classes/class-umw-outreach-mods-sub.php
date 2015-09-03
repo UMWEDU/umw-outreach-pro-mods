@@ -103,9 +103,6 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 * We should only apply this if the site is being loaded over SSL, just in case
 		 */
 		function protocol_relative_plugins_url( $url ) {
-			/*if ( ! is_ssl() )
-				return $url;*/
-			
 			return str_replace( array( 'http://', 'https://' ), array( '//', '//' ), $url );
 		}
 		
