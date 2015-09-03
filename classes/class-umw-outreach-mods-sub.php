@@ -567,6 +567,7 @@ jQuery( function() {
 			add_filter( 'genesis_available_sanitizer_filters', array( $this, 'add_sanitizer_filter' ) );
 			add_filter( 'genesis_theme_settings_defaults', array( $this, 'settings_defaults' ) );
 			
+			add_action( 'genesis_before_content', array( $this, 'home_title' ), 9 );
 			add_action( 'genesis_loop', array( $this, 'home_featured_image' ), 9 );
 			
 			$this->add_image_sizes();
@@ -577,6 +578,7 @@ jQuery( function() {
 			 */
 			if ( ! function_exists( 'genwpacc_activation_check' ) && ! function_exists( 'genesis_a11y' ) )
 				add_filter( 'genesis_attr_content', array( $this, 'add_content_id' ), 99, 2 );
+			
 		}
 		
 		/**
@@ -623,6 +625,20 @@ jQuery( function() {
 			$attr['id'] = 'genesis-content';
 			
 			return $attr;
+		}
+		
+		/**
+		 * Output the site name as the title of the front page
+		 */
+		function home_title() {
+			if ( ! is_front_page() || ! is_home() ) {
+				return;
+			}
+			$title = get_bloginfo( 'name' );
+			if ( empty( $title ) )
+				return;
+			
+			printf( '<h1 class="front-page-title hidden">%s</h1>', $title );
 		}
 		
 		/**
