@@ -642,6 +642,12 @@ jQuery( function() {
 			if ( empty( $title ) )
 				return;
 			
+			if ( defined( 'UMW_IS_ROOT' ) ) {
+				if ( ! is_numeric( UMW_IS_ROOT ) || UMW_IS_ROOT != $GLOBALS['blog_id'] ) {
+					$title = __( 'University of Mary Washington ' ) . $title;
+				}
+			}
+			
 			printf( '<h1 class="front-page-title hidden">%s</h1>', $title );
 		}
 		
