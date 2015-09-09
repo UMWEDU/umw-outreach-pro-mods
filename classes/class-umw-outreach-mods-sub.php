@@ -631,10 +631,14 @@ jQuery( function() {
 		 * Output the site name as the title of the front page
 		 */
 		function home_title() {
-			if ( ! is_front_page() || ! is_home() ) {
+			if ( ! is_front_page() && ! is_home() ) {
 				return;
 			}
-			$title = get_bloginfo( 'name' );
+			if ( is_front_page() ) {
+				$title = get_bloginfo( 'name' );
+			} else if ( is_home() ) {
+				$title = get_bloginfo( 'name' ) . ' Archives';
+			}
 			if ( empty( $title ) )
 				return;
 			
