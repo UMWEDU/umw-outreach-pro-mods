@@ -518,7 +518,8 @@ footer.site-footer .widget {
 }
 
 .home-top .flexslider .slide-caption h1,
-.home-featured-image figcaption h2 {
+.home-featured-image figcaption h2, 
+.home-top .flexslider .slide-caption .slide-caption-title {
 	font-family: MuseoSlab, "museo-slab", Georgia, 'Times New Roman', Times, serif;
 	font-size: 26px;
 	font-size: 1.625rem;
@@ -571,7 +572,8 @@ footer.site-footer .widget {
 	}
 
 	.home-top .flexslider .slide-caption h1,
-	.home-featured-image figcaption h2 {
+	.home-featured-image figcaption h2, 
+	.home-top .flexslider .slide-caption .slide-caption-title {
 		font-size: 1.5rem;
 		font-size: 24px;
 	}
