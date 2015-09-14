@@ -648,7 +648,7 @@ jQuery( function() {
 				}
 			}
 			
-			printf( '<h1 class="front-page-title hidden">%s</h1>', $title );
+			printf( '<h1 class="front-page-title hidden" style="display: block">%s</h1>', $title );
 		}
 		
 		/**
