@@ -6,7 +6,7 @@
  * If you need to change any existing styles for Outreach Pro,
  * 		those changes should be made within outreach-pro.css
  *
- * @version 0.1.37
+ * @version 1.0.16.8
  */
 
 * {
@@ -522,7 +522,7 @@ footer.site-footer .widget {
 .home-top .flexslider .slide-caption .slide-caption-title {
 	font-family: MuseoSlab, "museo-slab", Georgia, 'Times New Roman', Times, serif;
 	font-size: 26px;
-	font-size: 1.625rem;
+	font-size: 1.5rem;
 	color: #fff;
 	font-weight: 700;
 	text-transform: uppercase;
