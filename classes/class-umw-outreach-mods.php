@@ -33,7 +33,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			add_action( 'umw-header-logo', array( $this, 'get_logo' ) );
 			add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
 			add_action( 'init', array( $this, 'add_feed' ) );
-			add_action( 'plugins_loaded', array( $this, 'use_plugins' ) );
+			add_action( 'plugins_loaded', array( $this, 'use_plugins' ), 55 );
 			
 			$this->shortcodes_to_unregister = apply_filters( 'umw-global-header-footer-shortcodes-to-unregister', array(
 				'current-url', 
