@@ -200,7 +200,7 @@ jQuery( function() {
 		return;
 	}
 	jQuery.getJSON(
-		'<?php echo admin_url( 'admin-ajax.php' ) ?>', 
+		'<?php echo str_replace( array( 'http://', 'https://' ), array( '//', '//' ), admin_url( 'admin-ajax.php' ) ) ?>', 
 		{ 'action' : 'umw_login_link' }, 
 		function( data ) {
 			jQuery( '.login-link' ).html( data.link );
