@@ -83,6 +83,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			add_action( 'template_redirect', array( $this, 'do_custom_feeds' ) );
 			
 			add_filter( 'jetpack_shortcodes_to_include', array( $this, 'remove_youtube_and_vimeo_from_jetpack_shortcodes' ) );
+			add_filter( 'jetpack_photon_reject_https', '__return_false' );
 			
 			add_filter( 'body_class', array( $this, 'add_site_to_body_class' ) );
 			
