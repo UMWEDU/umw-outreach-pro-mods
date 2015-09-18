@@ -126,8 +126,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				$umw_online_tools_obj->enqueue_styles();
 				/*add_action( 'umw-above-header', array( $umw_online_tools_obj, 'do_toolbar', 1 ) );
 				add_action( 'umw-above-header', array( $umw_online_tools_obj, 'do_header_bar', 5 ) );*/
-			} else {
-				print( "\n<!-- The umw_online_tools_obj object doesn't seem to exist -->\n" );
+			/*} else {
+				print( "\n<!-- The umw_online_tools_obj object doesn't seem to exist -->\n" );*/
 			}
 		}
 		
