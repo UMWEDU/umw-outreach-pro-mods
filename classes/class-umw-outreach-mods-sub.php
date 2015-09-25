@@ -2,14 +2,14 @@
 /**
  * Sets up the base class for UMW Outreach modifications
  * @package UMW Outreach Customizations
- * @version 1.0.16.5
+ * @version 1.0.17
  */
 if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 	/**
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '1.0.16.8';
+		var $version = '1.0.17';
 		var $header_feed = null;
 		var $footer_feed = null;
 		var $settings_field = null;
@@ -510,6 +510,9 @@ jQuery( function() {
 		 * Set up any CSS style sheets that need to be used on the site
 		 */
 		function enqueue_styles() {
+			if ( is_admin() )
+				return;
+				
 			/* Outreach enqueues a style sheet called google-fonts, that loads type faces we don't use */
 			wp_dequeue_style( 'google-fonts' );
 			/* Register our modified copy of the Outreach Pro base style sheet */
