@@ -2,7 +2,7 @@
 /**
  * Sets up the root site class for any UMW Outreach Modifications
  * @package UMW Outreach Customizations
- * @version 0.1.31
+ * @version 1.0.17
  */
 if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 	/**
@@ -30,8 +30,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				add_action( 'init', array( $this, 'flush_rules' ) );
 			}
 			
-			add_action( 'umw-header-logo', array( $this, 'get_logo' ) );
 			add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
+			
+			add_action( 'umw-header-logo', array( $this, 'get_logo' ) );
 			add_action( 'init', array( $this, 'add_feed' ) );
 			add_action( 'plugins_loaded', array( $this, 'use_plugins' ), 55 );
 			
@@ -121,6 +122,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		 * 		header/footer are set up and ready to use
 		 */
 		function use_plugins() {
+			if ( is_admin() )
+				return;
+			
 			if ( isset( $GLOBALS['umw_online_tools_obj'] ) ) {
 				global $umw_online_tools_obj;
 				$umw_online_tools_obj->enqueue_styles();
