@@ -1228,55 +1228,6 @@ jQuery( function() {
 		 * Retrive a specific Genesis option
 		 */
 		function get_option( $key, $blog=false, $default=false ) {
-			$opt = $allopts = $converted = false;
-			
-			if ( empty( $blog ) || ( isset( $GLOBALS['blog_id'] ) && intval( $blog ) === $GLOBALS['blog_id'] ) ) {
-				$converted = get_option( 'umw-outreach-mods-moved-options', false );
-				if ( false !== $converted ) {
-					$allopts = get_option( $this->settings_field, array() );
-				}
-			} else {
-				$converted = get_blog_option( $blog, 'umw-outreach-mods-moved-options', false );
-				if ( false !== $converted ) {
-					$allopts = get_blog_option( $blog, $this->settings_field, array() );
-				}
-			}
-			
-			if ( false === $allopts ) {
-				$opt = $this->get_genesis_option( $key, $blog, $default );
-				/* We're still using the old Genesis option, so let's update it */
-				if ( empty( $blog ) || ( isset( $GLOBALS['blog_id'] ) && intval( $blog ) === $GLOBALS['blog_id'] ) ) {
-					update_option( $key, $opt );
-					update_option( 'umw-outreach-mods-moved-options', $this->version );
-				} else {
-					update_blog_option( $blog, $key, $opt );
-					update_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
-				}
-			} else if ( is_array( $allopts ) && array_key_exists( $key, $allopts ) ) {
-				$opt = $allopts[$key];
-			} else {
-				$opt = $default;
-			}
-			
-			if ( empty( $opt ) ) {
-				$tmp = $this->settings_defaults(array());
-				return $tmp[$this->setting_name];
-			}
-			
-			return $opt;
-		}
-		
-		/**
-		 * Retrieve a Genesis option
-		 * Only used if we still haven't converted the settings to our 
-		 * 		new settings field in an attempt to avoid mutilation during 
-		 * 		Genesis updates
-		 * @see UMW_Outreach_Mods_Sub::get_option()
-		 */
-		function get_genesis_option( $key, $blog=false, $default=false ) {
-			$old_settings_field = $this->settings_field;
-			$this->settings_field = defined( 'GENESIS_SETTINGS_FIELD' ) ? GENESIS_SETTINGS_FIELD : 'genesis-settings';
-			
 			if ( empty( $blog ) || intval( $blog ) === $GLOBALS['blog_id'] ) {
 				$opt = genesis_get_option( $key );
 			} else {
@@ -1291,8 +1242,6 @@ jQuery( function() {
 				$tmp = $this->settings_defaults(array());
 				return $tmp[$this->setting_name];
 			}
-			
-			$this->settings_field = $old_settings_field;
 			
 			return $opt;
 		}
