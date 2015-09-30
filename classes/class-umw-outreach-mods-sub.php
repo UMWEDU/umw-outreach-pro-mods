@@ -1198,7 +1198,7 @@ jQuery( function() {
 		/**
 		 * Add our default settings to the Genesis settings array
 		 */
-		function settings_defaults( $defaults=array() ) {
+		function settings_defaults( $settings=array() ) {
 			$settings[$this->setting_name] = apply_filters( 'umw-outreach-settings-defaults', array(
 				'site-title' => null, 
 				'statement'  => null, 
@@ -1217,7 +1217,7 @@ jQuery( function() {
 		 * Tell Genesis to use our new filter to sanitize our settings
 		 */
 		function sanitizer_filters() {
-			register_setting( $this->settings_field, $this->settings_field, array( $this, 'sanitize_settings' ) );
+			register_setting( defined( 'GENESIS_SETTINGS_FIELD' ) ? GENESIS_SETTINGS_FIELD : 'genesis-settings', $this->settings_field, array( $this, 'sanitize_settings' ) );
 			/*genesis_add_option_filter( 
 				'umw_outreach_settings_filter', 
 				$this->settings_field, 
@@ -1265,6 +1265,8 @@ jQuery( function() {
 		
 		function convert_genesis_options( $blog=false ) {
 			$opt = $this->get_genesis_option( $this->setting_name, $blog );
+			/*error_log( '[UMW Settings Debug]: Retrieved Genesis Settings' );
+			error_log( print_r( $opt, true ) );*/
 			if ( is_array( $opt ) && ! empty( $opt ) ) {
 				$opt = stripslashes_deep( $opt );
 				foreach ( $opt as $k=>$v ) {
@@ -1281,13 +1283,21 @@ jQuery( function() {
 				}
 			}
 			
+			/*error_log( '[UMW Settings Debug]: Formatted New Settings' );
+			error_log( print_r( $opt, true ) );*/
+			
 			if ( empty( $blog ) || ( isset( $GLOBALS['blog_id'] ) && intval( $blog ) === $GLOBALS['blog_id'] ) ) {
 				add_option( $this->settings_field, array( $this->setting_name => $opt ) );
 				add_option( 'umw-outreach-mods-moved-options', $this->version );
+				$tmp = get_option( $this->settings_field, array() );
 			} else {
-				add_blog_option( $this->settings_field, array( $this->setting_name => $opt ) );
-				add_blog_option( 'umw-outreach-mods-moved-options', $this->version );
+				add_blog_option( $blog, $this->settings_field, array( $this->setting_name => $opt ) );
+				add_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
+				$tmp = get_blog_option( $blog, $this->settings_field, array() );
 			}
+			
+			/*error_log( '[UMW Settings Debug]: Retrieved New Settings' );
+			error_log( print_r( $tmp, true ) );*/
 			
 			return array( $this->setting_name => $opt );
 		}
@@ -1411,6 +1421,8 @@ jQuery( function() {
 				return $val;
 			}
 			
+			$val = is_array( $val ) && array_key_exists( $this->setting_name, $val ) ? $val[$this->setting_name] : null;
+			
 			if ( empty( $val ) ) 
 				return null;
 				
@@ -1422,14 +1434,21 @@ jQuery( function() {
 			$rt['statement'] = empty( $val['statement'] ) ? null : wp_kses_post( $val['statement'] );
 			$rt['content'] = empty( $val['content'] ) ? null : wp_kses_post( $val['content'] );
 			$rt['image'] = array();
-			$rt['image']['url'] = esc_url( $val['image-url'] ) ? sanitize_url( $val['image-url'] ) : null;
-			$rt['image']['title'] = empty( $val['image-title'] ) ? null : sanitize_text_field( $val['image-title'] );
-			$rt['image']['subtitle'] = empty( $val['image-subtitle'] ) ? null : wp_kses( $val['image-subtitle'], $allowedtags );
-			$rt['image']['link'] = esc_url( $val['image-link'] ) ? sanitize_url( $val['image-link'] ) : null;
+			if ( array_key_exists( 'image', $val ) ) {
+				$rt['image']['url'] = esc_url( $val['image']['url'] ) ? sanitize_url( $val['image']['url'] ) : null;
+				$rt['image']['title'] = empty( $val['image']['title'] ) ? null : sanitize_text_field( $val['image']['title'] );
+				$rt['image']['subtitle'] = empty( $val['image']['subtitle'] ) ? null : wp_kses( $val['image']['subtitle'], $allowedtags );
+				$rt['image']['link'] = esc_url( $val['image']['link'] ) ? sanitize_url( $val['image']['link'] ) : null;
+			} else {
+				$rt['image']['url'] = esc_url( $val['image-url'] ) ? sanitize_url( $val['image-url'] ) : null;
+				$rt['image']['title'] = empty( $val['image-title'] ) ? null : sanitize_text_field( $val['image-title'] );
+				$rt['image']['subtitle'] = empty( $val['image-subtitle'] ) ? null : wp_kses( $val['image-subtitle'], $allowedtags );
+				$rt['image']['link'] = esc_url( $val['image-link'] ) ? sanitize_url( $val['image-link'] ) : null;
+			}
 			
 			$this->sanitized_settings = true;
 			
-			return $rt;
+			return array( $this->setting_name => $rt );
 		}
 		
 		/**
