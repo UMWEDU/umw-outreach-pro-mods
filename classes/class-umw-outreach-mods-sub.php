@@ -45,6 +45,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			add_action( 'global-umw-footer', array( $this, 'do_full_footer' ) );
 			add_action( 'global-umw-header', array( $this, 'do_value_prop' ) );
 			
+			add_action( 'wp_head', array( $this, 'siteimprove_edit_links' ), 99 );
+			
 			if ( defined( 'UMW_IS_ROOT' ) && ! is_numeric( UMW_IS_ROOT ) ) {
 				$feedsite = UMW_IS_ROOT;
 			} else if ( defined( 'DOMAIN_CURRENT_SITE' ) ) {
@@ -945,6 +947,38 @@ jQuery( function() {
 				return $footer;
 			}
 		}
+		
+		/**
+		 * Output the appropriate meta data to allow the Site Improve Edit button to work
+		 */
+		function siteimprove_edit_links() {
+			if ( ! is_singular() ) {
+				return;
+			}
+			
+			global $post;
+			$edit_uri = admin_url( 'post.php' );
+			$uri_parts = explode( '/', $edit_uri );
+			array_shift( $uri_parts );
+			$network = $web = '';
+			while ( empty( $network ) && count( $uri_parts ) > 0 ) {
+				$network = array_shift( $uri_parts );
+			}
+			while ( empty( $web ) && count( $uri_parts ) > 0 ) {
+				$web = array_shift( $uri_parts );
+			}
+			if ( 'wp-admin' == $web )
+				$web = '';
+			$format = '
+			<!-- Site Improve URI Information -->
+			<meta name="PageID" content="%d" />
+			<meta name="baseURL" content="%s" />
+			<meta name="site" content="%s" />
+			<!-- / Site Improve URI Information -->
+		';
+			printf( $format, $post->ID, $network, $web );
+		}
+
 		
 		/**
 		 * Generate the content of the atoz shortcode
