@@ -611,6 +611,10 @@ jQuery( function() {
 			 */
 			add_image_size( 'page-feature', 1140, 460, true );
 			/**
+			 * Add image size to be used as page feature image
+			 */
+			add_image_size( 'page-feature-uncropped', 1140, 1140, false );
+			/**
 			 * Add image size to be used as Feature Story in Sidebar
 			 */
 			add_image_size( 'sidebar-feature', 310, 155, true );
@@ -785,8 +789,78 @@ jQuery( function() {
 			if ( ! esc_url( $url ) )
 				return false;
 			
+			$tmp = $this->attachment_url_to_postid( $url );
+			if ( ! empty( $tmp ) && is_numeric( $tmp ) ) {
+				$imgdata = wp_get_attachment_image_src( $tmp, 'page-feature-uncropped', false );
+				if ( is_array( $imgdata ) ) {
+					$imgdata[] = trim( strip_tags( get_post_meta( $tmp, '_wp_attachment_image_alt', true ) ) );
+					return vsprintf( '<img src="%1$s" alt="%5$s" style="width: %2$dpx; max-width: 100%%; height: auto; max-height: %3$dpx;"/>', $imgdata );
+				}
+			}
+			
 			return sprintf( '<img src="%1$s" alt="%2$s"/>', esc_url( $url ), $img['title'] );
 		}
+		
+		/**
+		 * Tries to convert an attachment URL into a post ID.
+		 * This version of this function was copied almost directly from the 
+		 *    code within WordPress Core; it's just a backup in case the 
+		 *    function doesn't exist within Core for some reason
+		 *
+		 * @since 4.0.0
+		 *
+		 * @global wpdb $wpdb WordPress database abstraction object.
+		 *
+		 * @param string $url The URL to resolve.
+		 * @return int The found post ID, or 0 on failure.
+		 */
+		function attachment_url_to_postid( $url ) {
+			/**
+			 * Default to the one included with WP; if that doesn't 
+			 *  	exist for some reason, we'll use the one copped from WP 4.3+
+			 */
+			if ( function_exists( 'attachment_url_to_postid' ) ) {
+				return attachment_url_to_postid( $url );
+			}
+			
+			/**
+			 * Proceed with the one we copied from Core if the function 
+			 *    didn't exist in Core for some reason
+			 */
+			global $wpdb;
+		
+			$dir = wp_upload_dir();
+			$path = $url;
+		
+			$site_url = parse_url( $dir['url'] );
+			$image_path = parse_url( $path );
+		
+			//force the protocols to match if needed
+			if ( isset( $image_path['scheme'] ) && ( $image_path['scheme'] !== $site_url['scheme'] ) ) {
+				$path = str_replace( $image_path['scheme'], $site_url['scheme'], $path );
+			}
+		
+			if ( 0 === strpos( $path, $dir['baseurl'] . '/' ) ) {
+				$path = substr( $path, strlen( $dir['baseurl'] . '/' ) );
+			}
+		
+			$sql = $wpdb->prepare(
+				"SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attached_file' AND meta_value = %s",
+				$path
+			);
+			$post_id = $wpdb->get_var( $sql );
+		
+			/**
+			 * Filter an attachment id found by URL.
+			 *
+			 * @since 4.2.0
+			 *
+			 * @param int|null $post_id The post_id (if any) found by the function.
+			 * @param string   $url     The URL being looked up.
+			 */
+			return (int) apply_filters( 'attachment_url_to_postid', $post_id, $url );
+		}
+
 		
 		/**
 		 * Let's get rid of the default maxwidth property on oEmbeds so Flickr might behave better
