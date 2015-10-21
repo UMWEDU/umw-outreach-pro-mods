@@ -1640,7 +1640,7 @@ jQuery( function() {
 			
 			/* Set up the printf format based on the format argument; replacing number signs with digit placeholders */
 			$format = str_replace( '#', '%d', $atts['format'] );
-			$link = '<a href="tel:+%1$s"%2$s>%3$s</a>';
+			$link = '<a href="tel:+%1$s" title="%2$s">%3$s</a>';
 			/* Store the 11-digit all-numeric string in a var to use as the link address */
 			$linknum = $content;
 			/* Split the 11-digit all-numeric string into individual characters */
@@ -1651,7 +1651,10 @@ jQuery( function() {
 			/* Output the phone number in the desired format */
 			$format = vsprintf( $format, $linktext );
 			$title = do_shortcode( $atts['title'] );
-			return sprintf( $link, $linknum, empty( $atts['title'] ) ? '' : esc_attr( 'Call ' . $title ), $format );
+			$title = empty( $atts['title'] ) ? '' : esc_attr( 'Call ' . $title );
+			$rt = sprintf( $link, $linknum, $title, $format );
+			
+			return $rt;
 		}
 		
 		/**
