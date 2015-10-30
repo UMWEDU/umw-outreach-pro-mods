@@ -1210,3 +1210,18 @@ blockquote::before {
  * Styles for the Study home page mosaic are managed within the View
  * 		CSS Editor for the View that controls that display
  */
+
+/**
+ * Custom styles for the Landing Page custom page template
+ */
+.page-template-page_landing {
+	background: rgb(0, 43, 90);
+	color: #fff;
+}
+
+.page-template-page_landing .content {
+	background: #fff;
+	color: rgb(51,51,51);
+	margin: 32px auto;
+	margin: 2rem auto;
+}

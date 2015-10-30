@@ -9,7 +9,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '1.0.17';
+		var $version = '1.0.20';
 		var $header_feed = null;
 		var $footer_feed = null;
 		var $settings_field = null;
@@ -101,6 +101,17 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			$content_width = 1100;
 			
 			$this->umw_is_root();
+			
+			add_action( 'wp', array( $this, 'is_page_template' ) );
+		}
+		
+		/**
+		 * Determine whether this page uses a custom page template
+		 * 		Make necessary tweaks if it is
+		 */
+		function is_page_template() {
+			if ( is_page_template( 'page_landing.php' ) )
+				$this->undo_genesis_tweaks();
 		}
 		
 		/**
@@ -587,6 +598,28 @@ jQuery( function() {
 			if ( ! function_exists( 'genwpacc_activation_check' ) && ! function_exists( 'genesis_a11y' ) )
 				add_filter( 'genesis_attr_content', array( $this, 'add_content_id' ), 99, 2 );
 			
+		}
+		
+		/**
+		 * Undo all of the custom actions we added, since this 
+		 * 		page appears to be using a custom page template 
+		 * 		that doesn't need all of these changes
+		 */
+		function undo_genesis_tweaks() {
+			/* Get rid of the standard header & replace it with our global header */
+			remove_action( 'genesis_header', array( $this, 'get_header' ) );
+			
+			/* Get rid of the standard footer & replace it with our global footer */
+			remove_action( 'genesis_footer', array( $this, 'get_footer' ) );
+			
+			/* Get everything out of the primary sidebar & replace it with just navigation */
+			remove_action( 'genesis_sidebar', array( $this, 'section_navigation' ) );
+			
+			/* Move the breadcrumbs to appear above the content-sidebar wrap */
+			remove_action( 'genesis_before_content', 'genesis_do_breadcrumbs' );
+			
+			remove_action( 'genesis_before_content', array( $this, 'home_title' ), 9 );
+			remove_action( 'genesis_loop', array( $this, 'home_featured_image' ), 9 );
 		}
 		
 		/**
