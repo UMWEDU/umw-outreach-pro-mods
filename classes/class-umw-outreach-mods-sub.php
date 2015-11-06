@@ -39,7 +39,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			 */
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 			add_action( 'after_setup_theme', array( $this, 'genesis_tweaks' ), 11 );
-			add_action( 'genesis_before', array( $this, 'do_analytics_code' ), 1 );
+			/*add_action( 'genesis_before', array( $this, 'do_analytics_code' ), 1 );*/
 			
 			add_action( 'global-umw-header', array( $this, 'do_full_header' ) );
 			add_action( 'global-umw-footer', array( $this, 'do_full_footer' ) );
