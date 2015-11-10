@@ -357,11 +357,24 @@ jQuery( function() {
 		}
 		
 		/**
+		 * Override a shortcode by sending back the content
+		 * 		with no changes
+		 */
+		function __blank( $atts=array(), $content='' ) {
+			return $content;
+		}
+		
+		/**
 		 * Output a custom Atom feed
 		 */
 		function do_custom_feeds() {
 			if ( ! is_singular( 'atom-feed' ) )
 				return;
+			
+			remove_shortcode( 'wpv-layout-start' );
+			remove_shortcode( 'wpv-layout-end' );
+			add_shortcode( 'wpv-layout-start', array( $this, '__blank' ) );
+			add_shortcode( 'wpv-layout-end', array( $this, '__blank' ) );
 			
 			global $post;
 			while( have_posts() ) : the_post();
