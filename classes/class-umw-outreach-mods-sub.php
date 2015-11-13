@@ -1225,6 +1225,17 @@ jQuery( function() {
 			$postlist = array();
 			$wrapper = '<div>%1$s</div>';
 			
+			/**
+			 * If we're using a View for the list item template, let's make sure 
+			 * 		that each item doesn't get wrapped in the Views wrapper div
+			 */
+			if ( ! empty( $args['view'] ) && function_exists( 'render_view' ) ) {
+				remove_shortcode( 'wpv-layout-start' );
+				remove_shortcode( 'wpv-layout-end' );
+				add_shortcode( 'wpv-layout-start', array( $this, '__blank' ) );
+				add_shortcode( 'wpv-layout-end', array( $this, '__blank' ) );
+			}
+			
 			global $post;
 			if ( $posts->have_posts() ) : while ( $posts->have_posts() ) : $posts->the_post();
 				setup_postdata( $post );
@@ -1253,6 +1264,15 @@ jQuery( function() {
 			endwhile; endif;
 			wp_reset_postdata();
 			wp_reset_query();
+			
+			/**
+			 * Let's put the wrapper div back, so that any Views rendered
+			 * 		outside of our list will work as expected
+			 */
+			if ( ! empty( $args['view'] ) && function_exists( 'render_view' ) ) {
+				add_shortcode('wpv-layout-start', 'wpv_layout_start_shortcode');
+				add_shortcode('wpv-layout-end', 'wpv_layout_end_shortcode');
+			}
 			
 			if ( empty( $list ) || empty( $postlist ) ) {
 				return 'The post list was empty';
