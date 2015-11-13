@@ -186,7 +186,12 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			} else {
 				$link = sprintf( '| <a rel="noindex, nofollow" href="%1$s" title="Login to the administration area for %2$s">%3$s</a>', wp_login_url(), esc_attr( get_bloginfo( 'name' ) ), __( 'Login' ) );
 			}
-			echo json_encode( array( 'link' => $link ) );
+			
+			if ( function_exists( 'wp_json_encode' ) ) {
+				echo wp_json_encode( array( 'link' => $link ) );
+			} else {
+				echo json_encode( array( 'link' => $link ) );
+			}
 			wp_die();
 		}
 		
