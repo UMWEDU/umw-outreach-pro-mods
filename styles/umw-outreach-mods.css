@@ -502,6 +502,11 @@ footer.site-footer .widget {
 	background: none;
 }
 
+.home-top .flexslider .slide-caption, 
+.home-top .flex-control-thumbs {
+	left: 0;
+}
+
 .home-top .flexslider .slide-caption,
 .home-featured-image figcaption {
 	top: 0;
