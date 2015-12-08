@@ -25,6 +25,9 @@ if ( ! class_exists( 'UMW_Default_Settings' ) ) {
 		 * Set the license and API keys for Gravity Forms
 		 */
 		function set_gforms_defaults() {
+			// Not needed anymore, since these can be defined as constants in wp-config
+			return;
+			
 			if( false === get_option( 'rg_gforms_key', false ) )
 				update_option( 'rg_gforms_key', 'c5f8b8573c7d0f5de0716a7b0440b181' );
 			if( false === get_option( 'rg_gforms_captcha_public_key', false ) )
