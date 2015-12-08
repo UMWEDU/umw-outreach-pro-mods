@@ -103,6 +103,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			$this->umw_is_root();
 			
 			add_action( 'wp', array( $this, 'is_page_template' ) );
+			
+			/*add_filter( 'wpghs_post_meta', array( $this, '_ghs_extra_post_meta' ), 10, 2 );*/
 		}
 		
 		/**
@@ -1769,6 +1771,39 @@ jQuery( function() {
 				return $atts['before'] . $tempURL . $atts['after'];
 			
 			return '';
+		}
+		
+		/**
+		 * Make sure any desired additional post meta gets synced through
+		 * 		the GitHub Sync plugin
+		 * @param array $meta the array of meta data being synced
+		 * @param WordPress_GitHub_Sync_Post $post the GHS post object being synced
+		 *
+		 * @return array the updated array of meta data
+		 */
+		function _ghs_extra_post_meta( $meta=array(), $post=null ) {
+			$keys = apply_filters( 'umw-outreach-mods-ghs-meta-keys', array(
+				'page' => array(
+					'_genesis_layout', 
+					'_wp_page_template', 
+				), 
+				'post' => array(
+					'_genesis_layout', 
+					'_wp_page_template', 
+				)
+			) );
+			$pt = get_post_type( $post->id );
+			if ( ! array_key_exists( $pt, $keys ) ) {
+				return $meta;
+			}
+			
+			foreach ( $keys[$pt] as $k ) {
+				$tmp = get_post_meta( $post->id, $k, true );
+				if ( ! empty( $tmp ) )
+					$meta[$k] = $tmp;
+			}
+			
+			return $meta;
 		}
 	}
 }
