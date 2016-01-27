@@ -20,6 +20,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			} else if ( 5 == absint( $blog_id ) ) {
 				require_once( plugin_dir_path( __FILE__ ) . '/classes/class-umw-outreach-mods-study.php' );
 				$umw_outreach_mods_obj = new UMW_Outreach_Mods_Study;
+			} else if ( 30 == absint( $blog_id ) ) {
+				require_once( plugin_dir_path( __FILE__ ) . '/classes/class-umw-outreach-mods-residence.php' );
+				$umw_outreach_mods_obj = new UMW_Outreach_Mods_Residence;
 			} else {
 				$umw_outreach_mods_obj = new UMW_Outreach_Mods_Sub;
 			}
