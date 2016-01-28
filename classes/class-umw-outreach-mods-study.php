@@ -39,11 +39,11 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Study' ) ) {
 			global $fve;
 			if ( ! isset( $fve ) && class_exists( 'FluidVideoEmbed' ) ) {
 				FluidVideoEmbed::instance();
-				return $fve->filter_video_embed( '', $content );
+				return $fve->filter_video_embed( '', $content, null );
 			} else if ( ! class_exists( 'FluidVideoEmbed' ) ) {
 				return wp_oembed_get( $content, $atts );
 			} else {
-				return $fve->filter_video_embed( '', $content );
+				return $fve->filter_video_embed( '', $content, null );
 			}
 		}
 		
@@ -69,7 +69,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Study' ) ) {
 				if ( ! isset( $fve ) )
 					$feature = wp_oembed_get( $video, array( 'width' => 1140 ) );
 				else
-					$feature = $fve->filter_video_embed( '', $video );
+					$feature = $fve->filter_video_embed( '', $video, null );
 			}
 			
 			echo '<figure class="program-feature"><div class="wrap">' . $feature . '</div></figure>';
