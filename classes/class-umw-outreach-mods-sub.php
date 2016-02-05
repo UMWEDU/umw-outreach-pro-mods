@@ -671,6 +671,21 @@ jQuery( function() {
 			 * Add image size to be used as Feature Story in Sidebar
 			 */
 			add_image_size( 'sidebar-feature', 310, 155, true );
+			
+			/**
+			 * Add some of these new sizes to the size selector
+			 */
+			add_filter( 'image_size_names_choose', array( $this, 'image_size_names_choose' ) );
+		}
+		
+		/**
+		 * Add some custom image sizes to the Media Insert selector
+		 */
+		function image_size_names_choose( $sizes=array() ) {
+			$sizes['page-feature'] = __( 'Page Feature (Cropped)' );
+			$sizes['page-feature-uncropped'] = __( 'Page Feature (Original Shape)' );
+			
+			return $sizes;
 		}
 		
 		/**
