@@ -42,6 +42,19 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			) );
 			
 			add_filter( 'body_class', array( $this, 'add_root_body_class' ) );
+			
+			add_action( 'genesis_loop', array( $this, 'do_home_page_content' ), 9 );
+		}
+		
+		function do_home_page_content() {
+			if ( ! is_front_page() || ! is_main_query() || ( ! is_active_sidebar( 'home-top' ) && ! is_active_sidebar( 'home-bottom' ) ) )
+				return;
+			
+			if ( have_posts() ) : while ( have_posts() ) : the_post();
+				echo '<section class="home-page-main-content">';
+				the_content();
+				echo '</section>';
+			endwhile; endif;
 		}
 		
 		/**
