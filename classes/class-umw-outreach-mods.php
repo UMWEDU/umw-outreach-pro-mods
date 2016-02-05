@@ -51,6 +51,10 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				return;
 			
 			if ( have_posts() ) : while ( have_posts() ) : the_post();
+				$tmp = get_the_content();
+				if ( empty( $tmp ) )
+					continue;
+				
 				echo '<section class="home-page-main-content">';
 				the_content();
 				echo '</section>';
