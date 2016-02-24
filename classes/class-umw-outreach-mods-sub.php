@@ -468,7 +468,7 @@ jQuery( function() {
 			if ( empty( $current ) || ! is_array( $current ) )
 				return;
 			
-			if ( false == $this->is_root )
+			if ( false == $this->is_root && ( ! array_key_exists( 'site-title', $current ) || empty( $current['site-title'] ) ) )
 				$current['site-title'] = get_bloginfo( 'name' );
 			
 			if ( empty( $current['site-title'] ) && empty( $current['statement'] ) && empty( $current['content'] ) )
