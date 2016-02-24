@@ -337,7 +337,7 @@ jQuery( function() {
 			
 			if ( is_array( $atts ) && array_key_exists( 'src', $atts ) ) {
 				global $fve;
-				return $fve->filter_video_embed( '', $atts['src'] );
+				return $fve->filter_video_embed( '', $atts['src'], null );
 			}
 				
 			preg_match( '`http(s*?):\/\/(www\.*?)youtube.com\/embed\/([a-zA-Z0-9]{1,})`', $html, $matches );
