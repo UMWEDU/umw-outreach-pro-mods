@@ -25,7 +25,7 @@ if ( ! class_exists( 'UMW_Default_Settings' ) ) {
 		 * Set the license and API keys for Gravity Forms
 		 */
 		function set_gforms_defaults() {
-			// Not needed anymore, since these can be defined as constants in wp-config
+			// Not needed anymore, since keys are defined as constants in wp-config
 			return;
 			
 			if( false === get_option( 'rg_gforms_key', false ) )
@@ -231,10 +231,11 @@ if ( ! class_exists( 'UMW_Default_Settings' ) ) {
 		/**
 		 * Replace the default tagline with a branded one
 		 */
-		function get_default_tagline() {
-			if ( empty( $tagline ) || ! stristr( $tagline, 'just another' ) )
+		function get_default_tagline( $tagline ) {
+			if ( ! empty( $tagline ) && ! stristr( $tagline, 'just another' ) )
 				return $tagline;
 			
+			return __( 'University of Mary Washington' );
 			return __( 'Where great minds get to work' );
 		}
 		
@@ -245,7 +246,7 @@ if ( ! class_exists( 'UMW_Default_Settings' ) ) {
 			remove_filter( 'option_blogdescription', 'umw_get_default_tagline', 99 );
 			$tagline = get_option( 'blogdescription', false );
 			if ( false === $tagline )
-				add_option( 'blogdescription', __( 'Where great minds get to work' ) );
+				add_option( 'blogdescription', __( 'University of Mary Washington' ) );
 			
 			add_filter( 'option_blogdescription', 'umw_get_default_tagline', 99 );
 		}
