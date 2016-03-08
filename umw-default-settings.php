@@ -182,6 +182,7 @@ if ( ! class_exists( 'UMW_Default_Settings' ) ) {
 				'wpa_row_actions', 
 				'wpa_image_titles', 
 				'wpa_toolbar', 
+				'wpa_toolbar_default', 
 				'wpa_toolbar_size', 
 				'wpa_widget_toolbar', 
 				'wpa_toolbar_gs', 
