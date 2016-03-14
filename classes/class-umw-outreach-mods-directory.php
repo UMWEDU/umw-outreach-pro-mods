@@ -20,6 +20,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Directory' ) ) {
 			 * Fix the employee/building/department archives until I find a better way to handle this
 			 */
 			add_action( 'template_redirect', array( $this, 'do_directory_archives' ) );
+			add_filter( 'wpghs_whitelisted_post_types', function( $types=array() ) {
+				return array_merge( $types, array( 'employee', 'department', 'office', 'building' ) );
+			} );
 		}
 		
 		/**
