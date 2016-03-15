@@ -30,7 +30,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				add_action( 'init', array( $this, 'flush_rules' ) );
 			}
 			
-			add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
+			add_action( 'genesis_setup', array( $this, 'register_sidebars' ) );
 			
 			add_action( 'umw-header-logo', array( $this, 'get_logo' ) );
 			add_action( 'init', array( $this, 'add_feed' ) );
