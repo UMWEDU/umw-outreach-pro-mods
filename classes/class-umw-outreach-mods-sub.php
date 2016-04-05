@@ -105,6 +105,11 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			add_action( 'wp', array( $this, 'is_page_template' ) );
 			
 			/*add_filter( 'wpghs_post_meta', array( $this, '_ghs_extra_post_meta' ), 10, 2 );*/
+			
+			/**
+			 * Set up the Custom Sidebars for the Graduate Admissions section of the site
+			 */
+			add_action( 'cs_before_replace_sidebars', array( $this, 'do_graduate_custom_sidebars' ) );
 		}
 		
 		/**
@@ -1819,6 +1824,71 @@ jQuery( function() {
 			}
 			
 			return $meta;
+		}
+		
+		/**
+		 * Apply custom sidebars specifically to Graduate Admissions pages based on 
+		 * 		the custom sidebars for the top-level Graduate Admissions page
+		 * This is probably not the best place for this function, but it will do 
+		 * 		until I can come up with a better place for it.
+		 */
+		function do_graduate_custom_sidebars() {
+			/**
+			 * This isn't the install that includes the Admissions site
+			 */
+			if ( defined( 'UMW_IS_ROOT' ) && ! is_numeric( UMW_IS_ROOT ) )
+				return;
+			
+			/**
+			 * This isn't the Admissions site
+			 */
+			if ( 6 != $GLOBALS['blog_id'] )
+				return;
+			
+			/**
+			 * This is the admin area, so we shouldn't mess with things
+			 */
+			if ( is_admin() )
+				return;
+			
+			/**
+			 * Grab the CustomSidebarsReplacer object
+			 */
+			$temp = CustomSidebarsReplacer::instance();
+			if ( ! is_object( $temp ) ) {
+				return;
+			}
+			
+			/**
+			 * This can't be a page in the Graduate Admissions section because 
+			 * 		it's not a page
+			 */
+			if ( ! is_singular( 'page' ) ) {
+				return;
+			}
+			
+			/**
+			 * Check to see if this page has the Graduate Admissions page as one 
+			 * 		of its ancestors
+			 */
+			$ancs = get_ancestors( get_the_ID(), 'page' );
+			if ( ! in_array( 6, $ancs ) ) {
+				return;
+			}
+			
+			/**
+			 * Trick Custom Sidebars into thinking we're on the top Graduate Admissions
+			 * 		page, instead of one of the descendant pages
+			 */
+			global $post;
+			$post = get_post( 6 );
+			$temp->store_original_post_id();
+			
+			/**
+			 * Make sure we set the post information back to the original state, so the 
+			 * 		rest of the page renders correctly
+			 */
+			wp_reset_postdata();
 		}
 	}
 }
