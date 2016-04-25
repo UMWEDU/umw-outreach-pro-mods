@@ -972,6 +972,7 @@ div.CTAbutton a:hover, div.CTAbutton a:focus {color: #e6eaee; text-decoration: n
 .CTAorange {background-color: #ff7900;}
 .CTAburgundy {background-color: #b71237;}
 .CTApurple {background-color:#663990;}
+.CTAsubtext {line-height: 1.5; text-align: left; clear: both; font-family: MuseoSans, helvetica, arial, tahoma; font-size: .5em; color: black; font-weight: normal;}
 
 /**
  * Specialized styles for Study site
