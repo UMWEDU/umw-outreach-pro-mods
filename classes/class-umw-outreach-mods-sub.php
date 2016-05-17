@@ -810,7 +810,7 @@ jQuery( function() {
 			if ( 'photo' != $data->type ) {
 				$args['width'] = 1140;
 				$args['height'] = 800;
-				return apply_filters( 'the_content', '[embed width="1140" height="800"]' . $url . '[/embed]' );
+				return apply_filters( 'the_content', '[embed width="' . $args['width'] . '" height="' . $args['height'] . '"]' . $url . '[/embed]' );
 			}
 			$srcs['small'] = array( 'url' => $data->url, 'width' => $data->width, 'height' => $data->height );
 			
