@@ -1231,3 +1231,154 @@ blockquote::before {
 	margin: 32px auto;
 	margin: 2rem auto;
 }
+
+/**
+ * Custom styles for the home page grid layout used on various 
+ *		sites throughout the system
+ */
+/* Styles copied from wrapper View */
+.home-top a {
+	font-family: MuseoSlab, serif;
+	color: #b81237;
+	font-weight: 700;
+}
+.home-top a:hover, 
+.home-top a:focus {
+	color: #002b5a;
+	text-decoration: underline;
+}
+.reslife-home-main-area {
+	padding: 16px;
+	padding: 1rem;
+}
+.reslife-home-feature-more-link {text-align: right;}
+.reslife-home-sidebar {
+	background: #edf3f4;
+	padding: 0;
+}
+.reslife-home-sidebar .widget, 
+.reslife-home-sidebar .widget:first-child {
+	padding: 24px 16px 16px;
+	padding: 1.5rem 1rem 1rem;
+}
+.reslife-home-sidebar .widget-title {
+	color: #B81237;
+	font-size: 18px;
+	text-transform: uppercase;
+	font-family: MuseoSans, sans-serif;
+}
+.home-bottom.widget-area {
+	background: #edf3f4;
+}
+.home-top.widget-area > .widget {
+	margin: 0;
+	padding: 0;
+}
+.widget-get-connected .genericon {
+	background: #002B5A;
+	color: #fff;
+	font-size: 24px;
+	font-size: 1.5rem;
+	border-radius: 24px !important;
+	padding: 8px;
+	padding: .5rem;
+}
+.widget-get-connected .genericon:hover, 
+.widget-get-connected .genericon:focus {
+	background: #4c6a8b;
+}
+.reslife-home-feature-entry ul, 
+.reslife-home-feature-entry ul > li {
+	list-style: disc;
+}
+.reslife-home-feature-entry ol, 
+.reslife-home-feature-entry ol > li {
+	list-style: decimal;
+}
+.reslife-home-feature-entry li {
+	margin-left: 16px;
+	margin-left: 1rem;
+	padding-left: 0;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+.reslife-home-feature-entry ul, 
+.reslife-home-feature-entry ol {
+	margin-bottom: 16px;
+	margin-bottom: 1rem;
+}
+.home-top .reslife-home-main-area .hall-home-feature {
+	margin-bottom: 16px;
+	margin-bottom: 1rem;
+}
+@media all and (max-width: 860px) {
+	.home-top .reslife-home-main-area .one-fourth:nth-child(2n+2), 
+	.home-top .reslife-home-main-area .one-fourth:nth-child(2n+1) {
+		padding: 0;
+		clear: none;
+	}
+	.home-top .reslife-home-main-area .one-fourth:nth-of-type(2n+2) {
+		clear: right;
+	}
+	.home-top .reslife-home-main-area .one-fourth:nth-of-type(2n+1) {
+		clear: left;
+		padding-left: 0;
+		padding-right: 5%;
+	}
+	.home-top .reslife-home-sidebar, 
+	.home-top .reslife-home-main-area, 
+	.home-top .reslife-home-sidebar.one-fourth:nth-of-type(2n+1) {
+		width: 100%;
+		padding: 0;
+		clear: both;
+	}
+}
+/* Original styles */
+.reslife-home-feature {
+	background-color: #e6eaee;
+	margin-bottom: 1rem;
+}
+h2.reslife-home-feature-title {
+	color: #fff;
+	background: #4c6a8b;
+	padding: 10px 20px;
+	padding: 0.625rem 1.25rem;
+	margin: 0;
+	font-size: 1rem;
+	font-family: MuseoSans;
+	font-weight: 500;
+}
+h2.reslife-home-feature-title a {
+	color: #fff;
+}
+h2.reslife-home-feature-title a:hover, 
+h2.reslife-home-feature-title a:focus {
+	color: #e2e2e2;
+	text-decoration: underline;
+}
+.reslife-home-feature-entry {
+	font-size: 14px;
+	font-size: .875rem;
+	font-weight: 500;
+	font-family: MuseoSans;
+	padding: 32px;
+	padding: 2rem;
+	color: #000;
+}
+.reslife-home-feature-more-link a {
+	color: #3A5B7D;
+}
+.reslife-home-feature-more-link a:after {
+	display: inline-block;
+	line-height: 1;
+	vertical-align: middle;
+	text-align: center;
+	content: ">";
+	padding: 3px;
+	margin: 0 0 0 10px;
+	color: #fff;
+	background: #b81237;
+	border-radius: 10px;
+	width: 15px;
+	height: 15px;
+}
