@@ -110,6 +110,12 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			 * Set up the Custom Sidebars for the Graduate Admissions section of the site
 			 */
 			add_action( 'cs_before_replace_sidebars', array( $this, 'do_graduate_custom_sidebars' ) );
+			
+			/**
+			 * Stop Yoast SEO Premium from creating automatic redirects when a slug changes
+			 */
+			add_filter('wpseo_premium_post_redirect_slug_change', '__return_true' ); 
+			add_filter('wpseo_premium_term_redirect_slug_change', '__return_true' );
 		}
 		
 		/**
