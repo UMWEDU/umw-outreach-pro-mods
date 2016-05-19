@@ -114,8 +114,32 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			/**
 			 * Stop Yoast SEO Premium from creating automatic redirects when a slug changes
 			 */
-			add_filter('wpseo_premium_post_redirect_slug_change', '__return_true' ); 
-			add_filter('wpseo_premium_term_redirect_slug_change', '__return_true' );
+			add_filter( 'wpseo_premium_post_redirect_slug_change', '__return_true' ); 
+			add_filter( 'wpseo_premium_term_redirect_slug_change', '__return_true' );
+			
+			/**
+			 * Fix Responsive Image SrcSet Attributes for SSL
+			 */
+			add_filter( 'wp_calculate_image_srcset', array( $this, 'ssl_srcset' ) );
+			
+			/**
+			 * Attempt to fix Pretty Link Pro handling of SSL
+			 */
+			add_filter( 'prli_target_url', array( $this, 'prli_target_url' ) );
+		}
+		
+		/**
+		 * Attempt to fix Pretty Link Pro's handling of SSL
+		 */
+		function prli_target_url( $link ) {
+			if ( ! array_key_exists( 'url', $link ) )
+				return $link;
+			
+			if ( ! stristr( $link['url'], 'https:' ) )
+				return $link;
+			
+			$link['url'] = preg_replace( '~https://(.*?)umw\.edu~', 'http://$1umw.edu', $link['url'] );
+			return $link;
 		}
 		
 		/**
@@ -133,6 +157,18 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 */
 		function protocol_relative_plugins_url( $url ) {
 			return str_replace( array( 'http://', 'https://' ), array( '//', '//' ), $url );
+		}
+		
+		/**
+		 * Adjust the srcset attribute of the responsive images to use protocol-relative URLs
+		 */
+		function ssl_srcset( $sources=array() ) {
+			foreach ( $sources as $id=>$props ) {
+				$url = $props['url'];
+				$sources[$id]['url'] = $this->protocol_relative_plugins_url( $url );
+			}
+			
+			return $sources;
 		}
 		
 		/**
