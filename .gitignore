@@ -59,3 +59,8 @@ wp-content/cache/
 wp-content/upgrade/
 wp-content/uploads/
 wp-content/wp-cache-config.php
+.idea/copyright/profiles_settings.xml
+.idea/modules.xml
+.idea/umw-outreach-mods.iml
+.idea/vcs.xml
+.idea/workspace.xml
