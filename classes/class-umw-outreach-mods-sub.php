@@ -1742,7 +1742,7 @@ jQuery( function() {
 			if ( empty( $content ) )
 				return '';
 			
-			$atts = shortcode_atts( array( 'format' => '(###) ###-####', 'area' => '540', 'exchange' => '654', 'country' => '1', 'title' => '' ), $atts );
+			$atts = shortcode_atts( array( 'format' => '###-###-####', 'area' => '540', 'exchange' => '654', 'country' => '1', 'title' => '' ), $atts );
 			$content = preg_replace( '/[^0-9]/', '', $content );
 			$area = substr( preg_replace( '/[^0-9]/', '', $atts['area'] ), 0, 3 );
 			$exchange = substr( preg_replace( '/[^0-9]/', '', $atts['exchange'] ), 0, 3 );
