@@ -1742,7 +1742,12 @@ jQuery( function() {
 			if ( empty( $content ) )
 				return '';
 			
-			$atts = shortcode_atts( array( 'format' => '###-###-####', 'area' => '540', 'exchange' => '654', 'country' => '1', 'title' => '' ), $atts );
+			$atts = shortcode_atts( array( 'format' => '###-###-####', 'area' => '540', 'exchange' => '654', 'country' => '1', 'title' => '', 'link' => 1 ), $atts );
+			if ( in_array( $atts['link'], array( 'false', false, 0, '0' ), true ) ) {
+				$atts['link'] = false;
+			} else {
+				$atts['link'] = true;
+			}
 			$content = preg_replace( '/[^0-9]/', '', $content );
 			$area = substr( preg_replace( '/[^0-9]/', '', $atts['area'] ), 0, 3 );
 			$exchange = substr( preg_replace( '/[^0-9]/', '', $atts['exchange'] ), 0, 3 );
@@ -1775,7 +1780,11 @@ jQuery( function() {
 			
 			/* Set up the printf format based on the format argument; replacing number signs with digit placeholders */
 			$format = str_replace( '#', '%d', $atts['format'] );
-			$link = '<a href="tel:+%1$s" title="%2$s">%3$s</a>';
+			if ( $atts['link'] ) {
+				$link = '<a href="tel:+%1$s" title="%2$s">%3$s</a>';
+			} else {
+				$link = '%3$s';
+			}
 			/* Store the 11-digit all-numeric string in a var to use as the link address */
 			$linknum = $content;
 			/* Split the 11-digit all-numeric string into individual characters */
