@@ -1237,31 +1237,41 @@ blockquote::before {
  *		sites throughout the system
  */
 /* Styles copied from wrapper View */
-.home-top a {
+.home-top .js-wpv-view-layout a {
 	font-family: MuseoSlab, serif;
 	color: #b81237;
 	font-weight: 700;
 }
-.home-top a:hover, 
-.home-top a:focus {
+.home-top .js-wpv-view-layout a:hover, 
+.home-top .js-wpv-view-layout a:focus {
 	color: #002b5a;
 	text-decoration: underline;
 }
-.reslife-home-main-area {
+.home-top a.button {
+	background: #4C6A8B;
+	color: #fff;
+	text-decoration: none;
+}
+.home-top a.button:hover, 
+.home-top a.button:focus {
+	color: #e2e2e2;
+	text-decoration: none;
+}
+.js-wpv-view-layout .reslife-home-main-area {
 	padding: 16px;
 	padding: 1rem;
 }
-.reslife-home-feature-more-link {text-align: right;}
-.reslife-home-sidebar {
+.js-wpv-view-layout .reslife-home-feature-more-link {text-align: right;}
+.js-wpv-view-layout .reslife-home-sidebar {
 	background: #edf3f4;
 	padding: 0;
 }
-.reslife-home-sidebar .widget, 
-.reslife-home-sidebar .widget:first-child {
+.js-wpv-view-layout .reslife-home-sidebar .widget, 
+.js-wpv-view-layout .reslife-home-sidebar .widget:first-child {
 	padding: 24px 16px 16px;
 	padding: 1.5rem 1rem 1rem;
 }
-.reslife-home-sidebar .widget-title {
+.js-wpv-view-layout .reslife-home-sidebar .widget-title {
 	color: #B81237;
 	font-size: 18px;
 	text-transform: uppercase;
@@ -1338,7 +1348,7 @@ blockquote::before {
 	background-color: #e6eaee;
 	margin-bottom: 1rem;
 }
-h2.reslife-home-feature-title {
+.js-wpv-view-layout h2.reslife-home-feature-title {
 	color: #fff;
 	background: #4c6a8b;
 	padding: 10px 20px;
@@ -1348,15 +1358,15 @@ h2.reslife-home-feature-title {
 	font-family: MuseoSans;
 	font-weight: 500;
 }
-h2.reslife-home-feature-title a {
+.js-wpv-view-layout h2.reslife-home-feature-title a {
 	color: #fff;
 }
-h2.reslife-home-feature-title a:hover, 
-h2.reslife-home-feature-title a:focus {
+.js-wpv-view-layout h2.reslife-home-feature-title a:hover, 
+.js-wpv-view-layout h2.reslife-home-feature-title a:focus {
 	color: #e2e2e2;
 	text-decoration: underline;
 }
-.reslife-home-feature-entry {
+.js-wpv-view-layout .reslife-home-feature-entry {
 	font-size: 14px;
 	font-size: .875rem;
 	font-weight: 500;
@@ -1365,10 +1375,10 @@ h2.reslife-home-feature-title a:focus {
 	padding: 2rem;
 	color: #000;
 }
-.reslife-home-feature-more-link a {
+.js-wpv-view-layout .reslife-home-feature-more-link a {
 	color: #3A5B7D;
 }
-.reslife-home-feature-more-link a:after {
+.js-wpv-view-layout .reslife-home-feature-more-link a:after {
 	display: inline-block;
 	line-height: 1;
 	vertical-align: middle;
