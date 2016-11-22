@@ -38,6 +38,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			 * Back to normal
 			 */
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+			add_action( 'wp_print_footer_scripts', array( $this, 'fix_tools_mobile_menu' ) );
 			add_action( 'after_setup_theme', array( $this, 'genesis_tweaks' ), 11 );
 			/*add_action( 'genesis_before', array( $this, 'do_analytics_code' ), 1 );*/
 			
@@ -603,6 +604,14 @@ jQuery( function() {
 			if ( ! wp_style_is( 'genericons', 'registered' ) ) 
 				wp_register_style( 'genericons', plugins_url( '/styles/genericons/genericons.css', dirname( __FILE__ ) ), array(), $GLOBALS['wp_version'], 'all' );
 			wp_enqueue_style( 'umw-outreach-mods', plugins_url( '/styles/umw-outreach-mods.css', dirname( __FILE__ ) ), array( 'outreach-pro', 'genericons', 'dashicons' ), $this->version, 'all' );
+		}
+		
+		/**
+		 * Output a little JS to fix the fact that the tools/search menu 
+		 * 		no longer works on mobile
+		 */
+		function fix_tools_mobile_menu() {
+			print( '<!-- Fix Tools Mega Menu on Mobile --><script>jQuery( function() { jQuery( \'.umw-is-root .tools-search-toggle\' ).on( \'click\', function() { jQuery( \'.mega-menu-item-umw-online-tools\' ).toggleClass( \'mega-toggle-on\' ); return false; } ); } )</script><!-- /Fix Tools Mega Menu on Mobile -->');
 		}
 		
 		/**
