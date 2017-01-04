@@ -1681,6 +1681,13 @@ jQuery( function() {
 			$rt = array();
 			
 			$allowedtags = wp_kses_allowed_html( 'user_description' );
+			$allowedtags['img'] = array(
+				'class' => true, 
+				'id'    => true, 
+				'title' => true, 
+				'src'   => true, 
+				'alt'   => true, 
+			);
 			
 			$rt['site-title'] = empty( $val['site-title'] ) ? null : sanitize_text_field( $val['site-title'] );
 			$rt['statement'] = empty( $val['statement'] ) ? null : wp_kses_post( $val['statement'] );
