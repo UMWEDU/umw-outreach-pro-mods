@@ -1050,6 +1050,10 @@ jQuery( function() {
 		 * Output the global UMW footer
 		 */
 		function do_full_footer() {
+			if ( isset( $_GET['delete_transients'] ) ) {
+				delete_site_transient( 'global-umw-footer' );
+				delete_site_option( 'global-umw-footer' );
+			}
 			$footer = get_site_transient( 'global-umw-footer' );
 			
 			if ( false === $footer ) { /* There was no valid transient */
@@ -1134,7 +1138,8 @@ jQuery( function() {
 			if ( is_wp_error( $footer ) ) {
 				/*print( '<pre><code>' );
 				var_dump( $footer );
-				print( '</code></pre>' );*/
+				print( '</code></pre>' );
+				wp_die( 'Done' );*/
 				return $footer;
 			}
 				

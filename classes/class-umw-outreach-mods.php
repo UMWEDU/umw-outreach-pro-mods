@@ -35,6 +35,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			add_action( 'umw-header-logo', array( $this, 'get_logo' ) );
 			add_action( 'init', array( $this, 'add_feed' ) );
 			add_action( 'plugins_loaded', array( $this, 'use_plugins' ), 55 );
+			add_filter( 'feed_content_type', array( $this, 'fake_query' ), 10, 2 );
 			
 			$this->shortcodes_to_unregister = apply_filters( 'umw-global-header-footer-shortcodes-to-unregister', array(
 				'current-url', 
@@ -44,6 +45,20 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 			add_filter( 'body_class', array( $this, 'add_root_body_class' ) );
 			
 			add_action( 'genesis_loop', array( $this, 'do_home_page_content' ), 9 );
+		}
+		
+		function fake_query( $content_type, $type ) {
+			if ( 'umw-global-header' == $type || 'umw-global-footer' == $type ) {
+				add_action( 'template_redirect', array( $this, 'fix_fake_query' ) );
+				return 'text/plain';
+			}
+			
+			return $content_type;
+		}
+		
+		function fix_fake_query() {
+			global $wp_query;
+			$wp_query->is_archive = true;
 		}
 		
 		function do_home_page_content() {
