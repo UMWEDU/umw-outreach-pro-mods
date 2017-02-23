@@ -587,6 +587,18 @@ footer.site-footer .widget {
 		font-size: 1rem;
 		font-size: 16px;
 	}
+
+	/* Make the caption for the root home page slideshow appear below the slideshow
+		on mobile, rather than appearing as an overlay, and make the caption text visible
+	 */
+	.home-top .flexslider .slide-caption {
+		background: #002b5a;
+		position: static;
+	}
+
+	.home-top .flexslider .slide-caption .slide-caption-text {
+		display: block;
+	}
 }
 
 /*
@@ -1156,9 +1168,9 @@ blockquote::before {
 .breadcrumb a:hover, .pcs-post-title a:hover, .site-info a:hover, .breadcrumb a:focus, .pcs-post-title a:focus, .site-info a:focus {text-decoration: underline;}
 
 @media all and (max-width: 600px) {
-    .site-directory .mobileHideColumn {
-        display: none;
-    }
+	.site-directory .mobileHideColumn {
+		display: none;
+	}
 		h1.employeeName {clear: both; display: block;}
 }
 
