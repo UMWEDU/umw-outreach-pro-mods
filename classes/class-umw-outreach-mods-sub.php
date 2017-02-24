@@ -569,6 +569,10 @@ jQuery( function() {
 		 *
 		 * @param  array $atts ignored
 		 * @param  string $content the content to return
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return string the same content fed to the function
 		 */
 		function __blank( $atts=array(), $content='' ) {
 			return $content;
@@ -587,6 +591,7 @@ jQuery( function() {
 			add_shortcode( 'wpv-layout-end', array( $this, '__blank' ) );
 			
 			global $post;
+			$content = '';
 			while( have_posts() ) : the_post();
 				$content = $post->post_content;
 			endwhile;
@@ -727,6 +732,14 @@ jQuery( function() {
 		
 		/**
 		 * Attempt to remove the link wrapper around oEmbedded images
+		 *
+		 * @param  string $return the HTML string that should be processed
+		 * @param  stdClass $data the data object returned from WP_oEmbed::fetch()
+		 * @param  string $url the original oEmbeddable URL provided
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return string the updated HTML
 		 */
 		function remove_oembed_link_wrapper( $return, $data, $url ) {
 			if ( 'photo' != $data->type )
@@ -772,6 +785,10 @@ jQuery( function() {
 		/**
 		 * Tweak anything that's done by Genesis or Outreach that's 
 		 * 		not necessary for our implementation
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return bool
 		 */
 		function genesis_tweaks() {
 			if ( ! function_exists( 'genesis' ) )
@@ -829,6 +846,7 @@ jQuery( function() {
 			if ( ! function_exists( 'genwpacc_activation_check' ) && ! function_exists( 'genesis_a11y' ) )
 				add_filter( 'genesis_attr_content', array( $this, 'add_content_id' ), 99, 2 );
 			
+			return true;
 		}
 		
 		/**
@@ -891,6 +909,12 @@ jQuery( function() {
 		
 		/**
 		 * Add some custom image sizes to the Media Insert selector
+		 *
+		 * @param  array $sizes the array of images sizes
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return array the updated array of sizes
 		 */
 		function image_size_names_choose( $sizes=array() ) {
 			$sizes['page-feature'] = __( 'Page Feature (Cropped)' );
@@ -901,13 +925,27 @@ jQuery( function() {
 		
 		/**
 		 * Return the URL to our custom favicon
+		 *
+		 * @param  string $url the URL of the default favicon
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return string the updated location of the favicon
 		 */
 		function favicon_url( $url ) {
-			return plugins_url( '/images/favicon.ico', dirname( __FILE__ ) );
+			$url = plugins_url( '/images/favicon.ico', dirname( __FILE__ ) );
+			return $url;
 		}
 		
 		/**
 		 * Add an HTML ID to the <main> element to allow skip-links to work
+		 *
+		 * @param  array $attr the array of attributes for the <main> element
+		 * @param  string $context the handle for the element being processed
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return array the updated array of attributes
 		 */
 		function add_content_id( $attr, $context ) {
 			if ( 'content' != $context ) 
@@ -988,6 +1026,13 @@ jQuery( function() {
 		
 		/**
 		 * Attempt to retrieve the appropriate code for an embedded image
+		 *
+		 * @param  string $url the URL of the image to be embedded
+		 * @param  array $img the array of information about the embeddable image
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return bool|string false if error; processed HTML if successful
 		 */
 		function get_embedded_image( $url, $img=array('title'=>null) ) {
 			add_filter( 'embed_defaults', array( $this, 'remove_default_oembed_width' ) );
@@ -1058,6 +1103,15 @@ jQuery( function() {
 		
 		/**
 		 * Handle direct links to images that need to be embedded
+		 * @uses UMW_Outreach_Mods_Sub::attachment_url_to_postid()
+		 * @uses wp_get_attachment_image_src()
+		 *
+		 * @param  string $url the URL to the image being embedded
+		 * @param  array  $img the image information
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return bool|string false if error; processed HTML if successful
 		 */
 		function get_embedded_image_direct( $url, $img=array('title'=>'') ) {
 			remove_filter( 'embed_defaults', array( $this, 'remove_default_oembed_width' ) );
@@ -1143,9 +1197,16 @@ jQuery( function() {
 		
 		/**
 		 * Let's get rid of the default maxwidth property on oEmbeds so Flickr might behave better
+		 *
+		 * @param  array $defaults the default oEmbed attributes
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return array the blanked-out array of attributes
 		 */
 		function remove_default_oembed_width( $defaults=array() ) {
-			return array();
+			$defaults = array();
+			return $defaults;
 		}
 		
 		/**
@@ -1241,6 +1302,14 @@ jQuery( function() {
 		
 		/**
 		 * Check to see if a shortcode exists
+		 *
+		 * @global $shortcode_tags
+		 *
+		 * @param  string $shortcode the shortcode to test
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return bool whether the shortocde exists in the registered handles or not
 		 */
 		function shortcode_exists( $shortcode = '' ) {
 			global $shortcode_tags;
@@ -1252,6 +1321,10 @@ jQuery( function() {
 		
 		/**
 		 * Retrieve the global UMW header from the feed on the root site
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return string the processed HTML for the header
 		 */
 		function get_header_from_feed() {
 			printf( "\n<!-- Attempting to retrieve '%s' -->\n", esc_url( $this->header_feed ) );
@@ -1282,10 +1355,16 @@ jQuery( function() {
 				update_site_option( 'global-umw-header', $header );
 				return $header;
 			}
+			
+			return '';
 		}
 		
 		/**
 		 * Retrieve the global UMW footer from the feed on the root site
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return string the processed HTML for the footer
 		 */
 		function get_footer_from_feed() {
 			printf( "\n<!-- Attempting to retrieve '%s' -->\n", esc_url( $this->footer_feed ) );
@@ -1304,6 +1383,8 @@ jQuery( function() {
 				update_site_option( 'global-umw-footer', $footer );
 				return $footer;
 			}
+			
+			return '';
 		}
 		
 		/**
@@ -1350,6 +1431,10 @@ jQuery( function() {
 		 * 	* child_of - if a post ID is provided, only descendents of that post will be displayed
 		 * 	* numberposts - how many items to show in the list
 		 * 	* reverse - whether to show results in a-to-z order or z-to-a order (a-to-z by default)
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return string the processed shortcode HTML
 		 */
 		function do_atoz_shortcode( $args=array() ) {
 			$defaults = apply_filters( 'atoz-shortcode-defaults', array(
@@ -1601,6 +1686,12 @@ jQuery( function() {
 		
 		/**
 		 * Add a new filter for our settings to the available filters list in Genesis
+		 *
+		 * @param  array $filters the array of filters that sanitize Genesis options
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return array the updated array of filters
 		 */
 		function add_sanitizer_filter( $filters=array() ) {
 			$filters['umw_outreach_settings_filter'] = array( $this, 'sanitize_settings' );
@@ -1609,6 +1700,12 @@ jQuery( function() {
 		
 		/**
 		 * Add our default settings to the Genesis settings array
+		 *
+		 * @param  array $settings the array of Genesis setting names and properties
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return array the updated array of setting data
 		 */
 		function settings_defaults( $settings=array() ) {
 			$settings[$this->setting_name] = apply_filters( 'umw-outreach-settings-defaults', array(
@@ -1641,6 +1738,14 @@ jQuery( function() {
 		
 		/**
 		 * Retrieve a specific theme option
+		 *
+		 * @param  string $key the key for the option to be retrieved
+		 * @param  bool|int $blog the ID of the blog from which to retrieve the option
+		 * @param  mixed $default what the default return value should be
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return mixed the value of the option
 		 */
 		function get_option( $key, $blog=false, $default=false ) {
 			$opt = $allopts = $converted = false;
@@ -1720,6 +1825,14 @@ jQuery( function() {
 		 * 		new settings field in an attempt to avoid mutilation during 
 		 * 		Genesis updates
 		 * @see UMW_Outreach_Mods_Sub::get_option()
+		 *
+		 * @param  string $key the key of the option to be retrieved
+		 * @param  bool|int $blog the ID of the blog from which to retrieve the option
+		 * @param  mixed $default the default value to return
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return mixed the value of the option from the database
 		 */
 		function get_genesis_option( $key, $blog=false, $default=false ) {
 			$old_settings_field = $this->settings_field;
@@ -1747,6 +1860,12 @@ jQuery( function() {
 		
 		/**
 		 * Add any metaboxes that need to appear on the Genesis settings page
+		 *
+		 * @param  string $pagehook the handle for the settings page
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return void
 		 */
 		function metaboxes( $pagehook ) {
 			add_meta_box( 'genesis-theme-settings-umw-outreach-settings', __( 'UMW Settings', 'genesis' ), array( $this, 'settings_box' ), $pagehook, 'main' );
@@ -1754,6 +1873,12 @@ jQuery( function() {
 		
 		/**
 		 * Retrieve a formatted HTML ID for a settings field
+		 *
+		 * @param  string $name the handle for the field being output
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return string the HTML ID for the field
 		 */
 		function get_field_id( $name ) {
 			$id = '';
@@ -1776,6 +1901,13 @@ jQuery( function() {
 		
 		/**
 		 * Echo a formatted HTML ID for a settings field
+		 * @uses UMW_Outreach_Mods_Sub::get_field_id()
+		 *
+		 * @param  string $name the handle for the field being output
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return void
 		 */
 		function field_id( $name ) {
 			echo $this->get_field_id( $name );
@@ -1783,6 +1915,12 @@ jQuery( function() {
 		
 		/**
 		 * Retrieve a formatted HTML name for a settings field
+		 *
+		 * @param  string $name the handle for the field being output
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return string the formatted HTML name
 		 */
 		function get_field_name( $name ) {
 			return sprintf( '%s[%s][%s]', $this->settings_field, $this->setting_name, $name );
@@ -1790,6 +1928,13 @@ jQuery( function() {
 		
 		/**
 		 * Echo a formatted HTML name for a settings field
+		 * @uses UMW_Outreach_Mods_Sub::get_field_name()
+		 *
+		 * @param  string $name the handle for the field being output
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return void
 		 */
 		function field_name( $name ) {
 			echo $this->get_field_name( $name );
@@ -1797,6 +1942,15 @@ jQuery( function() {
 		
 		/**
 		 * Output the settings metabox
+		 * @uses UMW_Outreach_Mods_Sub::get_option()
+		 * @uses UMW_Outreach_Mods_Sub::field_id()
+		 * @uses UMW_Outreach_Mods_Sub::field_name()
+		 * @uses do_action() to fire the pre-umw-outreach-settings action before outputting anything
+		 * @uses do_action() to fire the post-umw-outreach-settings action after outputting the last setting field
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return void
 		 */
 		function settings_box() {
 			$current = $this->get_option( $this->setting_name );
@@ -1827,6 +1981,12 @@ jQuery( function() {
 		
 		/**
 		 * Sanitize all of our custom settings
+		 *
+		 * @param  array $val the array of settings being sanitized
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return null|array the updated, sanitized array of setting values
 		 */
 		function sanitize_settings( $val=array() ) {
 			if ( true === $this->sanitized_settings ) {
@@ -1854,15 +2014,15 @@ jQuery( function() {
 			$rt['content'] = empty( $val['content'] ) ? null : wp_kses_post( $val['content'] );
 			$rt['image'] = array();
 			if ( array_key_exists( 'image', $val ) ) {
-				$rt['image']['url'] = esc_url( $val['image']['url'] ) ? sanitize_url( $val['image']['url'] ) : null;
+				$rt['image']['url'] = esc_url( $val['image']['url'] ) ? esc_url_raw( $val['image']['url'] ) : null;
 				$rt['image']['title'] = empty( $val['image']['title'] ) ? null : sanitize_text_field( $val['image']['title'] );
 				$rt['image']['subtitle'] = empty( $val['image']['subtitle'] ) ? null : wp_kses( $val['image']['subtitle'], $allowedtags );
-				$rt['image']['link'] = esc_url( $val['image']['link'] ) ? sanitize_url( $val['image']['link'] ) : null;
+				$rt['image']['link'] = esc_url( $val['image']['link'] ) ? esc_url_raw( $val['image']['link'] ) : null;
 			} else {
-				$rt['image']['url'] = esc_url( $val['image-url'] ) ? sanitize_url( $val['image-url'] ) : null;
+				$rt['image']['url'] = esc_url( $val['image-url'] ) ? esc_url_raw( $val['image-url'] ) : null;
 				$rt['image']['title'] = empty( $val['image-title'] ) ? null : sanitize_text_field( $val['image-title'] );
 				$rt['image']['subtitle'] = empty( $val['image-subtitle'] ) ? null : wp_kses( $val['image-subtitle'], $allowedtags );
-				$rt['image']['link'] = esc_url( $val['image-link'] ) ? sanitize_url( $val['image-link'] ) : null;
+				$rt['image']['link'] = esc_url( $val['image-link'] ) ? esc_url_raw( $val['image-link'] ) : null;
 			}
 			
 			$this->sanitized_settings = true;
@@ -1910,7 +2070,7 @@ jQuery( function() {
 		 * 		* country - the 1-digit country code
 		 * 		* title - the name of the person/office/place to which the phone number belongs
 		 * @param string $content the telephone number that should be formatted
-		 * @return the formatted string with a link around it
+		 * @return string the formatted string with a link around it
 		 */
 		function do_tel_link_shortcode( $atts=array(), $content='' ) {
 			$original = $content;
