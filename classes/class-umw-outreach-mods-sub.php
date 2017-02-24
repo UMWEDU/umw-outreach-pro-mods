@@ -9,12 +9,33 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 	 * Define the class used on internal sites
 	 */
 	class UMW_Outreach_Mods_Sub {
-		var $version = '1.0.23';
+		/**
+		 * @var string $version holds the version number that's appended to script/style files
+		 */
+		var $version = '1.1';
+		/**
+		 * @var null|string $header_feed holds the URL of the custom header feed
+		 */
 		var $header_feed = null;
+		/**
+		 * @var null|string $footer_feed holds the URL of the custom footer feed
+		 */
 		var $footer_feed = null;
+		/**
+		 * @var null|string $settings_field holds the handle of the settings field
+		 */
 		var $settings_field = null;
+		/**
+		 * @var string $setting_name holds the handle of the setting as found in the database
+		 */
 		var $setting_name = 'umw_outreach_settings';
+		/**
+		 * @var bool $is_root determines whether this page is loaded within the root site or not
+		 */
 		var $is_root = false;
+		/**
+		 * @var null|string $root_url holds the URL of the root site for the entire system
+		 */
 		var $root_url = null;
 		
 		/**
@@ -55,7 +76,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 				$feedsite = UMW_IS_ROOT;
 			} else if ( defined( 'DOMAIN_CURRENT_SITE' ) ) {
 				$feedsite = sprintf( 'http://%s/', DOMAIN_CURRENT_SITE );
-			}
+			} else {
+			    $feedsite = network_site_url( '/','http' );
+            }
 			
 			$this->header_feed = esc_url( sprintf( '%sfeed/umw-global-header/', $feedsite ) );
 			$this->footer_feed = esc_url( sprintf( '%sfeed/umw-global-footer/', $feedsite ) );
@@ -217,7 +240,9 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 				$feedsite = UMW_IS_ROOT;
 			} else if ( defined( 'DOMAIN_CURRENT_SITE' ) ) {
 				$feedsite = sprintf( 'http://%s/', DOMAIN_CURRENT_SITE );
-			}
+			} else {
+			    $feedsite = network_site_url( '/', 'http' );
+            }
 			
 			$this->footer_feed = esc_url( sprintf( '%sfeed/umw-global-footer/', $feedsite ) );
 			
@@ -236,6 +261,8 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			add_shortcode( 'current-url', array( $this, 'do_current_url_shortcode' ) );
 			
 			$this->login_link_ajax_hooks();
+			
+			return true;
 		}
 		
 		/**
@@ -442,6 +469,11 @@ jQuery( function() {
 		
 		/**
 		 * Regsiter any shortcodes we need to use
+         * @uses    add_shortcode()
+         *
+         * @access  public
+         * @since   0.1
+         * @return  void
 		 */
 		function add_shortcodes() {
 			add_shortcode( 'atoz', array( $this, 'do_atoz_shortcode' ) );
@@ -451,6 +483,16 @@ jQuery( function() {
 			add_shortcode( 'wpv-tel-link', array( $this, 'do_tel_link_shortcode' ) );
 		}
 		
+		/**
+		 * Make sure that JetPack video embeds are responsive if FluidVideoEmbed is active
+         * @uses    FluidVideoEmbed
+         * @uses    add_filter() to filter the JetPack embeds
+         * @uses    UMW_Outreach_Mods_Sub::fve_jetpack_filter_video_embed()
+         *
+         * @access  public
+         * @since   0.1
+         * @return  void
+		 */
 		function jetpack_fluid_video_embeds() {
 			global $fve;
 			if ( ! isset( $fve ) && class_exists( 'FluidVideoEmbed' ) )
@@ -462,6 +504,17 @@ jQuery( function() {
 			add_filter( 'video_embed_html', array( &$this, 'fve_jetpack_filter_video_embed' ), 16 );
 		}
 		
+		/**
+         * Return a responsive version of the JetPack video embed
+         * @uses    FluidVideoEmbed
+         *
+		 * @param   string $html the HTML being processed
+		 * @param   array $atts the array of arguments/attributes for the video
+		 *
+         * @access  public
+         * @since   0.1
+		 * @return  string the responsive HTML for the video embed
+		 */
 		function fve_jetpack_filter_video_embed( $html, $atts=array() ) {
 			if ( ! stristr( $html, 'youtube' ) && ! stristr( $html, 'vimeo' ) )
 				return $html;
@@ -477,6 +530,15 @@ jQuery( function() {
 			return $fve->filter_video_embed( $html, sprintf( 'https://youtube.com/watch?v=%s', $matches[3] ), null );
 		}
 		
+		/**
+         * Make sure that JetPack doesn't override FluidVideoEmbed for YouTube and Vimeo
+         *
+		 * @param  array $shortcodes the array of existing registered shortcodes
+		 *
+         * @access public
+         * @since  0.1
+		 * @return array the updated array of registered shortcodes
+		 */
 		function remove_youtube_and_vimeo_from_jetpack_shortcodes( $shortcodes=array() ) {
 			$good_shortcodes = array();
 			foreach ( $shortcodes as $s ) {
@@ -489,6 +551,13 @@ jQuery( function() {
 			return $good_shortcodes;
 		}
 		
+		/**
+		 * Attempt to use JetPack's native responsiveness for video embeds
+         *
+         * @access public
+         * @since  0.1
+         * @return void
+		 */
 		function add_theme_support() {
 			/* Try using the JetPack responsive videos module instead of Fluid Video Embeds */
 			add_theme_support( 'jetpack-responsive-videos' );
@@ -497,6 +566,9 @@ jQuery( function() {
 		/**
 		 * Override a shortcode by sending back the content
 		 * 		with no changes
+         *
+         * @param  array $atts ignored
+         * @param  string $content the content to return
 		 */
 		function __blank( $atts=array(), $content='' ) {
 			return $content;

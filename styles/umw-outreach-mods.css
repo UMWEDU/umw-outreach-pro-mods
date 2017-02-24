@@ -592,6 +592,7 @@ footer.site-footer .widget {
 		on mobile, rather than appearing as an overlay, and make the caption text visible
 	 */
 	.home-top .flexslider .slide-caption {
+		margin: 0 !important;
 		background: #002b5a;
 		position: static;
 	}
