@@ -205,7 +205,6 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			 */
 			global $wpdb;
 			$blog_prefix = $wpdb->get_blog_prefix( $blog_id );
-			$base_prefix = $wpdb->base_prefix;
 			
 			$plugin_tables = array();
 			
@@ -582,14 +581,17 @@ jQuery( function() {
 			if ( ! stristr( $html, 'youtube' ) && ! stristr( $html, 'vimeo' ) )
 				return $html;
 			
+			global $fve;
+			if ( ! isset( $fve ) ) {
+				$fve = new FluidVideoEmbed;
+			}
+			
 			if ( is_array( $atts ) && array_key_exists( 'src', $atts ) ) {
-				global $fve;
 				return $fve->filter_video_embed( '', $atts['src'], null );
 			}
 				
 			preg_match( '`http(s*?):\/\/(www\.*?)youtube.com\/embed\/([a-zA-Z0-9]{1,})`', $html, $matches );
 			
-			global $fve;
 			return $fve->filter_video_embed( $html, sprintf( 'https://youtube.com/watch?v=%s', $matches[3] ), null );
 		}
 		
@@ -1625,6 +1627,7 @@ jQuery( function() {
 			global $post;
 			if ( $posts->have_posts() ) : while ( $posts->have_posts() ) : $posts->the_post();
 				setup_postdata( $post );
+				$o = get_the_title();
 				if ( $meta ) {
 					$o = (string) get_post_meta( get_the_ID(), $args['field'], true );
 				} else {
@@ -1723,8 +1726,14 @@ jQuery( function() {
 		 * Delete any transients that were set by the atoz shortcode
 		 * This is generally invoked automatically when any post that could be included 
 		 * 		in the atoz list is updated or inserted
+         *
+         * @param  int $post_id the ID of the post being updated
+         *
+         * @access public
+         * @since  1.0
+         * @return void
 		 */
-		function clear_atoz_transients() {
+		function clear_atoz_transients( $post_id=0 ) {
 			if ( wp_is_post_revision( $post_id ) )
 				return;
 			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
