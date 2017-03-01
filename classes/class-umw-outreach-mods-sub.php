@@ -153,6 +153,11 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			 * Attempt to fix Pretty Link Pro handling of SSL
 			 */
 			add_filter( 'prli_target_url', array( $this, 'prli_target_url' ) );
+			
+			/**
+             * Tell WordPress to drop some of our extra plugin tables when we delete a site
+             */
+			add_filter( 'wpmu_drop_tables', array( $this, 'drop_tables' ), 10, 2 );
 		}
 		
 		/**
@@ -172,6 +177,64 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			
 			$link['url'] = preg_replace( '~https://(.*?)umw\.edu~', 'http://$1umw.edu', $link['url'] );
 			return $link;
+		}
+		
+		/**
+         * A bunch of plugins add extra tables when they're activated, but they don't
+         *      automatically remove those tables when the sites are deleted, so we're
+         *      going to try to delete them
+         *
+         * @param array $tables the array of tables that are already set to be removed
+         * @param int|null $blog_id the ID of the site being deleted
+         *
+         * @access public
+         * @since  1.2
+         * @return array the updated array of tables
+         */
+		public function drop_tables( $tables=array(), $blog_id=null ) {
+			/**
+			 * Make sure the blog ID parameter was sent, so we don't
+			 * 	accidentally delete tables for the wrong blog
+			 */
+			if ( empty( $blog_id ) || 1 == $blog_id || $blog_id != $GLOBALS['blog_id'] )
+				return $tables;
+			
+			/**
+			 * Assume our plugin added three new tables called "plugin_table_1", "plugin_table_2" and "plugin_table_3"
+			 * 	to each site on which it's active
+			 */
+			global $wpdb;
+			$blog_prefix = $wpdb->get_blog_prefix( $blog_id );
+			$base_prefix = $wpdb->base_prefix;
+			
+			$plugin_tables = array();
+			
+			/**
+             * Gravity Forms tables
+             */
+			$plugin_tables = array_merge( $plugin_tables, array( 'rg_form', 'rg_form_meta', 'rg_form_view', 'rg_incomplete_submissions', 'rg_lead', 'rg_lead_detail', 'rg_lead_detail_long', 'rg_lead_meta', 'rg_lead_notes' ) );
+			
+			/**
+			 * WP All Import Pro tables
+			 */
+			$plugin_tables = array_merge( $plugin_tables, array( 'pmxi_files', 'pmxi_history', 'pmxi_imports', 'pmxi_posts', 'pmxi_templates', ) );
+			
+			/**
+			 * All in One Calendar Events tables
+			 */
+			$plugin_tables = array_merge( $plugin_tables, array( 'ai1ec_events', 'ai1ec_event_category_meta', 'ai1ec_event_feeds', 'ai1ec_event_instances' ) );
+			
+			/**
+			 * Since the $wpdb->tables() call in the wpmu_delete_blog() function is called without the
+			 * 	$prefix parameter, the list of tables sent through this filter will all be prefixed
+			 * 	with the appropriate blog prefix before it gets to this filter. We need to prefix
+			 * 	our list of tables, as well, before sending it back.
+			 */
+			foreach ( $plugin_tables as $k => $table ) {
+				$tables[$table] = $blog_prefix . $table;
+			}
+			
+			return $tables;
 		}
 		
 		/**
