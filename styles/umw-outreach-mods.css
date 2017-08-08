@@ -116,7 +116,7 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	padding: 0;
 }
 /* Note the border is being overwritten elsewhere. Return to this. */
-div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.widgettitle {font-weight: bold; border-bottom: 1px solid #gray !important; color: #b81237;}
+div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.widgettitle {font-weight: bold; border-bottom: 1px solid gray !important; color: #b81237;}
 
 @media all and (max-width: 860px) {
 	.home-top.widget-area .pcs-list-widget {
@@ -979,12 +979,12 @@ div.footer-widgets a:hover, div.footer-widgets a:focus, div.footer-widgets div.e
 div.CTAbutton {margin-bottom: .5em; padding: .75em; text-align: center; color: white; font-size: 2em; font-family: MuseoSlab; font-weight: 700; line-height: 1em;}
 div.CTAbutton a, .reslife-home-main-area div.CTAbutton a {color: white;}
 div.CTAbutton a:hover, div.CTAbutton a:focus, .reslife-home-main-area div.CTAbutton a:hover, .reslife-home-main-area div.CTAbutton a:focus {color: #e6eaee; text-decoration: none;}
-.CTAblue {background-color: #3db8d3;}
-.CTAgreen {background-color: #78c043;}
+.CTAblue {background-color: #002e5d;}
+.CTAgreen {background-color: #1d5b24;}
 .CTAdkgreen {background-color: #1d5b24;}
-.CTAorange {background-color: #ff7900;}
-.CTAburgundy {background-color: #b71237;}
-.CTApurple {background-color:#663990;}
+.CTAorange, .CTAgray {background-color: #53565a;}
+.CTAburgundy, .CTAred {background-color: #862633;}
+.CTApurple, .CTAlightblue {background-color:#3b567d;}
 .CTAsubtext {line-height: 1.5; text-align: left; clear: both; font-family: MuseoSans, helvetica, arial, tahoma; font-size: .5em; color: black; font-weight: normal;}
 
 /**

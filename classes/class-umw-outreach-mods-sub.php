@@ -12,7 +12,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		/**
 		 * @var string $version holds the version number that's appended to script/style files
 		 */
-		var $version = '1.1';
+		var $version = '1.1.1';
 		/**
 		 * @var null|string $header_feed holds the URL of the custom header feed
 		 */
