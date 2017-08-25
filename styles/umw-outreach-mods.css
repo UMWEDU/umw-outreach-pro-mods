@@ -848,27 +848,27 @@ div.footer-widgets a:hover, div.footer-widgets a:focus, div.footer-widgets div.e
 
 .program-icon.minor:before {
 	content: "m";
-	background: #1d5b24;
+	background: #78c043;
 }
 
 .program-icon.degree-completion:before {
 	content: "D";
-	background: #53565a;
+	background: #ff7900;
 }
 
 .program-icon.pre-professional:before {
 	content: "P";
-	background: #3b567d;
+	background: #3db8d3;
 }
 
 .program-icon.certificate:before {
 	content: "C";
-	background: #002e5d;
+	background: #663990;
 }
 
 .program-icon.graduate:before {
 	content: "G";
-	background: #862633;
+	background: #b71237;
 }
 
 .solid-button {
