@@ -116,7 +116,7 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	padding: 0;
 }
 /* Note the border is being overwritten elsewhere. Return to this. */
-div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.widgettitle {font-weight: bold; border-bottom: 1px solid #gray !important; color: #b81237;}
+div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.widgettitle {font-weight: bold; border-bottom: 1px solid gray !important; color: #b81237;}
 
 @media all and (max-width: 860px) {
 	.home-top.widget-area .pcs-list-widget {
@@ -346,18 +346,32 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	text-decoration: underline;
 }
 
-.site-footer .widget a {
+.site-footer .widget a,
+.sidebar .widget a {
 	text-decoration: none;
 	border-bottom: 1px dashed rgba( 255, 255, 255, .3 );
 }
 
-.site-footer .genericon a {
+.site-footer a.genericon {
 	border: none;
 }
 
 .site-footer .widget a:hover,
-.site-footer .widget a:focus {
+.site-footer .widget a:focus,
+.sidebar .widget a:hover,
+.sidebar .widget a:focus {
 	color: #e2e2e2;
+	text-decoration: underline;
+	border: none;
+}
+
+.breadcrumb a {
+	text-decoration: none;
+	border-bottom: 1px dashed rgba( 76, 106, 139 );
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus {
 	text-decoration: underline;
 	border: none;
 }
