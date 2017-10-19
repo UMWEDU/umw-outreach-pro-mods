@@ -2,7 +2,7 @@
 /**
  * Sets up the base class for UMW Outreach modifications
  * @package UMW Outreach Customizations
- * @version 1.0.17
+ * @version 1.1.4
  */
 if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 	/**
@@ -12,7 +12,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		/**
 		 * @var string $version holds the version number that's appended to script/style files
 		 */
-		var $version = '1.1.3';
+		var $version = '1.1.4';
 		/**
 		 * @var null|string $header_feed holds the URL of the custom header feed
 		 */
