@@ -367,7 +367,7 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 
 .breadcrumb a {
 	text-decoration: none;
-	border-bottom: 1px dashed rgba( 76, 106, 139 );
+	border-bottom: 1px dashed rgba( 76, 106, 139, .3 );
 }
 
 .breadcrumb a:hover,
