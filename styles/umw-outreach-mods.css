@@ -346,6 +346,22 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	text-decoration: underline;
 }
 
+.site-footer .widget a {
+	text-decoration: none;
+	border-bottom: 1px dashed rgba( 255, 255, 255, .3 );
+}
+
+.site-footer .genericon a {
+	border: none;
+}
+
+.site-footer .widget a:hover,
+.site-footer .widget a:focus {
+	color: #e2e2e2;
+	text-decoration: underline;
+	border: none;
+}
+
 /*
  * Universal Footer styles - might need tweaks
  */

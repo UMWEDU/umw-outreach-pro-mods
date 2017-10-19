@@ -123,6 +123,11 @@ footer.site-footer .widget {
 .umw-global-footer .widget-area li a {
 	color: #fff;
 	text-decoration: none;
+	border-bottom: dashed rgba( 255, 255, 255, .3 ) 1px;
+}
+
+footer.site-footer.umw-global-footer a.genericon {
+	border: none;
 }
 
 .umw-global-footer a:hover, 
@@ -131,6 +136,7 @@ footer.site-footer .widget {
 .umw-global-footer .widget-area li a:focus {
 	color: #e2e2e2;
 	text-decoration: underline;
+	border: none;
 }
 
 .umw-global-footer .widget li {
