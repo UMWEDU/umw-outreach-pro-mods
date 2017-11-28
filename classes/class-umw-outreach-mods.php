@@ -371,7 +371,12 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 				$wp_scripts->done[] = 'jquery';
 				$wp_scripts->done[] = 'jquery-migrate';
 				$wp_scripts->done[] = 'hoverIntent';
-				$wp_scripts->do_items( 'megamenu' );
+                if ( defined( 'MEGAMENU_PRO_VERSION' ) && class_exists( 'Mega_Menu_Pro' ) ) {
+                    Mega_Menu_Pro::enqueue_public_scripts();
+                    $wp_scripts->do_items( 'megamenu-pro' );
+                } else {
+                    $wp_scripts->do_items( 'megamenu' );
+                }
 			}
 			if ( wp_script_is( 'umw-online-tools', 'enqueued' ) ) {
 				global $wp_scripts;
