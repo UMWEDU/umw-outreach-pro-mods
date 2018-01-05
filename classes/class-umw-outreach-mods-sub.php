@@ -1199,7 +1199,14 @@ jQuery( function() {
 		 * Output the global UMW header
 		 */
 		function do_full_header() {
-			if ( isset( $_GET['delete_transients'] ) ) {
+            if ( class_exists( 'Mega_Menu_Style_Manager' ) ) {
+                wp_dequeue_script( 'megamenu' );
+            }
+            if ( defined( 'MEGAMENU_PRO_VERSION' ) ) {
+                wp_dequeue_script( 'megamenu-pro' );
+            }
+
+            if ( isset( $_GET['delete_transients'] ) ) {
 				delete_site_transient( 'global-umw-header' );
 				delete_site_option( 'global-umw-header' );
 			}
@@ -1600,7 +1607,7 @@ jQuery( function() {
 		 * This is generally invoked automatically when any post that could be included 
 		 * 		in the atoz list is updated or inserted
 		 */
-		function clear_atoz_transients() {
+		function clear_atoz_transients( $post_id=0 ) {
 			if ( wp_is_post_revision( $post_id ) )
 				return;
 			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
