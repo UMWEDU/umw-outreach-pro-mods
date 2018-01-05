@@ -52,8 +52,12 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			 * 		on the old UMW site
 			 */
 			if ( defined( 'WP_DEFAULT_THEME' ) && 'umw' == WP_DEFAULT_THEME ) {
-				add_action( 'after_setup_theme', array( $this, 'do_legacy_theme_setup' ) );
-				return;
+			    $theme = get_stylesheet();
+			    if ( 'outreach-pro' != $theme ) {
+				    add_action( 'after_setup_theme', array( $this, 'do_legacy_theme_setup' ) );
+
+				    return;
+			    }
 			}
 			
 			add_filter( 'plugins_url', array( $this, 'protocol_relative_plugins_url' ), 99 );
@@ -230,7 +234,27 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			if ( ! function_exists( 'umw_is_umw_homepage' ) ) {
 				return false;
 			}
-			
+
+			if ( defined( 'UMW_FULL_HEADER' ) && true === UMW_FULL_HEADER ) {
+			    remove_all_actions( 'genesis_header' );
+				add_action( 'genesis_header', array( $this, 'do_full_header' ) );
+				if ( function_exists( 'umw_is_full_header' ) && umw_is_full_header() ) {
+					remove_action( 'umw_umw_subnav', 'umw_do_umw_subnav' );
+					remove_action( 'genesis_header', 'umw_do_full_header' );
+					remove_action( 'genesis_after_header', 'umw_do_umw_nav' );
+				} else {
+					remove_action( 'genesis_header', 'umw_do_global_header' );
+				}
+
+				global $umw_online_tools_obj;
+				remove_action( 'genesis_before', array( $umw_online_tools_obj, 'do_toolbar' ), 2 );
+				remove_action( 'genesis_before', array( $umw_online_tools_obj, 'do_header_bar' ), 5 );
+				remove_action( 'wp_enqueue_scripts', array( $umw_online_tools_obj, 'enqueue_styles' ) );
+				remove_action( 'umw-main-header-bar', array( $umw_online_tools_obj, 'do_audience_menu' ), 11 );
+
+				remove_action( 'umw-main-header-bar', array( $umw_online_tools_obj, 'do_wordmark' ), 5 );
+			}
+
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_legacy_styles' ) );
 			
 			remove_all_actions( 'genesis_footer' );
