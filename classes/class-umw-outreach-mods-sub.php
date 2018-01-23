@@ -54,7 +54,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			if ( defined( 'WP_DEFAULT_THEME' ) && 'umw' == WP_DEFAULT_THEME ) {
 			    $theme = get_stylesheet();
 			    if ( 'outreach-pro' != $theme ) {
-				    add_action( 'after_setup_theme', array( $this, 'do_legacy_theme_setup' ) );
+				    add_action( 'after_setup_theme', array( $this, 'do_legacy_theme_setup' ), 11 );
 
 				    return;
 			    }
