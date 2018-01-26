@@ -1425,3 +1425,27 @@ h2.reslife-home-feature-title {
 	width: 15px;
 	height: 15px;
 }
+
+/**
+ * Custom styles for the Google CSE results page
+ */
+.umw-search-results .gsc-table-result, .umw-search-results .gsc-thumbnail-inside, .umw-search-results .gsc-url-top {
+	padding: 0;
+}
+
+.umw-search-results .gsc-result .gs-title {
+	height: auto;
+	overflow: visible;
+}
+
+.umw-search-results .gs-result .gs-title, .umw-search-results .gs-result .gs-title * {
+	color: #b81237;
+}
+
+.umw-search-results .gsc-control-cse .gsc-table-result {
+	font-family: MuseoSans, "museo-sans", Helvetica, Arial, Tahoma, sans-serif;
+}
+
+.umw-search-results tbody, .umw-search-results td {
+	border: none;
+}
