@@ -251,3 +251,61 @@ footer.site-footer.umw-global-footer a.genericon {
 	-moz-box-sizing: border-box;
 }
 
+/**
+ * Custom styles for the Google CSE results page
+ */
+.umw-search-results .gsc-table-result, .umw-search-results .gsc-thumbnail-inside, .umw-search-results .gsc-url-top {
+	padding: 0;
+}
+
+.umw-search-results .gsc-result .gs-title {
+	height: auto;
+	overflow: visible;
+}
+
+.umw-search-results .gs-result .gs-title, .umw-search-results .gs-result .gs-title * {
+	color: #b81237;
+}
+
+.umw-search-results .gsc-control-cse .gsc-table-result,
+.umw-search-results table {
+	font-family: MuseoSans, "museo-sans", Helvetica, Arial, Tahoma, sans-serif;
+	margin-bottom: 0;
+}
+
+.umw-search-results tbody, .umw-search-results td {
+	border: none;
+}
+
+.umw-search-results .gs-image-box.gs-web-image-box.gs-web-image-box-portrait {
+	overflow: visible;
+}
+
+/* CSE Pagination */
+.umw-search-results .gsc-results .gsc-cursor-box.gs-bidi-start-align {
+	margin: 40px 0 0;
+}
+
+.umw-search-results .gsc-results .gsc-cursor-box.gs-bidi-start-align:before {
+	content: " ";
+	display: table;
+}
+
+.umw-search-results .gsc-results .gsc-cursor-box.gs-bidi-start-align .gsc-cursor {
+	margin: 0;
+	padding: 0;
+}
+
+.umw-search-results .gsc-results .gsc-cursor-box.gs-bidi-start-align .gsc-cursor-page {
+	background-color: #333;
+	color: #fff;
+	cursor: pointer;
+	display: inline-block;
+	margin-bottom: 4px;
+	padding: 8px 12px;
+}
+
+.umw-search-results .gsc-results .gsc-cursor-box.gs-bidi-start-align .gsc-cursor-current-page {
+	background-color: #4C6A8B;
+	color: #fff;
+}
