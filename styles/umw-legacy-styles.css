@@ -273,8 +273,11 @@ footer.site-footer.umw-global-footer a.genericon {
 	margin-bottom: 0;
 }
 
-.umw-search-results tbody, .umw-search-results td {
+.umw-search-results tbody, .umw-search-results td,
+.umw-search-results .entry-content table td,
+.umw-search-results .entry-content table {
 	border: none;
+	padding: 0;
 }
 
 .umw-search-results .gs-image-box.gs-web-image-box.gs-web-image-box-portrait {
