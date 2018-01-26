@@ -274,8 +274,8 @@ footer.site-footer.umw-global-footer a.genericon {
 }
 
 .umw-search-results tbody, .umw-search-results td,
-.umw-search-results .entry-content table td,
-.umw-search-results .entry-content table {
+.entry-content .umw-search-results table td,
+.entry-content .umw-search-results table {
 	border: none;
 	padding: 0;
 }
