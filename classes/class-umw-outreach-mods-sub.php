@@ -322,18 +322,31 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 * @return  void
 		 */
 		function umw_login_link() {
-			if ( is_user_logged_in() ) {
-				$link = sprintf( '| <a rel="noindex, nofollow" href="%1$s" title="Go to the administration area for %2$s">%3$s</a>', admin_url(), esc_attr( get_bloginfo( 'name' ) ), __( 'Website Admin' ) );
-			} else {
-				$link = sprintf( '| <a rel="noindex, nofollow" href="%1$s" title="Login to the administration area for %2$s">%3$s</a>', wp_login_url(), esc_attr( get_bloginfo( 'name' ) ), __( 'Login' ) );
-			}
-			
+		    $link = $this->get_umw_login_link();
+
 			if ( function_exists( 'wp_json_encode' ) ) {
 				echo wp_json_encode( array( 'link' => $link ) );
 			} else {
 				echo json_encode( array( 'link' => $link ) );
 			}
 			wp_die();
+		}
+
+		/**
+		 * Set up a login/admin link
+         *
+         * @access public
+         * @since  0.1
+         * @return string
+		 */
+		public function get_umw_login_link() {
+			if ( is_user_logged_in() ) {
+				$link = sprintf( '| <a rel="noindex, nofollow" href="%1$s" title="Go to the administration area for %2$s">%3$s</a>', admin_url(), esc_attr( get_bloginfo( 'name' ) ), __( 'Website Admin' ) );
+			} else {
+				$link = sprintf( '| <a rel="noindex, nofollow" href="%1$s" title="Login to the administration area for %2$s">%3$s</a>', wp_login_url(), esc_attr( get_bloginfo( 'name' ) ), __( 'Login' ) );
+			}
+
+			return $link;
 		}
 
 		/**
@@ -374,13 +387,7 @@ jQuery( function() {
 	if ( document.querySelectorAll( '.login-link' ).length <= 0 ) {
 		return;
 	}
-	jQuery.getJSON(
-		'<?php echo str_replace( array( 'http://', 'https://' ), array( '//', '//' ), admin_url( 'admin-ajax.php' ) ) ?>', 
-		{ 'action' : 'umw_login_link' }, 
-		function( data ) {
-			jQuery( '.login-link' ).html( data.link );
-		}
-	);
+    jQuery( '.login-link' ).html( '<?php echo $this->get_umw_login_link() ?>' );
 } );
 </script>
 <?php
@@ -505,6 +512,7 @@ jQuery( function() {
 			add_shortcode( 'current-date', array( $this, 'do_current_date_shortcode' ) );
 			add_shortcode( 'current-url', array( $this, 'do_current_url_shortcode' ) );
 			add_shortcode( 'wpv-tel-link', array( $this, 'do_tel_link_shortcode' ) );
+			add_shortcode( 'umw-login-link', array( $this, 'get_umw_login_link' ) );
 		}
 		
 		/**
