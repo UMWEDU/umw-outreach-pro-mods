@@ -2,8 +2,10 @@
 /**
  * Special treatment for the Directory site
  */
-if ( ! class_exists( 'UMW_Outreach_Mods_Directory' ) ) {
-	class UMW_Outreach_Mods_Directory extends UMW_Outreach_Mods_Sub {
+namespace \UMW\Outreach\;
+
+if ( ! class_exists( 'Directory' ) ) {
+	class Directory extends Base {
 		/**
 		 * @var int $blog the ID of the Directory blog
 		 */

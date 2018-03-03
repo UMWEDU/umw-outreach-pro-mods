@@ -4,11 +4,13 @@
  * @package UMW Outreach Customizations
  * @version 1.1.4
  */
-if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
+namespace \UMW\Outreach\;
+
+if ( ! class_exists( 'Base' ) ) {
 	/**
 	 * Define the class used on internal sites
 	 */
-	class UMW_Outreach_Mods_Sub {
+	class Base {
 		/**
 		 * @var string $version holds the version number that's appended to script/style files
 		 */
@@ -37,6 +39,10 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 * @var null|string $root_url holds the URL of the root site for the entire system
 		 */
 		var $root_url = null;
+		/**
+		 * @var null|string $plugins_url the URL to the root folder of this plugin
+		 */
+		var $plugins_url = null;
 		
 		/**
 		 * Build our UMW_Outreach_Mods_Sub object
@@ -61,6 +67,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 			}
 			
 			add_filter( 'plugins_url', array( $this, 'protocol_relative_plugins_url' ), 99 );
+			$this->plugins_url = untrailingslashit( plugins_url( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ) );
 			
 			/**
 			 * Back to normal
@@ -204,6 +211,25 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		function protocol_relative_plugins_url( $url ) {
 			return str_replace( array( 'http://', 'https://' ), array( '//', '//' ), $url );
 		}
+
+		/**
+		 * Return a full URL for a plugin file based on the root location of this plugin
+         * @param string the path to append to the root URL
+         *
+         * @access public
+         * @since  1.0
+         * @return string the full URL
+		 */
+		public function plugins_url( $path='' ) {
+		    if ( empty( $path ) )
+		        return $this->plugins_url;
+
+		    if ( '/' == substr( $path, 0, 1 ) ) {
+		        $path = substr( $path, 1 );
+            }
+
+            return $this->plugins_url . $path;
+        }
 		
 		/**
 		 * Adjust the srcset attribute of the responsive images to use protocol-relative URLs
@@ -298,7 +324,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
 		 * @return  void
 		 */
 		function enqueue_legacy_styles() {
-			wp_enqueue_style( 'umw-global-footer-legacy', plugins_url( '/styles/umw-legacy-styles.css', dirname( __FILE__ ) ), array(), $this->version, 'all' );
+			wp_enqueue_style( 'umw-global-footer-legacy', $this->plugins_url( '/styles/umw-legacy-styles.css' ), array(), $this->version, 'all' );
 		}
 		
 		/**
@@ -786,11 +812,11 @@ jQuery( function() {
 			/* Outreach enqueues a style sheet called google-fonts, that loads type faces we don't use */
 			wp_dequeue_style( 'google-fonts' );
 			/* Register our modified copy of the Outreach Pro base style sheet */
-			wp_register_style( 'outreach-pro', plugins_url( '/styles/outreach-pro.css', dirname( __FILE__ ) ), array(), $this->version, 'all' );
+			wp_register_style( 'outreach-pro', $this->plugins_url( '/styles/outreach-pro.css' ), array(), $this->version, 'all' );
 			/* Enqueue our additional styles */
 			if ( ! wp_style_is( 'genericons', 'registered' ) ) 
-				wp_register_style( 'genericons', plugins_url( '/styles/genericons/genericons.css', dirname( __FILE__ ) ), array(), $GLOBALS['wp_version'], 'all' );
-			wp_enqueue_style( 'umw-outreach-mods', plugins_url( '/styles/umw-outreach-mods.css', dirname( __FILE__ ) ), array( 'outreach-pro', 'genericons', 'dashicons' ), $this->version, 'all' );
+				wp_register_style( 'genericons', $this->plugins_url( '/styles/genericons/genericons.css' ), array(), $GLOBALS['wp_version'], 'all' );
+			wp_enqueue_style( 'umw-outreach-mods', $this->plugins_url( '/styles/umw-outreach-mods.css' ), array( 'outreach-pro', 'genericons', 'dashicons' ), $this->version, 'all' );
 		}
 		
 		/**
@@ -935,7 +961,7 @@ jQuery( function() {
 		 * Return the URL to our custom favicon
 		 */
 		function favicon_url( $url ) {
-			return plugins_url( '/images/favicon.ico', dirname( __FILE__ ) );
+			return $this->plugins_url( '/images/favicon.ico' );
 		}
 		
 		/**

@@ -4,18 +4,13 @@
  * @package UMW Outreach Customizations
  * @version 1.0.17
  */
-if ( ! class_exists( 'UMW_Outreach_Mods_Sub' ) ) {
-	/**
-	 * Make sure the parent class is defined before trying to set up the child class
-	 */
-	require_once( plugin_dir_path( __FILE__ ) . '/class-umw-outreach-mods-sub.php' );
-}
+namespace \UMW\Outreach\;
 
-if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
+if ( ! class_exists( 'Root' ) ) {
 	/**
 	 * Define the class used to manage the global header & footer
 	 */
-	class UMW_Outreach_Mods extends UMW_Outreach_Mods_Sub {
+	class Root extends Base {
 		var $dbversion = '20150522/090000';
 		
 		/**
@@ -233,7 +228,7 @@ if ( ! class_exists( 'UMW_Outreach_Mods' ) ) {
 		 */
 		function get_logo() {
 			$logo_info = apply_filters( 'umw-header-logo-info', array(
-				'fallback'     => plugins_url( '/images/umw-primary-logo-white.png', dirname( __FILE__ ) ), 
+				'fallback'     => $this->plugins_url( '/images/umw-primary-logo-white.png' ),
 				'fallback_alt' => __( 'University of Mary Washington' ), 
 				'link'         => 'http://www.umw.edu/', 
 				'link_title'   => __( 'Return to the University of Mary Washington home page' ), 
