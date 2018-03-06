@@ -2,7 +2,7 @@
 /**
  * Special treatment for the Directory site
  */
-namespace \UMW\Outreach\;
+namespace UMW\Outreach;
 
 if ( ! class_exists( 'Directory' ) ) {
 	class Directory extends Base {

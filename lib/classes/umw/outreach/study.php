@@ -2,7 +2,7 @@
 /**
  * Special treatment for the Areas of Study site
  */
-namespace \UMW\Outreach\;
+namespace UMW\Outreach;
 
 if ( ! class_exists( 'Study' ) ) {
 	class Study extends Base {

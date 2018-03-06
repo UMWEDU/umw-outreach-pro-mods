@@ -2,7 +2,7 @@
 /**
  * Special treatment for the Residence Halls site
  */
-namespace \UMW\Outreach\;
+namespace UMW\Outreach;
 
 if ( ! class_exists( 'Residence' ) ) {
 	class Residence extends Base {

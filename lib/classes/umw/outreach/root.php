@@ -4,7 +4,7 @@
  * @package UMW Outreach Customizations
  * @version 1.0.17
  */
-namespace \UMW\Outreach\;
+namespace UMW\Outreach;
 
 if ( ! class_exists( 'Root' ) ) {
 	/**

@@ -40,19 +40,16 @@ namespace UMW\Outreach {
 				if ( absint( UMW_IS_ROOT ) === absint( $blog_id ) ) {
 					$umw_outreach_mods_obj = new Root;
 				} else if ( 4 == absint( $blog_id ) ) {
-					require_once( plugin_dir_path( __FILE__ ) . '/classes/class-umw-outreach-mods-directory.php' );
-					$umw_outreach_mods_obj = new UMW_Outreach_Mods_Directory;
+					$umw_outreach_mods_obj = new Directory();
 				} else if ( 5 == absint( $blog_id ) ) {
-					require_once( plugin_dir_path( __FILE__ ) . '/classes/class-umw-outreach-mods-study.php' );
-					$umw_outreach_mods_obj = new UMW_Outreach_Mods_Study;
+					$umw_outreach_mods_obj = new Study();
 				} else if ( 30 == absint( $blog_id ) ) {
-					require_once( plugin_dir_path( __FILE__ ) . '/classes/class-umw-outreach-mods-residence.php' );
-					$umw_outreach_mods_obj = new UMW_Outreach_Mods_Residence;
+					$umw_outreach_mods_obj = new Residence();
 				} else {
-					$umw_outreach_mods_obj = new UMW_Outreach_Mods_Sub;
+					$umw_outreach_mods_obj = new Base();
 				}
 			} else {
-				$umw_outreach_mods_obj = new UMW_Outreach_Mods_Sub;
+				$umw_outreach_mods_obj = new Base();
 			}
 		}
 
