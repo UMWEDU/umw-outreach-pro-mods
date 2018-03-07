@@ -239,7 +239,7 @@ if ( ! class_exists( 'Base' ) ) {
 				$path = substr( $path, 1 );
 			}
 
-			return $this->plugins_url . $path;
+			return trailingslashit( $this->plugins_url ) . $path;
 		}
 
 		/**
