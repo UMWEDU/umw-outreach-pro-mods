@@ -68,7 +68,7 @@ if ( ! class_exists( 'Base' ) ) {
 			}
 
 			add_filter( 'plugins_url', array( $this, 'protocol_relative_plugins_url' ), 99 );
-			$this->plugins_url = untrailingslashit( plugins_url( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ) );
+			$this->plugins_url = untrailingslashit( plugins_url( '', dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ) );
 
 			/**
 			 * Back to normal
