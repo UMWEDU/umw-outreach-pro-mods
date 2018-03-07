@@ -853,12 +853,12 @@ if ( ! class_exists( 'Base' ) ) {
 			/* Outreach enqueues a style sheet called google-fonts, that loads type faces we don't use */
 			wp_dequeue_style( 'google-fonts' );
 			/* Register our modified copy of the Outreach Pro base style sheet */
-			wp_register_style( 'outreach-pro', $this->plugins_url( '/styles/outreach-pro.css' ), array(), $this->version, 'all' );
+			wp_register_style( 'outreach-pro', $this->plugins_url( '/lib/styles/outreach-pro.css' ), array(), $this->version, 'all' );
 			/* Enqueue our additional styles */
 			if ( ! wp_style_is( 'genericons', 'registered' ) ) {
-				wp_register_style( 'genericons', $this->plugins_url( '/styles/genericons/genericons.css' ), array(), $GLOBALS['wp_version'], 'all' );
+				wp_register_style( 'genericons', $this->plugins_url( '/lib/styles/genericons/genericons.css' ), array(), $GLOBALS['wp_version'], 'all' );
 			}
-			wp_enqueue_style( 'umw-outreach-mods', $this->plugins_url( '/styles/umw-outreach-mods.css' ), array(
+			wp_enqueue_style( 'umw-outreach-mods', $this->plugins_url( '/lib/styles/umw-outreach-mods.css' ), array(
 				'outreach-pro',
 				'genericons',
 				'dashicons'
