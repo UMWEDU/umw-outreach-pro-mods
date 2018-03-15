@@ -2,7 +2,7 @@
 /**
  * Plugin Name: UMW Outreach Customizations
  * Description: Implements various UMW-specific tweaks to the Outreach Pro Genesis child theme
- * Version: 1.0.17
+ * Version: 2.0
  * Author: cgrymala
  * License: GPL2
  */
