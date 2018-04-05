@@ -43,11 +43,11 @@ if ( ! class_exists( 'Study' ) ) {
 				$args['height'] = $atts['height'];
 			}
 			global $fve;
-			if ( ! isset( $fve ) && class_exists( 'FluidVideoEmbed' ) ) {
-				FluidVideoEmbed::instance();
+			if ( ! isset( $fve ) && class_exists( '\FluidVideoEmbed' ) ) {
+				\FluidVideoEmbed::instance();
 
 				return $fve->filter_video_embed( '', $content, null );
-			} else if ( ! class_exists( 'FluidVideoEmbed' ) ) {
+			} else if ( ! class_exists( '\FluidVideoEmbed' ) ) {
 				return wp_oembed_get( $content, $atts );
 			} else {
 				return $fve->filter_video_embed( '', $content, null );
@@ -72,8 +72,8 @@ if ( ! class_exists( 'Study' ) ) {
 				$feature = get_the_post_thumbnail( get_the_ID(), 'page-feature' );
 			} else {
 				global $fve;
-				if ( ! isset( $fve ) && class_exists( 'FluidVideoEmbed' ) ) {
-					FluidVideoEmbed::instance();
+				if ( ! isset( $fve ) && class_exists( '\FluidVideoEmbed' ) ) {
+					\FluidVideoEmbed::instance();
 				}
 				if ( ! isset( $fve ) ) {
 					$feature = wp_oembed_get( $video, array( 'width' => 1140 ) );

@@ -1551,6 +1551,7 @@ h2.reslife-home-feature-title {
 		text-align: right;
 		border-top: 1px solid #fff;
 		border-bottom: 1px solid #fff;
+		z-index: 9999;
 	}
 
 	ul.genesis-skip-link li {
@@ -1568,7 +1569,6 @@ h2.reslife-home-feature-title {
 		padding: 10px 20px;
 		line-height: 40px;
 		text-align: right;
-		z-index: 9999;
 	}
 
 	ul.genesis-skip-link .screen-reader-shortcut:hover,

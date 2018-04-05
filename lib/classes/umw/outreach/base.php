@@ -573,9 +573,9 @@ if ( ! class_exists( 'Base' ) ) {
 		 */
 		function jetpack_fluid_video_embeds() {
 			global $fve;
-			if ( ! isset( $fve ) && class_exists( 'FluidVideoEmbed' ) ) {
-				FluidVideoEmbed::instance();
-			} else if ( ! class_exists( 'FluidVideoEmbed' ) ) {
+			if ( ! isset( $fve ) && class_exists( '\FluidVideoEmbed' ) ) {
+				\FluidVideoEmbed::instance();
+			} else if ( ! class_exists( '\FluidVideoEmbed' ) ) {
 				return;
 			}
 
@@ -1308,7 +1308,7 @@ if ( ! class_exists( 'Base' ) ) {
 		 * Output the global UMW header
 		 */
 		function do_full_header() {
-			if ( class_exists( 'Mega_Menu_Style_Manager' ) ) {
+			if ( class_exists( '\Mega_Menu_Style_Manager' ) ) {
 				wp_dequeue_script( 'megamenu' );
 			}
 			if ( defined( 'MEGAMENU_PRO_VERSION' ) ) {
@@ -1619,7 +1619,7 @@ if ( ! class_exists( 'Base' ) ) {
 				}
 			}
 
-			$posts    = new WP_Query( $query );
+			$posts    = new \WP_Query( $query );
 			$a        = null;
 			$list     = array();
 			$postlist = array();
@@ -2127,7 +2127,7 @@ if ( ! class_exists( 'Base' ) ) {
 		 *        * title - the name of the person/office/place to which the phone number belongs
 		 * @param string $content the telephone number that should be formatted
 		 *
-		 * @return the formatted string with a link around it
+		 * @return string the formatted string with a link around it
 		 */
 		function do_tel_link_shortcode( $atts = array(), $content = '' ) {
 			$original = $content;
@@ -2266,7 +2266,7 @@ if ( ! class_exists( 'Base' ) ) {
 		 *        the GitHub Sync plugin
 		 *
 		 * @param array $meta the array of meta data being synced
-		 * @param WordPress_GitHub_Sync_Post $post the GHS post object being synced
+		 * @param \WordPress_GitHub_Sync_Post $post the GHS post object being synced
 		 *
 		 * @return array the updated array of meta data
 		 */
@@ -2327,7 +2327,7 @@ if ( ! class_exists( 'Base' ) ) {
 			/**
 			 * Grab the CustomSidebarsReplacer object
 			 */
-			$temp = CustomSidebarsReplacer::instance();
+			$temp = \CustomSidebarsReplacer::instance();
 			if ( ! is_object( $temp ) ) {
 				return;
 			}
