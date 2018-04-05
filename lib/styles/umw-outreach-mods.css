@@ -1570,6 +1570,13 @@ h2.reslife-home-feature-title {
 		text-align: right;
 		z-index: 9999;
 	}
+
+	ul.genesis-skip-link .screen-reader-shortcut:hover,
+	ul.genesis-skip-link .screen-reader-shortcut:focus {
+		background: #000;
+		color: #fff;
+		text-decoration: underline;
+	}
 }
 
 @media all and (max-width: 480px) {
