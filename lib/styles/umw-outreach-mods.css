@@ -1520,23 +1520,24 @@ h2.reslife-home-feature-title {
 }
 
 @media all and (max-width: 1180px) {
-	.a11y-toolbar {
+	div.a11y-toolbar {
+		top: auto;
 		bottom: 0;
 		left: 0;
 	}
 
-	.a11y-toolbar ul li {
+	div.a11y-toolbar ul li {
 		height: 60px;
 		width: 60px;
 		display: inline-block;
 	}
 
-	.a11y-toolbar ul li button {
+	div.a11y-toolbar ul li button {
 		border: none;
 	}
 
-	.a11y-toolbar button:hover .offscreen,
-	.a11y-toolbar button:focus .offscreen {
+	div.a11y-toolbar button:hover .offscreen,
+	div.a11y-toolbar button:focus .offscreen {
 		left: 0;
 		top: -25px;
 	}
