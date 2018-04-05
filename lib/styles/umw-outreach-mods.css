@@ -1572,6 +1572,12 @@ h2.reslife-home-feature-title {
 }
 
 @media all and (max-width: 480px) {
+	ul.genesis-skip-link {
+		width: initial;
+		height: initial;
+		position: initial;
+	}
+
 	ul.genesis-skip-link li {
 		height: 0;
 		width: 0;
