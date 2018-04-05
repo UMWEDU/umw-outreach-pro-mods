@@ -1518,3 +1518,71 @@ h2.reslife-home-feature-title {
 .umw-search-results .gs-result .gs-title * {
 	text-decoration: none;
 }
+
+@media all and (max-width: 1180px) {
+	.a11y-toolbar {
+		bottom: 0;
+		left: 0;
+	}
+
+	.a11y-toolbar ul li {
+		height: 60px;
+		width: 60px;
+		display: inline-block;
+	}
+
+	.a11y-toolbar ul li button {
+		border: none;
+	}
+
+	.a11y-toolbar button:hover .offscreen,
+	.a11y-toolbar button:focus .offscreen {
+		left: 0;
+		top: -25px;
+	}
+	
+	ul.genesis-skip-link {
+		position: fixed;
+		width: 100%;
+		bottom: 0;
+		height: 60px;
+		background: #e2e2e2;
+		text-align: right;
+		border-top: 1px solid #fff;
+		border-bottom: 1px solid #fff;
+	}
+
+	ul.genesis-skip-link li {
+		width: auto;
+		height: 60px;
+		display: inline-block;
+	}
+
+	ul.genesis-skip-link .screen-reader-shortcut {
+		position: static !important;
+		width: auto;
+		height: 60px;
+		display: block;
+		clip: initial;
+		padding: 10px 20px;
+		line-height: 40px;
+		text-align: right;
+		z-index: 9999;
+	}
+}
+
+@media all and (max-width: 480px) {
+	ul.genesis-skip-link li {
+		height: 0;
+		width: 0;
+	}
+
+	ul.genesis-skip-link .screen-reader-shortcut {
+		position: absolute !important;
+		clip: rect(0,0,0,0);
+		height: 1px;
+		width: 1px;
+		border: 0;
+		overflow: hidden;
+	}
+}
