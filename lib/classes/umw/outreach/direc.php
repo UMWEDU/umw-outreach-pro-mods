@@ -5,14 +5,18 @@
 
 namespace UMW\Outreach;
 
-if ( ! class_exists( 'Directory' ) ) {
-	class Directory extends Base {
+if ( ! class_exists( 'Direc' ) ) {
+	class Direc extends Base {
 		/**
 		 * @var int $blog the ID of the Directory blog
 		 */
 		public $blog = 4;
 
 		function __construct() {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'Entered the ' . __CLASS__ . ' constructor' );
+			}
+
 			parent::__construct();
 
 			if ( intval( $this->blog ) !== intval( $GLOBALS['blog_id'] ) ) {
