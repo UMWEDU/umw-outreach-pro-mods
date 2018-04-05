@@ -1576,11 +1576,13 @@ h2.reslife-home-feature-title {
 		width: initial;
 		height: initial;
 		position: initial;
+		border: none;
 	}
 
 	ul.genesis-skip-link li {
 		height: 0;
 		width: 0;
+		display: list-item;
 	}
 
 	ul.genesis-skip-link .screen-reader-shortcut {
@@ -1590,5 +1592,7 @@ h2.reslife-home-feature-title {
 		width: 1px;
 		border: 0;
 		overflow: hidden;
+		padding: 0;
+		line-height: initial;
 	}
 }
