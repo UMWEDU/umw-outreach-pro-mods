@@ -1518,3 +1518,89 @@ h2.reslife-home-feature-title {
 .umw-search-results .gs-result .gs-title * {
 	text-decoration: none;
 }
+
+@media all and (max-width: 1180px) {
+	div.a11y-toolbar {
+		top: auto;
+		bottom: 0;
+		left: 0;
+	}
+
+	div.a11y-toolbar ul li {
+		height: 60px;
+		width: 60px;
+		display: inline-block;
+	}
+
+	div.a11y-toolbar ul li button {
+		border: none;
+	}
+
+	div.a11y-toolbar button:hover .offscreen,
+	div.a11y-toolbar button:focus .offscreen {
+		left: 0;
+		top: -25px;
+	}
+	
+	ul.genesis-skip-link {
+		position: fixed;
+		width: 100%;
+		bottom: 0;
+		height: 60px;
+		background: #e2e2e2;
+		text-align: right;
+		border-top: 1px solid #fff;
+		border-bottom: 1px solid #fff;
+		z-index: 9999;
+	}
+
+	ul.genesis-skip-link li {
+		width: auto;
+		height: 60px;
+		display: inline-block;
+	}
+
+	ul.genesis-skip-link .screen-reader-shortcut {
+		position: static !important;
+		width: auto;
+		height: 60px;
+		display: block;
+		clip: initial;
+		padding: 10px 20px;
+		line-height: 40px;
+		text-align: right;
+	}
+
+	ul.genesis-skip-link .screen-reader-shortcut:hover,
+	ul.genesis-skip-link .screen-reader-shortcut:focus {
+		background: #000;
+		color: #fff;
+		text-decoration: underline;
+	}
+}
+
+@media all and (max-width: 480px) {
+	ul.genesis-skip-link {
+		width: initial;
+		height: initial;
+		position: initial;
+		border: none;
+	}
+
+	ul.genesis-skip-link li {
+		height: 0;
+		width: 0;
+		display: list-item;
+	}
+
+	ul.genesis-skip-link .screen-reader-shortcut {
+		position: absolute !important;
+		clip: rect(0,0,0,0);
+		height: 1px;
+		width: 1px;
+		border: 0;
+		overflow: hidden;
+		padding: 0;
+		line-height: initial;
+	}
+}

@@ -4,7 +4,7 @@ Donate link: http://giving.umw.edu/
 Tags: genesis, outreach pro, umw
 Requires at least: 4.2
 Tested up to: 4.3
-Stable tag: 1.0
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,9 @@ The main function of this plugin is to implement the global header and footer us
 1. Upload the contents of the `umw-outreach-mods` folder to the `/wp-content/mu-plugins/` directory, including all sub-folders and files
 
 == Changelog ==
+
+= 2.0 =
+* Substantial rewrite
 
 = 1.0 =
 * All features for initial launch are now included

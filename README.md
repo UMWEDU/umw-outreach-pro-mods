@@ -30,6 +30,9 @@ The main function of this plugin is to implement the global header and footer us
 
 ## Changelog ##
 
+### 2.0 ###
+* Substantial rewrite
+
 ### 1.0 ###
 * All features for initial launch are now included
 
