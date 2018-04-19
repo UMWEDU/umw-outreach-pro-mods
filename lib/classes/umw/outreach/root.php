@@ -123,6 +123,12 @@ if ( ! class_exists( 'Root' ) ) {
 			 * Adjust the logo properties for staging/dev sites
 			 */
 			add_filter( 'umw-header-logo-info', array( $this, 'get_correct_logo_info' ) );
+			/**
+             * Register the header-right navigation menu
+             */
+			register_nav_menu( 'header-right', __( 'Header Menu', 'umw-outreach-mods' ) );
+			add_action( 'genesis_header_right', array( $this, 'do_header_right' ) );
+			add_action( 'umw-header-right', array( $this, 'do_header_right' ) );
 		}
 
 		/**
@@ -201,6 +207,17 @@ if ( ! class_exists( 'Root' ) ) {
 				'name' => __( 'Global Footer Bottom 2' ),
 			) );
 		}
+
+		/**
+		 * Handle the header-right navigation menu
+		 */
+		function do_header_right() {
+			wp_nav_menu( array(
+				'theme_location' => 'header-right',
+				'container'      => 'nav',
+				'fallback_cb'    => false,
+			) );
+        }
 
 		/**
 		 * Output the global UMW header

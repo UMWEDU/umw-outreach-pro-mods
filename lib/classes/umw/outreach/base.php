@@ -939,6 +939,10 @@ if ( ! class_exists( 'Base' ) ) {
 				add_filter( 'genesis_attr_content', array( $this, 'add_content_id' ), 99, 2 );
 			}
 
+			/**
+			 * Remove the header-right sidebar, since we are replacing it with a nav menu
+			 */
+			unregister_sidebar( 'header-right' );
 		}
 
 		/**
