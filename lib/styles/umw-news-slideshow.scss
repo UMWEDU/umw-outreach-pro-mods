@@ -1,0 +1,39 @@
+body.site-root.home {
+  .home-top .flexslider .slide-caption,
+  .home-featured-image figcaption {
+    width: 450px;
+    top: 5%;
+    bottom: 20%;
+
+  }
+
+  h2.slide-caption-title,
+  .home-top .flexslider .slide-caption .slide-caption-title {
+    font-family: "MuseoSans", Arial, sans-serif;
+    font-size: 28px;
+    font-size: 1.75rem;
+    text-transform: uppercase;
+    font-weight: 900;
+
+    .campaign-tag {
+      color: rgb(223, 201, 66);
+      text-transform: none;
+      display: block;
+      font-size: 24px;
+      font-size: 1.5rem;
+    }
+  }
+
+  .slide-caption-text {
+    font-size: 18px;
+    font-size: 1.125rem;
+    font-weight: 900;
+    text-transform: uppercase;
+
+    footer a {
+      font-size: 16px;
+      font-size: 1rem;
+      color: rgb(223, 201, 66);
+    }
+  }
+}

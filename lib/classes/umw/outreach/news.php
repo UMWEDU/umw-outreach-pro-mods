@@ -12,16 +12,6 @@ if ( ! class_exists( 'News' ) ) {
 		 */
 		public $blog = 7;
 		/**
-		 * @var string $plugin_path the root path to this plugin
-		 * @access public
-		 */
-		public static $plugin_path = '';
-		/**
-		 * @var string $plugin_url the root URL to this plugin
-		 * @access public
-		 */
-		public static $plugin_url = '';
-		/**
 		 * @var int the number of social media posts to display in the sidebar
 		 * @access private
 		 */
@@ -47,6 +37,8 @@ if ( ! class_exists( 'News' ) ) {
 
 			add_action( 'wp_print_styles', array( $this, 'custom_styles' ) );
 			add_shortcode( 'latest-social-posts', array( $this, 'do_latest_social_posts' ) );
+
+			add_action( 'after_setup_theme', array( $this, 'genesis_tweaks' ), 12 );
 		}
 
 		/**
@@ -71,6 +63,12 @@ if ( ! class_exists( 'News' ) ) {
 		 * @return void
 		 */
 		public function custom_styles() {
+			$current = get_bloginfo( 'url' );
+			if ( stristr( $current, 'www.umw.edu' ) ) {
+				$view = 88436;
+			} else {
+				$view = 87856;
+			}
 ?>
 			<style type="text/css">
 				.home-top .widget {padding: 0;}
@@ -79,6 +77,267 @@ if ( ! class_exists( 'News' ) ) {
 				div.home-bottom span.entry-comments-link {display: none;}
 				h2.entry-title a {color: #b81237;}
 				h2.entry-title a:hover {color: #4C6A8B; text-decoration: underline;}
+
+                /* Topics Nav */
+
+                #wpv-view-layout-<?php echo $view ?> {
+                    border: 1px solid #e3cf44;
+                    margin: 15px 0px;
+                }
+
+                ul.topics-bar {
+                    text-align: center;
+                    display: block;
+                    width: 100%;
+                    padding: 0;
+                    margin: 0;
+                }
+
+                ul.topics-bar li {
+                    min-width: 19.71%;
+                    text-align: center;
+                    word-wrap: normal;
+                    display: inline-block;
+                    border: 0;
+                    margin-bottom: 0;
+                    padding: 0;
+                }
+
+                ul.topics-bar li a,
+                ul.topics-bar li span.current-taxonomy {
+                    display: block;
+                    width: 100%;
+                    text-transform: uppercase;
+                    font-family: MuseoSans, Arial, sans-serif;
+                    font-size: .9em;
+                    font-weight: 800 !important;
+                    color: #052657;
+                    padding: 1.25em 0.75em;
+                }
+
+                ul.topics-bar li a:focus,
+                ul.topics-bar li span.current-taxonomy {
+                    background-color: #052657;
+                    border-top: 5px solid #dfc942;
+                    margin-top: -5px;
+                    border-bottom: 5px solid #052657;
+                    margin-bottom: -5px;
+                    color: #fff;
+                }
+
+                ul.topics-bar li a:hover {
+                    background-color: #052657;
+                    color: #fff;
+                }
+
+                @media only screen and (min-width: 601px) and (max-width: 1180px) {
+                    ul.topics-bar li {
+                        min-width: 25%;
+                    }
+                }
+                @media only screen and (max-width: 600px) {
+                    ul.topics-bar li {
+                        display: block;
+                    }
+                }
+
+                /* Miscellaneous blog-wide styles */
+
+                body .site-info-title,
+                body .site-info-title a {
+                    color: #052657;
+
+                }
+
+                body .site-info-title {
+                    font-size: 28px;
+                    font-weight: 700;
+                    text-transform: none;
+                }
+
+                body .site-info .social-icons li {
+                    display: inline;
+                }
+
+                body .site-info .social-icons {
+                    display: block;
+                    text-align: right;
+                }
+
+                body .site-info .social-icons a {
+                    display: inline-block;
+                    color: #052657;
+                    font-size: 32px;
+                }
+
+                body .pagination {
+                    margin: 0 0 1em;
+                }
+
+                .sidebar.sidebar-secondary section.widget {
+                    background-color: #052657 !important;
+                }
+
+                .sidebar-secondary li {
+                    border-bottom: 1px solid #e3cf44 !important;
+                }
+
+                .sidebar section div ul li:last-child {
+                    border-bottom: none !important;
+                }
+
+                .sidebar section div ul li a, .children li {
+                    border-bottom: none !important;
+                }
+
+                .archive-pagination li a {
+                    background: #052657;
+                }
+
+                .sidebar.sidebar-secondary section.widget#wp_views-3 {
+                    background: none !important;
+                }
+
+                .recent-social-posts {
+                    display: block;
+                }
+
+                .recent-social-posts .recent-social {
+                    flex-basis: 250px;
+                    flex-grow: 1;
+                    width: 100%;
+                    max-width: 100%;
+                    position: relative;
+
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: stretch;
+                    align-content: stretch;
+                }
+
+                .sidebar .widget a.recent-social {
+                    border: 1px solid #fff;
+                    padding: 38px 0;
+                }
+
+                .sidebar .widget a.recent-social:hover,
+                .sidebar .widget a.recent-social:focus {
+                    border: 1px solid #062d5d;
+                }
+
+                .sidebar .widget .recent-social-posts a.recent-social.instagram {
+                    background: #b81237;
+                    padding: 0;
+                    display: block;
+                }
+
+                .recent-social.instagram figure {
+                    padding: 0;
+                    padding-top: 100%;
+                    height: auto;
+                    -webkit-background-size: cover;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+
+                .recent-social-posts img {
+                    display: block;
+                    margin: 0;
+                    padding: 0;
+                    width: 100%;
+                    height: auto;
+                }
+
+                .recent-social-posts figcaption {
+                    font-weight: 500;
+                    font-size: 16px;
+                    padding: 20px;
+                }
+
+                .recent-social-posts figcaption .datetime {
+                    font-weight: 300;
+                    font-size: 14px;
+                    padding-top: 14px;
+                }
+
+                .recent-social-posts figcaption .dashicons {
+                    display: block;
+                    font-size: 24px;
+                    width: 24px;
+                    height: 24px;
+                    margin-bottom: 16px;
+                }
+
+                .recent-social-posts .instagram figcaption {
+                    display: none;
+                }
+
+                .recent-social-posts .recent-social:before {
+                    font-size: 24px;
+                    width: 24px;
+                    height: 24px;
+                    line-height: 24px;
+                    position: absolute;
+                    top: 14px;
+                    left: 14px;
+                }
+
+                .recent-social-posts .instagram:before {
+                    content: "\f215";
+                    font-family: "Genericons";
+                    color: #ffffff;
+                }
+
+                .recent-social-posts .facebook {
+                    background: #072c59;
+                    color: #ffffff;
+                }
+
+                .recent-social-posts .facebook:before {
+                    content: "\f203";
+                    font-family: "Genericons";
+                }
+
+                .recent-social-posts a.facebook,
+                .sidebar .widget .recent-social-posts a.facebook:hover,
+                .sidebar .widget .recent-social-posts a.facebook:focus {
+                    color: #ffffff;
+                }
+
+                .recent-social-posts .twitter {
+                    background: #d8e4e6;
+                    color: #222;
+                }
+
+
+                .recent-social-posts a.twitter,
+                .sidebar .widget .recent-social-posts a.twitter:hover,
+                .sidebar .widget .recent-social-posts a.twitter:focus {
+                    color: #222222;
+                }
+
+                .recent-social-posts a:hover,
+                .recent-social-posts a:focus {
+                    text-decoration: underline;
+                }
+
+                .recent-social-posts .twitter:before {
+                    content: "\f202";
+                    font-family: "Genericons";
+                }
+
+                @media only screen and (max-width: 1023px) {
+                    main#genesis-content {
+                        padding: 0 10px;
+                    }
+                }
+                @media only screen and (min-width: 1181px) {
+                    main#genesis-content {
+                        padding-right: 25px;
+                    }
+                }
 			</style>
 			<?php
 		}
@@ -93,97 +352,22 @@ if ( ! class_exists( 'News' ) ) {
 		public function topic_navigation() {
 			if ( ! function_exists( 'render_view' ) ) {
 				genesis_do_breadcrumbs();
+				parent::log( 'Could not locate the render_view function, so not rendering the topic bar' );
 				return;
 			}
 
-			if ( !is_page() ) {
-				echo render_view( array( 'id' => 87856 ) );
-			}
+			if ( ! is_page() ) {
+			    $current = get_bloginfo( 'url' );
+			    if ( stristr( $current, 'www.umw.edu' ) ) {
+			        $view = 88436;
+                } else {
+			        $view = 87856;
+                }
+                parent::log( 'Preparing to render the view with an ID of ' . $view );
+				echo render_view( array( 'id' => $view ) );
+            }
 
 			genesis_do_breadcrumbs();
-		}
-
-		/**
-		 * Custom logging function that can be short-circuited
-		 *
-		 * @access public
-		 * @since  0.1
-		 * @return void
-		 */
-		public static function log( $message ) {
-			if ( ! defined( 'WP_DEBUG' ) || false === WP_DEBUG ) {
-				return;
-			}
-
-			error_log( '[News Sitee Debug]: ' . $message );
-		}
-
-		/**
-		 * Set the root path to this plugin
-		 *
-		 * @access public
-		 * @since  1.0
-		 * @return void
-		 */
-		public static function set_plugin_path() {
-			self::$plugin_path = plugin_dir_path( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
-		}
-
-		/**
-		 * Set the root URL to this plugin
-		 *
-		 * @access public
-		 * @since  1.0
-		 * @return void
-		 */
-		public static function set_plugin_url() {
-			self::$plugin_url = plugin_dir_url( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
-		}
-
-		/**
-		 * Returns an absolute path based on the relative path passed
-		 *
-		 * @param string $path the path relative to the root of this plugin
-		 *
-		 * @access public
-		 * @since  1.0
-		 * @return string the absolute path
-		 */
-		public static function plugin_dir_path( $path = '' ) {
-			if ( empty( self::$plugin_path ) ) {
-				self::set_plugin_path();
-			}
-
-			$rt = self::$plugin_path;
-
-			if ( '/' === substr( $path, - 1 ) ) {
-				$rt = untrailingslashit( $rt );
-			}
-
-			return $rt . $path;
-		}
-
-		/**
-		 * Returns an absolute URL based on the relative path passed
-		 *
-		 * @param string $url the URL relative to the root of this plugin
-		 *
-		 * @access public
-		 * @since  1.0
-		 * @return string the absolute URL
-		 */
-		public static function plugin_dir_url( $url = '' ) {
-			if ( empty( self::$plugin_url ) ) {
-				self::set_plugin_url();
-			}
-
-			$rt = self::$plugin_url;
-
-			if ( '/' === substr( $url, - 1 ) ) {
-				$rt = untrailingslashit( $rt );
-			}
-
-			return $rt . $url;
 		}
 
 		/**
@@ -329,7 +513,7 @@ if ( ! class_exists( 'News' ) ) {
 				return false;
 			}
 
-			self::log( $cat );
+			parent::log( $cat );
 
 			$excerpt = sprintf( '<div class="caption-text">%1$s</div><footer><a href="%2$s" title="%3$s">%4$s</a></footer>', $excerpt, get_term_link( $cat['id'] ), __( 'View stories about ', 'umw-outreach-mods' ) . $cat['name'], __( 'Learn more', 'umw-outreach-mods' ) );
 
@@ -352,13 +536,13 @@ if ( ! class_exists( 'News' ) ) {
 			}
 
 			if ( is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) || is_plugin_active_for_network( 'advanced-custom-fields-pro/acf.php' ) ) {
-				include_once( $this->plugin_dir_path( 'lib/includes/custom-fields.php' ) );
+				include_once( $this->plugin_dir_path( 'lib/includes/umw/outreach/topic-slideshow-custom-fields.php' ) );
 
 				return;
 			}
 
 			if ( class_exists( '\ACF' ) ) {
-				self::log( 'The ACF class already exists, so we will avoid including the information again' );
+				parent::log( 'The ACF class already exists, so we will avoid including the information again' );
 
 				return;
 			}
@@ -366,10 +550,10 @@ if ( ! class_exists( 'News' ) ) {
 			add_filter( 'acf/settings/path', array( $this, 'acf_path' ) );
 			add_filter( 'acf/settings/dir', array( $this, 'acf_url' ) );
 			add_filter( 'acf/settings/show_admin', '__return_false' );
-			self::log( 'Preparing to include ACF core from ' . $this->plugin_dir_path( 'lib/classes/acf/acf.php' ) );
-			self::log( 'Preparing to include custom field definitions from ' . $this->plugin_dir_path( 'lib/includes/custom-fields.php' ) );
+			parent::log( 'Preparing to include ACF core from ' . $this->plugin_dir_path( 'lib/classes/acf/acf.php' ) );
+			parent::log( 'Preparing to include custom field definitions from ' . $this->plugin_dir_path( 'lib/includes/umw/outreach/topic-slideshow-custom-fields.php' ) );
 			require_once( $this->plugin_dir_path( 'lib/classes/acf/acf.php' ) );
-			require_once( $this->plugin_dir_path( 'lib/includes/topic-slideshow-custom-fields.php' ) );
+			require_once( $this->plugin_dir_path( 'lib/includes/umw/outreach/topic-slideshow-custom-fields.php' ) );
 		}
 
 		/**
@@ -427,9 +611,13 @@ if ( ! class_exists( 'News' ) ) {
 				}
 			}
 
-			$link = $posts[self::$latest_social_posts_counter]->link;
-			$imgurl = $posts[self::$latest_social_posts_counter]->images->low_resolution->url;
-			$caption = $posts[self::$latest_social_posts_counter]->caption->text;
+			if ( ! is_array( $posts ) ) {
+			    return '';
+            }
+
+			$link = $posts[parent::$latest_social_posts_counter]->link;
+			$imgurl = $posts[parent::$latest_social_posts_counter]->images->low_resolution->url;
+			$caption = $posts[parent::$latest_social_posts_counter]->caption->text;
 
 			/*$link = 'https://www.instagram.com/p/BXqlt0ClJqj/?taken-by=marywash';
 			$imgurl = 'https://scontent-iad3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/c135.0.810.810/20766551_111200026226263_4624646013523591168_n.jpg';
@@ -470,7 +658,7 @@ if ( ! class_exists( 'News' ) ) {
 
 			$response = wp_remote_get( $url );
 			if ( is_wp_error( $response ) ) {
-				self::log( 'Error retrieving Instagram ID: ' . $response->get_error_message() );
+				parent::log( 'Error retrieving Instagram ID: ' . $response->get_error_message() );
 				return false;
 			}
 
@@ -521,8 +709,8 @@ if ( ! class_exists( 'News' ) ) {
 			}
 
 
-			$link = $posts[self::$latest_social_posts_counter]->link;
-			$caption = $posts[self::$latest_social_posts_counter]->message;
+			$link = $posts[parent::$latest_social_posts_counter]->link;
+			$caption = $posts[parent::$latest_social_posts_counter]->message;
 
 			if ( strlen( $caption ) > 150 ) {
 				$arr = explode( ' ', $caption );
@@ -534,7 +722,7 @@ if ( ! class_exists( 'News' ) ) {
 				$caption .= '&hellip;';
 			}
 
-			$date = $posts[self::$latest_social_posts_counter]->created_time;
+			$date = $posts[parent::$latest_social_posts_counter]->created_time;
 			$date = date( 'F j g:ia', strtotime( $date ) );
 			/*$caption = '<span class="dashicons dashicons-facebook"></span><div class="_5pbx userContent" data-ft="{&quot;tn&quot;:&quot;K&quot;}" id="js_jd"><p>It\'s <a class="_58cn" href="/hashtag/nationalrelaxationday?source=feed_text&amp;story_id=10155626650646660" data-ft="{&quot;tn&quot;:&quot;*N&quot;,&quot;type&quot;:104}"><span class="_5afx"><span aria-label="hashtag" class="_58cl _5afz">#</span><span class="_58cm">NationalRelaxationDay</span></span></a>. Which of these is your favorite Mary Wash way to relax?</p><p> A) Hanging out by the fountain<br> B) Bench-sitting on Campus Walk<br> C) Kicking back on Ball Circle</p></div>';*/
 
@@ -578,10 +766,10 @@ if ( ! class_exists( 'News' ) ) {
 			}
 
 
-			$date = $posts[self::$latest_social_posts_counter]->created_at;
+			$date = $posts[parent::$latest_social_posts_counter]->created_at;
 			$date = date( 'F j g:ia', strtotime( $date ) );
-			$caption = $posts[self::$latest_social_posts_counter]->full_text;
-			$link = sprintf( 'https://twitter.com/%2$s/status/%1$d', $posts[self::$latest_social_posts_counter]->id, $posts[self::$latest_social_posts_counter]->user->screen_name );
+			$caption = $posts[parent::$latest_social_posts_counter]->full_text;
+			$link = sprintf( 'https://twitter.com/%2$s/status/%1$d', $posts[parent::$latest_social_posts_counter]->id, $posts[parent::$latest_social_posts_counter]->user->screen_name );
 
 			/*$caption = '<span class="dashicons dashicons-twitter"></span><p>It\'s <a href="/hashtag/NationalRelaxationDay?src=hash" data-query-source="hashtag_click" class="twitter-hashtag pretty-link js-nav" dir="ltr"><s>#</s><b>NationalRelaxationDay</b></a>. Which of these is your favorite Mary Wash way to relax?<a href="https://t.co/YQ9wHAYGKl" class="twitter-timeline-link u-hidden" data-pre-embedded="true" dir="ltr">pic.twitter.com/YQ9wHAYGKl</a></p>';*/
 			return sprintf( '
@@ -609,10 +797,10 @@ if ( ! class_exists( 'News' ) ) {
 				$count = $atts[0];
 
 			$this->latest_social_posts_count = $count;
-			self::$latest_social_posts_counter = 0;
+			parent::$latest_social_posts_counter = 0;
 
 			$ob = '<div class="recent-social-posts">';
-			for ( self::$latest_social_posts_counter = 0; self::$latest_social_posts_counter < $this->latest_social_posts_count; self::$latest_social_posts_counter++ ) {
+			for ( parent::$latest_social_posts_counter = 0; parent::$latest_social_posts_counter < $this->latest_social_posts_count; parent::$latest_social_posts_counter++ ) {
 				$ob .= $this->do_instagram_post();
 				$ob .= $this->do_facebook_post();
 				$ob .= $this->do_recent_tweet();

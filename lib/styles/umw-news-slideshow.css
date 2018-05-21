@@ -1,0 +1,30 @@
+body.site-root.home .home-top .flexslider .slide-caption,
+body.site-root.home .home-featured-image figcaption {
+  width: 450px;
+  top: 5%;
+  bottom: 20%; }
+body.site-root.home h2.slide-caption-title,
+body.site-root.home .home-top .flexslider .slide-caption .slide-caption-title {
+  font-family: "MuseoSans", Arial, sans-serif;
+  font-size: 28px;
+  font-size: 1.75rem;
+  text-transform: uppercase;
+  font-weight: 900; }
+  body.site-root.home h2.slide-caption-title .campaign-tag,
+  body.site-root.home .home-top .flexslider .slide-caption .slide-caption-title .campaign-tag {
+    color: #dfc942;
+    text-transform: none;
+    display: block;
+    font-size: 24px;
+    font-size: 1.5rem; }
+body.site-root.home .slide-caption-text {
+  font-size: 18px;
+  font-size: 1.125rem;
+  font-weight: 900;
+  text-transform: uppercase; }
+  body.site-root.home .slide-caption-text footer a {
+    font-size: 16px;
+    font-size: 1rem;
+    color: #dfc942; }
+
+/*# sourceMappingURL=umw-news-slideshow.css.map */

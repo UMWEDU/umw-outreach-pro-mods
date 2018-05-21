@@ -41,7 +41,13 @@ if ( ! class_exists( 'Root' ) ) {
 			add_filter( 'body_class', array( $this, 'add_root_body_class' ) );
 
 			add_action( 'genesis_loop', array( $this, 'do_home_page_content' ), 9 );
+
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_root_styles' ) );
 		}
+
+		public function enqueue_root_styles() {
+		    wp_enqueue_style( 'home-slider', parent::plugin_dir_url( 'lib/styles/umw-news-slideshow.css' ), array(), $this->version, 'all' );
+        }
 
 		function fake_query( $content_type, $type ) {
 			if ( 'umw-global-header' == $type || 'umw-global-footer' == $type ) {

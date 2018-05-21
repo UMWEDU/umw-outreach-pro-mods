@@ -44,6 +44,16 @@ if ( ! class_exists( 'Base' ) ) {
 		 * @var null|string $plugins_url the URL to the root folder of this plugin
 		 */
 		var $plugins_url = null;
+		/**
+		 * @var string $plugin_path the root path to this plugin
+		 * @access public
+		 */
+		public static $plugin_path = '';
+		/**
+		 * @var string $plugin_url the root URL to this plugin
+		 * @access public
+		 */
+		public static $plugin_url = '';
 
 		/**
 		 * Build our UMW_Outreach_Mods_Sub object
@@ -2367,5 +2377,89 @@ if ( ! class_exists( 'Base' ) ) {
 			 */
 			wp_reset_postdata();
 		}
+
+		/**
+		 * Custom logging function that can be short-circuited
+		 *
+		 * @access public
+		 * @since  0.1
+		 * @return void
+		 */
+		public static function log( $message ) {
+			if ( ( ! defined( 'WP_DEBUG' ) || false === WP_DEBUG ) && ! current_user_can( 'delete_users' ) ) {
+				return;
+			}
+
+			error_log( '[News Site Debug]: ' . $message );
+		}
+
+		/**
+		 * Set the root path to this plugin
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @return void
+		 */
+		public static function set_plugin_path() {
+			self::$plugin_path = plugin_dir_path( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
+		}
+
+		/**
+		 * Set the root URL to this plugin
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @return void
+		 */
+		public static function set_plugin_url() {
+			self::$plugin_url = plugin_dir_url( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
+		}
+
+		/**
+		 * Returns an absolute path based on the relative path passed
+		 *
+		 * @param string $path the path relative to the root of this plugin
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @return string the absolute path
+		 */
+		public static function plugin_dir_path( $path = '' ) {
+			if ( empty( self::$plugin_path ) ) {
+				self::set_plugin_path();
+			}
+
+			$rt = self::$plugin_path;
+
+			if ( '/' === substr( $path, - 1 ) ) {
+				$rt = untrailingslashit( $rt );
+			}
+
+			return $rt . $path;
+		}
+
+		/**
+		 * Returns an absolute URL based on the relative path passed
+		 *
+		 * @param string $url the URL relative to the root of this plugin
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @return string the absolute URL
+		 */
+		public static function plugin_dir_url( $url = '' ) {
+			if ( empty( self::$plugin_url ) ) {
+				self::set_plugin_url();
+			}
+
+			$rt = self::$plugin_url;
+
+			if ( '/' === substr( $url, - 1 ) ) {
+				$rt = untrailingslashit( $rt );
+			}
+
+			return $rt . $url;
+		}
+
 	}
 }
