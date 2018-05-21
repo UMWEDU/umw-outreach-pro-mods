@@ -1,30 +1,102 @@
+body.site-root.home .home-top .home-slider-container,
+body.site-root.home .home-top .home-slider-container .slide {
+  position: relative; }
 body.site-root.home .home-top .flexslider .slide-caption,
 body.site-root.home .home-featured-image figcaption {
   width: 450px;
   top: 5%;
-  bottom: 20%; }
+  bottom: 20%;
+  padding-top: 2rem; }
+  @media all and (max-width: 860px) {
+    body.site-root.home .home-top .flexslider .slide-caption,
+    body.site-root.home .home-featured-image figcaption {
+      width: 100%; } }
+body.site-root.home .flex-control-nav {
+  width: 100%;
+  position: static;
+  margin: 15px auto;
+  text-align: center;
+  height: auto;
+  line-height: 0; }
+body.site-root.home .flex-control-paging li a {
+  border-radius: 6px !important;
+  background: rgba(0, 43, 90, 0.5); }
+  body.site-root.home .flex-control-paging li a.flex-active {
+    background: #002b5a; }
 body.site-root.home h2.slide-caption-title,
 body.site-root.home .home-top .flexslider .slide-caption .slide-caption-title {
   font-family: "MuseoSans", Arial, sans-serif;
-  font-size: 28px;
-  font-size: 1.75rem;
+  font-size: 48px;
+  font-size: 3rem;
   text-transform: uppercase;
   font-weight: 900; }
   body.site-root.home h2.slide-caption-title .campaign-tag,
   body.site-root.home .home-top .flexslider .slide-caption .slide-caption-title .campaign-tag {
     color: #dfc942;
     text-transform: none;
-    display: block;
-    font-size: 24px;
-    font-size: 1.5rem; }
+    display: block; }
 body.site-root.home .slide-caption-text {
-  font-size: 18px;
-  font-size: 1.125rem;
+  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 900;
   text-transform: uppercase; }
   body.site-root.home .slide-caption-text footer a {
     font-size: 16px;
     font-size: 1rem;
     color: #dfc942; }
+body.site-root.home .landing-flex-nav .dashicons {
+  position: absolute;
+  top: 50%;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  margin-top: -24px;
+  font-size: 24px;
+  background: #fff;
+  color: #062d5d;
+  box-shadow: 0 1px 10px rgba(6, 45, 93, 0.5);
+  -webkit-border-radius: 24px !important;
+  -moz-border-radius: 24px !important;
+  border-radius: 24px !important; }
+  @media all and (max-width: 860px) {
+    body.site-root.home .landing-flex-nav .dashicons {
+      border: 1px solid #3c5b78;
+      top: 0;
+      width: 50%;
+      background: #062d5d;
+      color: #ffffff;
+      -webkit-border-radius: 0 !important;
+      -moz-border-radius: 0 !important;
+      border-radius: 0 !important;
+      margin-top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+      flex-direction: row; } }
+body.site-root.home .landing-flex-nav .dashicons-arrow-left-alt2 {
+  left: -24px; }
+  @media all and (max-width: 860px) {
+    body.site-root.home .landing-flex-nav .dashicons-arrow-left-alt2 {
+      left: 0; } }
+body.site-root.home .landing-flex-nav .dashicons-arrow-right-alt2 {
+  right: -24px; }
+  @media all and (max-width: 860px) {
+    body.site-root.home .landing-flex-nav .dashicons-arrow-right-alt2 {
+      right: 0;
+      flex-direction: row-reverse; } }
+@media all and (max-width: 860px) {
+  body.site-root.home .landing-flex-nav .screen-reader-text {
+    position: static !important;
+    clip: initial;
+    clip-path: initial;
+    height: auto;
+    width: auto;
+    font-family: MuseoSans, Arial, sans-serif;
+    font-size: 14px;
+    text-transform: uppercase; } }
+@media all and (max-width: 860px) {
+  body.site-root.home .home-top .home-slider-container {
+    padding-top: 48px; } }
 
 /*# sourceMappingURL=umw-news-slideshow.css.map */
