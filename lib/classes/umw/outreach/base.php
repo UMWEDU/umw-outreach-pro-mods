@@ -1006,6 +1006,10 @@ if ( ! class_exists( 'Base' ) ) {
 			 * Add image size to be used as Feature Story in Sidebar
 			 */
 			add_image_size( 'sidebar-feature', 310, 155, true );
+			/**
+			 * Add image size to be used for 2018 UMW home page slider
+			 */
+			add_image_size( 'root-home-slideshow', 1140, 570, true );
 
 			/**
 			 * Add some of these new sizes to the size selector
