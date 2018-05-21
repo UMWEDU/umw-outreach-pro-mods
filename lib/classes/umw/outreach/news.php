@@ -615,9 +615,9 @@ if ( ! class_exists( 'News' ) ) {
 			    return '';
             }
 
-			$link = $posts[parent::$latest_social_posts_counter]->link;
-			$imgurl = $posts[parent::$latest_social_posts_counter]->images->low_resolution->url;
-			$caption = $posts[parent::$latest_social_posts_counter]->caption->text;
+			$link = $posts[self::$latest_social_posts_counter]->link;
+			$imgurl = $posts[self::$latest_social_posts_counter]->images->low_resolution->url;
+			$caption = $posts[self::$latest_social_posts_counter]->caption->text;
 
 			/*$link = 'https://www.instagram.com/p/BXqlt0ClJqj/?taken-by=marywash';
 			$imgurl = 'https://scontent-iad3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/c135.0.810.810/20766551_111200026226263_4624646013523591168_n.jpg';
@@ -709,8 +709,8 @@ if ( ! class_exists( 'News' ) ) {
 			}
 
 
-			$link = $posts[parent::$latest_social_posts_counter]->link;
-			$caption = $posts[parent::$latest_social_posts_counter]->message;
+			$link = $posts[self::$latest_social_posts_counter]->link;
+			$caption = $posts[self::$latest_social_posts_counter]->message;
 
 			if ( strlen( $caption ) > 150 ) {
 				$arr = explode( ' ', $caption );
@@ -722,7 +722,7 @@ if ( ! class_exists( 'News' ) ) {
 				$caption .= '&hellip;';
 			}
 
-			$date = $posts[parent::$latest_social_posts_counter]->created_time;
+			$date = $posts[self::$latest_social_posts_counter]->created_time;
 			$date = date( 'F j g:ia', strtotime( $date ) );
 			/*$caption = '<span class="dashicons dashicons-facebook"></span><div class="_5pbx userContent" data-ft="{&quot;tn&quot;:&quot;K&quot;}" id="js_jd"><p>It\'s <a class="_58cn" href="/hashtag/nationalrelaxationday?source=feed_text&amp;story_id=10155626650646660" data-ft="{&quot;tn&quot;:&quot;*N&quot;,&quot;type&quot;:104}"><span class="_5afx"><span aria-label="hashtag" class="_58cl _5afz">#</span><span class="_58cm">NationalRelaxationDay</span></span></a>. Which of these is your favorite Mary Wash way to relax?</p><p> A) Hanging out by the fountain<br> B) Bench-sitting on Campus Walk<br> C) Kicking back on Ball Circle</p></div>';*/
 
@@ -766,10 +766,10 @@ if ( ! class_exists( 'News' ) ) {
 			}
 
 
-			$date = $posts[parent::$latest_social_posts_counter]->created_at;
+			$date = $posts[self::$latest_social_posts_counter]->created_at;
 			$date = date( 'F j g:ia', strtotime( $date ) );
-			$caption = $posts[parent::$latest_social_posts_counter]->full_text;
-			$link = sprintf( 'https://twitter.com/%2$s/status/%1$d', $posts[parent::$latest_social_posts_counter]->id, $posts[parent::$latest_social_posts_counter]->user->screen_name );
+			$caption = $posts[self::$latest_social_posts_counter]->full_text;
+			$link = sprintf( 'https://twitter.com/%2$s/status/%1$d', $posts[self::$latest_social_posts_counter]->id, $posts[self::$latest_social_posts_counter]->user->screen_name );
 
 			/*$caption = '<span class="dashicons dashicons-twitter"></span><p>It\'s <a href="/hashtag/NationalRelaxationDay?src=hash" data-query-source="hashtag_click" class="twitter-hashtag pretty-link js-nav" dir="ltr"><s>#</s><b>NationalRelaxationDay</b></a>. Which of these is your favorite Mary Wash way to relax?<a href="https://t.co/YQ9wHAYGKl" class="twitter-timeline-link u-hidden" data-pre-embedded="true" dir="ltr">pic.twitter.com/YQ9wHAYGKl</a></p>';*/
 			return sprintf( '
@@ -797,10 +797,10 @@ if ( ! class_exists( 'News' ) ) {
 				$count = $atts[0];
 
 			$this->latest_social_posts_count = $count;
-			parent::$latest_social_posts_counter = 0;
+			self::$latest_social_posts_counter = 0;
 
 			$ob = '<div class="recent-social-posts">';
-			for ( parent::$latest_social_posts_counter = 0; parent::$latest_social_posts_counter < $this->latest_social_posts_count; parent::$latest_social_posts_counter++ ) {
+			for ( self::$latest_social_posts_counter = 0; self::$latest_social_posts_counter < $this->latest_social_posts_count; self::$latest_social_posts_counter++ ) {
 				$ob .= $this->do_instagram_post();
 				$ob .= $this->do_facebook_post();
 				$ob .= $this->do_recent_tweet();

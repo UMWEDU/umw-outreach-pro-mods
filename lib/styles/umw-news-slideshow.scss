@@ -14,6 +14,10 @@ body.site-root.home {
     @media all and (max-width: 860px) {
       width: 100%;
     }
+    
+    @media all and (min-width: 1023px) {
+      padding-top: 3rem;
+    }
   }
 
   .flex-control-nav {
@@ -28,9 +32,17 @@ body.site-root.home {
   .flex-control-paging li a {
     border-radius: 6px !important;
     background: rgba(0, 43, 90, 0.5);
+    border: 1px solid #fff;
 
     &.flex-active {
+      border: 1px solid #dfc942;
       background: rgba(0, 43, 90, 1);
+    }
+
+    &:hover,
+    &:focus {
+      border: 1px solid rgb(0, 43, 90);
+      background: rgba(0, 43, 90, .8);
     }
   }
 
@@ -47,6 +59,16 @@ body.site-root.home {
       text-transform: none;
       display: block;
     }
+    
+    @media all and (min-width: 1023px) {
+      font-size: 56px;
+      font-size: 3.5rem;
+    }
+    
+    @media all and (max-width: 600px) {
+      font-size: 40px;
+      font-size: 2.5rem;
+    }
   }
 
   .slide-caption-text {
@@ -54,11 +76,27 @@ body.site-root.home {
     font-size: 1.25rem;
     font-weight: 900;
     text-transform: uppercase;
+    
+    @media all and (min-width: 1023px) {
+      font-size: 24px;
+      font-size: 1.5rem;
+    }
 
     footer a {
       font-size: 16px;
       font-size: 1rem;
       color: rgb(223, 201, 66);
+
+      &:after {
+        content: "\003e";
+        padding-left: .5em;
+      }
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        border-bottom: 2px solid #dfc942;
+      }
     }
   }
 
