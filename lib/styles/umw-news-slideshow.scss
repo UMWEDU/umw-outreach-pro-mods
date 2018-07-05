@@ -53,6 +53,7 @@ body.site-root.home {
     font-size: 3rem;
     text-transform: uppercase;
     font-weight: 900;
+    line-height: 1.0;
 
     .campaign-tag {
       color: rgb(223, 201, 66);
@@ -76,6 +77,7 @@ body.site-root.home {
     font-size: 1.25rem;
     font-weight: 900;
     text-transform: uppercase;
+    line-height: 1.5;
     
     @media all and (min-width: 1023px) {
       font-size: 24px;

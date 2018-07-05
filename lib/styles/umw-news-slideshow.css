@@ -38,7 +38,8 @@ body.site-root.home .home-top .flexslider .slide-caption .slide-caption-title {
   font-size: 48px;
   font-size: 3rem;
   text-transform: uppercase;
-  font-weight: 900; }
+  font-weight: 900;
+  line-height: 1.0; }
   body.site-root.home h2.slide-caption-title .campaign-tag,
   body.site-root.home .home-top .flexslider .slide-caption .slide-caption-title .campaign-tag {
     color: #dfc942;
@@ -58,7 +59,8 @@ body.site-root.home .slide-caption-text {
   font-size: 20px;
   font-size: 1.25rem;
   font-weight: 900;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  line-height: 1.5; }
   @media all and (min-width: 1023px) {
     body.site-root.home .slide-caption-text {
       font-size: 24px;
