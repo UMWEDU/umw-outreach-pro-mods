@@ -15,7 +15,7 @@ if ( ! class_exists( 'Base' ) ) {
 		/**
 		 * @var string $version holds the version number that's appended to script/style files
 		 */
-		var $version = '1.1.4.3';
+		var $version = '1.1.4.4';
 		/**
 		 * @var null|string $header_feed holds the URL of the custom header feed
 		 */
@@ -859,8 +859,6 @@ if ( ! class_exists( 'Base' ) ) {
 			if ( is_admin() ) {
 				return;
 			}
-
-			error_log( 'Preparing to enqueue style sheets from: ' . $this->plugins_url( '/lib/styles/outreach-pro.css' ) . ' and ' . $this->plugins_url( '/lib/styles/genericons/genericons.css' ) . ' and ' . $this->plugins_url( '/lib/styles/umw-outreach-mods.css' ) );
 
 			/* Outreach enqueues a style sheet called google-fonts, that loads type faces we don't use */
 			wp_dequeue_style( 'google-fonts' );
