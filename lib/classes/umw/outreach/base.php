@@ -345,7 +345,7 @@ if ( ! class_exists( 'Base' ) ) {
 		 * @return  void
 		 */
 		function enqueue_legacy_styles() {
-			wp_enqueue_style( 'umw-global-footer-legacy', $this->plugins_url( '/lib/styles/umw-legacy-styles.css' ), array(), $this->version, 'all' );
+			wp_enqueue_style( 'umw-global-footer-legacy', plugins_url( '/lib/styles/umw-legacy-styles.css', dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ), array(), $this->version, 'all' );
 		}
 
 		/**
