@@ -1301,10 +1301,39 @@ if ( ! class_exists( 'Base' ) ) {
 		 * Output a list of pages in a site as a navigation menu
 		 */
 		function section_navigation() {
+		    $args = array( 'title_li' => null );
+		    if ( class_exists( '\Exclude_Pages_From_Menu_Public' ) ) {
+		        $args = $this->get_excluded_page_ids( $args );
+            }
+
 			echo '<nav class="widget widget_section_nav"><ul>';
-			wp_list_pages( array( 'title_li' => null ) );
+			wp_list_pages( $args );
 			echo '</ul></nav>';
 		}
+
+		function get_excluded_page_ids( $args=array() ) {
+		    global $wpdb;
+			$exclude_pages = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key=%s AND meta_value=%s", '_epfm_meta_box_field', 'epfm_meta_box_value' ) );
+			$exclude_pages_ids = '';
+			foreach ( $exclude_pages as $exclude_page ) {
+
+				if ( $exclude_pages_ids != '' ) {
+					$exclude_pages_ids .= ', ';
+				}
+
+				$exclude_pages_ids .= $exclude_page;
+			}
+
+			if ( ! empty( $args['exclude'] ) ) {
+				$args['exclude'] .= ',';
+			} else {
+				$args['exclude'] = '';
+			}
+
+            $args['exclude'] .= $exclude_pages_ids;
+
+            return $args;
+        }
 
 		/**
 		 * Retrieve the global UMW header
