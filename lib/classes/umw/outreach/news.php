@@ -750,7 +750,7 @@ if ( ! class_exists( 'News' ) ) {
 				$twitter_name = get_field( 'umwnews_social_twitter_username' );
 
 			if ( empty( $twitter_name ) ) {
-				$twitter_name = 'UMaryWash';
+				$twitter_name = 'marywash';
 			}
 
 			do_shortcode( sprintf( '[fts_twitter twitter_name=%1$s tweets_count=%2$d cover_photo=no stats_bar=no show_retweets=yes show_replies=no]', $twitter_name, $this->latest_social_posts_count ) );
