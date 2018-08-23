@@ -107,6 +107,8 @@ if ( ! class_exists( 'Base' ) ) {
 
 			$this->add_shortcodes();
 
+			add_action( 'widgets_init', function() { register_widget( '\UMW\Outreach\Widgets\Latest_News' ); } );
+
 			/**
 			 * Build a list of post types that, when updated, need to invalidate the atoz transients
 			 */

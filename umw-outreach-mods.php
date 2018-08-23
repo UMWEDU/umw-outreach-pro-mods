@@ -26,6 +26,7 @@ namespace {
 				'_'
 			), array( '/', '-' ), $class_name ) ) . '.php';
 		if ( ! file_exists( $filename ) ) {
+			error_log( 'Attempted to autoload the ' . $class_name . ' class, but the file ' . $filename . ' was not found.' );
 			return;
 		}
 

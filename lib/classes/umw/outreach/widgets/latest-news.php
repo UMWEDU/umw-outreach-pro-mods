@@ -19,13 +19,93 @@ class Latest_News extends \WP_Widget {
 	 * @access public
 	 * @since  0.1
 	 */
-	function __construct( $id_base, $name, array $widget_options = array(), array $control_options = array() ) {
+	function __construct( $id_base='', $name='', array $widget_options = array(), array $control_options = array() ) {
 		$id_base = 'umw-latest-news';
 		$name = __( 'UMW Latest News', 'umw-outreach-mods' );
 		$widget_options = array(
 			'description' => __( 'Outputs a list of most recent stories for use on a front page', 'umw-outreach-mods' ),
 		);
 		parent::__construct( $id_base, $name, $widget_options, $control_options );
+	}
+
+	/**
+	 * Generate the form that allows control of the widget
+	 * @param array $instance the existing settings for this instance of the widget
+	 *
+	 * @access public
+	 * @since  0.1
+	 * @return string
+	 */
+	public function form( $instance ) {
+		$instance = wp_parse_args( $instance, array(
+			'title' => '',
+			'source' => '',
+			'columns' => 4,
+			'thumbsize' => array(
+				'width' => 285,
+				'height' => 160
+			),
+			'count' => 4,
+			'categories' => '',
+			'tags' => '',
+		) );
+
+		$title = esc_attr( $instance['title'] );
+		$source = esc_url( $instance['source'] );
+		$columns = intval( $instance['columns'] );
+		$count = intval( $instance['count'] );
+		$thumbwidth = intval( $instance['thumbsize']['width'] );
+		$thumbheight = intval( $instance['thumbsize']['height'] );
+		$categories = isset( $instance['categories'] ) ? explode( ',', $instance['categories'] ) : array();
+		$tags = isset( $instance['tags'] ) ? explode( ',', $instance['tags'] ) : array();
+
+		$textfield = '<p><label for="%1$s">%2$s</label><input type="%5$s" name="%3$s" id="%1$s" value="%4$s" class="widefat"/></p>';
+		$intfield = '<p><label for="%1$s">%2$s</label><input type="%5$s" name="%3$s" id="%1$s" value="%4$d" class="widefat"/></p>';
+
+		printf( $textfield, $this->get_field_id( 'title' ), __( 'Title', 'umw-outreach-mods' ), $this->get_field_name( 'title' ), $title, 'text' );
+		printf( $textfield, $this->get_field_id( 'source' ), __( 'Website', 'umw-outreach-mods' ), $this->get_field_name( 'source' ), $source, 'url' );
+		printf( $intfield, $this->get_field_id( 'columns' ), __( 'Number of Columns', 'umw-outreach-mods' ), $this->get_field_name( 'columns' ), $columns, 'number' );
+		printf( $intfield, $this->get_field_id( 'count' ), __( 'Total number of items to show', 'umw-outreach-mods' ), $this->get_field_name( 'count' ), $count, 'number' );
+		printf( $intfield, $this->get_field_id( 'thumbsize[width]' ), __( 'Desired width of image', 'umw-outreach-mods' ), $this->get_field_name( 'thumbsize[width]' ), $thumbwidth, 'number' );
+		printf( $intfield, $this->get_field_id( 'thumbsize[height]' ), __( 'Desired height of image', 'umw-outreach-mods' ), $this->get_field_name( 'thumbsize[height]' ), $thumbheight, 'number' );
+		printf( $textfield, $this->get_field_id( 'categories' ), __( 'List of category IDs to include (separated by commas)', 'umw-outreach-mods' ), $this->get_field_name( 'categories' ), implode( ',', $categories ), 'text' );
+		printf( $textfield, $this->get_field_id( 'tags' ), __( 'List of tag IDs to include (separated by commas)', 'umw-outreach-mods' ), $this->get_field_name( 'tags' ), implode( ',', $tags ), 'text' );
+	}
+
+	/**
+	 * Save the settings for an individual widget
+	 * @param array $new_instance the new settings for the widget
+	 * @param array $old_instance the existing settings for the widget
+	 *
+	 * @access public
+	 * @since  0.1
+	 * @return array
+	 */
+	public function update( $new_instance, $old_instance ) {
+		$instance = wp_parse_args( $instance, array(
+			'source' => '',
+			'columns' => null,
+			'thumbsize' => array(
+				'width' => null,
+				'height' => null
+			),
+			'count' => null,
+			'categories' => null,
+			'tags' => null,
+		) );
+
+		$instance['title'] = esc_attr( $new_instance['title'] );
+		$instance['source'] = esc_url( $new_instance['source'] );
+		$instance['columns'] = intval( $new_instance['columns'] );
+		$instance['count'] = intval( $new_instance['count'] );
+		$instance['thumbsize'] = array(
+			'width' => intval( $new_instance['thumbsize']['width'] ),
+			'height' => intval( $new_instance['thumbsize']['height'] ),
+		);
+		$instance['categories'] = empty( $new_instance['categories'] ) ? null : $new_instance['categories'];
+		$instance['tags'] = empty( $new_instance['tags'] ) ? null : $new_instance['tags'];
+
+		return $instance;
 	}
 
 	/**
@@ -88,7 +168,7 @@ class Latest_News extends \WP_Widget {
 	 */
 	public function content( array $instance=array() ) {
 		$api_base = $this->get_api_base( $instance );
-		$wp_api = $this->get_wp_api( $api_base, $instance['widget_id'] );
+		$wp_api = $this->get_wp_api( $api_base );
 		$api_url = sprintf( '%s/posts', $wp_api );
 		if ( isset( $instance['categories'] ) && ! empty( $instance['categories'] ) ) {
 			$api_url = add_query_arg( 'categories', $instance['categories'], $api_url );
@@ -101,7 +181,9 @@ class Latest_News extends \WP_Widget {
 			'context' => 'view',
 			'_embed' => 1
 		), $api_url );
+		error_log( '[Latest News Debug]: API URL: ' . $api_url );
 		$posts = $this->get_posts( $api_url );
+		error_log( '[Latest News Debug]: ' . print_r( $posts, true ) );
 		foreach ( $posts as $index=>$post ) {
 			$opts = array(
 				'classes' => $this->get_css_classes( $instance['columns'], $index ),
@@ -125,6 +207,7 @@ class Latest_News extends \WP_Widget {
 	 */
 	public function get_api_base( $instance ) {
 		$transient_name = sprintf( 'umw-latest-news-widget-%s-api-base', $instance['widget_id'] );
+		delete_transient( $transient_name );
 		$api_base = get_transient( $transient_name );
 		if ( false === $api_base ) {
 			$request = wp_remote_get( $instance['source'] );
@@ -151,6 +234,7 @@ class Latest_News extends \WP_Widget {
 	 */
 	public function get_wp_api( $base ) {
 		$transient_name = sprintf( 'umw-latest-news-widget-%s-wp-api', self::$widget_id );
+		delete_transient( $transient_name );
 		$wp_api = get_transient( $transient_name );
 		if ( false === $wp_api ) {
 			$request = wp_remote_get( $base );
@@ -158,7 +242,7 @@ class Latest_News extends \WP_Widget {
 			if ( is_object( $response ) && property_exists( $response, 'namespaces' ) && is_array( $response->namespaces ) ) {
 				foreach ( $response->namespaces as $name ) {
 					if ( substr( $name, 0, 2 ) == 'wp' ) {
-						$wp_api = sprintf( '%s/%s', $base, $name );
+						$wp_api = sprintf( '%s/%s', untrailingslashit( $base ), $name );
 						set_transient( $transient_name, $wp_api, HOUR_IN_SECONDS );
 						return $wp_api;
 					}
@@ -180,6 +264,7 @@ class Latest_News extends \WP_Widget {
 	 */
 	public function get_posts( $url ) {
 		$transient_name = sprintf( 'umw-latest-news-widget-%s-posts-array', self::$widget_id );
+		delete_transient( $transient_name );
 		$posts = get_transient( $transient_name );
 		if ( false !== $posts ) {
 			return $posts;
@@ -251,13 +336,12 @@ class Latest_News extends \WP_Widget {
 		}
 		$feature = array_shift( $post->_embedded->{'wp:featuredmedia'} );
 
-		$url_widths = $url_heights = array();
-		foreach ( $feature['media_details']['sizes'] as $key=>$details ) {
-			if ( $details['width'] == $size['width'] && $details['height'] == $size['height'] ) {
-				$url = $details['source_url'];
-			} else if ( $details['width'] >= $size['width'] && $details['height'] >= $size['height'] ) {
-				$url_widths[$key] = $details['width'];
-				$url_heights[$key] = $details['height'];
+		$url_widths = array();
+		foreach ( $feature->media_details->sizes as $key=>$details ) {
+			if ( $details->width == $size['width'] && $details->height == $size['height'] ) {
+				$url = $details->source_url;
+			} else if ( $details->width >= $size['width'] && $details->height >= $size['height'] ) {
+				$url_widths[$key] = $details->width;
 			}
 		}
 
@@ -265,13 +349,13 @@ class Latest_News extends \WP_Widget {
 			if ( count( $url_widths ) > 0 ) {
 				asort( $url_widths );
 				$urls = array_keys( $url_widths );
-				$url  = $feature['media_details']['sizes'][ array_shift( $urls ) ]['source_url'];
+				$url  = $feature->media_details->sizes->{ array_shift( $urls ) }->source_url;
 			} else {
-				$url = $feature['media_details']['sizes']['full']['source_url'];
+				$url = $feature->media_details->sizes->full->source_url;
 			}
 		}
 
-		return sprintf( '<img src="%s" alt="%s"/>', $url, $feature['alt_text'] );
+		return sprintf( '<img src="%s" alt="%s"/>', $url, $feature->alt_text );
 	}
 
 	/**
