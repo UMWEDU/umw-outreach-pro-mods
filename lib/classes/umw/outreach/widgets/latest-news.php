@@ -37,6 +37,23 @@ class Latest_News extends \WP_Widget {
 	}
 
 	/**
+	 * Clear out the existing transients
+	 *
+	 * @param \WP_Widget the existing instance of this widget
+	 *
+	 * @access public
+	 * @since  0.1
+	 * @return void
+	 */
+	public function delete_transients( $instance ) {
+		foreach ( $this->transient_names as $t ) {
+			delete_transient( sprintf( $t, $instance->id ) );
+		}
+
+		return;
+	}
+
+	/**
 	 * Generate the form that allows control of the widget
 	 * @param array $instance the existing settings for this instance of the widget
 	 *
@@ -118,23 +135,6 @@ class Latest_News extends \WP_Widget {
 		$instance['tags'] = empty( $new_instance['tags'] ) ? null : $new_instance['tags'];
 
 		return $instance;
-	}
-
-	/**
-	 * Clear out the existing transients
-	 *
-	 * @param \WP_Widget the existing instance of this widget
-	 *
-	 * @access public
-	 * @since  0.1
-	 * @return void
-	 */
-	public function delete_transients( $instance ) {
-		foreach ( $this->transient_names as $t ) {
-			delete_transient( sprintf( $t, $instance->id ) );
-		}
-
-		return;
 	}
 
 	/**
