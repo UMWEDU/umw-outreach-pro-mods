@@ -7,6 +7,7 @@ namespace UMW\Outreach\Widgets;
 
 class Latest_News extends \WP_Widget {
 	static $widget_id=0;
+	private $transient_names = array();
 
 	/**
 	 * Latest_News constructor.
@@ -25,6 +26,13 @@ class Latest_News extends \WP_Widget {
 		$widget_options = array(
 			'description' => __( 'Outputs a list of most recent stories for use on a front page', 'umw-outreach-mods' ),
 		);
+
+		$this->transient_names = array(
+			'base' => 'umw-latest-news-widget-%s-api-base',
+			'api' => 'umw-latest-news-widget-%s-wp-api',
+			'posts' => 'umw-latest-news-widget-%s-posts-array',
+		);
+
 		parent::__construct( $id_base, $name, $widget_options, $control_options );
 	}
 
@@ -94,6 +102,10 @@ class Latest_News extends \WP_Widget {
 			'tags' => null,
 		) );
 
+		if ( $new_instance['source'] != $old_instance['source'] ) {
+			$this->delete_transients( $new_instance );
+		}
+
 		$instance['title'] = esc_attr( $new_instance['title'] );
 		$instance['source'] = esc_url( $new_instance['source'] );
 		$instance['columns'] = intval( $new_instance['columns'] );
@@ -106,6 +118,23 @@ class Latest_News extends \WP_Widget {
 		$instance['tags'] = empty( $new_instance['tags'] ) ? null : $new_instance['tags'];
 
 		return $instance;
+	}
+
+	/**
+	 * Clear out the existing transients
+	 *
+	 * @param \WP_Widget the existing instance of this widget
+	 *
+	 * @access public
+	 * @since  0.1
+	 * @return void
+	 */
+	public function delete_transients( $instance ) {
+		foreach ( $this->transient_names as $t ) {
+			delete_transient( sprintf( $t, $instance->id ) );
+		}
+
+		return;
 	}
 
 	/**
@@ -192,7 +221,7 @@ class Latest_News extends \WP_Widget {
 				'title' => $post->title->rendered,
 				'date' => date( 'F j, Y g:i a', strtotime( $post->modified ) ),
 			);
-			printf( $this->get_template(), $opts );
+			vprintf( $this->get_template(), $opts );
 		}
 	}
 
@@ -206,8 +235,7 @@ class Latest_News extends \WP_Widget {
 	 * @return string the URL to the base API
 	 */
 	public function get_api_base( $instance ) {
-		$transient_name = sprintf( 'umw-latest-news-widget-%s-api-base', $instance['widget_id'] );
-		delete_transient( $transient_name );
+		$transient_name = sprintf( $this->transient_names['base'], $instance['widget_id'] );
 		$api_base = get_transient( $transient_name );
 		if ( false === $api_base ) {
 			$request = wp_remote_get( $instance['source'] );
@@ -233,8 +261,7 @@ class Latest_News extends \WP_Widget {
 	 * @return string the URL to the main WP API
 	 */
 	public function get_wp_api( $base ) {
-		$transient_name = sprintf( 'umw-latest-news-widget-%s-wp-api', self::$widget_id );
-		delete_transient( $transient_name );
+		$transient_name = sprintf( $this->transient_names['api'], self::$widget_id );
 		$wp_api = get_transient( $transient_name );
 		if ( false === $wp_api ) {
 			$request = wp_remote_get( $base );
@@ -263,8 +290,7 @@ class Latest_News extends \WP_Widget {
 	 * @return array a collection of posts retrieved from the API
 	 */
 	public function get_posts( $url ) {
-		$transient_name = sprintf( 'umw-latest-news-widget-%s-posts-array', self::$widget_id );
-		delete_transient( $transient_name );
+		$transient_name = sprintf( $this->transient_names['posts'], self::$widget_id );
 		$posts = get_transient( $transient_name );
 		if ( false !== $posts ) {
 			return $posts;
@@ -291,7 +317,7 @@ class Latest_News extends \WP_Widget {
 	 */
 	public function get_css_classes( $columns, $index ) {
 		$i = $index++;
-		$classes = array();
+		$classes = array( 'pcs-entry' );
 		switch ( $columns ) {
 			case 6 :
 				$classes[] = 'one-sixth';
