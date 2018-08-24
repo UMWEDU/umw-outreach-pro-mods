@@ -7,7 +7,9 @@ namespace UMW\Outreach\Widgets;
 
 class Latest_News extends \WP_Widget {
 	static $widget_id=0;
+	static $version = '0.1';
 	private $transient_names = array();
+	public $control_js = '';
 
 	/**
 	 * Latest_News constructor.
@@ -32,6 +34,9 @@ class Latest_News extends \WP_Widget {
 			'api' => 'umw-latest-news-widget-%s-wp-api',
 			'posts' => 'umw-latest-news-widget-%s-posts-array',
 		);
+
+		add_action( 'wp_ajax_get_umw_latest_news', array( $this, 'get_ajax_response' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_script' ) );
 
 		parent::__construct( $id_base, $name, $widget_options, $control_options );
 	}
@@ -86,6 +91,7 @@ class Latest_News extends \WP_Widget {
 
 		$textfield = '<p><label for="%1$s">%2$s</label><input type="%5$s" name="%3$s" id="%1$s" value="%4$s" class="widefat"/></p>';
 		$intfield = '<p><label for="%1$s">%2$s</label><input type="%5$s" name="%3$s" id="%1$s" value="%4$d" class="widefat"/></p>';
+		$selectfield = '<p><label for="%1$s">%2$s</label><select name="%3$s" id="%1$s" class="widefat" %5$s></select></p>';
 
 		printf( $textfield, $this->get_field_id( 'title' ), __( 'Title', 'umw-outreach-mods' ), $this->get_field_name( 'title' ), $title, 'text' );
 		printf( $textfield, $this->get_field_id( 'source' ), __( 'Website', 'umw-outreach-mods' ), $this->get_field_name( 'source' ), $source, 'url' );
@@ -95,6 +101,67 @@ class Latest_News extends \WP_Widget {
 		printf( $intfield, $this->get_field_id( 'thumbsize[height]' ), __( 'Desired height of image', 'umw-outreach-mods' ), $this->get_field_name( 'thumbsize[height]' ), $thumbheight, 'number' );
 		printf( $textfield, $this->get_field_id( 'categories' ), __( 'List of category IDs to include (separated by commas)', 'umw-outreach-mods' ), $this->get_field_name( 'categories' ), implode( ',', $categories ), 'text' );
 		printf( $textfield, $this->get_field_id( 'tags' ), __( 'List of tag IDs to include (separated by commas)', 'umw-outreach-mods' ), $this->get_field_name( 'tags' ), implode( ',', $tags ), 'text' );
+		printf( $selectfield, $this->get_field_id( 'categories_select' ), __( 'Sample Categories Selector', 'umw-outreach-mods' ),  $this->get_field_name( 'categories_select' ), '', 'multiple' );
+
+		wp_enqueue_script( 'umw-latest-news-widget' );
+		$this->do_control_javascript( $instance, $this->get_field_id( '' ), $this->get_field_name( 'source' ) );
+		add_action( 'admin_print_footer_scripts', function() { echo $this->control_js; }, 1, 99 );
+	}
+
+	/**
+	 * Register the admin script
+	 *
+	 * @access public
+	 * @since  0.1
+	 * @return void
+	 */
+	public function register_admin_script() {
+		wp_register_script(
+			'umw-latest-news-widget',
+			plugins_url( 'scripts/umw/outreach/widgets/latest-news.js', dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ),
+			array( 'jquery' ),
+			self::$version,
+			true
+		);
+	}
+
+	/**
+	 * Output the JavaScript that's necessary to keep the categories/tags lists up-to-date
+	 * @param \WP_Widget the specific instance of the widget
+	 * @param string $widget_id the ID of the specific widget
+	 * @param string $field_name the name of the fields we're looking for
+	 *
+	 * @access public
+	 * @since  0.1
+	 * @return void
+	 */
+	public function do_control_javascript( $instance, $widget_id='', $field_name='' ) {
+		$field_id = $widget_id;
+		$widget_id = str_replace( array( 'widget-umw-latest-news-', '-', '_' ), '', $widget_id );
+		if ( 'i' == $widget_id ) {
+			$widget_id = 0;
+		}
+
+		$instance['field_name'] = str_replace( 'replaceme', '', $field_name );
+		$instance['widget_id'] = $widget_id;
+		$instance['ajax_url'] = admin_url( 'admin-ajax.php' );
+		$instance['ajax_action'] = 'get_umw_latest_news';
+
+		$this->control_js .= sprintf( '<script>var umw_latest_news_widget = umw_latest_news_widget || {};umw_latest_news_widget[\'%s\'] = %s;</script>', $field_id, json_encode( $instance ) );
+	}
+
+	/**
+	 * Attempt to run an AJAX request to the API
+	 *
+	 * @access public
+	 * @since  0.1
+	 * @return void
+	 */
+	public function get_ajax_response() {
+		$url = esc_url( $_GET['source'] );
+		$response = wp_remote_get( $url );
+		echo wp_remote_retrieve_body( $response );
+		die();
 	}
 
 	/**
