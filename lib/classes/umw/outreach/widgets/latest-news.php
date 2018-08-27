@@ -10,6 +10,7 @@ class Latest_News extends \WP_Widget {
 	static $version = '0.1';
 	private $transient_names = array();
 	public $control_js = '';
+	public $control_js_arr = array();
 
 	/**
 	 * Latest_News constructor.
@@ -71,10 +72,7 @@ class Latest_News extends \WP_Widget {
 			'title' => '',
 			'source' => '',
 			'columns' => 4,
-			'thumbsize' => array(
-				'width' => 285,
-				'height' => 160
-			),
+			'thumbsize' => '',
 			'count' => 4,
 			'categories' => '',
 			'tags' => '',
@@ -84,8 +82,7 @@ class Latest_News extends \WP_Widget {
 		$source = esc_url( $instance['source'] );
 		$columns = intval( $instance['columns'] );
 		$count = intval( $instance['count'] );
-		$thumbwidth = intval( $instance['thumbsize']['width'] );
-		$thumbheight = intval( $instance['thumbsize']['height'] );
+		$thumbsize = is_array( $instance['thumbsize'] ) ? '' : esc_attr( $instance['thumbsize'] );
 		$categories = isset( $instance['categories'] ) ? explode( ',', $instance['categories'] ) : array();
 		$tags = isset( $instance['tags'] ) ? explode( ',', $instance['tags'] ) : array();
 
@@ -97,15 +94,22 @@ class Latest_News extends \WP_Widget {
 		printf( $textfield, $this->get_field_id( 'source' ), __( 'Website', 'umw-outreach-mods' ), $this->get_field_name( 'source' ), $source, 'url' );
 		printf( $intfield, $this->get_field_id( 'columns' ), __( 'Number of Columns', 'umw-outreach-mods' ), $this->get_field_name( 'columns' ), $columns, 'number' );
 		printf( $intfield, $this->get_field_id( 'count' ), __( 'Total number of items to show', 'umw-outreach-mods' ), $this->get_field_name( 'count' ), $count, 'number' );
-		printf( $intfield, $this->get_field_id( 'thumbsize[width]' ), __( 'Desired width of image', 'umw-outreach-mods' ), $this->get_field_name( 'thumbsize[width]' ), $thumbwidth, 'number' );
+		/*printf( $intfield, $this->get_field_id( 'thumbsize[width]' ), __( 'Desired width of image', 'umw-outreach-mods' ), $this->get_field_name( 'thumbsize[width]' ), $thumbwidth, 'number' );
 		printf( $intfield, $this->get_field_id( 'thumbsize[height]' ), __( 'Desired height of image', 'umw-outreach-mods' ), $this->get_field_name( 'thumbsize[height]' ), $thumbheight, 'number' );
 		printf( $textfield, $this->get_field_id( 'categories' ), __( 'List of category IDs to include (separated by commas)', 'umw-outreach-mods' ), $this->get_field_name( 'categories' ), implode( ',', $categories ), 'text' );
-		printf( $textfield, $this->get_field_id( 'tags' ), __( 'List of tag IDs to include (separated by commas)', 'umw-outreach-mods' ), $this->get_field_name( 'tags' ), implode( ',', $tags ), 'text' );
-		printf( $selectfield, $this->get_field_id( 'categories_select' ), __( 'Sample Categories Selector', 'umw-outreach-mods' ),  $this->get_field_name( 'categories_select' ), '', 'multiple' );
+		printf( $textfield, $this->get_field_id( 'tags' ), __( 'List of tag IDs to include (separated by commas)', 'umw-outreach-mods' ), $this->get_field_name( 'tags' ), implode( ',', $tags ), 'text' );*/
+		echo '<fieldset><legend>';
+		_e( 'Feed details', 'umw-outreach-mods' );
+		echo '</legend>';
+		printf( $selectfield, $this->get_field_id( 'categories_select' ), __( 'Sample Categories Selector', 'umw-outreach-mods' ),  $this->get_field_name( 'categories_select[]' ), '', 'multiple' );
+		printf( $selectfield, $this->get_field_id( 'tags_select' ), __( 'Tags to display', 'umw-outreach-mods' ), $this->get_field_name( 'tags_select[]' ), '', 'multiple' );
+		printf( $selectfield, $this->get_field_id( 'size_select' ), __( 'Thumbnail size', 'umw-outreach-mods' ), $this->get_field_name( 'size_select' ), $thumbsize, '' );
+		echo '</fieldset>';
+		$this->do_loader_graphic();
 
 		wp_enqueue_script( 'umw-latest-news-widget' );
 		$this->do_control_javascript( $instance, $this->get_field_id( '' ), $this->get_field_name( 'source' ) );
-		add_action( 'admin_print_footer_scripts', function() { echo $this->control_js; }, 1, 99 );
+		add_action( 'admin_print_footer_scripts', function() { wp_localize_script( 'umw-latest-news-widget', 'umw_latest_news_widget', $this->control_js_arr ); }, 1, 99 );
 	}
 
 	/**
@@ -147,6 +151,8 @@ class Latest_News extends \WP_Widget {
 		$instance['ajax_url'] = admin_url( 'admin-ajax.php' );
 		$instance['ajax_action'] = 'get_umw_latest_news';
 
+		$this->control_js_arr[$field_id] = $instance;
+
 		$this->control_js .= sprintf( '<script>var umw_latest_news_widget = umw_latest_news_widget || {};umw_latest_news_widget[\'%s\'] = %s;</script>', $field_id, json_encode( $instance ) );
 	}
 
@@ -158,9 +164,50 @@ class Latest_News extends \WP_Widget {
 	 * @return void
 	 */
 	public function get_ajax_response() {
+		$response = array();
+
 		$url = esc_url( $_GET['source'] );
-		$response = wp_remote_get( $url );
-		echo wp_remote_retrieve_body( $response );
+		$api_base = $this->get_api_base( array( 'source' => $url ), false );
+		$wp_api = $this->get_wp_api( $api_base, false );
+
+		$response['source'] = $url;
+		$response['url'] = array();
+		$response['instance'] = $_GET['instance'];
+		foreach ( array( 'categories', 'tags' ) as $t ) {
+			$api_url = sprintf( '%s/%s', $wp_api, $t );
+			$api_url = add_query_arg( array( 'per_page' => 100, 'hide_empty' => true ), $api_url );
+			$response['url'][] = $api_url;
+			$tmp = wp_remote_get( $api_url );
+
+			if ( ! is_wp_error( $tmp ) ) {
+				$pages = wp_remote_retrieve_header( $tmp, 'x-wp-totalpages' );
+				if ( $pages > 1 ) {
+					$page      = 1;
+					$tax_array = json_decode( wp_remote_retrieve_body( $tmp ) );
+					while ( $page <= $pages ) {
+						$page++;
+						$r = wp_remote_get( add_query_arg( 'page', $page, $api_url ) );
+						$tax_array = $tax_array + json_decode( wp_remote_retrieve_body( $r ) );
+					}
+					$response[$t] = $tax_array;
+				} else {
+					$response[ $t ] = json_decode( wp_remote_retrieve_body( $tmp ) );
+				}
+			}
+		}
+
+		$api_url = sprintf( '%s/%s', $wp_api, 'media' );
+		$api_url = add_query_arg( array( 'media_type' => 'image', 'per_page' => 1 ), $api_url );
+		$response['url'][] = $api_url;
+		$r = wp_remote_get( $api_url );
+		if ( ! is_wp_error( $r ) ) {
+			$data = json_decode( wp_remote_retrieve_body( $r ) );
+			$sample = array_pop( $data );
+			$response['image_sizes'] = $sample->media_details->sizes;
+		}
+
+		header("Content-type: application/json" );
+		echo json_encode( $response );
 		die();
 	}
 
@@ -174,13 +221,10 @@ class Latest_News extends \WP_Widget {
 	 * @return array
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance = wp_parse_args( $instance, array(
+		$instance = wp_parse_args( $new_instance, array(
 			'source' => '',
 			'columns' => null,
-			'thumbsize' => array(
-				'width' => null,
-				'height' => null
-			),
+			'thumbsize' => '',
 			'count' => null,
 			'categories' => null,
 			'tags' => null,
@@ -194,12 +238,9 @@ class Latest_News extends \WP_Widget {
 		$instance['source'] = esc_url( $new_instance['source'] );
 		$instance['columns'] = intval( $new_instance['columns'] );
 		$instance['count'] = intval( $new_instance['count'] );
-		$instance['thumbsize'] = array(
-			'width' => intval( $new_instance['thumbsize']['width'] ),
-			'height' => intval( $new_instance['thumbsize']['height'] ),
-		);
-		$instance['categories'] = empty( $new_instance['categories'] ) ? null : $new_instance['categories'];
-		$instance['tags'] = empty( $new_instance['tags'] ) ? null : $new_instance['tags'];
+		$instance['thumbsize'] = esc_attr( $new_instance['size_select'] );
+		$instance['categories'] = empty( $new_instance['categories_select'] ) ? null : implode( ',', $new_instance['categories_select'] );
+		$instance['tags'] = empty( $new_instance['tags_select'] ) ? null : implode( ',', $new_instance['tags_select'] );
 
 		return $instance;
 	}
@@ -223,10 +264,7 @@ class Latest_News extends \WP_Widget {
 		$instance = wp_parse_args( $instance, array(
 			'source' => '',
 			'columns' => 4,
-			'thumbsize' => array(
-				'width' => 285,
-				'height' => 160
-			),
+			'thumbsize' => '',
 			'count' => 4,
 		) );
 		$instance['widget_id'] = $args['id'];
@@ -296,14 +334,19 @@ class Latest_News extends \WP_Widget {
 	 * Retrieve the location of the base API
 	 *
 	 * @param array $instance
+	 * @param bool $cache whether to use transients in this request
 	 *
 	 * @access public
 	 * @since  0.1
 	 * @return string the URL to the base API
 	 */
-	public function get_api_base( $instance ) {
+	public function get_api_base( $instance, $cache=true ) {
 		$transient_name = sprintf( $this->transient_names['base'], $instance['widget_id'] );
-		$api_base = get_transient( $transient_name );
+		if ( $cache ) {
+			$api_base = get_transient( $transient_name );
+		} else {
+			$api_base = false;
+		}
 		if ( false === $api_base ) {
 			$request = wp_remote_get( $instance['source'] );
 			$link_info = $this->parse_header_link( wp_remote_retrieve_header( $request, 'link' ) );
@@ -312,7 +355,9 @@ class Latest_News extends \WP_Widget {
 			}
 
 			$api_base = $link_info['link'];
-			set_transient( $transient_name, $api_base, HOUR_IN_SECONDS );
+			if ( $cache ) {
+				set_transient( $transient_name, $api_base, WEEK_IN_SECONDS );
+			}
 		}
 
 		return $api_base;
@@ -322,14 +367,20 @@ class Latest_News extends \WP_Widget {
 	 * Find the URL to the main WP API
 	 *
 	 * @param string $base the base URL for the API
+	 * @param bool $cache whether to use transients with this request
 	 *
 	 * @access public
 	 * @since  0.1
 	 * @return string the URL to the main WP API
 	 */
-	public function get_wp_api( $base ) {
+	public function get_wp_api( $base, $cache=true ) {
 		$transient_name = sprintf( $this->transient_names['api'], self::$widget_id );
-		$wp_api = get_transient( $transient_name );
+		if ( $cache ) {
+			$wp_api = get_transient( $transient_name );
+		} else {
+			$wp_api = false;
+		}
+
 		if ( false === $wp_api ) {
 			$request = wp_remote_get( $base );
 			$response = @json_decode( wp_remote_retrieve_body( $request ) );
@@ -337,7 +388,9 @@ class Latest_News extends \WP_Widget {
 				foreach ( $response->namespaces as $name ) {
 					if ( substr( $name, 0, 2 ) == 'wp' ) {
 						$wp_api = sprintf( '%s/%s', untrailingslashit( $base ), $name );
-						set_transient( $transient_name, $wp_api, HOUR_IN_SECONDS );
+						if ( $cache ) {
+							set_transient( $transient_name, $wp_api, HOUR_IN_SECONDS );
+						}
 						return $wp_api;
 					}
 				}
@@ -429,26 +482,17 @@ class Latest_News extends \WP_Widget {
 		}
 		$feature = array_shift( $post->_embedded->{'wp:featuredmedia'} );
 
-		$url_widths = array();
 		foreach ( $feature->media_details->sizes as $key=>$details ) {
-			if ( $details->width == $size['width'] && $details->height == $size['height'] ) {
+			if ( $key == $size ) {
 				$url = $details->source_url;
-			} else if ( $details->width >= $size['width'] && $details->height >= $size['height'] ) {
-				$url_widths[$key] = $details->width;
 			}
 		}
 
 		if ( ! isset( $url ) ) {
-			if ( count( $url_widths ) > 0 ) {
-				asort( $url_widths );
-				$urls = array_keys( $url_widths );
-				$url  = $feature->media_details->sizes->{ array_shift( $urls ) }->source_url;
-			} else {
-				$url = $feature->media_details->sizes->full->source_url;
-			}
+			$url = $feature->media_details->sizes->full->source_url;
 		}
 
-		return sprintf( '<img src="%s" alt="%s"/>', $url, $feature->alt_text );
+		return sprintf( '<img src="%s" alt="%s" class="attachment size-%s"/>', $url, $feature->alt_text, $size );
 	}
 
 	/**
@@ -486,6 +530,17 @@ class Latest_News extends \WP_Widget {
 	 * @return \WP_Error|array an array with the link and the rel info
 	 */
 	public function parse_header_link( $header ) {
+		if ( is_array( $header ) ) {
+			foreach ( $header as $h ) {
+				$tmp = $this->parse_header_link( $h );
+				if ( array_key_exists( 'rel', $tmp ) && $tmp['rel'] == 'https://api.w.org/' ) {
+					return $tmp;
+				}
+			}
+
+			return new \WP_Error( 'not-found', __( 'The header link was an array, but the link for the API was not found', 'umw-outreach-mods' ), $header );
+		}
+
 		preg_match( '/<(.*?)>; (.*?)="(.*?)"/m', $header, $matches );
 		if ( empty( $matches ) ) {
 			return new \WP_Error( 'no-response', __( 'The header link could not be parsed', 'umw-outreach-mods' ), $header );
@@ -495,5 +550,207 @@ class Latest_News extends \WP_Widget {
 			'link' => $matches[1],
 			$matches[2] => $matches[3],
 		);
+	}
+
+	/**
+	 * Output the loader graphic that shows when the tags/categories selectors are being updated
+	 *
+	 * @access private
+	 * @since  0.1
+	 * @return void
+	 */
+	private function do_loader_graphic() {
+		$out = <<<EOF
+<div class="floatingCirclesG">
+	<div class="f_circleG frotateG_01"></div>
+	<div class="f_circleG frotateG_02"></div>
+	<div class="f_circleG frotateG_03"></div>
+	<div class="f_circleG frotateG_04"></div>
+	<div class="f_circleG frotateG_05"></div>
+	<div class="f_circleG frotateG_06"></div>
+	<div class="f_circleG frotateG_07"></div>
+	<div class="f_circleG frotateG_08"></div>
+</div>
+<style>
+.floatingCirclesG{
+	display: none;
+	position:relative;
+	width:32px;
+	height:32px;
+	margin:auto;
+	transform:scale(0.6);
+		-o-transform:scale(0.6);
+		-ms-transform:scale(0.6);
+		-webkit-transform:scale(0.6);
+		-moz-transform:scale(0.6);
+}
+
+.f_circleG{
+	position:absolute;
+	background-color:rgb(255,255,255);
+	height:6px;
+	width:6px;
+	border-radius:3px;
+		-o-border-radius:3px;
+		-ms-border-radius:3px;
+		-webkit-border-radius:3px;
+		-moz-border-radius:3px;
+	animation-name:f_fadeG;
+		-o-animation-name:f_fadeG;
+		-ms-animation-name:f_fadeG;
+		-webkit-animation-name:f_fadeG;
+		-moz-animation-name:f_fadeG;
+	animation-duration:0.832s;
+		-o-animation-duration:0.832s;
+		-ms-animation-duration:0.832s;
+		-webkit-animation-duration:0.832s;
+		-moz-animation-duration:0.832s;
+	animation-iteration-count:infinite;
+		-o-animation-iteration-count:infinite;
+		-ms-animation-iteration-count:infinite;
+		-webkit-animation-iteration-count:infinite;
+		-moz-animation-iteration-count:infinite;
+	animation-direction:normal;
+		-o-animation-direction:normal;
+		-ms-animation-direction:normal;
+		-webkit-animation-direction:normal;
+		-moz-animation-direction:normal;
+}
+
+.frotateG_01{
+	left:0;
+	top:13px;
+	animation-delay:0.3095s;
+		-o-animation-delay:0.3095s;
+		-ms-animation-delay:0.3095s;
+		-webkit-animation-delay:0.3095s;
+		-moz-animation-delay:0.3095s;
+}
+
+.frotateG_02{
+	left:4px;
+	top:4px;
+	animation-delay:0.416s;
+		-o-animation-delay:0.416s;
+		-ms-animation-delay:0.416s;
+		-webkit-animation-delay:0.416s;
+		-moz-animation-delay:0.416s;
+}
+
+.frotateG_03{
+	left:13px;
+	top:0;
+	animation-delay:0.5225s;
+		-o-animation-delay:0.5225s;
+		-ms-animation-delay:0.5225s;
+		-webkit-animation-delay:0.5225s;
+		-moz-animation-delay:0.5225s;
+}
+
+.frotateG_04{
+	right:4px;
+	top:4px;
+	animation-delay:0.619s;
+		-o-animation-delay:0.619s;
+		-ms-animation-delay:0.619s;
+		-webkit-animation-delay:0.619s;
+		-moz-animation-delay:0.619s;
+}
+
+.frotateG_05{
+	right:0;
+	top:13px;
+	animation-delay:0.7255s;
+		-o-animation-delay:0.7255s;
+		-ms-animation-delay:0.7255s;
+		-webkit-animation-delay:0.7255s;
+		-moz-animation-delay:0.7255s;
+}
+
+.frotateG_06{
+	right:4px;
+	bottom:4px;
+	animation-delay:0.832s;
+		-o-animation-delay:0.832s;
+		-ms-animation-delay:0.832s;
+		-webkit-animation-delay:0.832s;
+		-moz-animation-delay:0.832s;
+}
+
+.frotateG_07{
+	left:13px;
+	bottom:0;
+	animation-delay:0.9385s;
+		-o-animation-delay:0.9385s;
+		-ms-animation-delay:0.9385s;
+		-webkit-animation-delay:0.9385s;
+		-moz-animation-delay:0.9385s;
+}
+
+.frotateG_08{
+	left:4px;
+	bottom:4px;
+	animation-delay:1.035s;
+		-o-animation-delay:1.035s;
+		-ms-animation-delay:1.035s;
+		-webkit-animation-delay:1.035s;
+		-moz-animation-delay:1.035s;
+}
+
+
+
+@keyframes f_fadeG{
+	0%{
+		background-color:rgb(0,0,0);
+	}
+
+	100%{
+		background-color:rgb(255,255,255);
+	}
+}
+
+@-o-keyframes f_fadeG{
+	0%{
+		background-color:rgb(0,0,0);
+	}
+
+	100%{
+		background-color:rgb(255,255,255);
+	}
+}
+
+@-ms-keyframes f_fadeG{
+	0%{
+		background-color:rgb(0,0,0);
+	}
+
+	100%{
+		background-color:rgb(255,255,255);
+	}
+}
+
+@-webkit-keyframes f_fadeG{
+	0%{
+		background-color:rgb(0,0,0);
+	}
+
+	100%{
+		background-color:rgb(255,255,255);
+	}
+}
+
+@-moz-keyframes f_fadeG{
+	0%{
+		background-color:rgb(0,0,0);
+	}
+
+	100%{
+		background-color:rgb(255,255,255);
+	}
+}
+</style>
+EOF;
+
+		echo $out;
 	}
 }
