@@ -150,6 +150,11 @@ class Latest_News extends \WP_Widget {
 		$instance['widget_id'] = $widget_id;
 		$instance['ajax_url'] = admin_url( 'admin-ajax.php' );
 		$instance['ajax_action'] = 'get_umw_latest_news';
+		if ( wp_script_is( 'select2', 'registered' ) ) {
+			$instance['hasSelect2'] = true;
+		} else {
+			$instance['hasSelect2'] = false;
+		}
 
 		$this->control_js_arr[$field_id] = $instance;
 
