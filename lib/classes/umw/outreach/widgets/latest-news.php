@@ -98,7 +98,7 @@ class Latest_News extends \WP_Widget {
 		printf( $intfield, $this->get_field_id( 'thumbsize[height]' ), __( 'Desired height of image', 'umw-outreach-mods' ), $this->get_field_name( 'thumbsize[height]' ), $thumbheight, 'number' );
 		printf( $textfield, $this->get_field_id( 'categories' ), __( 'List of category IDs to include (separated by commas)', 'umw-outreach-mods' ), $this->get_field_name( 'categories' ), implode( ',', $categories ), 'text' );
 		printf( $textfield, $this->get_field_id( 'tags' ), __( 'List of tag IDs to include (separated by commas)', 'umw-outreach-mods' ), $this->get_field_name( 'tags' ), implode( ',', $tags ), 'text' );*/
-		echo '<fieldset><legend>';
+		echo '<fieldset class="umw-latest-news-feed-details" name="' . $this->get_field_name( 'feed-details-fieldset' ) . '"><legend>';
 		_e( 'Feed details', 'umw-outreach-mods' );
 		echo '</legend>';
 		printf( $selectfield, $this->get_field_id( 'categories_select' ), __( 'Sample Categories Selector', 'umw-outreach-mods' ),  $this->get_field_name( 'categories_select[]' ), '', 'multiple' );
@@ -166,13 +166,20 @@ class Latest_News extends \WP_Widget {
 	public function get_ajax_response() {
 		$response = array();
 
+		/*error_log( '[Latest News Debug]: Option Name: ' . print_r( $this->option_name, true ) );
+		error_log( '[Latest News Debug]: Widget Number: ' . print_r( $this->number, true ) );*/
+
+		$widget_options_all = get_option($this->option_name);
+		$options = $widget_options_all[ $this->number ];
+		error_log( '[Latest News Debug]: Options: ' . print_r( $options, true ) );
+
 		$url = esc_url( $_GET['source'] );
 		$api_base = $this->get_api_base( array( 'source' => $url ), false );
 		$wp_api = $this->get_wp_api( $api_base, false );
 
 		$response['source'] = $url;
 		$response['url'] = array();
-		$response['instance'] = $_GET['instance'];
+		$response['instance'] = array_merge( $_GET['instance'], $options );
 		foreach ( array( 'categories', 'tags' ) as $t ) {
 			$api_url = sprintf( '%s/%s', $wp_api, $t );
 			$api_url = add_query_arg( array( 'per_page' => 100, 'hide_empty' => true ), $api_url );
@@ -197,7 +204,7 @@ class Latest_News extends \WP_Widget {
 		}
 
 		$api_url = sprintf( '%s/%s', $wp_api, 'media' );
-		$api_url = add_query_arg( array( 'media_type' => 'image', 'per_page' => 1 ), $api_url );
+		$api_url = add_query_arg( array( 'media_type' => 'image' ), $api_url );
 		$response['url'][] = $api_url;
 		$r = wp_remote_get( $api_url );
 		if ( ! is_wp_error( $r ) ) {
@@ -205,6 +212,8 @@ class Latest_News extends \WP_Widget {
 			$sample = array_pop( $data );
 			$response['image_sizes'] = $sample->media_details->sizes;
 		}
+
+		error_log( '[Latest News Debug]: AJAX Response: ' . print_r( $response, true ) );
 
 		header("Content-type: application/json" );
 		echo json_encode( $response );
@@ -341,7 +350,7 @@ class Latest_News extends \WP_Widget {
 	 * @return string the URL to the base API
 	 */
 	public function get_api_base( $instance, $cache=true ) {
-		$transient_name = sprintf( $this->transient_names['base'], $instance['widget_id'] );
+		$transient_name = sprintf( $this->transient_names['base'], $this->id );
 		if ( $cache ) {
 			$api_base = get_transient( $transient_name );
 		} else {
