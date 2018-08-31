@@ -451,7 +451,7 @@ class Latest_News extends \WP_Widget {
 	 */
 	public function get_css_classes( $columns, $index ) {
 		$i = $index++;
-		$classes = array( 'pcs-entry' );
+		$classes = array( 'latest-news-entry' );
 		switch ( $columns ) {
 			case 6 :
 				$classes[] = 'one-sixth';
@@ -519,15 +519,15 @@ class Latest_News extends \WP_Widget {
 	public function get_template() {
 		return '<article class="%1$s">
   <header>
-    <figure class="pcs-featured-image">
-      %2$s
+    <figure class="featured-image">
+      <a href="%3$s">%2$s</a>
     </figure>
-    <h1 class="pcs-post-title">
+    <h1 class="post-title">
       <a href="%3$s">%4$s</a>
     </h1>
   </header>
   <footer>
-    <p class="pcs-publish-date">
+    <p class="publish-date">
       %5$s
     </p>
   </footer>
