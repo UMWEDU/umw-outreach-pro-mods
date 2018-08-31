@@ -37,6 +37,7 @@ class Latest_News extends \WP_Widget {
 		);
 
 		add_action( 'wp_ajax_get_umw_latest_news', array( $this, 'get_ajax_response' ) );
+		add_action( 'wp_ajax_get_umw_latest_news_fields', array( $this, 'get_js_widget_instance' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_script' ) );
 
 		parent::__construct( $id_base, $name, $widget_options, $control_options );
@@ -109,7 +110,7 @@ class Latest_News extends \WP_Widget {
 
 		wp_enqueue_script( 'umw-latest-news-widget' );
 		$this->do_control_javascript( $instance, $this->get_field_id( '' ), $this->get_field_name( 'source' ) );
-		add_action( 'admin_print_footer_scripts', function() { wp_localize_script( 'umw-latest-news-widget', 'umw_latest_news_widget', $this->control_js_arr ); }, 1, 99 );
+		add_action( 'admin_print_footer_scripts', array( $this, 'do_localize_admin_script' ), 1, 99 );
 	}
 
 	/**
@@ -140,16 +141,20 @@ class Latest_News extends \WP_Widget {
 	 * @return void
 	 */
 	public function do_control_javascript( $instance, $widget_id='', $field_name='' ) {
+		error_log( '[Latest News Debug]: Option Name: ' . print_r( $this->option_name, true ) );
+		error_log( '[Latest News Debug]: Widget Number: ' . print_r( $this->number, true ) );
+
 		$field_id = $widget_id;
-		$widget_id = str_replace( array( 'widget-umw-latest-news-', '-', '_' ), '', $widget_id );
+		$widget_id = $this->number;
 		if ( 'i' == $widget_id ) {
 			$widget_id = 0;
 		}
 
-		$instance['field_name'] = str_replace( 'replaceme', '', $field_name );
+		$instance['field_name'] = $field_name;
 		$instance['widget_id'] = $widget_id;
 		$instance['ajax_url'] = admin_url( 'admin-ajax.php' );
 		$instance['ajax_action'] = 'get_umw_latest_news';
+		$instance['nonce'] = wp_create_nonce( 'umw-latest-news-ajax' );
 		if ( wp_script_is( 'select2', 'registered' ) ) {
 			$instance['hasSelect2'] = true;
 		} else {
@@ -158,7 +163,23 @@ class Latest_News extends \WP_Widget {
 
 		$this->control_js_arr[$field_id] = $instance;
 
-		$this->control_js .= sprintf( '<script>var umw_latest_news_widget = umw_latest_news_widget || {};umw_latest_news_widget[\'%s\'] = %s;</script>', $field_id, json_encode( $instance ) );
+		return;
+	}
+
+	/**
+	 * JSON-ize the PHP objects we'll use with our AJAX requests
+	 *
+	 * @access public
+	 * @since  0.1
+	 * @return void
+	 */
+	public function do_localize_admin_script() {
+		$this->control_js_arr['default'] = array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'action' => 'get_umw_latest_news_fields',
+			'nonce' => wp_create_nonce( 'umw-latest-news-ajax' ),
+		);
+		wp_localize_script( 'umw-latest-news-widget', 'umw_latest_news_widget', $this->control_js_arr );
 	}
 
 	/**
@@ -171,10 +192,12 @@ class Latest_News extends \WP_Widget {
 	public function get_ajax_response() {
 		$response = array();
 
-		/*error_log( '[Latest News Debug]: Option Name: ' . print_r( $this->option_name, true ) );
-		error_log( '[Latest News Debug]: Widget Number: ' . print_r( $this->number, true ) );*/
+		error_log( '[Latest News Debug]: Option Name: ' . print_r( $this->option_name, true ) );
+		error_log( '[Latest News Debug]: Widget Number: ' . print_r( $this->number, true ) );
 
 		$widget_options_all = get_option($this->option_name);
+		error_log( '[Latest News Debug]: All Widget Options: ' . print_r( $widget_options_all, true ) );
+
 		$options = $widget_options_all[ $this->number ];
 		error_log( '[Latest News Debug]: Options: ' . print_r( $options, true ) );
 
@@ -222,6 +245,35 @@ class Latest_News extends \WP_Widget {
 
 		header("Content-type: application/json" );
 		echo json_encode( $response );
+		die();
+	}
+
+	/**
+	 * Get Widget Instance to return to JS request
+	 *
+	 * @access public
+	 * @since  0.1
+	 * @return void
+	 */
+	public function get_js_widget_instance() {
+		$widget_id = $_GET['widget_source_field_id'];
+		$widget_number = $_GET['widget_number'];
+		$widget_options_all = get_option($this->option_name);
+		$instance = $widget_options_all[$widget_number];
+
+		$instance['field_name'] = $_GET['widget_source_field_id'];
+		$instance['widget_id'] = $widget_number;
+		$instance['ajax_url'] = admin_url( 'admin-ajax.php' );
+		$instance['ajax_action'] = 'get_umw_latest_news';
+		$instance['nonce'] = wp_create_nonce( 'umw-latest-news-ajax' );
+		if ( wp_script_is( 'select2', 'registered' ) ) {
+			$instance['hasSelect2'] = true;
+		} else {
+			$instance['hasSelect2'] = false;
+		}
+
+		header("Content-type: application/json" );
+		echo json_encode( $instance );
 		die();
 	}
 
