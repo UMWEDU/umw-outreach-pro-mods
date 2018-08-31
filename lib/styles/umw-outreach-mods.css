@@ -78,7 +78,8 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
  */
 
 .home-top .pcs-entry h1,
-.home-top .latest-news-entry h1 {
+.home-top .latest-news-entry h1,
+.sub-footer-left .latest-news-entry h1 {
 	font-size: 14px;
 	font-size: .875rem;
 	font-weight: 700;
@@ -86,12 +87,14 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 }
 
 .home-top .pcs-entry h1 a,
-.home-top .latest-news-entry h1 a {
+.home-top .latest-news-entry h1 a,
+.sub-footer-left .latest-news-entry h1 a {
 	color: rgb(0,43,90);
 }
 
 .home-top .pcs-entry,
-.home-top .latest-news-entry {
+.home-top .latest-news-entry,
+.sub-footer-left .latest-news-entry {
 	font-size: 12px;
 	font-size: .75rem;
 	font-weight: 300;
@@ -100,14 +103,16 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 }
 
 .home-top .pcs-featured-image,
-.home-top .featured-image {
+.home-top .featured-image,
+.sub-footer-left .featured-image {
 	display: block;
 	margin: 0 0 .5rem 0;
 	padding: 0;
 }
 
 .home-top .pcs-featured-image img,
-.home-top .featured-image img {
+.home-top .featured-image img,
+.sub-footer-left .featured-image img {
 	display: block;
 	margin: 0;
 	padding: 0;
@@ -118,7 +123,8 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 
 .home-top.widget-area .widget_text,
 .home-top.widget-area .pcs-list-widget,
-.home-top.widget-area .widget_umw-latest-news .widget-wrap {
+.home-top.widget-area .widget_umw-latest-news .widget-wrap,
+.sub-footer-left.widget-area .widget_umw-latest-news .widget-wrap {
 	padding: 0;
 }
 /* Note the border is being overwritten elsewhere. Return to this. */
@@ -137,13 +143,13 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 		padding-left: 5%;
 	}
 
-	.home-top .one-fourth:nth-child(2n+2) {
+	.home-top .one-fourth:nth-child(2n+1) {
 		padding-left: 0;
 		padding-right: 5%;
 		clear: left;
 	}
 
-	.home-top .one-fourth:nth-child(2n+1) {
+	.home-top .one-fourth:nth-child(2n+2) {
 		clear: right;
 	}
 

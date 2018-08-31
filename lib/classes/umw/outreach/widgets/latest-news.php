@@ -141,9 +141,6 @@ class Latest_News extends \WP_Widget {
 	 * @return void
 	 */
 	public function do_control_javascript( $instance, $widget_id='', $field_name='' ) {
-		error_log( '[Latest News Debug]: Option Name: ' . print_r( $this->option_name, true ) );
-		error_log( '[Latest News Debug]: Widget Number: ' . print_r( $this->number, true ) );
-
 		$field_id = $widget_id;
 		$widget_id = $this->number;
 		if ( 'i' == $widget_id ) {
@@ -192,14 +189,9 @@ class Latest_News extends \WP_Widget {
 	public function get_ajax_response() {
 		$response = array();
 
-		error_log( '[Latest News Debug]: Option Name: ' . print_r( $this->option_name, true ) );
-		error_log( '[Latest News Debug]: Widget Number: ' . print_r( $this->number, true ) );
-
 		$widget_options_all = get_option($this->option_name);
-		error_log( '[Latest News Debug]: All Widget Options: ' . print_r( $widget_options_all, true ) );
 
 		$options = $widget_options_all[ $this->number ];
-		error_log( '[Latest News Debug]: Options: ' . print_r( $options, true ) );
 
 		$url = esc_url( $_GET['source'] );
 		$api_base = $this->get_api_base( array( 'source' => $url ), false );
@@ -216,13 +208,16 @@ class Latest_News extends \WP_Widget {
 
 			if ( ! is_wp_error( $tmp ) ) {
 				$pages = wp_remote_retrieve_header( $tmp, 'x-wp-totalpages' );
+				error_log( '[Latest News Debug]: Total pages in this API request: ' . $pages );
 				if ( $pages > 1 ) {
 					$page      = 1;
 					$tax_array = json_decode( wp_remote_retrieve_body( $tmp ) );
-					while ( $page <= $pages ) {
+					while ( $page < $pages ) {
 						$page++;
-						$r = wp_remote_get( add_query_arg( 'page', $page, $api_url ) );
-						$tax_array = $tax_array + json_decode( wp_remote_retrieve_body( $r ) );
+						$tmpurl = add_query_arg( 'page', $page, $api_url );
+						$r = wp_remote_get( $tmpurl );
+						error_log( '[Latest News Debug]: Querying ' . $tmpurl . ' for more results' );
+						$tax_array = array_merge( $tax_array, json_decode( wp_remote_retrieve_body( $r ) ) );
 					}
 					$response[$t] = $tax_array;
 				} else {
@@ -240,8 +235,6 @@ class Latest_News extends \WP_Widget {
 			$sample = array_pop( $data );
 			$response['image_sizes'] = $sample->media_details->sizes;
 		}
-
-		error_log( '[Latest News Debug]: AJAX Response: ' . print_r( $response, true ) );
 
 		header("Content-type: application/json" );
 		echo json_encode( $response );
@@ -381,9 +374,13 @@ class Latest_News extends \WP_Widget {
 			'context' => 'view',
 			'_embed' => 1
 		), $api_url );
-		error_log( '[Latest News Debug]: API URL: ' . $api_url );
 		$posts = $this->get_posts( $api_url );
-		error_log( '[Latest News Debug]: ' . print_r( $posts, true ) );
+		if ( count( $posts ) <= 0 ) {
+			return;
+		}
+
+		echo '<div class="umw-latest-news-list">';
+
 		foreach ( $posts as $index=>$post ) {
 			$opts = array(
 				'classes' => $this->get_css_classes( $instance['columns'], $index ),
@@ -394,6 +391,8 @@ class Latest_News extends \WP_Widget {
 			);
 			vprintf( $this->get_template(), $opts );
 		}
+
+		echo '</div>';
 	}
 
 	/**
