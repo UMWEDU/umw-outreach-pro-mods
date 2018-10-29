@@ -416,7 +416,10 @@ class Latest_News extends \WP_Widget {
 			$request = wp_remote_get( $instance['source'] );
 			$link_info = $this->parse_header_link( wp_remote_retrieve_header( $request, 'link' ) );
 			if ( is_wp_error( $link_info ) ) {
+				error_log( '[Latest News Debug]: Header link error.' . "\n" . print_r( $link_info->get_error_message(), true ) );
 				return '';
+			} else {
+				error_log( '[Latest News Debug]: Header link info: ' . "\n" . print_r( $link_info, true ) );
 			}
 
 			$api_base = $link_info['link'];
@@ -451,7 +454,7 @@ class Latest_News extends \WP_Widget {
 			$response = @json_decode( wp_remote_retrieve_body( $request ) );
 			if ( is_object( $response ) && property_exists( $response, 'namespaces' ) && is_array( $response->namespaces ) ) {
 				foreach ( $response->namespaces as $name ) {
-					if ( substr( $name, 0, 2 ) == 'wp' ) {
+					if ( substr( $name, 0, 3 ) == 'wp/' ) {
 						$wp_api = sprintf( '%s/%s', untrailingslashit( $base ), $name );
 						if ( $cache ) {
 							set_transient( $transient_name, $wp_api, HOUR_IN_SECONDS );
