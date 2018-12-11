@@ -446,6 +446,10 @@ if ( ! class_exists( 'Root' ) ) {
 		}
 
 		function get_header_for_feed() {
+
+			header('Content-Type: text/html');
+			header('Access-Control-Allow-Origin: *');
+
 			foreach ( $this->shortcodes_to_unregister as $s ) {
 				remove_shortcode( $s );
 			}
@@ -499,6 +503,10 @@ if ( ! class_exists( 'Root' ) ) {
 		}
 
 		function get_footer_for_feed() {
+
+			header('Content-Type: text/html');
+			header('Access-Control-Allow-Origin: *');
+
 			foreach ( $this->shortcodes_to_unregister as $s ) {
 				remove_shortcode( $s );
 			}
