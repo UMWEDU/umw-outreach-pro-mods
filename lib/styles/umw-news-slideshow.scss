@@ -168,7 +168,7 @@ body.site-root.home {
   }
 
   @media all and (max-width: 860px) {
-    .home-top .home-slider-container {
+    .home-top .home-slider-container .flexslider {
       padding-top: 48px;
     }
   }
