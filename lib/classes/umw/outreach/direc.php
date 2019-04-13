@@ -30,6 +30,9 @@ if ( ! class_exists( 'Direc' ) ) {
 			add_filter( 'wpghs_whitelisted_post_types', function ( $types = array() ) {
 				return array_merge( $types, array( 'employee', 'department', 'office', 'building' ) );
 			} );
+
+			add_shortcode( 'expert-file-bio', array( $this, 'do_expertfile_shortcode' ) );
+			add_shortcode( 'expert-file-list', array( $this, 'do_expertfile_shortcode' ) );
 		}
 
 		/**
@@ -171,5 +174,69 @@ if ( ! class_exists( 'Direc' ) ) {
 			return __( 'Campuses and Buildings' );
 		}
 
+		/**
+		 * Handle an ExpertFile embed
+		 * @param $atts array the list of shortcode attributes
+		 * @param $content string|null the content between shortcodes
+		 * @param $name string the name of the shortcode
+		 *
+		 * @access public
+		 * @since  2019.4
+		 * @return string the iframe with the ExpertFile embed
+		 */
+		public function do_expertfile_shortcode( $atts=array(), $content='', $name='expert-file-bio' ) {
+			if ( defined( 'WP_DEBUG' ) ) {
+				error_log( '[ExpertFile Debug]: Shortcode name: ' . $name );
+			}
+
+			$defaults = array(
+				'font_family' => 'Open Sans, Helvetica Neue, Helvetica',
+				'page_size' => 10,
+				'access' => 'all',
+				'content' => 'title,headline,expertise',
+				'hide_search_bar' => 'yes',
+				'hide_search_category' => 'no',
+				'hide_search_sort' => 'no',
+				'url_color' => '%23002b5a',
+				'color' => '%23333333',
+				'open_tab' => 'no',
+				'avatar' => 'circle',
+				'powered_by' => 'no',
+				'channel' => '2c335699-55d3-49d3-8bd0-df86c24af20c',
+			);
+
+			if ( 'expert-file-bio' == $name ) {
+				if ( ! isset( $_GET['expert'] ) || empty( $_GET['expert'] ) ) {
+					return '<p>Unfortunately, we were not able to retrieve an expert by the name you provided. Please try again.</p>';
+				}
+
+				$src = 'https://embed.expertfile.com/v1/expert/' . $_GET['expert'] . '/1';
+				$defaults['content'] = 'name';
+				$defaults['hide_search_category'] = 'yes';
+				$defaults['hide_search_sort'] = 'yes';
+				$defaults['channel'] = '8c37b042-2e49-45e9-9c0e-0d68a0ae0a71';
+				$defaults['expert'] = $_GET['expert'];
+				$iframeID = 'embed-frame-featured';
+			} else {
+				$defaults['url_override'] = get_option( 'home' ) . '/expert/?expert={{username}}';
+
+				$src = 'https://embed.expertfile.com/v1/organization/5322/1';
+				$iframeID = 'embed-frame-directory';
+			}
+
+			$atts = shortcode_atts( $defaults, $atts, $name );
+
+			$url = add_query_arg( $atts, $src );
+
+			$script = <<<EOD
+var SF = SF || {}; SF.featured = document.getElementById('{$iframeID}'), s = new SeamLess({ window : SF.featured .contentWindow, origin : '*' }); s.receiveHeight({ channel : "{$atts['channel']}" }, function(height){ SF.featured.style.height = height + 'px';});
+EOD;
+
+			$output = sprintf( '<iframe id="%1$s" class="embed_preview" frameborder="0" scrolling="no" style="border: none; width: 100%;" src="%2$s"></iframe>', $iframeID, $url );
+			$output .= sprintf( '<script type="text/javascript" src="%s"></script>', '//d2mo5pjlwftw8w.cloudfront.net/embed/seamless.ly.min.v1.0.4.js' );
+			$output .= sprintf( '<script type="text/javascript">%s</script>', $script );
+
+			return $output;
+		}
 	}
 }
