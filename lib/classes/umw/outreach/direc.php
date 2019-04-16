@@ -277,6 +277,9 @@ EOD;
 			global $wp, $wp_query;
 
 			if ( isset( $wp->query_vars['expert'] ) ) {
+
+				remove_all_actions('genesis_entry_header' );
+
 				$posts = null;
 				$posts[] = $this->create_expert_post();
 
