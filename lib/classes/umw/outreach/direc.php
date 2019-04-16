@@ -180,6 +180,8 @@ if ( ! class_exists( 'Direc' ) ) {
 		 * @param $content string|null the content between shortcodes
 		 * @param $name string the name of the shortcode
 		 *
+		 * @link https://expertfile.com/embeds/linking
+		 *
 		 * @access public
 		 * @since  2019.4
 		 * @return string the iframe with the ExpertFile embed

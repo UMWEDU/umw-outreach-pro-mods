@@ -1630,3 +1630,7 @@ h2.reslife-home-feature-title {
 		line-height: initial;
 	}
 }
+
+iframe.embed_preview {
+	width: 100%;
+}
