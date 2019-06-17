@@ -458,6 +458,7 @@ if ( ! class_exists( 'Root' ) ) {
 			$this->gather_styles();
 			print( "\n<!-- / UMW Global Header Styles -->\n" );
 
+			remove_action( 'genesis_before', 'umw_analytics_gtm_noscript', 1 );
 			do_action( 'genesis_before' );
 			$this->do_full_header();
 			print( "\n<!-- / UMW Global Header -->\n" );
