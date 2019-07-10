@@ -7,6 +7,8 @@
 
 namespace UMW\Outreach;
 
+use Genesis_Customizer;
+
 if ( ! class_exists( 'Base' ) ) {
 	/**
 	 * Define the class used on internal sites
@@ -940,7 +942,7 @@ if ( ! class_exists( 'Base' ) ) {
 			/*add_filter( 'genesis_available_sanitizer_filters', array( $this, 'add_sanitizer_filter' ) );
 			add_filter( 'genesis_theme_settings_defaults', array( $this, 'settings_defaults' ) );*/
 
-			add_filter( 'genesis_customizer_theme_settings_config', array(
+			add_action( 'genesis_customizer', array(
 				$this,
 				'umw_customizer_theme_settings_config'
 			) );
@@ -2018,12 +2020,14 @@ if ( ! class_exists( 'Base' ) ) {
 		 * Add UMW theme settings to Genesis Customizer panel
 		 *
 		 * @param array $config the existing set of customizer areas
+         *
+         * @todo figure out where the settings will be saved, and how to convert the old settings
 		 *
 		 * @access public
 		 * @return array the updated list of settings
 		 * @since  0.1
 		 */
-		public function umw_customizer_theme_settings_config( $config ) {
+		public function umw_customizer_theme_settings_config( Genesis_Customizer $genesis_customizer ) {
 			$umw_config = array(
 				'genesis-umw' => array(
 					'active_callback' => '__return_true',
@@ -2033,7 +2037,7 @@ if ( ! class_exists( 'Base' ) ) {
 					'control_prefix'  => 'genesis-umw',
 					'theme_supports'  => 'genesis-customizer-umw-settings',
 					'sections'        => array(
-						'umw_outreach_settings'       => array(
+						'umw_settings' => array(
 							'active_callback' => '__return_true',
 							'title'           => __( 'Value Proposition Settings', 'genesis' ),
 							'panel'           => 'genesis-umw',
@@ -2067,57 +2071,61 @@ if ( ! class_exists( 'Base' ) ) {
 								),
 							),
 						),
-						'umw_featured_image' => array(
+						'umw_featured_image'    => array(
 							'active_callback' => '__return_true',
 							'title'           => __( 'Featured Image', 'genesis' ),
 							'panel'           => 'genesis-umw',
 							'controls'        => array(
-								'image-url' => array(
-									'label'    => __( 'Image URL', 'genesis' ),
-									'section'  => 'umw_featured_image',
-									'type'     => 'url',
+								'image-url'      => array(
+									'label'       => __( 'Image URL', 'genesis' ),
+									'section'     => 'umw_featured_image',
+									'type'        => 'url',
 									'input_attrs' => array(
 										'placeholder' => __( 'Image URL', 'genesis' ),
 									),
+									'settings'    => array(
+										'default' => '',
+									),
+								),
+								'image-title'    => array(
+									'label'       => __( 'Title/Caption', 'genesis' ),
+									'section'     => 'umw_featured_image',
+									'type'        => 'text',
+									'input_attrs' => array(
+										'placeholder' => __( 'Title of featured area', 'genesis' ),
+									),
+									'settings'    => array(
+										'default' => '',
+									),
+								),
+								'image-subtitle' => array(
+									'label'    => __( 'Subtext', 'genesis' ),
+									'section'  => 'umw_featured_image',
+									'type'     => 'textarea',
 									'settings' => array(
 										'default' => '',
 									),
 								),
-                                'image-title' => array(
-                                    'label' => __( 'Title/Caption', 'genesis' ),
-                                    'section' => 'umw_featured_image',
-                                    'type' => 'text',
-                                    'input_attrs' => array(
-	                                    'placeholder' => __( 'Title of featured area', 'genesis' ),
-                                    ),
-                                    'settings' => array(
-                                            'default' => '',
-                                    ),
-                                ),
-                                'image-subtitle' => array(
-                                    'label' => __( 'Subtext', 'genesis' ),
-                                    'section' => 'umw_featured_image',
-                                    'type' => 'textarea',
-                                    'settings' => array(
-                                            'default' => '',
-                                    ),
-                                ),
-                                'image-link' => array(
-                                    'label' => __( 'Link Address', 'genesis' ),
-                                    'secton' => 'umw_featured_image',
-                                    'type' => 'url',
-                                    'input_attrs' => array(
-	                                    'placeholder' => __( 'Link Address', 'genesis' ),
-                                    ),
-                                    'settings' => array(
-                                            'default' => '',
-                                    ),
-                                ),
+								'image-link'     => array(
+									'label'       => __( 'Link Address', 'genesis' ),
+									'secton'      => 'umw_featured_image',
+									'type'        => 'url',
+									'input_attrs' => array(
+										'placeholder' => __( 'Link Address', 'genesis' ),
+									),
+									'settings'    => array(
+										'default' => '',
+									),
+								),
 							),
 						),
 					),
 				),
 			);
+
+			$umw_config = apply_filters( 'umw-outreach-genesis-customizer-config', $umw_config );
+
+			$genesis_customizer->register( $umw_config );
 		}
 
 		/**
