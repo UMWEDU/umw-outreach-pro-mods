@@ -17,7 +17,7 @@ if ( ! class_exists( 'Base' ) ) {
 		/**
 		 * @var string $version holds the version number that's appended to script/style files
 		 */
-		var $version = '2.0.1';
+		var $version = '3.0.1';
 		/**
 		 * @var null|string $header_feed holds the URL of the custom header feed
 		 */
@@ -1092,13 +1092,15 @@ if ( ! class_exists( 'Base' ) ) {
 			}
 
 			$current = $this->get_option( $this->setting_name );
-			if ( ! is_array( $current ) || ! array_key_exists( 'image', $current ) ) {
+			if ( ! is_array( $current ) || ! array_key_exists( 'image-url', $current ) ) {
 				return;
 			}
 
-			$img = $current['image'];
-			if ( ! is_array( $img ) || ! array_key_exists( 'url', $img ) || ! esc_url( $img['url'] ) ) {
-				return;
+			$img = array();
+			foreach ( $current as $key => $value ) {
+				if ( stristr( $key, 'image-' ) ) {
+					$img[ str_replace( 'image-', '', $key ) ] = $value;
+				}
 			}
 
 			$embed = $this->get_embedded_image( esc_url( $img['url'] ), $img );
@@ -1877,23 +1879,63 @@ if ( ! class_exists( 'Base' ) ) {
 		/**
 		 * Retrieve a specific theme option
 		 */
-		function get_option( $key, $blog = false, $default = false ) {
+		function get_option( $key = null, $blog = false, $default = false ) {
+			if ( $key === $this->setting_name ) {
+				$key = null;
+			}
+
 			$opt = $allopts = $converted = false;
 
 			if ( empty( $blog ) || ( isset( $GLOBALS['blog_id'] ) && intval( $blog ) === $GLOBALS['blog_id'] ) ) {
 				$converted = get_option( 'umw-outreach-mods-moved-options', false );
 				if ( false !== $converted ) {
 					$allopts = get_option( $this->settings_field, array() );
+					if ( ! empty( $allopts ) && array_key_exists( $this->setting_name, $allopts ) ) {
+						$new = array();
+						$old = $allopts[ $this->setting_name ];
+						if ( ! array_key_exists( 'image', $old ) || ! is_array( $old['image'] ) ) {
+							$old['image'] = array();
+						}
+
+						foreach ( $old['image'] as $k => $v ) {
+							$old[ 'image-' . $k ] = $v;
+						}
+
+						unset( $old['image'] );
+						$new = $old;
+						update_option( $this->settings_field, $new );
+						$allopts = $new;
+					}
 				}
 			} else {
 				$converted = get_blog_option( $blog, 'umw-outreach-mods-moved-options', false );
 				if ( false !== $converted ) {
 					$allopts = get_blog_option( $blog, $this->settings_field, array() );
+					if ( ! empty( $allopts ) && array_key_exists( $this->setting_name, $allopts ) ) {
+						$new = array();
+						$old = $allopts[ $this->setting_name ];
+						if ( ! array_key_exists( 'image', $old ) || ! is_array( $old['image'] ) ) {
+							$old['image'] = array();
+						}
+
+						foreach ( $old['image'] as $k => $v ) {
+							$old[ 'image-' . $k ] = $v;
+						}
+
+						unset( $old['image'] );
+						$new = $old;
+						update_blog_option( $blog, $this->settings_field, $new );
+						$allopts = $new;
+					}
 				}
 			}
 
 			if ( false === $converted ) {
 				$allopts = $this->convert_genesis_options( $blog );
+			}
+
+			if ( empty( $key ) ) {
+				return $allopts;
 			}
 
 			if ( is_array( $allopts ) && array_key_exists( $key, $allopts ) ) {
@@ -1925,7 +1967,9 @@ if ( ! class_exists( 'Base' ) ) {
 							break;
 						case 'image' :
 							$v['subtitle'] = empty( $v['subtitle'] ) ? '' : html_entity_decode( $v['subtitle'] );
-							$opt[ $k ]     = $v;
+							foreach ( $v as $key => $value ) {
+								$opt[ 'image-' . $key ] = $value;
+							}
 							break;
 					}
 				}
@@ -1935,11 +1979,11 @@ if ( ! class_exists( 'Base' ) ) {
 			error_log( print_r( $opt, true ) );*/
 
 			if ( empty( $blog ) || ( isset( $GLOBALS['blog_id'] ) && intval( $blog ) === $GLOBALS['blog_id'] ) ) {
-				add_option( $this->settings_field, array( $this->setting_name => $opt ) );
+				add_option( $this->settings_field, $opt );
 				add_option( 'umw-outreach-mods-moved-options', $this->version );
 				$tmp = get_option( $this->settings_field, array() );
 			} else {
-				add_blog_option( $blog, $this->settings_field, array( $this->setting_name => $opt ) );
+				add_blog_option( $blog, $this->settings_field, $opt );
 				add_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
 				$tmp = get_blog_option( $blog, $this->settings_field, array() );
 			}
@@ -1947,7 +1991,7 @@ if ( ! class_exists( 'Base' ) ) {
 			/*error_log( '[UMW Settings Debug]: Retrieved New Settings' );
 			error_log( print_r( $tmp, true ) );*/
 
-			return array( $this->setting_name => $opt );
+			return $opt;
 		}
 
 		/**
@@ -2020,8 +2064,6 @@ if ( ! class_exists( 'Base' ) ) {
 		 * Add UMW theme settings to Genesis Customizer panel
 		 *
 		 * @param array $config the existing set of customizer areas
-         *
-         * @todo figure out where the settings will be saved, and how to convert the old settings
 		 *
 		 * @access public
 		 * @return array the updated list of settings
@@ -2037,7 +2079,7 @@ if ( ! class_exists( 'Base' ) ) {
 					'control_prefix'  => 'genesis-umw',
 					'theme_supports'  => 'genesis-customizer-umw-settings',
 					'sections'        => array(
-						'umw_settings' => array(
+						'umw_settings'       => array(
 							'active_callback' => '__return_true',
 							'title'           => __( 'Value Proposition Settings', 'genesis' ),
 							'panel'           => 'genesis-umw',
@@ -2071,7 +2113,7 @@ if ( ! class_exists( 'Base' ) ) {
 								),
 							),
 						),
-						'umw_featured_image'    => array(
+						'umw_featured_image' => array(
 							'active_callback' => '__return_true',
 							'title'           => __( 'Featured Image', 'genesis' ),
 							'panel'           => 'genesis-umw',
@@ -2108,7 +2150,7 @@ if ( ! class_exists( 'Base' ) ) {
 								),
 								'image-link'     => array(
 									'label'       => __( 'Link Address', 'genesis' ),
-									'secton'      => 'umw_featured_image',
+									'section'     => 'umw_featured_image',
 									'type'        => 'url',
 									'input_attrs' => array(
 										'placeholder' => __( 'Link Address', 'genesis' ),
