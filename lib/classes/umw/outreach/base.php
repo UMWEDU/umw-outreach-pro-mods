@@ -937,6 +937,8 @@ if ( ! class_exists( 'Base' ) ) {
 			remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
 			add_action( 'genesis_before_content', 'genesis_do_breadcrumbs' );
 
+			add_action( 'admin_menu', array( $this, 'add_submenu_page' ) );
+
 			add_action( 'genesis_theme_settings_metaboxes', array( $this, 'metaboxes' ) );
 			add_action( 'admin_init', array( $this, 'sanitizer_filters' ) );
 			/*add_filter( 'genesis_available_sanitizer_filters', array( $this, 'add_sanitizer_filter' ) );
@@ -2026,6 +2028,35 @@ if ( ! class_exists( 'Base' ) ) {
 
 			return $opt;
 		}
+
+		/**
+		 * Add a new submenu page to link directly to the Customizer panel
+		 */
+		public function add_submenu_page() {
+		    add_submenu_page(
+		            'genesis',
+                __( 'UMW Settings', 'genesis' ),
+                __( 'UMW Settings', 'genesis' ),
+                'edit_theme_options',
+                'umw-site-settings',
+                array( $this, 'do_submenu_page' )
+            );
+        }
+
+		/**
+		 * Handle the redirect from the submenu page to the Customizer panel
+		 */
+		public function do_submenu_page() {
+			$redirect_to = admin_url( 'customize.php?autofocus[panel]=genesis-umw' );
+
+			if ( ! genesis_is_menu_page( 'umw-site-settings' ) ) {
+			    echo '<p>This page has moved. Please <a href="' . $redirect_to . '">visit the new location in the Customizer.</a></p>';
+				return;
+			}
+
+			wp_safe_redirect( esc_url_raw( $redirect_to ) );
+			exit;
+        }
 
 		/**
 		 * Add any metaboxes that need to appear on the Genesis settings page
