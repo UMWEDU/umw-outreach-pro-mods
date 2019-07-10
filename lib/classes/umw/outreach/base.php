@@ -2033,7 +2033,7 @@ if ( ! class_exists( 'Base' ) ) {
 					'control_prefix'  => 'genesis-umw',
 					'theme_supports'  => 'genesis-customizer-umw-settings',
 					'sections'        => array(
-						'umw_settings'       => array(
+						'umw_outreach_settings'       => array(
 							'active_callback' => '__return_true',
 							'title'           => __( 'Value Proposition Settings', 'genesis' ),
 							'panel'           => 'genesis-umw',
