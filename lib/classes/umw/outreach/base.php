@@ -1879,37 +1879,6 @@ if ( ! class_exists( 'Base' ) ) {
 		}
 
 		/**
-		 * Sanitize all of our custom settings
-		 */
-		function sanitize_settings( $val = array() ) {
-			if ( true === $this->sanitized_settings ) {
-				return $val;
-			}
-			if ( empty( $val ) ) {
-				return null;
-			}
-			$rt = array();
-			$allowedtags        = wp_kses_allowed_html( 'user_description' );
-			$allowedtags['img'] = array(
-				'class' => true,
-				'id'    => true,
-				'title' => true,
-				'src'   => true,
-				'alt'   => true,
-			);
-			$rt['site-title'] = empty( $val['site-title'] ) ? null : sanitize_text_field( $val['site-title'] );
-			$rt['statement']  = empty( $val['statement'] ) ? null : wp_kses_post( $val['statement'] );
-			$rt['content']    = empty( $val['content'] ) ? null : wp_kses_post( $val['content'] );
-			$rt['image-url'] = esc_url( $val['image-url'] ) ? esc_url_raw( $val['image-url'] ) : null;
-			$rt['image-title'] = empty( $val['image-title'] ) ? null : sanitize_text_field( $val['image-title'] );
-			$rt['image-subtitle'] = empty( $val['image-subtitle'] ) ? null : wp_kses( $val['image-subtitle'], $allowedtags );
-			$rt['image-link'] = esc_url( $val['image-link'] ) ? esc_url_raw( $val['image-link'] ) : null;
-
-			$this->sanitized_settings = true;
-			return apply_filters( 'umw-site-settings-sanitized', $rt );
-		}
-
-		/**
 		 * Retrieve a specific theme option
 		 */
 		function get_option( $key = null, $blog = false, $default = false ) {
@@ -2316,15 +2285,10 @@ if ( ! class_exists( 'Base' ) ) {
 			if ( true === $this->sanitized_settings ) {
 				return $val;
 			}
-
-			$val = is_array( $val ) && array_key_exists( $this->setting_name, $val ) ? $val[ $this->setting_name ] : null;
-
 			if ( empty( $val ) ) {
 				return null;
 			}
-
 			$rt = array();
-
 			$allowedtags        = wp_kses_allowed_html( 'user_description' );
 			$allowedtags['img'] = array(
 				'class' => true,
@@ -2333,26 +2297,16 @@ if ( ! class_exists( 'Base' ) ) {
 				'src'   => true,
 				'alt'   => true,
 			);
-
 			$rt['site-title'] = empty( $val['site-title'] ) ? null : sanitize_text_field( $val['site-title'] );
 			$rt['statement']  = empty( $val['statement'] ) ? null : wp_kses_post( $val['statement'] );
 			$rt['content']    = empty( $val['content'] ) ? null : wp_kses_post( $val['content'] );
-			$rt['image']      = array();
-			if ( array_key_exists( 'image', $val ) ) {
-				$rt['image']['url']      = esc_url( $val['image']['url'] ) ? sanitize_url( $val['image']['url'] ) : null;
-				$rt['image']['title']    = empty( $val['image']['title'] ) ? null : sanitize_text_field( $val['image']['title'] );
-				$rt['image']['subtitle'] = empty( $val['image']['subtitle'] ) ? null : wp_kses( $val['image']['subtitle'], $allowedtags );
-				$rt['image']['link']     = esc_url( $val['image']['link'] ) ? sanitize_url( $val['image']['link'] ) : null;
-			} else {
-				$rt['image']['url']      = esc_url( $val['image-url'] ) ? sanitize_url( $val['image-url'] ) : null;
-				$rt['image']['title']    = empty( $val['image-title'] ) ? null : sanitize_text_field( $val['image-title'] );
-				$rt['image']['subtitle'] = empty( $val['image-subtitle'] ) ? null : wp_kses( $val['image-subtitle'], $allowedtags );
-				$rt['image']['link']     = esc_url( $val['image-link'] ) ? sanitize_url( $val['image-link'] ) : null;
-			}
+			$rt['image-url'] = esc_url( $val['image-url'] ) ? esc_url_raw( $val['image-url'] ) : null;
+			$rt['image-title'] = empty( $val['image-title'] ) ? null : sanitize_text_field( $val['image-title'] );
+			$rt['image-subtitle'] = empty( $val['image-subtitle'] ) ? null : wp_kses( $val['image-subtitle'], $allowedtags );
+			$rt['image-link'] = esc_url( $val['image-link'] ) ? esc_url_raw( $val['image-link'] ) : null;
 
 			$this->sanitized_settings = true;
-
-			return array( $this->setting_name => $rt );
+			return apply_filters( 'umw-site-settings-sanitized', $rt );
 		}
 
 		/**
