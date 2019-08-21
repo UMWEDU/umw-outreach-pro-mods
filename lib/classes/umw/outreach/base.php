@@ -1907,6 +1907,7 @@ if ( ! class_exists( 'Base' ) ) {
 						unset( $old['image'] );
 						$new = $old;
 						update_option( $this->settings_field, $new );
+						update_option( 'umw-outreach-mods-moved-options', $this->version );
 						$allopts = $new;
 					}
 				}
@@ -1929,6 +1930,7 @@ if ( ! class_exists( 'Base' ) ) {
 						unset( $old['image'] );
 						$new = $old;
 						update_blog_option( $blog, $this->settings_field, $new );
+						update_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
 						$allopts = $new;
 					}
 				}
