@@ -1932,7 +1932,7 @@ if ( ! class_exists( 'Base' ) ) {
 				}
 			}
 
-			if ( false === $converted || $converted != $this->version ) ) {
+			if ( false === $converted || $converted != $this->version ) {
 				$allopts = $this->convert_genesis_options( $blog );
 			}
 
