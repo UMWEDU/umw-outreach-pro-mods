@@ -1893,8 +1893,9 @@ if ( ! class_exists( 'Base' ) ) {
 				if ( false !== $converted ) {
 					$allopts = get_option( $this->settings_field, array() );
 					if ( ! empty( $allopts ) && array_key_exists( $this->setting_name, $allopts ) ) {
-						$new = array();
+						$new = $allopts;
 						$old = $allopts[ $this->setting_name ];
+						unset( $new[ $this->setting_name ] );
 						if ( ! array_key_exists( 'image', $old ) || ! is_array( $old['image'] ) ) {
 							$old['image'] = array();
 						}
@@ -1914,8 +1915,9 @@ if ( ! class_exists( 'Base' ) ) {
 				if ( false !== $converted ) {
 					$allopts = get_blog_option( $blog, $this->settings_field, array() );
 					if ( ! empty( $allopts ) && array_key_exists( $this->setting_name, $allopts ) ) {
-						$new = array();
+						$new = $allopts;
 						$old = $allopts[ $this->setting_name ];
+						unset( $allopts[ $this->setting_name ] );
 						if ( ! array_key_exists( 'image', $old ) || ! is_array( $old['image'] ) ) {
 							$old['image'] = array();
 						}
