@@ -1932,7 +1932,7 @@ if ( ! class_exists( 'Base' ) ) {
 				}
 			}
 
-			if ( false === $converted ) {
+			if ( false === $converted || $converted != $this->version ) ) {
 				$allopts = $this->convert_genesis_options( $blog );
 			}
 
@@ -1967,8 +1967,8 @@ if ( ! class_exists( 'Base' ) ) {
 
 		    $opt = array_merge( $allopts, $oldopts );
 
-			/*error_log( '[UMW Settings Debug]: Retrieved Genesis Settings' );
-			error_log( print_r( $opt, true ) );*/
+			error_log( '[UMW Settings Debug]: Retrieved Genesis Settings' );
+			error_log( print_r( $opt, true ) );
 			if ( is_array( $opt ) && ! empty( $opt ) ) {
 				$opt = stripslashes_deep( $opt );
 				foreach ( $opt as $k => $v ) {
