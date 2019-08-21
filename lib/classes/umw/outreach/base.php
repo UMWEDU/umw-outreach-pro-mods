@@ -2,7 +2,7 @@
 /**
  * Sets up the base class for UMW Outreach modifications
  * @package UMW Outreach Customizations
- * @version 1.1.4
+ * @version 3.0.2
  */
 
 namespace UMW\Outreach;
@@ -17,7 +17,7 @@ if ( ! class_exists( 'Base' ) ) {
 		/**
 		 * @var string $version holds the version number that's appended to script/style files
 		 */
-		var $version = '3.0.1';
+		var $version = '3.0.2';
 		/**
 		 * @var null|string $header_feed holds the URL of the custom header feed
 		 */
@@ -1959,11 +1959,13 @@ if ( ! class_exists( 'Base' ) ) {
 		    $allopts = ( empty( $blog ) ) ? get_option( $this->settings_field, array() ) : get_blog_option( $blog, $this->settings_field, array() );
 
 		    if ( array_key_exists( 'umw_outreach_mods', $allopts ) ) {
-		        $opt = $allopts['umw_outreach_mods'];
+		        $oldopts = $allopts['umw_outreach_mods'];
 		        unset( $allopts['umw_outreach_mods'] );
             } else {
-		        $opt = array();
+			    $oldopts = array();
             }
+
+		    $opt = array_merge( $allopts, $oldopts );
 
 			/*error_log( '[UMW Settings Debug]: Retrieved Genesis Settings' );
 			error_log( print_r( $opt, true ) );*/
