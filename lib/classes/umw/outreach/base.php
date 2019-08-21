@@ -1956,7 +1956,15 @@ if ( ! class_exists( 'Base' ) ) {
 		}
 
 		function convert_genesis_options( $blog = false ) {
-			$opt = $this->get_genesis_option( $this->setting_name, $blog );
+		    $allopts = ( empty( $blog ) ) ? get_option( $this->settings_field, array() ) : get_blog_option( $blog, $this->settings_field, array() );
+
+		    if ( array_key_exists( 'umw_outreach_mods', $allopts ) ) {
+		        $opt = $allopts['umw_outreach_mods'];
+		        unset( $allopts['umw_outreach_mods'] );
+            } else {
+		        $opt = array();
+            }
+
 			/*error_log( '[UMW Settings Debug]: Retrieved Genesis Settings' );
 			error_log( print_r( $opt, true ) );*/
 			if ( is_array( $opt ) && ! empty( $opt ) ) {
@@ -1993,7 +2001,7 @@ if ( ! class_exists( 'Base' ) ) {
 			/*error_log( '[UMW Settings Debug]: Retrieved New Settings' );
 			error_log( print_r( $tmp, true ) );*/
 
-			return $opt;
+			return $tmp;
 		}
 
 		/**
