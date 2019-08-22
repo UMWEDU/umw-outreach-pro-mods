@@ -1888,6 +1888,10 @@ if ( ! class_exists( 'Base' ) ) {
 
 						unset( $old['image'] );
 
+						foreach( $old as $k => $v ) {
+						    $new[$k] = $v;
+                        }
+
 						update_option( $this->settings_field, $new );
 						update_option( 'umw-outreach-mods-moved-options', $this->version );
 
@@ -1917,6 +1921,10 @@ if ( ! class_exists( 'Base' ) ) {
 						}
 
 						unset( $old['image'] );
+
+						foreach ( $old as $k=>$v ) {
+						    $new[$k] = $v;
+                        }
 
 						update_blog_option( $blog, $this->settings_field, $new );
 						update_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
