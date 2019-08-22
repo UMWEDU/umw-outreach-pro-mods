@@ -1856,13 +1856,6 @@ if ( ! class_exists( 'Base' ) ) {
 				$this,
 				'sanitize_settings'
 			) );
-			/*genesis_add_option_filter( 
-				'umw_outreach_settings_filter', 
-				$this->settings_field, 
-				array( 
-					$this->setting_name, 
-				)
-			);*/
 		}
 
 		/**
@@ -1874,6 +1867,8 @@ if ( ! class_exists( 'Base' ) ) {
 			}
 
 			$opt = $allopts = $converted = false;
+
+			$old_settings_field = defined( 'GENESIS_SETTINGS_FIELD' ) ? GENESIS_SETTINGS_FIELD : 'genesis-settings';
 
 			if ( empty( $blog ) || ( isset( $GLOBALS['blog_id'] ) && intval( $blog ) === $GLOBALS['blog_id'] ) ) {
 				$converted = get_option( 'umw-outreach-mods-moved-options', false );
@@ -1895,6 +1890,13 @@ if ( ! class_exists( 'Base' ) ) {
 
 						update_option( $this->settings_field, $new );
 						update_option( 'umw-outreach-mods-moved-options', $this->version );
+
+						$tmp = get_option( $old_settings_field, array() );
+						if ( array_key_exists( 'umw_outreach_mods', $tmp ) ) {
+						    unset( $tmp['umw_outreach_mods'] );
+						    update_option( $old_settings_field, $tmp );
+                        }
+
 						$allopts = $new;
 					}
 				}
@@ -1918,6 +1920,13 @@ if ( ! class_exists( 'Base' ) ) {
 
 						update_blog_option( $blog, $this->settings_field, $new );
 						update_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
+
+						$tmp = get_blog_option( $blog, $old_settings_field, array() );
+						if ( array_key_exists( 'umw_outreach_mods', $tmp ) ) {
+							unset( $tmp['umw_outreach_mods'] );
+							update_blog_option( $blog, $old_settings_field, $tmp );
+						}
+
 						$allopts = $new;
 					}
 				}
