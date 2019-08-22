@@ -1096,41 +1096,41 @@ if ( ! class_exists( 'Base' ) ) {
 				return;
 			}
 
-			$img = array();
+			/*$img = array();
 			foreach ( $current as $key => $value ) {
 				if ( stristr( $key, 'image-' ) ) {
 					$img[ str_replace( 'image-', '', $key ) ] = $value;
 				}
-			}
+			}*/
 
-			$embed = $this->get_embedded_image( esc_url( $img['url'] ), $img );
+			$embed = $this->get_embedded_image( esc_url( $current['image-url'] ), array( 'title' => $current['image-title'] ) );
 			if ( false === $embed ) {
 				return;
 			}
 
 			$format = '<figure class="home-featured-image">';
-			if ( esc_url( $img['link'] ) ) {
+			if ( esc_url( $current['image-link'] ) ) {
 				$format .= '<a href="%5$s" title="%2$s">%3$s</a>';
 			} else {
 				$format .= '%3$s';
 			}
-			if ( ! empty( $img['title'] ) || ! empty( $img['subtitle'] ) ) {
+			if ( ! empty( $current['image-title'] ) || ! empty( $current['image-subtitle'] ) ) {
 				$format .= '<figcaption>';
-				if ( ! empty( $img['title'] ) ) {
-					if ( ! empty( $img['link'] ) ) {
+				if ( ! empty( $current['image-title'] ) ) {
+					if ( ! empty( $current['image-link'] ) ) {
 						$format .= '<h2 class="home-feature-title"><a href="%5$s">%2$s</a></h2>';
 					} else {
 						$format .= '<h2 class="home-feature-title">%2$s</h2>';
 					}
 				}
-				if ( ! empty( $img['subtitle'] ) ) {
+				if ( ! empty( $current['image-subtitle'] ) ) {
 					$format .= '<div class="home-feature-subtitle">%4$s</div>';
 				}
 				$format .= '</figcaption>';
 			}
 			$format .= '</figure>';
 
-			printf( $format, esc_url( $img['url'] ), strip_tags( html_entity_decode( $img['title'] ), array() ), $embed, wpautop( $img['subtitle'] ), $img['link'] );
+			printf( $format, esc_url( $current['image-url'] ), strip_tags( html_entity_decode( $current['image-title'] ), array() ), $embed, wpautop( $current['image-subtitle'] ), $current['image-link'] );
 		}
 
 		/**
