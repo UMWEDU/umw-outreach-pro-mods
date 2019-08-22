@@ -1892,8 +1892,8 @@ if ( ! class_exists( 'Base' ) ) {
 						update_option( 'umw-outreach-mods-moved-options', $this->version );
 
 						$tmp = get_option( $old_settings_field, array() );
-						if ( array_key_exists( 'umw_outreach_mods', $tmp ) ) {
-						    unset( $tmp['umw_outreach_mods'] );
+						if ( array_key_exists( 'umw_outreach_settings', $tmp ) ) {
+						    unset( $tmp['umw_outreach_settings'] );
 						    update_option( $old_settings_field, $tmp );
                         }
 
@@ -1922,8 +1922,8 @@ if ( ! class_exists( 'Base' ) ) {
 						update_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
 
 						$tmp = get_blog_option( $blog, $old_settings_field, array() );
-						if ( array_key_exists( 'umw_outreach_mods', $tmp ) ) {
-							unset( $tmp['umw_outreach_mods'] );
+						if ( array_key_exists( 'umw_outreach_settings', $tmp ) ) {
+							unset( $tmp['umw_outreach_settings'] );
 							update_blog_option( $blog, $old_settings_field, $tmp );
 						}
 
