@@ -941,8 +941,6 @@ if ( ! class_exists( 'Base' ) ) {
 
 			add_action( 'genesis_theme_settings_metaboxes', array( $this, 'metaboxes' ) );
 			add_action( 'admin_init', array( $this, 'sanitizer_filters' ) );
-			/*add_filter( 'genesis_available_sanitizer_filters', array( $this, 'add_sanitizer_filter' ) );
-			add_filter( 'genesis_theme_settings_defaults', array( $this, 'settings_defaults' ) );*/
 
 			add_action( 'genesis_customizer', array(
 				$this,
@@ -1834,15 +1832,6 @@ if ( ! class_exists( 'Base' ) ) {
 		}
 
 		/**
-		 * Add a new filter for our settings to the available filters list in Genesis
-		 */
-		function add_sanitizer_filter( $filters = array() ) {
-			$filters['umw_outreach_settings_filter'] = array( $this, 'sanitize_settings' );
-
-			return $filters;
-		}
-
-		/**
 		 * Add our default settings to the Genesis settings array
 		 */
 		function settings_defaults( $settings = array() ) {
@@ -1850,12 +1839,10 @@ if ( ! class_exists( 'Base' ) ) {
 				'site-title' => null,
 				'statement'  => null,
 				'content'    => null,
-				'image'      => array(
-					'url'      => null,
-					'title'    => null,
-					'subtitle' => null,
-					'link'     => null
-				)
+				'image-url' => null,
+				'image-title' => null,
+				'image-subtitle' => null,
+				'image-link' => null,
 			) );
 
 			return $settings;
@@ -1901,11 +1888,11 @@ if ( ! class_exists( 'Base' ) ) {
 						}
 
 						foreach ( $old['image'] as $k => $v ) {
-							$old[ 'image-' . $k ] = $v;
+							$new[ 'image-' . $k ] = $v;
 						}
 
 						unset( $old['image'] );
-						$new = $old;
+
 						update_option( $this->settings_field, $new );
 						update_option( 'umw-outreach-mods-moved-options', $this->version );
 						$allopts = $new;
@@ -1924,20 +1911,16 @@ if ( ! class_exists( 'Base' ) ) {
 						}
 
 						foreach ( $old['image'] as $k => $v ) {
-							$old[ 'image-' . $k ] = $v;
+							$new[ 'image-' . $k ] = $v;
 						}
 
 						unset( $old['image'] );
-						$new = $old;
+
 						update_blog_option( $blog, $this->settings_field, $new );
 						update_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
 						$allopts = $new;
 					}
 				}
-			}
-
-			if ( false === $converted || $converted != $this->version ) {
-				$allopts = $this->convert_genesis_options( $blog );
 			}
 
 			if ( empty( $key ) ) {
@@ -2320,7 +2303,7 @@ if ( ! class_exists( 'Base' ) ) {
 			$rt['image-link'] = esc_url( $val['image-link'] ) ? esc_url_raw( $val['image-link'] ) : null;
 
 			$this->sanitized_settings = true;
-			return apply_filters( 'umw-site-settings-sanitized', $rt );
+			return apply_filters( 'umw-site-settings-sanitized', $rt, $val );
 		}
 
 		/**
