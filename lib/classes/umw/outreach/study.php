@@ -180,6 +180,10 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function wp2ghs_post_meta( $meta, $post ) {
+			if ( 'areas' !== get_post_type( $post->post ) ) {
+				return $meta;
+			}
+
 			$new_meta = array(
 				'degree-awarded',
 				'home-page-feature',
@@ -248,6 +252,10 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function wp2ghs_template_content( $content, $post ) {
+			if ( 'areas' !== get_post_type( $post->post ) ) {
+				return $content;
+			}
+
 			$new_meta = array(
 				'degree-awarded',
 				'home-page-feature',
@@ -388,12 +396,17 @@ if ( ! class_exists( 'Study' ) ) {
 		/**
 		 * Remove all Types Custom Field data from content before importing back from Github
 		 * @param string $content the Github content
+		 * @param \WordPress_GitHub_Sync_Post $post the post being queried
 		 *
 		 * @access public
 		 * @return string the updated content
 		 * @since  2019.12.03
 		 */
-		public function wp2ghs_untemplate_content( $content ) {
+		public function wp2ghs_untemplate_content( $content, $post ) {
+			if ( 'areas' !== get_post_type( $post->post ) ) {
+				return $content;
+			}
+
 			// We can safely return an empty string, since Areas of Study do not include the content editor
 			return '';
 
