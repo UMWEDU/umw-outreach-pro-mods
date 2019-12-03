@@ -17,7 +17,7 @@ namespace {
 	 * @return void
 	 */
 	spl_autoload_register( function ( $class_name ) {
-		if ( ! stristr( $class_name, 'UMW\Outreach\\' ) ) {
+		if ( ! stristr( $class_name, 'UMW\Outreach\\' ) && ! stristr( $class_name, 'UMW\Common\\' ) ) {
 			return;
 		}
 
