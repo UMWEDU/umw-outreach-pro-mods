@@ -348,7 +348,7 @@ if ( ! class_exists( 'Study' ) ) {
 			}
 			$new_content .= "\n<!-- End resource-links -->\n";
 
-			$content .= "\n<!-- Types Custom Fields: -->\n";
+			$content = "\n<!-- Types Custom Fields: -->\n";
 			$content .= $new_content;
 			$content .= "\n<!-- End Types Custom Fields -->";
 
@@ -364,6 +364,9 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function wp2ghs_untemplate_content( $content ) {
+			// We can safely return an empty string, since Areas of Study do not include the content editor
+			return '';
+
 			$new_meta = array(
 				'degree-awarded',
 				'home-page-feature',
@@ -386,7 +389,7 @@ if ( ! class_exists( 'Study' ) ) {
 			$end_pos = strpos( $content, "\n<!-- End Types Custom Fields -->" );
 
 			$start = substr( $content, 0, $start_pos );
-			$end = substr( $content, $end_pos );
+			$end = substr( $content, ( $end_pos + strlen( "\n<!-- End Types Custom Fields -->" ) ) );
 
 			return $start . $end;
 		}
