@@ -198,7 +198,7 @@ if ( ! class_exists( 'Study' ) ) {
 				'video',
 			);
 
-			wp_cache_flush();
+			wp_cache_delete( $post->post->ID, 'post_meta' );
 
 			foreach ( $new_meta as $item ) {
 				$tmp = $this->get_new_post_meta( 'wpcf-' . $item, $post );
