@@ -180,8 +180,6 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function wp2ghs_post_meta( $meta, $post ) {
-			error_log( '[WPGHS Study Sync]: ' . print_r( $post->post, true ) );
-
 			$new_meta = array(
 				'degree-awarded',
 				'home-page-feature',
@@ -278,8 +276,8 @@ if ( ! class_exists( 'Study' ) ) {
 
 			if ( array_key_exists( 'video', $content_add ) ) {
 				$new_content .= "\n<!-- video -->\n";
-				//$new_content .= $this->do_markdown_embed( $content_add['video'] );
-				$new_content .= $content_add['video'];
+				$new_content .= $this->do_markdown_embed( $content_add['video'] );
+				//$new_content .= $content_add['video'];
 				$new_content .= "\n<!-- End video -->\n";
 			}
 
@@ -437,7 +435,7 @@ if ( ! class_exists( 'Study' ) ) {
 			$oembed = _wp_oembed_get_object();
 			$data = $oembed->get_data( $url );
 
-			return sprintf( $t, $url, $data['thumbnail_url'] );
+			return sprintf( $t, $url, $data->thumbnail_url );
 		}
 	}
 }
