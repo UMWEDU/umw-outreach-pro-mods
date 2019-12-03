@@ -173,7 +173,7 @@ if ( ! class_exists( 'Study' ) ) {
 		/**
 		 * Whitelist all of the Areas of Study custom field meta for Github Sync
 		 * @param array $meta the existing list of meta data
-		 * @param \WP_Post $post the post object being synced
+		 * @param \WordPress_GitHub_Sync_Post $post the post object being synced
 		 *
 		 * @access public
 		 * @return array the updated list of meta data
@@ -199,7 +199,7 @@ if ( ! class_exists( 'Study' ) ) {
 			);
 
 			foreach ( $new_meta as $item ) {
-				$tmp = get_post_meta( $post->ID, 'wpcf-' . $item, true );
+				$tmp = get_post_meta( $post->post->ID, 'wpcf-' . $item, true );
 				if ( ! empty( $tmp ) ) {
 					$meta[ 'wpcf-' . $item ] = $tmp;
 				}
@@ -211,7 +211,7 @@ if ( ! class_exists( 'Study' ) ) {
 		/**
 		 * Attempt to template an Area of Study when syncing to Github
 		 * @param string $content the existing content
-		 * @param \WP_Post $post the post being queried
+		 * @param \WordPress_GitHub_Sync_Post $post the post being queried
 		 *
 		 * @access public
 		 * @return string the updated content
@@ -238,7 +238,7 @@ if ( ! class_exists( 'Study' ) ) {
 
 			$content_add = array();
 			foreach ( $new_meta as $item ) {
-				$tmp = get_post_meta( $post->ID, 'wpcf-' . $item, true );
+				$tmp = get_post_meta( $post->post->ID, 'wpcf-' . $item, true );
 				if ( ! empty( $tmp ) ) {
 					$content_add[ $item ] = $tmp;
 				}
