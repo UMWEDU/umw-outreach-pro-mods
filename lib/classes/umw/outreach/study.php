@@ -30,7 +30,7 @@ if ( ! class_exists( 'Study' ) ) {
 			add_filter( 'wpghs_whitelisted_post_types', array( $this, 'wpg2hs_post_types' ) );
 			add_filter( 'wpghs_post_meta', array( $this, 'wp2ghs_post_meta' ), 10, 2 );
 			add_filter( 'wpghs_content_export', array( $this, 'wp2ghs_template_content' ), 10, 2 );
-			add_filter( 'wpghs_content_import', array( $this, 'wp2ghs_untemplate_content' ) );
+			add_filter( 'wpghs_content_import', array( $this, 'wp2ghs_untemplate_content' ), 10, 2 );
 		}
 
 		function do_wpv_oembed( $atts = array(), $content = '' ) {
