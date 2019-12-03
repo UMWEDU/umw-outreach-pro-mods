@@ -26,6 +26,8 @@ if ( ! class_exists( 'Study' ) ) {
 			add_action( 'genesis_before_loop', array( $this, 'do_program_feature' ), 11 );
 
 			add_shortcode( 'wpv-oembed', array( $this, 'do_wpv_oembed' ) );
+
+			add_filter( 'wpghs_whitelisted_post_types', function( $types ) { return array_merge( $types, array( 'areas' ) ); } );
 		}
 
 		function do_wpv_oembed( $atts = array(), $content = '' ) {
