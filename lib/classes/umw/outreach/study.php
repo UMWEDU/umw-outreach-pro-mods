@@ -29,6 +29,8 @@ if ( ! class_exists( 'Study' ) ) {
 
 			add_filter( 'wpghs_whitelisted_post_types', array( $this, 'wpg2hs_post_types' ) );
 			add_filter( 'wpghs_post_meta', array( $this, 'wp2ghs_post_meta' ), 10, 2 );
+			add_filter( 'wpghs_content_export', array( $this, 'wp2ghs_template_content' ), 10, 2 );
+			add_filter( 'wpghs_content_import', array( $this, 'wp2ghs_untemplate_content' ) );
 		}
 
 		function do_wpv_oembed( $atts = array(), $content = '' ) {
@@ -204,6 +206,89 @@ if ( ! class_exists( 'Study' ) ) {
 			}
 
 			return $meta;
+		}
+
+		/**
+		 * Attempt to template an Area of Study when syncing to Github
+		 * @param string $content the existing content
+		 * @param \WP_Post $post the post being queried
+		 *
+		 * @access public
+		 * @return string the updated content
+		 * @since  2019.12.03
+		 */
+		public function wp2ghs_template_content( $content, $post ) {
+			$new_meta = array(
+				'degree-awarded',
+				'home-page-feature',
+				'value-proposition',
+				'areas-of-study',
+				'career-opportunties',
+				'internships',
+				'honors',
+				'minor-requirements',
+				'major-requirements',
+				'scholarships',
+				'testimonial',
+				'department',
+				'courses',
+				'example-schedule',
+				'video',
+			);
+
+			$content_add = array();
+			foreach ( $new_meta as $item ) {
+				$tmp = get_post_meta( $post->ID, 'wpcf-' . $item, true );
+				if ( ! empty( $tmp ) ) {
+					$content_add[ $item ] = $tmp;
+				}
+			}
+
+			$content .= "\n<!-- Types Custom Fields: -->\n";
+			foreach ( $content_add as $key => $value ) {
+				$content .= "\n<!-- {$key} -->\n";
+				$content .= $value;
+				$content .= "\n<!-- End {$key} -->\n";
+			}
+			$content .= "\n<!-- End Types Custom Fields -->";
+
+			return $content;
+		}
+
+		/**
+		 * Remove all Types Custom Field data from content before importing back from Github
+		 * @param string $content the Github content
+		 *
+		 * @access public
+		 * @return string the updated content
+		 * @since  2019.12.03
+		 */
+		public function wp2ghs_untemplate_content( $content ) {
+			$new_meta = array(
+				'degree-awarded',
+				'home-page-feature',
+				'value-proposition',
+				'areas-of-study',
+				'career-opportunties',
+				'internships',
+				'honors',
+				'minor-requirements',
+				'major-requirements',
+				'scholarships',
+				'testimonial',
+				'department',
+				'courses',
+				'example-schedule',
+				'video',
+			);
+
+			$start_pos = strpos( $content, "\n<!-- Types Custom Fields: -->\n" );
+			$end_pos = strpos( $content, "\n<!-- End Types Custom Fields -->" );
+
+			$start = substr( $content, 0, $start_pos );
+			$end = substr( $content, $end_pos );
+
+			return $start . $end;
 		}
 	}
 }
