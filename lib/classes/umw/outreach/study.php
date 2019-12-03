@@ -180,7 +180,7 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function wp2ghs_post_meta( $meta, $post ) {
-			error_log( '[WPGHS Study Sync]: ' . print_r( $post, true ) );
+			error_log( '[WPGHS Study Sync]: ' . print_r( $post->post, true ) );
 
 			$new_meta = array(
 				'degree-awarded',
