@@ -31,6 +31,7 @@ if ( ! class_exists( 'Study' ) ) {
 			add_filter( 'wpghs_post_meta', array( $this, 'wp2ghs_post_meta' ), 10, 2 );
 			add_filter( 'wpghs_content_export', array( $this, 'wp2ghs_template_content' ), 10, 2 );
 			add_filter( 'wpghs_content_import', array( $this, 'wp2ghs_untemplate_content' ) );
+			add_action( 'wpghs_export', function() { if ( isset( $_POST ) ) { $_POST['doing_wpghs_all_export'] = 1; } }, 1 );
 		}
 
 		function do_wpv_oembed( $atts = array(), $content = '' ) {
@@ -224,7 +225,7 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function get_new_post_meta( $key, $post ) {
-			if ( isset( $_POST ) ) {
+			if ( isset( $_POST ) && ! isset( $_POST['doing_wpghs_all_export'] ) ) {
 				if ( array_key_exists( 'wpcf', $_POST ) && is_array( $_POST['wpcf'] ) ) {
 					$tmp_key = str_replace( 'wpcf-', '', $key );
 					if ( array_key_exists( $tmp_key, $_POST['wpcf'] ) ) {
