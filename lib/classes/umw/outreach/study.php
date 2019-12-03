@@ -180,6 +180,8 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function wp2ghs_post_meta( $meta, $post ) {
+			error_log( '[WPGHS Study Sync]: ' . print_r( $post, true ) );
+
 			$new_meta = array(
 				'degree-awarded',
 				'home-page-feature',
@@ -220,6 +222,14 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function get_new_post_meta( $key, $post ) {
+			if ( isset( $_POST ) ) {
+				if ( array_key_exists( $key, $_POST ) ) {
+					return $_POST[$key];
+				} else {
+					return false;
+				}
+			}
+
 			return get_post_meta( $post->post->ID, $key, true );
 		}
 
@@ -253,7 +263,7 @@ if ( ! class_exists( 'Study' ) ) {
 
 			$content_add = array();
 			foreach ( $new_meta as $item ) {
-				$tmp = get_post_meta( $post->post->ID, 'wpcf-' . $item, true );
+				$tmp = $this->get_new_post_meta( 'wpcf-' . $item, $post );
 				if ( ! empty( $tmp ) ) {
 					$content_add[ $item ] = $tmp;
 				}
