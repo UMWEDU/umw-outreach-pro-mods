@@ -244,12 +244,106 @@ if ( ! class_exists( 'Study' ) ) {
 				}
 			}
 
-			$content .= "\n<!-- Types Custom Fields: -->\n";
-			foreach ( $content_add as $key => $value ) {
-				$content .= "\n<!-- {$key} -->\n";
-				$content .= $value;
-				$content .= "\n<!-- End {$key} -->\n";
+			$new_content = '';
+			if ( array_key_exists( 'video', $content_add ) ) {
+				$new_content .= "\n<!-- video -->\n";
+				$new_content .= $this->do_wpv_oembed( array(), $content_add['video'] );
+				$new_content .= "\n<!-- End video -->\n";
+			} else if ( array_key_exists( 'home-page-feature', $content_add ) ) {
+				$new_content .= "\n<!-- home-page-feature -->\n";
+				$new_content .= wp_oembed_get( $content_add['home-page-feature'] );
+				$new_content .= "\n<!-- End home-page-feature -->\n";
 			}
+
+			if ( array_key_exists( 'value-proposition', $content_add ) ) {
+				$new_content .= "\n<!-- value-proposition -->\n";
+				$new_content .= $content_add['value-proposition'];
+				$new_content .= "\n<!-- End value-proposition -->\n";
+			}
+
+			if ( array_key_exists( 'degree-awarded', $content_add ) ) {
+				$new_content .= "\n<!-- degree-awarded -->\n";
+				$new_content .= '<h2>Degree Awarded</h2>';
+				$new_content .= $content_add['degree-awarded'];
+				$new_content .= "\n<!-- End degree-awarded -->";
+			}
+
+			if ( array_key_exists( 'areas-of-study', $content_add ) ) {
+				$new_content .= "\n<!-- areas-of-study -->\n";
+				$new_content .= '<h2>Areas of Study</h2>';
+				$new_content .= $content_add['areas-of-study'];
+				$new_content .= "\n<!-- End areas-of-study -->\n";
+			}
+
+			if ( array_key_exists( 'career-opportunities', $content_add ) ) {
+				$new_content .= "\n<!-- career-opportunities -->\n";
+				$new_content .= '<h2>Career Opportunities</h2>';
+				$new_content .= $content_add['career-opportunities'];
+				$new_content .= "\n<!-- End career-opportunities -->\n";
+			}
+
+			if ( array_key_exists( 'internships', $content_add ) ) {
+				$new_content .= "\n<!-- internships -->\n";
+				$new_content .= '<h2>Internships</h2>';
+				$new_content .= $content_add['internships'];
+				$new_content .= "\n<!-- End internships -->\n";
+			}
+
+			if ( array_key_exists( 'testimonial', $content_add ) ) {
+				$new_content .= "\n<!-- testimonial -->\n";
+				$new_content .= sprintf( '<blockquote class="program-testimonial">
+  %s
+</blockquote>', $content_add['testimonial'] );
+				$new_content .= "\n<!-- End testimonial -->\n";
+			}
+
+			if ( array_key_exists( 'honors', $content_add ) ) {
+				$new_content .= "\n<!-- honors -->\n";
+				$new_content .= '<h2>Honors</h2>';
+				$new_content .= $content_add['honors'];
+				$new_content .= "\n<!-- End honors -->\n";
+			}
+
+			if ( array_key_exists( 'major-requirements', $content_add ) || array_key_exists( 'minor-requirements', $content_add ) ) {
+				$new_content .= "\n<!-- requirements -->\n";
+				$new_content .= '<h2>Requirements</h2>';
+				if ( array_key_exists( 'major-requirements', $content_add ) ) {
+					$new_content .= "\n<!-- major-requirements -->\n";
+					$new_content .= '<h3>Major Requirements</h3>';
+					$new_content .= $content_add['major-requirements'];
+					$new_content .= "\n<!-- End major-requirements -->\n";
+				}
+				if ( array_key_exists( 'minor-requirements', $content_add ) ) {
+					$new_content .= "\n<!-- minor-requirements -->\n";
+					$new_content .= '<h3>Minor Requirements</h3>';
+					$new_content .= $content_add['minor-requirements'];
+					$new_content .= "\n<!-- End minor-requirements -->\n";
+				}
+				$new_content .= "\n<!-- End requirements -->\n";
+			}
+
+			if ( array_key_exists( 'scholarships', $content_add ) ) {
+				$new_content .= "\n<!-- scholarships -->\n";
+				$new_content .= '<h2>Scholarships</h2>';
+				$new_content .= $content_add['scholarships'];
+				$new_content .= "\n<!-- End scholarships -->\n";
+			}
+
+			$labels = array(
+				'courses' => 'Course Listing',
+				'department' => 'Department Website',
+				'example-schedule' => 'Example Course Schedule',
+			);
+			foreach ( $labels as $k => $v ) {
+				if ( array_key_exists( $k, $content_add ) ) {
+					$new_content .= "\n<!-- {$k} -->\n";
+					$new_content .= sprintf( '<a href="%s" class="button">%s</a>', $content_add[$k], $v );
+					$new_content .= "\n<!-- End {$k} -->\n";
+				}
+			}
+
+			$content .= "\n<!-- Types Custom Fields: -->\n";
+			$content .= $new_content;
 			$content .= "\n<!-- End Types Custom Fields -->";
 
 			return $content;
