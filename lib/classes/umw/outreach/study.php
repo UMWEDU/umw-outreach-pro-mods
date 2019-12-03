@@ -199,13 +199,35 @@ if ( ! class_exists( 'Study' ) ) {
 			);
 
 			foreach ( $new_meta as $item ) {
-				$tmp = get_post_meta( $post->post->ID, 'wpcf-' . $item, true );
+				$tmp = $this->get_new_post_meta( 'wpcf-' . $item, $post );
 				if ( ! empty( $tmp ) ) {
 					$meta[ 'wpcf-' . $item ] = $tmp;
 				}
 			}
 
 			return $meta;
+		}
+
+		/**
+		 * Attempt to retrieve/return updated post meta when a post is being saved/exported
+		 * @param string $key the meta key to be retrieved
+		 * @param \WordPress_GitHub_Sync_Post $post the post object
+		 *
+		 * @access public
+		 * @return mixed the retrieved post meta
+		 * @since  2019.12.03
+		 */
+		public function get_new_post_meta( $key, $post ) {
+			global $post_data;
+			if ( array_key_exists( $key, $_POST ) ) {
+				return $_POST[$key];
+			} else if ( array_key_exists( $key, $_GET ) ) {
+				return $_GET[$key];
+			} else if ( array_key_exists( $key, $post_data ) ) {
+				return $post_data[$key];
+			} else {
+				return get_post_meta( $post->post->ID, $key, true );
+			}
 		}
 
 		/**
