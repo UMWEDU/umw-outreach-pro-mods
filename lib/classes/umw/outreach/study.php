@@ -220,13 +220,13 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function get_new_post_meta( $key, $post ) {
-			if ( isset( $_POST ) ) {
+			/*if ( isset( $_POST ) ) {
 				if ( array_key_exists( $key, $_POST ) ) {
 					return $_POST[$key];
 				} else {
 					return false;
 				}
-			}
+			}*/
 
 			return get_post_meta( $post->post->ID, $key, true );
 		}
