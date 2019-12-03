@@ -27,7 +27,8 @@ if ( ! class_exists( 'Study' ) ) {
 
 			add_shortcode( 'wpv-oembed', array( $this, 'do_wpv_oembed' ) );
 
-			add_filter( 'wpghs_whitelisted_post_types', function( $types ) { return array_merge( $types, array( 'areas' ) ); } );
+			add_filter( 'wpghs_whitelisted_post_types', array( $this, 'wpg2hs_post_types' ) );
+			add_filter( 'wpghs_post_meta', array( $this, 'wp2ghs_post_meta' ), 10, 2 );
 		}
 
 		function do_wpv_oembed( $atts = array(), $content = '' ) {
@@ -153,6 +154,56 @@ if ( ! class_exists( 'Study' ) ) {
 			}
 
 			return __( 'Areas of Study A to Z' );
+		}
+
+		/**
+		 * Make sure the Areas of Study post type is synced with WP Github Sync
+		 * @param $types array the existing list of post types synced
+		 *
+		 * @access public
+		 * @return array the updated list of post types
+		 * @since  2019.12.03
+		 */
+		public function wpg2hs_post_types( $types ) {
+			return array_merge( $types, array( 'areas' ) );
+		}
+
+		/**
+		 * Whitelist all of the Areas of Study custom field meta for Github Sync
+		 * @param array $meta the existing list of meta data
+		 * @param \WP_Post $post the post object being synced
+		 *
+		 * @access public
+		 * @return array the updated list of meta data
+		 * @since  2019.12.03
+		 */
+		public function wp2ghs_post_meta( $meta, $post ) {
+			$new_meta = array(
+				'degree-awarded',
+				'home-page-feature',
+				'value-proposition',
+				'areas-of-study',
+				'career-opportunties',
+				'internships',
+				'honors',
+				'minor-requirements',
+				'major-requirements',
+				'scholarships',
+				'testimonial',
+				'department',
+				'courses',
+				'example-schedule',
+				'video',
+			);
+
+			foreach ( $new_meta as $item ) {
+				$tmp = get_post_meta( $post->ID, 'wpcf-' . $item, true );
+				if ( ! empty( $tmp ) ) {
+					$meta[ 'wpcf-' . $item ] = $tmp;
+				}
+			}
+
+			return $meta;
 		}
 	}
 }
