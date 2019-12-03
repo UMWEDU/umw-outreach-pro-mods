@@ -220,13 +220,20 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function get_new_post_meta( $key, $post ) {
-			/*if ( isset( $_POST ) ) {
-				if ( array_key_exists( $key, $_POST ) ) {
+			if ( isset( $_POST ) ) {
+				if ( array_key_exists( 'wpcf', $_POST ) && is_array( $_POST['wpcf'] ) ) {
+					$tmp_key = str_replace( 'wpcf-', '', $key );
+					if ( array_key_exists( $tmp_key, $_POST['wpcf'] ) ) {
+						return $_POST['wpcf'][$tmp_key];
+					} else {
+						return false;
+					}
+				} else if ( array_key_exists( $key, $_POST ) ) {
 					return $_POST[$key];
 				} else {
 					return false;
 				}
-			}*/
+			}
 
 			return get_post_meta( $post->post->ID, $key, true );
 		}
