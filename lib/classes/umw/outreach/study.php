@@ -253,8 +253,8 @@ if ( ! class_exists( 'Study' ) ) {
 
 			if ( array_key_exists( 'video', $content_add ) ) {
 				$new_content .= "\n<!-- video -->\n";
-				$new_content .= $this->do_markdown_embed( $content_add['video'] );
-				//$new_content .= $content_add['video'];
+				//$new_content .= $this->do_markdown_embed( $content_add['video'] );
+				$new_content .= $content_add['video'];
 				$new_content .= "\n<!-- End video -->\n";
 			}
 
