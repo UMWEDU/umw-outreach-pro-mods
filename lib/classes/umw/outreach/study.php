@@ -198,6 +198,8 @@ if ( ! class_exists( 'Study' ) ) {
 				'video',
 			);
 
+			wp_cache_flush();
+
 			foreach ( $new_meta as $item ) {
 				$tmp = $this->get_new_post_meta( 'wpcf-' . $item, $post );
 				if ( ! empty( $tmp ) ) {
@@ -218,16 +220,7 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function get_new_post_meta( $key, $post ) {
-			global $post_data;
-			if ( array_key_exists( $key, $_POST ) ) {
-				return $_POST[$key];
-			} else if ( array_key_exists( $key, $_GET ) ) {
-				return $_GET[$key];
-			} else if ( array_key_exists( $key, $post_data ) ) {
-				return $post_data[$key];
-			} else {
-				return get_post_meta( $post->post->ID, $key, true );
-			}
+			return get_post_meta( $post->post->ID, $key, true );
 		}
 
 		/**
