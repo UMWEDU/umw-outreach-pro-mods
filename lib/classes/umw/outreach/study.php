@@ -245,14 +245,16 @@ if ( ! class_exists( 'Study' ) ) {
 			}
 
 			$new_content = '';
+			if ( array_key_exists( 'home-page-feature', $content_add ) ) {
+				$new_content .= "\n<!-- home-page-feature -->\n";
+				$new_content .= $this->do_markdown_embed( $content_add['home-page-feature'] );
+				$new_content .= "\n<!-- End home-page-feature -->\n";
+			}
+
 			if ( array_key_exists( 'video', $content_add ) ) {
 				$new_content .= "\n<!-- video -->\n";
-				$new_content .= $this->do_wpv_oembed( array(), $content_add['video'] );
+				$new_content .= $this->do_markdown_embed( $content_add['video'] );
 				$new_content .= "\n<!-- End video -->\n";
-			} else if ( array_key_exists( 'home-page-feature', $content_add ) ) {
-				$new_content .= "\n<!-- home-page-feature -->\n";
-				$new_content .= wp_oembed_get( $content_add['home-page-feature'] );
-				$new_content .= "\n<!-- End home-page-feature -->\n";
 			}
 
 			if ( array_key_exists( 'value-proposition', $content_add ) ) {
@@ -383,6 +385,27 @@ if ( ! class_exists( 'Study' ) ) {
 			$end = substr( $content, $end_pos );
 
 			return $start . $end;
+		}
+
+		/**
+		 * Attempt to embed a video or image in mark-down-compatible HTML
+		 * @param string $url the URL to the item being embedded
+		 *
+		 * @access public
+		 * @return string the updated HTML that can be converted to markdown
+		 * @since  2019.12.03
+		 */
+		public function do_markdown_embed( $url ) {
+			if ( ! esc_url( $url ) ) {
+				return '';
+			}
+
+			$t = '<a href="%1$s"><img src="%2$s" alt="" style="width: 100%; height: auto;"/></a>';
+
+			$oembed = _wp_oembed_get_object();
+			$data = $oembed->get_data( $url );
+
+			return sprintf( $t, $url, $data['thumbnail_url'] );
 		}
 	}
 }
