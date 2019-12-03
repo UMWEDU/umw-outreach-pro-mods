@@ -253,8 +253,8 @@ if ( ! class_exists( 'Study' ) ) {
 
 			if ( array_key_exists( 'video', $content_add ) ) {
 				$new_content .= "\n<!-- video -->\n";
-				//$new_content .= $this->do_markdown_embed( $content_add['video'] );
-				$new_content .= $content_add['video'];
+				$new_content .= $this->do_markdown_embed( $content_add['video'] );
+				//$new_content .= $content_add['video'];
 				$new_content .= "\n<!-- End video -->\n";
 			}
 
@@ -337,6 +337,8 @@ if ( ! class_exists( 'Study' ) ) {
 				'department' => 'Department Website',
 				'example-schedule' => 'Example Course Schedule',
 			);
+			$new_content .= "\n<!-- resource-links -->\n";
+			$new_content .= '<h2>Resource Links</h2>';
 			foreach ( $labels as $k => $v ) {
 				if ( array_key_exists( $k, $content_add ) ) {
 					$new_content .= "\n<!-- {$k} -->\n";
@@ -344,6 +346,7 @@ if ( ! class_exists( 'Study' ) ) {
 					$new_content .= "\n<!-- End {$k} -->\n";
 				}
 			}
+			$new_content .= "\n<!-- End resource-links -->\n";
 
 			$content .= "\n<!-- Types Custom Fields: -->\n";
 			$content .= $new_content;
