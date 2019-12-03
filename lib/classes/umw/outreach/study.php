@@ -247,13 +247,14 @@ if ( ! class_exists( 'Study' ) ) {
 			$new_content = '';
 			if ( array_key_exists( 'home-page-feature', $content_add ) ) {
 				$new_content .= "\n<!-- home-page-feature -->\n";
-				$new_content .= $this->do_markdown_embed( $content_add['home-page-feature'] );
+				$new_content .= '<a href="' . $content_add['home-page-feature'] . '"><img src="' . $content_add['home-page-feature'] . '" style="width: 100%; height: auto;" alt=""/></a>';
 				$new_content .= "\n<!-- End home-page-feature -->\n";
 			}
 
 			if ( array_key_exists( 'video', $content_add ) ) {
 				$new_content .= "\n<!-- video -->\n";
-				$new_content .= $this->do_markdown_embed( $content_add['video'] );
+				//$new_content .= $this->do_markdown_embed( $content_add['video'] );
+				$new_content .= $content_add['video'];
 				$new_content .= "\n<!-- End video -->\n";
 			}
 
