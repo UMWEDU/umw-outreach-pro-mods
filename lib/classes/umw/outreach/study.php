@@ -328,28 +328,28 @@ if ( ! class_exists( 'Study' ) ) {
 
 			if ( array_key_exists( 'degree-awarded', $content_add ) ) {
 				$new_content .= "\n<!-- degree-awarded -->\n";
-				$new_content .= '## Degree Awarded';
+				$new_content .= '## Degree Awarded' . "\n";
 				$new_content .= $content_add['degree-awarded'];
 				$new_content .= "\n<!-- End degree-awarded -->";
 			}
 
 			if ( array_key_exists( 'areas-of-study', $content_add ) ) {
 				$new_content .= "\n<!-- areas-of-study -->\n";
-				$new_content .= '## Areas of Study';
+				$new_content .= '## Areas of Study' . "\n";
 				$new_content .= $content_add['areas-of-study'];
 				$new_content .= "\n<!-- End areas-of-study -->\n";
 			}
 
 			if ( array_key_exists( 'career-opportunities', $content_add ) ) {
 				$new_content .= "\n<!-- career-opportunities -->\n";
-				$new_content .= '## Career Opportunities';
+				$new_content .= '## Career Opportunities' . "\n";
 				$new_content .= $content_add['career-opportunities'];
 				$new_content .= "\n<!-- End career-opportunities -->\n";
 			}
 
 			if ( array_key_exists( 'internships', $content_add ) ) {
 				$new_content .= "\n<!-- internships -->\n";
-				$new_content .= '## Internships';
+				$new_content .= '## Internships' . "\n";
 				$new_content .= $content_add['internships'];
 				$new_content .= "\n<!-- End internships -->\n";
 			}
@@ -362,23 +362,23 @@ if ( ! class_exists( 'Study' ) ) {
 
 			if ( array_key_exists( 'honors', $content_add ) ) {
 				$new_content .= "\n<!-- honors -->\n";
-				$new_content .= '## Honors';
+				$new_content .= '## Honors' . "\n";
 				$new_content .= $content_add['honors'];
 				$new_content .= "\n<!-- End honors -->\n";
 			}
 
 			if ( array_key_exists( 'major-requirements', $content_add ) || array_key_exists( 'minor-requirements', $content_add ) ) {
 				$new_content .= "\n<!-- requirements -->\n";
-				$new_content .= '## Requirements';
+				$new_content .= '## Requirements' . "\n";
 				if ( array_key_exists( 'major-requirements', $content_add ) ) {
 					$new_content .= "\n<!-- major-requirements -->\n";
-					$new_content .= '### Major Requirements';
+					$new_content .= '### Major Requirements' . "\n";
 					$new_content .= $content_add['major-requirements'];
 					$new_content .= "\n<!-- End major-requirements -->\n";
 				}
 				if ( array_key_exists( 'minor-requirements', $content_add ) ) {
 					$new_content .= "\n<!-- minor-requirements -->\n";
-					$new_content .= '### Minor Requirements';
+					$new_content .= '### Minor Requirements' . "\n";
 					$new_content .= $content_add['minor-requirements'];
 					$new_content .= "\n<!-- End minor-requirements -->\n";
 				}
@@ -387,7 +387,7 @@ if ( ! class_exists( 'Study' ) ) {
 
 			if ( array_key_exists( 'scholarships', $content_add ) ) {
 				$new_content .= "\n<!-- scholarships -->\n";
-				$new_content .= '## Scholarships';
+				$new_content .= '## Scholarships' . "\n";
 				$new_content .= $content_add['scholarships'];
 				$new_content .= "\n<!-- End scholarships -->\n";
 			}
@@ -403,7 +403,7 @@ if ( ! class_exists( 'Study' ) ) {
 			foreach ( $labels as $k => $v ) {
 				if ( array_key_exists( $k, $content_add ) ) {
 					$tmp = "\n<!-- {$k} -->\n";
-					$tmp .= sprintf( '[%2$s](%1$s)', $content_add[$k], $v );
+					$tmp .= sprintf( '[%2$s](%1$s)', $content_add[$k], $v ) . "\n";
 					$tmp .= "\n<!-- End {$k} -->\n";
 
 					$resource_links[] = $tmp;
@@ -412,7 +412,7 @@ if ( ! class_exists( 'Study' ) ) {
 
 			if ( ! empty( $resource_links ) ) {
 				$new_content .= "\n<!-- resource-links -->\n";
-				$new_content .= '## Resource Links</h2>';
+				$new_content .= '## Resource Links' . "\n";
 				$new_content .= implode( "\n", $resource_links );
 				$new_content .= "\n<!-- End resource-links -->\n";
 			}
