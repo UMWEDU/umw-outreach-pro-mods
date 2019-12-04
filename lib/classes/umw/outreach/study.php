@@ -211,7 +211,7 @@ if ( ! class_exists( 'Study' ) ) {
 			foreach ( $new_meta as $item ) {
 				$tmp = $this->get_new_post_meta( 'wpcf-' . $item, $post );
 				if ( ! empty( $tmp ) ) {
-					$meta[ 'wpcf-' . $item ] = $tmp;
+					$meta[ 'wpcf-' . $item ] = stripslashes( $tmp );
 				}
 			}
 
@@ -419,7 +419,7 @@ if ( ! class_exists( 'Study' ) ) {
 
 			if ( ! empty( $new_content ) ) {
 				$content = "\n<!-- Types Custom Fields: -->\n";
-				$content .= $new_content;
+				$content .= stripslashes( $new_content );
 				$content .= "\n<!-- End Types Custom Fields -->";
 			}
 
