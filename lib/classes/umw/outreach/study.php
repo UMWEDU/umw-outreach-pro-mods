@@ -167,6 +167,36 @@ if ( ! class_exists( 'Study' ) ) {
 		}
 
 		/**
+		 * Retrieve the array of meta fields applied to Areas of Study
+		 *
+		 * @access public
+		 * @return array the list of meta fields
+		 * @since  2019.12.04
+		 */
+		public function get_meta_fields() {
+			return apply_filters( 'umw/outreach/study/meta-fields', array(
+				'wpcf' =>
+					array(
+						'degree-awarded',
+						'home-page-feature',
+						'value-proposition',
+						'areas-of-study',
+						'career-opportunties',
+						'internships',
+						'honors',
+						'minor-requirements',
+						'major-requirements',
+						'scholarships',
+						'testimonial',
+						'department',
+						'courses',
+						'example-schedule',
+						'video',
+					)
+			) );
+		}
+
+		/**
 		 * Make sure the Areas of Study post type is synced with WP Github Sync
 		 *
 		 * @param $types array the existing list of post types synced
@@ -190,31 +220,19 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function wp2ghs_post_meta( $meta, $post ) {
+			$tmp = str_replace( array( 'http://', 'https://' ), '', get_bloginfo( 'url' ) );
+			$meta['permalink'] = str_replace( array( 'http://', 'https://' ), '', $meta['permalink'] );
+			$meta['permalink'] = str_replace( $tmp, '/', $meta['permalink'] ) . '.md';
+
 			if ( 'areas' !== get_post_type( $post->post ) ) {
 				return $meta;
 			}
 
-			$new_meta = array(
-				'degree-awarded',
-				'home-page-feature',
-				'value-proposition',
-				'areas-of-study',
-				'career-opportunties',
-				'internships',
-				'honors',
-				'minor-requirements',
-				'major-requirements',
-				'scholarships',
-				'testimonial',
-				'department',
-				'courses',
-				'example-schedule',
-				'video',
-			);
+			$new_meta = $this->get_meta_fields();
 
 			//wp_cache_delete( $post->post->ID, 'post_meta' );
 
-			foreach ( $new_meta as $item ) {
+			foreach ( $new_meta['wpcf'] as $item ) {
 				$tmp = $this->get_new_post_meta( 'wpcf-' . $item, $post );
 				if ( ! empty( $tmp ) ) {
 					$meta[ 'wpcf-' . $item ] = stripslashes( $tmp );
@@ -254,6 +272,7 @@ if ( ! class_exists( 'Study' ) ) {
 				}
 			}
 
+			/* Fix the permalink meta tag, since Jekyll will break if it uses the WP permalink */
 			return get_post_meta( $post->post->ID, $key, true );
 		}
 
@@ -272,28 +291,12 @@ if ( ! class_exists( 'Study' ) ) {
 				return $content;
 			}
 
-			$new_meta = array(
-				'degree-awarded',
-				'home-page-feature',
-				'value-proposition',
-				'areas-of-study',
-				'career-opportunties',
-				'internships',
-				'honors',
-				'minor-requirements',
-				'major-requirements',
-				'scholarships',
-				'testimonial',
-				'department',
-				'courses',
-				'example-schedule',
-				'video',
-			);
+			$new_meta = $this->get_meta_fields();
 
 			$content_add = array();
 			$converter   = new HtmlConverter();
 			$converter->getConfig()->setOption( 'preserve_comments', true );
-			foreach ( $new_meta as $item ) {
+			foreach ( $new_meta['wpcf'] as $item ) {
 				$tmp = $this->get_new_post_meta( 'wpcf-' . $item, $post );
 				if ( ! empty( $tmp ) ) {
 					switch ( $item ) {
@@ -451,32 +454,6 @@ if ( ! class_exists( 'Study' ) ) {
 
 			// We can safely return an empty string, since Areas of Study do not include the content editor
 			return '';
-
-			$new_meta = array(
-				'degree-awarded',
-				'home-page-feature',
-				'value-proposition',
-				'areas-of-study',
-				'career-opportunties',
-				'internships',
-				'honors',
-				'minor-requirements',
-				'major-requirements',
-				'scholarships',
-				'testimonial',
-				'department',
-				'courses',
-				'example-schedule',
-				'video',
-			);
-
-			$start_pos = strpos( $content, "\n<!-- Types Custom Fields: -->\n" );
-			$end_pos   = strpos( $content, "\n<!-- End Types Custom Fields -->" );
-
-			$start = substr( $content, 0, $start_pos );
-			$end   = substr( $content, ( $end_pos + strlen( "\n<!-- End Types Custom Fields -->" ) ) );
-
-			return $start . $end;
 		}
 
 		/**
