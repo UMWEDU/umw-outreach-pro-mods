@@ -309,7 +309,7 @@ if ( ! class_exists( 'Study' ) ) {
 			$new_content = '';
 			if ( array_key_exists( 'home-page-feature', $content_add ) ) {
 				$new_content .= "\n<!-- home-page-feature -->\n";
-				$new_content .= '<a href="' . $content_add['home-page-feature'] . '"><img src="' . $content_add['home-page-feature'] . '" style="width: 100%; height: auto;" alt=""/></a>';
+				$new_content = sprintf( '[![](%1$s)](%1$s)', $content_add['home-page-feature'] );
 				$new_content .= "\n<!-- End home-page-feature -->\n";
 			}
 
@@ -483,7 +483,7 @@ if ( ! class_exists( 'Study' ) ) {
 				return '';
 			}
 
-			$t = '<a href="%1$s"><img src="%2$s" alt="" style="width: 100%; height: auto;"/></a>';
+			$t = '[![](%2$s)](%1$s)';
 
 			$oembed = _wp_oembed_get_object();
 			$data = $oembed->get_data( $url );
