@@ -33,7 +33,11 @@ if ( ! class_exists( 'Study' ) ) {
 			add_filter( 'wpghs_post_meta', array( $this, 'wp2ghs_post_meta' ), 10, 2 );
 			add_filter( 'wpghs_content_export', array( $this, 'wp2ghs_template_content' ), 10, 2 );
 			add_filter( 'wpghs_content_import', array( $this, 'wp2ghs_untemplate_content' ) );
-			add_action( 'wpghs_export', function() { if ( isset( $_POST ) ) { $_POST['doing_wpghs_all_export'] = 1; } }, 1 );
+			add_action( 'wpghs_export', function () {
+				if ( isset( $_POST ) ) {
+					$_POST['doing_wpghs_all_export'] = 1;
+				}
+			}, 1 );
 			add_filter( 'wpghs_sync_branch', array( $this, 'wp2ghs_branch' ) );
 		}
 
@@ -164,6 +168,7 @@ if ( ! class_exists( 'Study' ) ) {
 
 		/**
 		 * Make sure the Areas of Study post type is synced with WP Github Sync
+		 *
 		 * @param $types array the existing list of post types synced
 		 *
 		 * @access public
@@ -176,6 +181,7 @@ if ( ! class_exists( 'Study' ) ) {
 
 		/**
 		 * Whitelist all of the Areas of Study custom field meta for Github Sync
+		 *
 		 * @param array $meta the existing list of meta data
 		 * @param \WordPress_GitHub_Sync_Post $post the post object being synced
 		 *
@@ -220,6 +226,7 @@ if ( ! class_exists( 'Study' ) ) {
 
 		/**
 		 * Attempt to retrieve/return updated post meta when a post is being saved/exported
+		 *
 		 * @param string $key the meta key to be retrieved
 		 * @param \WordPress_GitHub_Sync_Post $post the post object
 		 *
@@ -236,12 +243,12 @@ if ( ! class_exists( 'Study' ) ) {
 				if ( array_key_exists( 'wpcf', $_POST ) && is_array( $_POST['wpcf'] ) ) {
 					$tmp_key = str_replace( 'wpcf-', '', $key );
 					if ( array_key_exists( $tmp_key, $_POST['wpcf'] ) ) {
-						return $_POST['wpcf'][$tmp_key];
+						return $_POST['wpcf'][ $tmp_key ];
 					} else {
 						return false;
 					}
 				} else if ( array_key_exists( $key, $_POST ) ) {
-					return $_POST[$key];
+					return $_POST[ $key ];
 				} else {
 					return false;
 				}
@@ -252,6 +259,7 @@ if ( ! class_exists( 'Study' ) ) {
 
 		/**
 		 * Attempt to template an Area of Study when syncing to Github
+		 *
 		 * @param string $content the existing content
 		 * @param \WordPress_GitHub_Sync_Post $post the post being queried
 		 *
@@ -283,24 +291,24 @@ if ( ! class_exists( 'Study' ) ) {
 			);
 
 			$content_add = array();
-			$converter = new HtmlConverter();
+			$converter   = new HtmlConverter();
 			$converter->getConfig()->setOption( 'preserve_comments', true );
 			foreach ( $new_meta as $item ) {
 				$tmp = $this->get_new_post_meta( 'wpcf-' . $item, $post );
 				if ( ! empty( $tmp ) ) {
-					switch( $item ) {
+					switch ( $item ) {
 						case 'video' :
 						case 'home-page-feature' :
 						case 'testimonial' :
-							$content_add[$item] = $tmp;
+							$content_add[ $item ] = $tmp;
 							break;
 						case 'courses' :
 						case 'department' :
 						case 'example-schedule' :
-							$content_add[$item] = esc_url( $tmp );
+							$content_add[ $item ] = esc_url( $tmp );
 							break;
 						default :
-							$content_add[$item] = $converter->convert( $tmp );
+							$content_add[ $item ] = $converter->convert( $tmp );
 							break;
 					}
 				}
@@ -393,8 +401,8 @@ if ( ! class_exists( 'Study' ) ) {
 			}
 
 			$labels = array(
-				'courses' => 'Course Listing',
-				'department' => 'Department Website',
+				'courses'          => 'Course Listing',
+				'department'       => 'Department Website',
 				'example-schedule' => 'Example Course Schedule',
 			);
 
@@ -403,7 +411,7 @@ if ( ! class_exists( 'Study' ) ) {
 			foreach ( $labels as $k => $v ) {
 				if ( array_key_exists( $k, $content_add ) ) {
 					$tmp = "\n<!-- {$k} -->\n";
-					$tmp .= sprintf( '[%2$s](%1$s)', $content_add[$k], $v ) . "\n";
+					$tmp .= sprintf( '[%2$s](%1$s)', $content_add[ $k ], $v ) . "\n";
 					$tmp .= "\n<!-- End {$k} -->\n";
 
 					$resource_links[] = $tmp;
@@ -428,6 +436,7 @@ if ( ! class_exists( 'Study' ) ) {
 
 		/**
 		 * Remove all Types Custom Field data from content before importing back from Github
+		 *
 		 * @param string $content the Github content
 		 * @param \WordPress_GitHub_Sync_Post $post the post being queried
 		 *
@@ -462,16 +471,17 @@ if ( ! class_exists( 'Study' ) ) {
 			);
 
 			$start_pos = strpos( $content, "\n<!-- Types Custom Fields: -->\n" );
-			$end_pos = strpos( $content, "\n<!-- End Types Custom Fields -->" );
+			$end_pos   = strpos( $content, "\n<!-- End Types Custom Fields -->" );
 
 			$start = substr( $content, 0, $start_pos );
-			$end = substr( $content, ( $end_pos + strlen( "\n<!-- End Types Custom Fields -->" ) ) );
+			$end   = substr( $content, ( $end_pos + strlen( "\n<!-- End Types Custom Fields -->" ) ) );
 
 			return $start . $end;
 		}
 
 		/**
 		 * Attempt to embed a video or image in mark-down-compatible HTML
+		 *
 		 * @param string $url the URL to the item being embedded
 		 *
 		 * @access public
@@ -486,13 +496,14 @@ if ( ! class_exists( 'Study' ) ) {
 			$t = '[![](%2$s)](%1$s)';
 
 			$oembed = _wp_oembed_get_object();
-			$data = $oembed->get_data( $url );
+			$data   = $oembed->get_data( $url );
 
 			return sprintf( $t, $url, $data->thumbnail_url );
 		}
 
 		/**
 		 * Attempts to determine which Github branch to use for this site
+		 *
 		 * @param string $branch the existing branch name
 		 *
 		 * @access public
