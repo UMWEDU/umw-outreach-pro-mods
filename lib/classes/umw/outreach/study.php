@@ -5,6 +5,8 @@
 
 namespace UMW\Outreach;
 
+use League\HTMLToMarkdown\HtmlConverter;
+
 if ( ! class_exists( 'Study' ) ) {
 	class Study extends Base {
 		use League\HTMLToMarkdown\HtmlConverter;
@@ -283,10 +285,26 @@ if ( ! class_exists( 'Study' ) ) {
 			);
 
 			$content_add = array();
+			$converter = new HtmlConverter();
+			$converter->getConfig()->setOption( 'preserve_comments', true );
 			foreach ( $new_meta as $item ) {
 				$tmp = $this->get_new_post_meta( 'wpcf-' . $item, $post );
 				if ( ! empty( $tmp ) ) {
-					$content_add[ $item ] = $tmp;
+					switch( $item ) {
+						case 'video' :
+						case 'home-page-feature' :
+						case 'testimonial' :
+							$content_add[$item] = $tmp;
+							break;
+						case 'courses' :
+						case 'department' :
+						case 'example-schedule' :
+							$content_add[$item] = esc_url( $tmp );
+							break;
+						default :
+							$content_add[$item] = $converter->convert( $tmp );
+							break;
+					}
 				}
 			}
 
@@ -312,59 +330,57 @@ if ( ! class_exists( 'Study' ) ) {
 
 			if ( array_key_exists( 'degree-awarded', $content_add ) ) {
 				$new_content .= "\n<!-- degree-awarded -->\n";
-				$new_content .= '<h2>Degree Awarded</h2>';
+				$new_content .= '## Degree Awarded';
 				$new_content .= $content_add['degree-awarded'];
 				$new_content .= "\n<!-- End degree-awarded -->";
 			}
 
 			if ( array_key_exists( 'areas-of-study', $content_add ) ) {
 				$new_content .= "\n<!-- areas-of-study -->\n";
-				$new_content .= '<h2>Areas of Study</h2>';
+				$new_content .= '## Areas of Study';
 				$new_content .= $content_add['areas-of-study'];
 				$new_content .= "\n<!-- End areas-of-study -->\n";
 			}
 
 			if ( array_key_exists( 'career-opportunities', $content_add ) ) {
 				$new_content .= "\n<!-- career-opportunities -->\n";
-				$new_content .= '<h2>Career Opportunities</h2>';
+				$new_content .= '## Career Opportunities';
 				$new_content .= $content_add['career-opportunities'];
 				$new_content .= "\n<!-- End career-opportunities -->\n";
 			}
 
 			if ( array_key_exists( 'internships', $content_add ) ) {
 				$new_content .= "\n<!-- internships -->\n";
-				$new_content .= '<h2>Internships</h2>';
+				$new_content .= '## Internships';
 				$new_content .= $content_add['internships'];
 				$new_content .= "\n<!-- End internships -->\n";
 			}
 
 			if ( array_key_exists( 'testimonial', $content_add ) ) {
 				$new_content .= "\n<!-- testimonial -->\n";
-				$new_content .= sprintf( '<blockquote class="program-testimonial">
-  %s
-</blockquote>', $content_add['testimonial'] );
+				$new_content .= sprintf( '> %s', $content_add['testimonial'] );
 				$new_content .= "\n<!-- End testimonial -->\n";
 			}
 
 			if ( array_key_exists( 'honors', $content_add ) ) {
 				$new_content .= "\n<!-- honors -->\n";
-				$new_content .= '<h2>Honors</h2>';
+				$new_content .= '## Honors';
 				$new_content .= $content_add['honors'];
 				$new_content .= "\n<!-- End honors -->\n";
 			}
 
 			if ( array_key_exists( 'major-requirements', $content_add ) || array_key_exists( 'minor-requirements', $content_add ) ) {
 				$new_content .= "\n<!-- requirements -->\n";
-				$new_content .= '<h2>Requirements</h2>';
+				$new_content .= '## Requirements';
 				if ( array_key_exists( 'major-requirements', $content_add ) ) {
 					$new_content .= "\n<!-- major-requirements -->\n";
-					$new_content .= '<h3>Major Requirements</h3>';
+					$new_content .= '### Major Requirements';
 					$new_content .= $content_add['major-requirements'];
 					$new_content .= "\n<!-- End major-requirements -->\n";
 				}
 				if ( array_key_exists( 'minor-requirements', $content_add ) ) {
 					$new_content .= "\n<!-- minor-requirements -->\n";
-					$new_content .= '<h3>Minor Requirements</h3>';
+					$new_content .= '### Minor Requirements';
 					$new_content .= $content_add['minor-requirements'];
 					$new_content .= "\n<!-- End minor-requirements -->\n";
 				}
@@ -373,7 +389,7 @@ if ( ! class_exists( 'Study' ) ) {
 
 			if ( array_key_exists( 'scholarships', $content_add ) ) {
 				$new_content .= "\n<!-- scholarships -->\n";
-				$new_content .= '<h2>Scholarships</h2>';
+				$new_content .= '## Scholarships';
 				$new_content .= $content_add['scholarships'];
 				$new_content .= "\n<!-- End scholarships -->\n";
 			}
@@ -383,20 +399,31 @@ if ( ! class_exists( 'Study' ) ) {
 				'department' => 'Department Website',
 				'example-schedule' => 'Example Course Schedule',
 			);
-			$new_content .= "\n<!-- resource-links -->\n";
-			$new_content .= '<h2>Resource Links</h2>';
+
+			$resource_links = array();
+
 			foreach ( $labels as $k => $v ) {
 				if ( array_key_exists( $k, $content_add ) ) {
-					$new_content .= "\n<!-- {$k} -->\n";
-					$new_content .= sprintf( '<a href="%s" class="button">%s</a>', $content_add[$k], $v );
-					$new_content .= "\n<!-- End {$k} -->\n";
+					$tmp = "\n<!-- {$k} -->\n";
+					$tmp .= sprintf( '[%2$s](%1$s)', $content_add[$k], $v );
+					$tmp .= "\n<!-- End {$k} -->\n";
+
+					$resource_links[] = $tmp;
 				}
 			}
-			$new_content .= "\n<!-- End resource-links -->\n";
 
-			$content = "\n<!-- Types Custom Fields: -->\n";
-			$content .= $new_content;
-			$content .= "\n<!-- End Types Custom Fields -->";
+			if ( ! empty( $resource_links ) ) {
+				$new_content .= "\n<!-- resource-links -->\n";
+				$new_content .= '## Resource Links</h2>';
+				$new_content .= implode( "\n", $resource_links );
+				$new_content .= "\n<!-- End resource-links -->\n";
+			}
+
+			if ( ! empty( $new_content ) ) {
+				$content = "\n<!-- Types Custom Fields: -->\n";
+				$content .= $new_content;
+				$content .= "\n<!-- End Types Custom Fields -->";
+			}
 
 			return $content;
 		}
