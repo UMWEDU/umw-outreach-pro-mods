@@ -32,6 +32,7 @@ if ( ! class_exists( 'Study' ) ) {
 			add_filter( 'wpghs_content_export', array( $this, 'wp2ghs_template_content' ), 10, 2 );
 			add_filter( 'wpghs_content_import', array( $this, 'wp2ghs_untemplate_content' ) );
 			add_action( 'wpghs_export', function() { if ( isset( $_POST ) ) { $_POST['doing_wpghs_all_export'] = 1; } }, 1 );
+			add_filter( 'wpghs_sync_branch', array( $this, 'wp2ghs_branch' ) );
 		}
 
 		function do_wpv_oembed( $atts = array(), $content = '' ) {
@@ -225,6 +226,10 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function get_new_post_meta( $key, $post ) {
+			if ( isset( $_GET['page'] ) && 'wp-github-sync' == $_GET['page'] && isset( $_GET['action'] ) && 'export' == $_GET['action'] ) {
+				return get_post_meta( $post->post->ID, $key, true );
+			}
+
 			if ( isset( $_POST ) && ! isset( $_POST['doing_wpghs_all_export'] ) ) {
 				if ( array_key_exists( 'wpcf', $_POST ) && is_array( $_POST['wpcf'] ) ) {
 					$tmp_key = str_replace( 'wpcf-', '', $key );
@@ -457,6 +462,25 @@ if ( ! class_exists( 'Study' ) ) {
 			$data = $oembed->get_data( $url );
 
 			return sprintf( $t, $url, $data->thumbnail_url );
+		}
+
+		/**
+		 * Attempts to determine which Github branch to use for this site
+		 * @param string $branch the existing branch name
+		 *
+		 * @access public
+		 * @return string the updated branch name
+		 * @since  2019.12.04
+		 */
+		public function wp2ghs_branch( $branch = 'master' ) {
+			$tmp = get_bloginfo( 'url' );
+			if ( stristr( $tmp, 'umw.edu' ) ) {
+				return 'master';
+			} else if ( stristr( $tmp, 'staging.wpengine' ) ) {
+				return 'legacy-staging';
+			} else {
+				return str_replace( array( 'https://', 'http://', '.wpengine.com', '/' ), '', $tmp );
+			}
 		}
 	}
 }
