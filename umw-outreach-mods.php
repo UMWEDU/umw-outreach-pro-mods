@@ -13,20 +13,30 @@ namespace {
 	 *
 	 * @param string $class_name the full name of the class being invoked
 	 *
-	 * @since 2018.1
 	 * @return void
+	 * @since 2018.1
 	 */
 	spl_autoload_register( function ( $class_name ) {
-		if ( ! stristr( $class_name, 'UMW\Outreach\\' ) && ! stristr( $class_name, 'UMW\Common\\' ) ) {
+		if ( ! stristr( $class_name, 'UMW\Outreach\\' ) &&
+		     ! stristr( $class_name, 'UMW\Common\\' ) &&
+		     ! stristr( $class_name, 'League\HTMLToMarkdown\\' ) ) {
 			return;
 		}
 
-		$filename = plugin_dir_path( __FILE__ ) . 'lib/classes/' . strtolower( str_replace( array(
-				'\\',
-				'_'
-			), array( '/', '-' ), $class_name ) ) . '.php';
+		if ( stristr( $class_name, 'League\HTMLToMarkdown\\' ) ) {
+			$filename = plugin_dir_path( __FILE__ ) . 'lib/classes/' . str_replace( array(
+					'\\',
+					'_'
+				), array( '/', '-' ), $class_name ) . '.php';
+		} else {
+			$filename = plugin_dir_path( __FILE__ ) . 'lib/classes/' . strtolower( str_replace( array(
+					'\\',
+					'_'
+				), array( '/', '-' ), $class_name ) ) . '.php';
+		}
 		if ( ! file_exists( $filename ) ) {
 			error_log( 'Attempted to autoload the ' . $class_name . ' class, but the file ' . $filename . ' was not found.' );
+
 			return;
 		}
 

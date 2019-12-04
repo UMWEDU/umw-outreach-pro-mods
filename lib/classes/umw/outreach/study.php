@@ -7,6 +7,8 @@ namespace UMW\Outreach;
 
 if ( ! class_exists( 'Study' ) ) {
 	class Study extends Base {
+		use League\HTMLToMarkdown\HtmlConverter;
+
 		/**
 		 * @var int $blog the ID of the Study blog
 		 */
