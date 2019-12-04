@@ -39,6 +39,7 @@ if ( ! class_exists( 'Study' ) ) {
 				}
 			}, 1 );
 			add_filter( 'wpghs_sync_branch', array( $this, 'wp2ghs_branch' ) );
+			add_filter( 'wpghs_pre_import_meta', array( $this, 'wp2ghs_set_terms' ) );
 		}
 
 		function do_wpv_oembed( $atts = array(), $content = '' ) {
@@ -237,6 +238,14 @@ if ( ! class_exists( 'Study' ) ) {
 				if ( ! empty( $tmp ) ) {
 					$meta[ 'wpcf-' . $item ] = stripslashes( $tmp );
 				}
+			}
+
+			$taxes = array(
+				'department',
+				'key',
+			);
+			foreach ( $taxes as $tax ) {
+				$meta['terms'][$tax] = wp_get_object_terms( $post->post->ID, $tax, array( 'fields' => 'slugs' ) );
 			}
 
 			return $meta;
@@ -454,6 +463,30 @@ if ( ! class_exists( 'Study' ) ) {
 
 			// We can safely return an empty string, since Areas of Study do not include the content editor
 			return '';
+		}
+
+		/**
+		 * Set the custom taxonomy terms for imported content
+		 *
+		 * @param array $meta the imported meta data
+		 * @param \WordPress_GitHub_Sync_Post $post the post being queried
+		 *
+		 * @access public
+		 * @return array the modified array of meta data
+		 * @since  2019.12.04
+		 */
+		public function wp2ghs_set_terms( $meta, $post ) {
+			if ( ! array_key_exists( 'terms', $meta ) ) {
+				return $meta;
+			}
+
+			foreach ( $meta['terms'] as $tax => $term ) {
+				wp_set_object_terms( $post->post->ID, $term, $tax );
+			}
+
+			unset( $meta['terms'] );
+
+			return $meta;
 		}
 
 		/**
