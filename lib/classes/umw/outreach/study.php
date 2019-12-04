@@ -222,7 +222,7 @@ if ( ! class_exists( 'Study' ) ) {
 		public function wp2ghs_post_meta( $meta, $post ) {
 			$tmp = str_replace( array( 'http://', 'https://' ), '', get_bloginfo( 'url' ) );
 			$meta['permalink'] = str_replace( array( 'http://', 'https://' ), '', $meta['permalink'] );
-			$meta['permalink'] = str_replace( $tmp, '/', $meta['permalink'] ) . '.md';
+			$meta['permalink'] = untrailingslashit( str_replace( $tmp, '', $meta['permalink'] ) ) . '.md';
 
 			if ( 'areas' !== get_post_type( $post->post ) ) {
 				return $meta;
