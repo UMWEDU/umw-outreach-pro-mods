@@ -221,9 +221,10 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2019.12.03
 		 */
 		public function wp2ghs_post_meta( $meta, $post ) {
-			$tmp = str_replace( array( 'http://', 'https://' ), '', get_bloginfo( 'url' ) );
+			$tmp = get_blog_option( get_main_network_id(), 'home', '' );
+			$tmp = str_replace( array( 'http://', 'https://' ), '', $tmp );
 			$meta['permalink'] = str_replace( array( 'http://', 'https://' ), '', $meta['permalink'] );
-			$meta['permalink'] = untrailingslashit( str_replace( $tmp, '', $meta['permalink'] ) ) . '.md';
+			$meta['permalink'] = untrailingslashit( str_replace( $tmp, '', $meta['permalink'] ) ) . '/index.html';
 
 			if ( 'areas' !== get_post_type( $post->post ) ) {
 				return $meta;
