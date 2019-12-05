@@ -39,7 +39,7 @@ if ( ! class_exists( 'Study' ) ) {
 				}
 			}, 1 );
 			add_filter( 'wpghs_sync_branch', array( $this, 'wp2ghs_branch' ) );
-			add_filter( 'wpghs_pre_import_meta', array( $this, 'wp2ghs_set_terms' ) );
+			add_filter( 'wpghs_pre_import_meta', array( $this, 'wp2ghs_set_terms' ), 10, 2 );
 		}
 
 		function do_wpv_oembed( $atts = array(), $content = '' ) {
@@ -479,6 +479,8 @@ if ( ! class_exists( 'Study' ) ) {
 			if ( ! array_key_exists( 'terms', $meta ) ) {
 				return $meta;
 			}
+
+			error_log( '[Areas of Study Debug]: ' . print_r( $meta['terms'], true ) );
 
 			foreach ( $meta['terms'] as $tax => $term ) {
 				wp_set_object_terms( $post->post->ID, $term, $tax );
