@@ -480,8 +480,6 @@ if ( ! class_exists( 'Study' ) ) {
 				return $meta;
 			}
 
-			error_log( '[Areas of Study Debug]: ' . print_r( $meta['terms'], true ) );
-
 			foreach ( $meta['terms'] as $tax => $term ) {
 				wp_set_object_terms( $post->post->ID, $term, $tax );
 			}
