@@ -628,7 +628,7 @@ if ( ! class_exists( 'News' ) ) {
 			$instagram_name = $this->get_instagram_id( $instagram_name );
 			do_shortcode( sprintf( '[fts_instagram instagram_id=%1$d super_gallery=no pics_count=%2$d image_size=250 icon_size=50 hide_date_likes_comments=yes profile_photo=no profile_stats=no profile_name=no profile_description=no]', $instagram_name, $this->latest_social_posts_count ) );
 
-			$posts = get_transient( sprintf( 'fts_instagram_cache_%1$d_num%2$d', $instagram_name, $this->latest_social_posts_count ) );
+			$posts = get_transient( sprintf( 'fts_t_instagram_cache_%1$d_num%2$d', $instagram_name, $this->latest_social_posts_count ) );
 			if ( false !== $posts ) {
 				if ( array_key_exists( 'data', $posts ) ) {
 					$posts = json_decode( $posts['data'] );
@@ -726,9 +726,9 @@ if ( ! class_exists( 'News' ) ) {
 			do_shortcode( sprintf( '[fts_facebook type=page id=%1$s posts=%2$d posts_displayed=page_only]', $facebook_name, $this->latest_social_posts_count ) );
 
 			/* For some reason, the current version of FTS seems to be adding 1 to the number of posts in the cache for Facebook */
-			$posts = get_transient( sprintf( 'fts_fb_page_%1$s_num%2$d', $facebook_name, $this->latest_social_posts_count ) );
+			$posts = get_transient( sprintf( 'fts_t_fb_page_%1$s_num%2$d', $facebook_name, $this->latest_social_posts_count ) );
 			if ( false === $posts ) {
-				$posts = get_transient( sprintf( 'fts_fb_page_%1$s_num%2$d', $facebook_name, ( $this->latest_social_posts_count + 1 ) ) );
+				$posts = get_transient( sprintf( 'fts_t_fb_page_%1$s_num%2$d', $facebook_name, ( $this->latest_social_posts_count + 1 ) ) );
 			}
 			if ( false !== $posts ) {
 				if ( array_key_exists( 'feed_data', $posts ) ) {
@@ -788,7 +788,7 @@ if ( ! class_exists( 'News' ) ) {
 
 			do_shortcode( sprintf( '[fts_twitter twitter_name=%1$s tweets_count=%2$d cover_photo=no stats_bar=no show_retweets=yes show_replies=no]', $twitter_name, $this->latest_social_posts_count ) );
 
-			$posts = get_transient( sprintf( 'fts_twitter_data_cache_%1$s_num%2$d', $twitter_name, $this->latest_social_posts_count ) );
+			$posts = get_transient( sprintf( 'fts_t_twitter_data_cache_%1$s_num%2$d', $twitter_name, $this->latest_social_posts_count ) );
 			if ( false !== $posts ) {
 				if ( is_object( $posts ) && property_exists( $posts, 'data' ) ) {
 					$posts = $posts->data;
