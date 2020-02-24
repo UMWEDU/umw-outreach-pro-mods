@@ -17,6 +17,10 @@ if ( ! class_exists( 'Direc' ) ) {
 				error_log( 'Entered the ' . __CLASS__ . ' constructor' );
 			}
 
+			if ( defined( 'UMW_EMPLOYEE_DIRECTORY' ) && is_numeric( UMW_EMPLOYEE_DIRECTORY ) ) {
+				$this->blog = UMW_EMPLOYEE_DIRECTORY;
+			}
+
 			parent::__construct();
 
 			if ( intval( $this->blog ) !== intval( $GLOBALS['blog_id'] ) ) {

@@ -46,17 +46,48 @@ namespace {
 
 namespace UMW\Outreach {
 	function inst_umw_outreach_mods_obj() {
-		global $umw_outreach_mods_obj, $blog_id;
 		if ( defined( 'UMW_IS_ROOT' ) && is_numeric( UMW_IS_ROOT ) ) {
-			if ( absint( UMW_IS_ROOT ) === absint( $blog_id ) ) {
+			$root = absint( UMW_IS_ROOT );
+			if ( defined( 'UMW_EMPLOYEE_DIRECTORY' ) && is_numeric( UMW_EMPLOYEE_DIRECTORY ) ) {
+				$direc = absint( UMW_EMPLOYEE_DIRECTORY );
+			} else {
+				$direc = 4;
+			}
+			if ( defined( 'UMW_ADVISORIES_SITE' ) && is_numeric( UMW_ADVISORIES_SITE ) ) {
+				$advis = absint( UMW_ADVISORIES_SITE );
+			} else {
+				$advis = 27;
+			}
+			if ( defined( 'UMW_STUDY_SITE' ) && is_numeric( UMW_STUDY_SITE ) ) {
+				$study = absint( UMW_STUDY_SITE );
+			} else {
+				$study = 5;
+			}
+			if ( defined( 'UMW_RESIDENCE_SITE' ) && is_numeric( UMW_RESIDENCE_SITE ) ) {
+				$res = absint( UMW_RESIDENCE_SITE );
+			} else {
+				$res = 30;
+			}
+			if ( defined( 'UMW_NEWS_SITE' ) && is_numeric( UMW_NEWS_SITE ) ) {
+				$news = absint( UMW_NEWS_SITE );
+			} else {
+				$news = 7;
+			}
+		} else {
+			$root = false;
+		}
+
+		global $umw_outreach_mods_obj, $blog_id;
+		if ( false !== $root ) {
+			if ( $root === absint( $blog_id ) ) {
 				$umw_outreach_mods_obj = new Root;
-			} else if ( 4 === absint( $blog_id ) ) {
+			} else if ( $direc === absint( $blog_id ) ) {
 				$umw_outreach_mods_obj = new Direc;
-			} else if ( 5 === absint( $blog_id ) ) {
+			} else if ( $study === absint( $blog_id ) ) {
 				$umw_outreach_mods_obj = new Study;
-			} else if ( 30 === absint( $blog_id ) ) {
+			} else if ( $res === absint( $blog_id ) ) {
 				$umw_outreach_mods_obj = new Residence;
-			} else if ( 7 === absint( $blog_id ) ) {
+			} else if ( $news === absint( $blog_id ) ) {
 				$umw_outreach_mods_obj = new News;
 			} else {
 				$umw_outreach_mods_obj = new Base;

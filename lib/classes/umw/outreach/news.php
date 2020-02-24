@@ -23,6 +23,10 @@ if ( ! class_exists( 'News' ) ) {
 		private static $latest_social_posts_counter = 0;
 
 		function __construct() {
+		    if ( defined( 'UMW_NEWS_SITE' ) && is_numeric( UMW_NEWS_SITE ) ) {
+		        $this->blog = UMW_NEWS_SITE;
+            }
+
 			parent::__construct();
 
 			if ( intval( $this->blog ) !== intval( $GLOBALS['blog_id'] ) ) {

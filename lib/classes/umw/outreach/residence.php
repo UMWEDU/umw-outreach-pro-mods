@@ -13,6 +13,10 @@ if ( ! class_exists( 'Residence' ) ) {
 		public $blog = 30;
 
 		function __construct() {
+			if ( defined( 'UMW_RESIDENCE_SITE' ) && is_numeric( UMW_RESIDENCE_SITE ) ) {
+				$this->blog = UMW_RESIDENCE_SITE;
+			}
+
 			parent::__construct();
 
 			if ( intval( $this->blog ) !== intval( $GLOBALS['blog_id'] ) ) {
