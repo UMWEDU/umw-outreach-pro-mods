@@ -5,6 +5,8 @@
 
 namespace UMW\Outreach;
 
+use GravityWiz\Add_Ons\GW_Email_Domain_Validator;
+
 if ( ! class_exists( 'Residence' ) ) {
 	class Residence extends Base {
 		/**
@@ -30,6 +32,15 @@ if ( ! class_exists( 'Residence' ) ) {
 			add_action( 'genesis_before_loop', array( $this, 'do_hall_feature' ), 11 );
 
 			add_shortcode( 'wpv-oembed', array( $this, 'do_wpv_oembed' ) );
+
+			# Configuration
+
+			new GW_Email_Domain_Validator( array(
+				'form_id'            => 1,
+				'field_id'           => 4,
+				'domains'            => array( 'qq.com' ),
+				'validation_message' => __( 'Unfortunately, the email address you provided is not allowed. Please try a different email address.' ),
+			) );
 		}
 
 		function do_wpv_oembed( $atts = array(), $content = '' ) {

@@ -19,11 +19,17 @@ namespace {
 	spl_autoload_register( function ( $class_name ) {
 		if ( ! stristr( $class_name, 'UMW\Outreach\\' ) &&
 		     ! stristr( $class_name, 'UMW\Common\\' ) &&
-		     ! stristr( $class_name, 'League\HTMLToMarkdown\\' ) ) {
+		     ! stristr( $class_name, 'League\HTMLToMarkdown\\' ) &&
+			 ! stristr( $class_name, 'GravityWiz\Add_Ons\\' ) ) {
 			return;
 		}
 
 		if ( stristr( $class_name, 'League\HTMLToMarkdown\\' ) ) {
+			$filename = plugin_dir_path( __FILE__ ) . 'lib/classes/' . str_replace( array(
+					'\\',
+					'_'
+				), array( '/', '-' ), $class_name ) . '.php';
+		} else if ( stristr( $class_name, 'GravityWiz\Add_Ons\\' ) ) {
 			$filename = plugin_dir_path( __FILE__ ) . 'lib/classes/' . str_replace( array(
 					'\\',
 					'_'
