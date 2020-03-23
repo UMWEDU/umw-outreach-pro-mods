@@ -42,7 +42,7 @@ namespace GravityWiz\Add_Ons {
 			foreach ( $form['fields'] as &$field ) {
 
 				// if this is not an email field, skip
-				if ( RGFormsModel::get_input_type( $field ) != 'email' ) {
+				if ( \RGFormsModel::get_input_type( $field ) != 'email' ) {
 					continue;
 				}
 
@@ -51,12 +51,12 @@ namespace GravityWiz\Add_Ons {
 					continue;
 				}
 
-				$page_number = GFFormDisplay::get_source_page( $form['id'] );
+				$page_number = \GFFormDisplay::get_source_page( $form['id'] );
 				if ( $page_number > 0 && $field->pageNumber != $page_number ) {
 					continue;
 				}
 
-				if ( GFFormsModel::is_field_hidden( $form, $field, array() ) ) {
+				if ( \GFFormsModel::is_field_hidden( $form, $field, array() ) ) {
 					continue;
 				}
 
