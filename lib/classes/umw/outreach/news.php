@@ -630,7 +630,9 @@ if ( ! class_exists( 'News' ) ) {
 			}
 
 			$instagram_name = $this->get_instagram_id( $instagram_name );
-			do_shortcode( sprintf( '[fts_instagram instagram_id=%1$d super_gallery=no pics_count=%2$d image_size=250 icon_size=50 hide_date_likes_comments=yes profile_photo=no profile_stats=no profile_name=no profile_description=no]', $instagram_name, $this->latest_social_posts_count ) );
+			$instagram_token = $this->get_instagram_token( $instagram_name );
+
+			do_shortcode( sprintf( '[fts_instagram instagram_id=%1$d access_token=%3$s pics_count=%2$d type=basic width=250px super_gallery=yes columns=1 force_columns=no space_between_photos=1px icon_size=65px hide_date_likes_comments=yes profile_photo=no profile_stats=no profile_name=no profile_description=no]', $instagram_name, $this->latest_social_posts_count, $instagram_token ) );
 
 			$posts = get_transient( sprintf( 'fts_t_instagram_cache_%1$d_num%2$d', $instagram_name, $this->latest_social_posts_count ) );
 			if ( false !== $posts ) {
@@ -646,9 +648,9 @@ if ( ! class_exists( 'News' ) ) {
 				return '';
 			}
 
-			$link    = $posts[ self::$latest_social_posts_counter ]->link;
-			$imgurl  = $posts[ self::$latest_social_posts_counter ]->images->low_resolution->url;
-			$caption = $posts[ self::$latest_social_posts_counter ]->caption->text;
+			$link    = $posts[ self::$latest_social_posts_counter ]->permalink;
+			$imgurl  = $posts[ self::$latest_social_posts_counter ]->media_url;
+			$caption = $posts[ self::$latest_social_posts_counter ]->caption;
 
 			/*$link = 'https://www.instagram.com/p/BXqlt0ClJqj/?taken-by=marywash';
 			$imgurl = 'https://scontent-iad3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/c135.0.810.810/20766551_111200026226263_4624646013523591168_n.jpg';
@@ -675,6 +677,11 @@ if ( ! class_exists( 'News' ) ) {
 		 */
 		private function get_instagram_id( $name ) {
 			$id = get_option( 'umwnews_instagram_id_' . $name, false );
+			if ( false !== $id ) {
+				return $id;
+			}
+
+			$id = get_option( 'fts_instagram_custom_id', false );
 			if ( false !== $id ) {
 				return $id;
 			}
@@ -708,6 +715,25 @@ if ( ! class_exists( 'News' ) ) {
 			}
 
 			return false;
+		}
+
+		/**
+		 * Attempt to find the Instagram API access token
+         * @param $name the Instagram username being queried
+         *
+         * @access public
+         * @return bool|string the access token if it's found
+         * @since  2020.03.31
+		 */
+		public function get_instagram_token( $name='' ) {
+			$id = get_option( 'umwnews_instagram_token_' . $name, false );
+			if ( false !== $id ) {
+				return $id;
+			}
+
+			$id = get_option( 'fts_instagram_custom_id', false );
+
+			return $id;
 		}
 
 		/**
