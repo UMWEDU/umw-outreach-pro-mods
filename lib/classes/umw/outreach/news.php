@@ -652,6 +652,8 @@ if ( ! class_exists( 'News' ) ) {
 				return '';
 			}
 
+			error_log( '[News Social Debug]: ' . print_r( $posts, true ) );
+
 			$link    = $posts[ self::$latest_social_posts_counter ]->permalink;
 			$imgurl  = $posts[ self::$latest_social_posts_counter ]->media_url;
 			$caption = $posts[ self::$latest_social_posts_counter ]->caption;
