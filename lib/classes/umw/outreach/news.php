@@ -634,7 +634,7 @@ if ( ! class_exists( 'News' ) ) {
 
 			do_shortcode( sprintf( '[fts_instagram instagram_id=%1$d access_token=%3$s pics_count=%2$d type=basic width=250px super_gallery=yes columns=1 force_columns=no space_between_photos=1px icon_size=65px hide_date_likes_comments=yes profile_photo=no profile_stats=no profile_name=no profile_description=no]', $instagram_name, $this->latest_social_posts_count, $instagram_token ) );
 
-			$posts = get_transient( sprintf( 'fts_t_instagram_cache_%1$d_num%2$d', $instagram_name, $this->latest_social_posts_count ) );
+			$posts = get_transient( sprintf( 'fts_t_instagram_basic_cache%1$d_num%2$d', $instagram_name, $this->latest_social_posts_count ) );
 			if ( false !== $posts ) {
 				if ( array_key_exists( 'data', $posts ) ) {
 					$posts = json_decode( $posts['data'] );
