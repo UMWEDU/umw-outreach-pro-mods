@@ -738,7 +738,7 @@ if ( ! class_exists( 'News' ) ) {
 				return $id;
 			}
 
-			$id = get_option( 'fts_instagram_custom_id', false );
+			$id = get_option( 'fts_instagram_custom_api_token', false );
 
 			return $id;
 		}
