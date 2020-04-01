@@ -636,12 +636,16 @@ if ( ! class_exists( 'News' ) ) {
 
 			$posts = get_transient( sprintf( 'fts_t_instagram_basic_cache%1$d_num%2$d', $instagram_name, $this->latest_social_posts_count ) );
 			if ( false !== $posts ) {
-				if ( array_key_exists( 'data', $posts ) ) {
-					$posts = json_decode( $posts['data'] );
-					if ( property_exists( $posts, 'data' ) ) {
-						$posts = $posts->data;
-					}
-				}
+			    if ( is_array( $posts ) ) {
+				    if ( array_key_exists( 'data', $posts ) ) {
+					    $posts = json_decode( $posts['data'] );
+					    if ( property_exists( $posts, 'data' ) ) {
+						    $posts = $posts->data;
+					    }
+				    }
+			    } else if ( property_exists( $posts, 'data' ) ) {
+			        $posts = $posts->data;
+                }
 			}
 
 			if ( ! is_array( $posts ) ) {
