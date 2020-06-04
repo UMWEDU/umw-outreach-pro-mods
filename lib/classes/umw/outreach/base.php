@@ -17,7 +17,7 @@ if ( ! class_exists( 'Base' ) ) {
 		/**
 		 * @var string $version holds the version number that's appended to script/style files
 		 */
-		var $version = '3.0.2';
+		var $version = '3.0.3';
 		/**
 		 * @var null|string $header_feed holds the URL of the custom header feed
 		 */
@@ -1870,6 +1870,17 @@ if ( ! class_exists( 'Base' ) ) {
 
 			$old_settings_field = defined( 'GENESIS_SETTINGS_FIELD' ) ? GENESIS_SETTINGS_FIELD : 'genesis-settings';
 
+			if ( empty( $blog ) ) {
+			    $blog = $GLOBALS['blog_id'];
+			}
+
+            $test = get_blog_option( $blog, $this->settings_field, array() );
+            if ( ! is_array( $test ) || ! array_key_exists( $this->setting_name, $test ) ) {
+                /* The old version of the options doesn't exist, so, we either already converted them, or they
+                        never existed, so we don't need to convert them */
+                update_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
+            }
+
 			if ( empty( $blog ) || ( isset( $GLOBALS['blog_id'] ) && intval( $blog ) === $GLOBALS['blog_id'] ) ) {
 				$converted = get_option( 'umw-outreach-mods-moved-options', false );
 				if ( false !== $converted ) {
@@ -2417,7 +2428,7 @@ if ( ! class_exists( 'Base' ) ) {
 				/* Original number was complete, including country code */
 				case 11 :
 					break;
-				/* If the original number didn't have 4, 7, 10 or 11 digits in the first place, it 
+				/* If the original number didn't have 4, 7, 10 or 11 digits in the first place, it
 						probably wasn't valid to begin with, so just return it all by itself */
 				default :
 					return $original;
