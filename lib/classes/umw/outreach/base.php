@@ -66,18 +66,18 @@ if ( ! class_exists( 'Base' ) ) {
 		 * @since   0.1
 		 */
 		function __construct() {
+		    $theme = get_stylesheet();
 			/**
 			 * Somewhat hacky way to use just the small pieces we need if we're still
 			 *        on the old UMW site
 			 */
-			if ( defined( 'WP_DEFAULT_THEME' ) && 'umw' == WP_DEFAULT_THEME ) {
-				$theme = get_stylesheet();
+			if ( ( defined( 'WP_DEFAULT_THEME' ) && 'umw' == WP_DEFAULT_THEME ) || 'umw' === $theme ) {
 				if ( 'outreach-pro' != $theme ) {
 					add_action( 'after_setup_theme', array( $this, 'do_legacy_theme_setup' ), 11 );
 
 					return;
 				}
-			}
+            }
 
 			add_filter( 'plugins_url', array( $this, 'protocol_relative_plugins_url' ), 99 );
 			$this->plugins_url = untrailingslashit( plugins_url( '', dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ) );
