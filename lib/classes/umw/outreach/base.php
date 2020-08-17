@@ -1874,12 +1874,21 @@ if ( ! class_exists( 'Base' ) ) {
 			    $blog = $GLOBALS['blog_id'];
 			}
 
-            $test = get_blog_option( $blog, $this->settings_field, array() );
-            if ( ! is_array( $test ) || ! array_key_exists( $this->setting_name, $test ) ) {
-                /* The old version of the options doesn't exist, so, we either already converted them, or they
-                        never existed, so we don't need to convert them */
-                update_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
-            }
+			if ( is_multisite() ) {
+				$test = get_blog_option( $blog, $this->settings_field, array() );
+
+				if ( ! is_array( $test ) || ! array_key_exists( $this->setting_name, $test ) ) {
+					/* The old version of the options doesn't exist, so, we either already converted them, or they
+							never existed, so we don't need to convert them */
+					update_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
+				}
+			} else {
+			    $test = get_option( $this->settings_field, array() );
+
+			    if ( ! is_array( $test ) || array_key_exists( $this->setting_name, $test ) ) {
+			        update_option( 'umw-outreach-mods-moved-options', $this->version );
+			    }
+			}
 
 			if ( empty( $blog ) || ( isset( $GLOBALS['blog_id'] ) && intval( $blog ) === $GLOBALS['blog_id'] ) ) {
 				$converted = get_option( 'umw-outreach-mods-moved-options', false );
