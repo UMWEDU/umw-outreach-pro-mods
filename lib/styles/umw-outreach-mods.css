@@ -92,6 +92,15 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
 	color: rgb(0,43,90);
 }
 
+.home-top .pcs-entry h1 a:hover,
+.home-top .pcs-entry h1 a:focus,
+.home-top .latest-news-entry h1 a:hover,
+.home-top .latest-news-entry h1 a:focus,
+.sub-footer-left .latest-news-entry h1 a:hover,
+.sub-footer-left .latest-news-entry h1 a:focus {
+	border-bottom: 2px solid rgb(0,43,90);
+}
+
 .home-top .pcs-entry,
 .home-top .latest-news-entry,
 .sub-footer-left .latest-news-entry {
@@ -312,7 +321,7 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 }
 
 .calendarLink a {color: white;}
-.calendarLink a:hover, .calendarLink a:focus {color: #ebeaee;}
+.calendarLink a:hover, .calendarLink a:focus {color: #ebeaee;text-decoration: underline}
 
 .home ul.post-list>li.listed-post {
 	width: 23%;
@@ -1547,6 +1556,11 @@ h2.reslife-home-feature-title {
 	text-decoration: none;
 }
 
+a.button:hover,
+a.button:focus {
+	text-decoration: underline;
+}
+
 @media all and (max-width: 1180px) {
 	div.a11y-toolbar {
 		top: auto;
@@ -1660,4 +1674,63 @@ iframe.embed_preview {
 	margin: .5em 0;
 	font-size: 85%;
 	font-style: italic;
+}
+
+/**
+ Tabby Accordion Styles
+ */
+body .entry-content ul.accordion-controls {
+	margin: 0 0 1rem;
+}
+
+body .entry-content ul.accordion-controls li.accordion-item {
+	margin: 0 0 -2px;
+	border: 1px solid #cccccc;
+}
+
+body .entry-content div.accordion-item-content-wrapper {
+	padding: 0;
+}
+
+body .entry-content div.accordion-item-content > * {
+	padding: 1rem;
+}
+
+body .accordion .responsive-tabs .responsive-tabs__heading,
+body .ten321-accordion .accordion-item button.accordion-control-button {
+	background: #fff;
+	color: #333;
+	padding-right: 35px;
+	text-transform: none;
+	font-family: MuseoSlab, "museo-slab", Georgia, 'Times New Roman', Times, serif;
+	line-height: 1.2;
+	border: none;
+	border-bottom: 1px solid #cccccc;
+}
+
+body .ten321-accordion .accordion-item:last-child button.accordion-control-button {
+	border: none;
+}
+
+body .accordion .responsive-tabs .responsive-tabs__heading:hover,
+body .accordion .responsive-tabs .responsive-tabs__heading:focus,
+body .ten321-accordion .accordion-item button.accordion-control-button:hover,
+body .ten321-accordion .accordion-item button.accordion-control-button:focus {
+	background: #eee;
+	color: #333;
+}
+
+body .accordion .responsive-tabs .responsive-tabs__heading:focus,
+body .ten321-accordion .accordion-item button.accordion-control-button:focus {
+	text-decoration: underline;
+}
+
+body .accordion .responsive-tabs .responsive-tabs__heading--active,
+body .accordion .responsive-tabs .responsive-tabs__heading--active:hover,
+body .accordion .responsive-tabs .responsive-tabs__heading--active:focus,
+body .ten321-accordion .accordion-item button.accordion-control-button[aria-expanded="true"],
+body .ten321-accordion .accordion-item button.accordion-control-button[aria-expanded="true"]:hover,
+body .ten321-accordion .accordion-item button.accordion-control-button[aria-expanded="true"]:focus {
+	background: #3A5B7D;
+	color: #fff;
 }
