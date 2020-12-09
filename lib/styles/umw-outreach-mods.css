@@ -1561,6 +1561,11 @@ a.button:focus {
 	text-decoration: underline;
 }
 
+.umw-rss-list a:hover,
+.umw-rss-list a:focus {
+	border-bottom: 1px solid;
+}
+
 @media all and (max-width: 1180px) {
 	div.a11y-toolbar {
 		top: auto;
