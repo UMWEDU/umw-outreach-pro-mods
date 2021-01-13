@@ -1419,6 +1419,14 @@ if ( ! class_exists( 'Base' ) ) {
 				}
 			}
 
+			$dom = new \DOMDocument();
+			$dom->loadHTML($footer);
+			$xpath = new \DOMXPath($dom);
+			$comments = $xpath->query('//comment()' );
+			print( '<pre><code>' );
+			var_dump( $comments );
+			print( '</code></pre>' );
+
 			if ( is_string( $footer ) ) {
 				if ( ! $this->shortcode_exists( 'current-date' ) || ! $this->shortcode_exists( 'current-url' ) ) {
 					$this->add_shortcodes();
