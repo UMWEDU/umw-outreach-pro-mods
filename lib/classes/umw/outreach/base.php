@@ -1426,7 +1426,8 @@ if ( ! class_exists( 'Base' ) ) {
 			$dom->loadHTML($footer);
 			$footer_els = $dom->getElementsByTagName('footer');
 			foreach ( $footer_els as $footer_el ) {
-			    $footer_html->appendChild($footer_el);
+			    $test = $footer_html->importNode($footer_el);
+			    $footer_html->documentElement->appendChild($test);
 			    $dom->removeChild( $footer_el );
 			}
 			$html = $footer_html->saveHTML();
