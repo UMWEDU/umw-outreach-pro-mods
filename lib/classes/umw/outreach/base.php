@@ -1429,6 +1429,7 @@ if ( ! class_exists( 'Base' ) ) {
 			foreach ( $footer_els as $footer_el ) {
 			    $footer = $dom->saveHTML($footer_el);
 			}
+			$footer = '<!-- Parsed UMW Global Footer -->' . $footer . '<!-- /Parsed UMW Global Footer -->';
 
 			$script_els = $dom->getElementsByTagName('script');
 			foreach( $script_els as $script_el ) {
@@ -1543,6 +1544,8 @@ if ( ! class_exists( 'Base' ) ) {
 
 				return $footer;
 			}
+
+			return '';
 		}
 
 		/**
