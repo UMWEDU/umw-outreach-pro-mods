@@ -1427,11 +1427,8 @@ if ( ! class_exists( 'Base' ) ) {
 			$dom->loadHTML($footer);
 			$footer_els = $dom->getElementsByTagName('footer');
 			foreach ( $footer_els as $footer_el ) {
-			    $html = $dom->saveHTML($footer_el);
+			    $footer = $dom->saveHTML($footer_el);
 			}
-			print( '<pre id="footer-element-code"><code>' );
-			var_dump( $html );
-			print( '</code></pre>' );
 
 			$script_els = $dom->getElementsByTagName('script');
 			foreach( $script_els as $script_el ) {
@@ -1439,9 +1436,7 @@ if ( ! class_exists( 'Base' ) ) {
 			}
 
 			$this->footer_scripts = implode('',$script_html);
-			print( '<pre id="footer-scripts-code"><code>' );
-			var_dump( $this->footer_scripts );
-			print( '</code></pre>' );
+			add_action( 'wp_print_footer_scripts', array( $this, 'do_syndicated_footer_scripts' ), 11 );
 
 			if ( is_string( $footer ) ) {
 				if ( ! $this->shortcode_exists( 'current-date' ) || ! $this->shortcode_exists( 'current-url' ) ) {
@@ -1464,6 +1459,19 @@ if ( ! class_exists( 'Base' ) ) {
 				var_dump( $footer );
 				print( "</code></pre>\n" );*/
 			}
+		}
+
+		/**
+		 * Print out the necessary script tags for the global footer
+		 */
+		public function do_syndicated_footer_scripts() {
+		    if ( ! isset( $this->footer_scripts ) || empty( $this->footer_scripts ) ) {
+		        return;
+		    }
+
+		    echo '<!-- Moved UMW Global Footer Scripts -->';
+		    echo $this->footer_scripts;
+		    echo '<!-- /Moved UMW Global Footer Scripts -->';
 		}
 
 		/**
