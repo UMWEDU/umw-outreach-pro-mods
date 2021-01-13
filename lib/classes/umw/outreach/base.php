@@ -1419,16 +1419,24 @@ if ( ! class_exists( 'Base' ) ) {
 				}
 			}
 
-			$this->footer_scripts = new \DOMDocument();
+			$this->footer_scripts = '';
+			$footer_html = new \DOMDocument();
 
 			$dom = new \DOMDocument();
 			$dom->loadHTML($footer);
-			$scripts = $dom->getElementsByTagName('script');
-			foreach ( $scripts as $script ) {
-			    print( '<pre><code>' );
-			    var_dump( $script->parentNode );
-			    print( '</code></pre>' );
+			$footer_els = $dom->getElementsByTagName('footer');
+			foreach ( $footer_els as $footer_el ) {
+			    $html = $footer_html->saveHTML($footer_el);
+			    $dom->removeChild( $footer_el );
 			}
+			print( '<pre id="footer-element-code"><code>' );
+			var_dump( $html );
+			print( '</code></pre>' );
+
+			$this->footer_scripts = $dom->saveHTML();
+			print( '<pre id="footer-scripts-code"><code>' );
+			var_dump( $this->footer_scripts );
+			print( '</code></pre>' ):
 
 			if ( is_string( $footer ) ) {
 				if ( ! $this->shortcode_exists( 'current-date' ) || ! $this->shortcode_exists( 'current-url' ) ) {
