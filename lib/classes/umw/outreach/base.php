@@ -1426,7 +1426,7 @@ if ( ! class_exists( 'Base' ) ) {
 			$scripts = $dom->getElementsByTagName('script');
 			foreach ( $scripts as $script ) {
 			    print( '<pre><code>' );
-			    var_dump( $script );
+			    var_dump( $script->parentNode );
 			    print( '</code></pre>' );
 			}
 
