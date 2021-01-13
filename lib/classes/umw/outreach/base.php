@@ -1419,12 +1419,16 @@ if ( ! class_exists( 'Base' ) ) {
 				}
 			}
 
+			$this->footer_scripts = new \DOMDocument();
+
 			$dom = new \DOMDocument();
 			$dom->loadHTML($footer);
 			$scripts = $dom->getElementsByTagName('script');
-			print( '<pre><code>' );
-			var_dump( $scripts );
-			print( '</code></pre>' );
+			foreach ( $scripts as $script ) {
+			    print( '<pre><code>' );
+			    var_dump( $script );
+			    print( '</code></pre>' );
+			}
 
 			if ( is_string( $footer ) ) {
 				if ( ! $this->shortcode_exists( 'current-date' ) || ! $this->shortcode_exists( 'current-url' ) ) {
