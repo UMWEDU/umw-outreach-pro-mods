@@ -1436,7 +1436,7 @@ if ( ! class_exists( 'Base' ) ) {
 			$this->footer_scripts = $dom->saveHTML();
 			print( '<pre id="footer-scripts-code"><code>' );
 			var_dump( $this->footer_scripts );
-			print( '</code></pre>' ):
+			print( '</code></pre>' );
 
 			if ( is_string( $footer ) ) {
 				if ( ! $this->shortcode_exists( 'current-date' ) || ! $this->shortcode_exists( 'current-url' ) ) {
