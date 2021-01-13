@@ -1420,8 +1420,6 @@ if ( ! class_exists( 'Base' ) ) {
 			}
 
 			$script_html = array();
-			$footer_html = new \DOMDocument();
-			$footer_html->loadHTML('');
 
 			$dom = new \DOMDocument();
 			$dom->loadHTML($footer);
