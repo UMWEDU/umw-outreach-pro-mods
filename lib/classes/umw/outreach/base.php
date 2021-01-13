@@ -1421,10 +1421,9 @@ if ( ! class_exists( 'Base' ) ) {
 
 			$dom = new \DOMDocument();
 			$dom->loadHTML($footer);
-			$xpath = new \DOMXPath($dom);
-			$comments = $xpath->query('//comment()' );
+			$scripts = $dom->getElementsByTagName('script');
 			print( '<pre><code>' );
-			var_dump( $comments );
+			var_dump( $scripts );
 			print( '</code></pre>' );
 
 			if ( is_string( $footer ) ) {
