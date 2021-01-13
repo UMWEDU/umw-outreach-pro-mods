@@ -1421,6 +1421,7 @@ if ( ! class_exists( 'Base' ) ) {
 
 			$this->footer_scripts = '';
 			$footer_html = new \DOMDocument();
+			$footer_html->loadHTML('');
 
 			$dom = new \DOMDocument();
 			$dom->loadHTML($footer);
