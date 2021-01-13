@@ -1419,7 +1419,7 @@ if ( ! class_exists( 'Base' ) ) {
 				}
 			}
 
-			$this->footer_scripts = '';
+			$script_html = array();
 			$footer_html = new \DOMDocument();
 			$footer_html->loadHTML('');
 
@@ -1433,7 +1433,12 @@ if ( ! class_exists( 'Base' ) ) {
 			var_dump( $html );
 			print( '</code></pre>' );
 
-			$this->footer_scripts = $dom->saveHTML();
+			$script_els = $dom->getElementsByTagName('script');
+			foreach( $script_els as $script_el ) {
+			    $script_html[] = $dom->saveHTML($script_el);
+			}
+
+			$this->footer_scripts = implode('',$script_html);
 			print( '<pre id="footer-scripts-code"><code>' );
 			var_dump( $this->footer_scripts );
 			print( '</code></pre>' );
