@@ -1422,6 +1422,7 @@ if ( ! class_exists( 'Base' ) ) {
 			$script_html = array();
 
 			$dom = new \DOMDocument();
+			libxml_use_internal_errors(true);
 			$dom->loadHTML($footer);
 			$footer_els = $dom->getElementsByTagName('footer');
 			foreach ( $footer_els as $footer_el ) {
@@ -1433,6 +1434,7 @@ if ( ! class_exists( 'Base' ) ) {
 			foreach( $script_els as $script_el ) {
 			    $script_html[] = $dom->saveHTML($script_el);
 			}
+			libxml_clear_errors();
 
 			$this->footer_scripts = implode('',$script_html);
 			add_action( 'wp_print_footer_scripts', array( $this, 'do_syndicated_footer_scripts' ), 11 );
