@@ -1427,11 +1427,8 @@ if ( ! class_exists( 'Base' ) ) {
 			$dom->loadHTML($footer);
 			$footer_els = $dom->getElementsByTagName('footer');
 			foreach ( $footer_els as $footer_el ) {
-			    $clone = $footer_el->cloneNode(true);
-			    $test = $footer_html->importNode($clone);
-			    $footer_html->appendChild($test);
+			    $html = $dom->saveHTML($footer_el);
 			}
-			$html = $footer_html->saveHTML();
 			print( '<pre id="footer-element-code"><code>' );
 			var_dump( $html );
 			print( '</code></pre>' );
