@@ -19,6 +19,8 @@ if ( ! class_exists( 'Direc' ) ) {
 
 			if ( defined( 'UMW_EMPLOYEE_DIRECTORY' ) && is_numeric( UMW_EMPLOYEE_DIRECTORY ) ) {
 				$this->blog = UMW_EMPLOYEE_DIRECTORY;
+			} else {
+				return;
 			}
 
 			parent::__construct();
