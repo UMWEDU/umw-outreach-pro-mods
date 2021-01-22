@@ -35,6 +35,8 @@ if ( ! class_exists( 'Direc' ) ) {
 				return array_merge( $types, array( 'employee', 'department', 'office', 'building' ) );
 			} );
 
+			add_filter( 'toolset_rest_run_exposure_filters', '__return_true' );
+
 			add_shortcode( 'expert-file-bio', array( $this, 'do_expertfile_shortcode' ) );
 			add_shortcode( 'expert-file-list', array( $this, 'do_expertfile_shortcode' ) );
 			add_action( 'init', array( $this, 'add_expert_rewrite_tag' ), 10, 0 );
