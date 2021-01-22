@@ -38,6 +38,7 @@ if ( ! class_exists( 'Direc' ) ) {
 			} );
 
 			add_filter( 'toolset_rest_run_exposure_filters', '__return_true' );
+			add_filter( 'toolset_rest_expose_field_group', array( $this, 'expose_toolset_fields_to_api' ), 99, 5 );
 
 			add_shortcode( 'expert-file-bio', array( $this, 'do_expertfile_shortcode' ) );
 			add_shortcode( 'expert-file-list', array( $this, 'do_expertfile_shortcode' ) );
@@ -477,6 +478,37 @@ EOD;
 			$crumbs[] = __( 'Contact This Expert' );
 
 			return $crumbs;
+		}
+
+		/**
+		 * Attempt to expose Types Custom Fields to the REST API
+		 * @param $expose_field_group bool True by default.
+		 * @param $domain string Domain of the field group: 'posts', 'users' or 'terms'.
+		 * @param $group_slug string Slug of the custom field group.
+		 * @param $element_type mixed Type of the element for which we're deciding. Depending on the domain, this can be:
+		 * - post type slug
+		 * - taxonomy slug
+		 * - user role name or an array with user role names
+		 * @param $element_id int ID of the element.
+		 *
+		 * @access public
+		 * @return bool whether to expose the field group or not
+		 * @since  0.1
+		 */
+		public function expose_toolset_fields_to_api( $expose_field_group=true, $domain='', $group_slug='', $element_type='', $element_id=0 ) {
+			if ( 'posts' === $domain ) {
+				if ( 'department' === $element_type ) {
+					return true;
+				}
+				if ( 'employee' === $element_type ) {
+					return true;
+				}
+				if ( 'building' === $element_type ) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }
