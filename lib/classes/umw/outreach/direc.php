@@ -559,11 +559,6 @@ EOD;
 			$child_of = $request->get_param( 'child_of' );
 			$type = $vars['post_type'];
 
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'REST params look like: ' );
-				error_log( print_r( $args, true ) );
-			}
-
 			if ( empty( $child_of ) ) {
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 					if ( empty( $child_of ) ) {
@@ -577,6 +572,12 @@ EOD;
 			}
 
 			$all = get_pages( array( 'child_of' => $child_of, 'post_type' => $type ) );
+
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'Page list looks like: ' );
+				error_log( print_r( $all, true ) );
+			}
+
 			$vars['include'] = array();
 			foreach( $all as $item ) {
 				$vars['post__in'][] = $item->ID;
