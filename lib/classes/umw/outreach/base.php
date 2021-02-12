@@ -2,7 +2,7 @@
 /**
  * Sets up the base class for UMW Outreach modifications
  * @package UMW Outreach Customizations
- * @version 1.1.4
+ * @version 3.0.2
  */
 
 namespace UMW\Outreach;
@@ -17,7 +17,7 @@ if ( ! class_exists( 'Base' ) ) {
 		/**
 		 * @var string $version holds the version number that's appended to script/style files
 		 */
-		var $version = '3.0.1';
+		var $version = '3.0.3';
 		/**
 		 * @var null|string $header_feed holds the URL of the custom header feed
 		 */
@@ -66,18 +66,18 @@ if ( ! class_exists( 'Base' ) ) {
 		 * @since   0.1
 		 */
 		function __construct() {
+		    $theme = get_stylesheet();
 			/**
 			 * Somewhat hacky way to use just the small pieces we need if we're still
 			 *        on the old UMW site
 			 */
-			if ( defined( 'WP_DEFAULT_THEME' ) && 'umw' == WP_DEFAULT_THEME ) {
-				$theme = get_stylesheet();
+			if ( ( defined( 'WP_DEFAULT_THEME' ) && 'umw' == WP_DEFAULT_THEME ) || 'umw' === $theme ) {
 				if ( 'outreach-pro' != $theme ) {
 					add_action( 'after_setup_theme', array( $this, 'do_legacy_theme_setup' ), 11 );
 
 					return;
 				}
-			}
+            }
 
 			add_filter( 'plugins_url', array( $this, 'protocol_relative_plugins_url' ), 99 );
 			$this->plugins_url = untrailingslashit( plugins_url( '', dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ) );
@@ -941,8 +941,6 @@ if ( ! class_exists( 'Base' ) ) {
 
 			add_action( 'genesis_theme_settings_metaboxes', array( $this, 'metaboxes' ) );
 			add_action( 'admin_init', array( $this, 'sanitizer_filters' ) );
-			/*add_filter( 'genesis_available_sanitizer_filters', array( $this, 'add_sanitizer_filter' ) );
-			add_filter( 'genesis_theme_settings_defaults', array( $this, 'settings_defaults' ) );*/
 
 			add_action( 'genesis_customizer', array(
 				$this,
@@ -1098,41 +1096,41 @@ if ( ! class_exists( 'Base' ) ) {
 				return;
 			}
 
-			$img = array();
+			/*$img = array();
 			foreach ( $current as $key => $value ) {
 				if ( stristr( $key, 'image-' ) ) {
 					$img[ str_replace( 'image-', '', $key ) ] = $value;
 				}
-			}
+			}*/
 
-			$embed = $this->get_embedded_image( esc_url( $img['url'] ), $img );
+			$embed = $this->get_embedded_image( esc_url( $current['image-url'] ), array( 'title' => $current['image-title'] ) );
 			if ( false === $embed ) {
 				return;
 			}
 
 			$format = '<figure class="home-featured-image">';
-			if ( esc_url( $img['link'] ) ) {
+			if ( esc_url( $current['image-link'] ) ) {
 				$format .= '<a href="%5$s" title="%2$s">%3$s</a>';
 			} else {
 				$format .= '%3$s';
 			}
-			if ( ! empty( $img['title'] ) || ! empty( $img['subtitle'] ) ) {
+			if ( ! empty( $current['image-title'] ) || ! empty( $current['image-subtitle'] ) ) {
 				$format .= '<figcaption>';
-				if ( ! empty( $img['title'] ) ) {
-					if ( ! empty( $img['link'] ) ) {
+				if ( ! empty( $current['image-title'] ) ) {
+					if ( ! empty( $current['image-link'] ) ) {
 						$format .= '<h2 class="home-feature-title"><a href="%5$s">%2$s</a></h2>';
 					} else {
 						$format .= '<h2 class="home-feature-title">%2$s</h2>';
 					}
 				}
-				if ( ! empty( $img['subtitle'] ) ) {
+				if ( ! empty( $current['image-subtitle'] ) ) {
 					$format .= '<div class="home-feature-subtitle">%4$s</div>';
 				}
 				$format .= '</figcaption>';
 			}
 			$format .= '</figure>';
 
-			printf( $format, esc_url( $img['url'] ), strip_tags( html_entity_decode( $img['title'] ), array() ), $embed, wpautop( $img['subtitle'] ), $img['link'] );
+			printf( $format, esc_url( $current['image-url'] ), strip_tags( html_entity_decode( $current['image-title'] ), array() ), $embed, wpautop( $current['image-subtitle'] ), $current['image-link'] );
 		}
 
 		/**
@@ -1421,6 +1419,24 @@ if ( ! class_exists( 'Base' ) ) {
 				}
 			}
 
+			$script_html = array();
+
+			$dom = new \DOMDocument();
+			$dom->loadHTML($footer);
+			$footer_els = $dom->getElementsByTagName('footer');
+			foreach ( $footer_els as $footer_el ) {
+			    $footer = $dom->saveHTML($footer_el);
+			}
+			$footer = '<!-- Parsed UMW Global Footer -->' . $footer . '<!-- /Parsed UMW Global Footer -->';
+
+			$script_els = $dom->getElementsByTagName('script');
+			foreach( $script_els as $script_el ) {
+			    $script_html[] = $dom->saveHTML($script_el);
+			}
+
+			$this->footer_scripts = implode('',$script_html);
+			add_action( 'wp_print_footer_scripts', array( $this, 'do_syndicated_footer_scripts' ), 11 );
+
 			if ( is_string( $footer ) ) {
 				if ( ! $this->shortcode_exists( 'current-date' ) || ! $this->shortcode_exists( 'current-url' ) ) {
 					$this->add_shortcodes();
@@ -1442,6 +1458,19 @@ if ( ! class_exists( 'Base' ) ) {
 				var_dump( $footer );
 				print( "</code></pre>\n" );*/
 			}
+		}
+
+		/**
+		 * Print out the necessary script tags for the global footer
+		 */
+		public function do_syndicated_footer_scripts() {
+		    if ( ! isset( $this->footer_scripts ) || empty( $this->footer_scripts ) ) {
+		        return;
+		    }
+
+		    echo '<!-- Moved UMW Global Footer Scripts -->';
+		    echo $this->footer_scripts;
+		    echo '<!-- /Moved UMW Global Footer Scripts -->';
 		}
 
 		/**
@@ -1513,6 +1542,8 @@ if ( ! class_exists( 'Base' ) ) {
 
 				return $footer;
 			}
+
+			return '';
 		}
 
 		/**
@@ -1834,28 +1865,17 @@ if ( ! class_exists( 'Base' ) ) {
 		}
 
 		/**
-		 * Add a new filter for our settings to the available filters list in Genesis
-		 */
-		function add_sanitizer_filter( $filters = array() ) {
-			$filters['umw_outreach_settings_filter'] = array( $this, 'sanitize_settings' );
-
-			return $filters;
-		}
-
-		/**
 		 * Add our default settings to the Genesis settings array
 		 */
 		function settings_defaults( $settings = array() ) {
 			$settings[ $this->setting_name ] = apply_filters( 'umw-outreach-settings-defaults', array(
-				'site-title' => null,
-				'statement'  => null,
-				'content'    => null,
-				'image'      => array(
-					'url'      => null,
-					'title'    => null,
-					'subtitle' => null,
-					'link'     => null
-				)
+				'site-title'     => null,
+				'statement'      => null,
+				'content'        => null,
+				'image-url'      => null,
+				'image-title'    => null,
+				'image-subtitle' => null,
+				'image-link'     => null,
 			) );
 
 			return $settings;
@@ -1869,13 +1889,6 @@ if ( ! class_exists( 'Base' ) ) {
 				$this,
 				'sanitize_settings'
 			) );
-			/*genesis_add_option_filter( 
-				'umw_outreach_settings_filter', 
-				$this->settings_field, 
-				array( 
-					$this->setting_name, 
-				)
-			);*/
 		}
 
 		/**
@@ -1888,24 +1901,59 @@ if ( ! class_exists( 'Base' ) ) {
 
 			$opt = $allopts = $converted = false;
 
+			$old_settings_field = defined( 'GENESIS_SETTINGS_FIELD' ) ? GENESIS_SETTINGS_FIELD : 'genesis-settings';
+
+			if ( empty( $blog ) ) {
+			    $blog = $GLOBALS['blog_id'];
+			}
+
+			if ( is_multisite() ) {
+				$test = get_blog_option( $blog, $this->settings_field, array() );
+
+				if ( ! is_array( $test ) || ! array_key_exists( $this->setting_name, $test ) ) {
+					/* The old version of the options doesn't exist, so, we either already converted them, or they
+							never existed, so we don't need to convert them */
+					update_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
+				}
+			} else {
+			    $test = get_option( $this->settings_field, array() );
+
+			    if ( ! is_array( $test ) || array_key_exists( $this->setting_name, $test ) ) {
+			        update_option( 'umw-outreach-mods-moved-options', $this->version );
+			    }
+			}
+
 			if ( empty( $blog ) || ( isset( $GLOBALS['blog_id'] ) && intval( $blog ) === $GLOBALS['blog_id'] ) ) {
 				$converted = get_option( 'umw-outreach-mods-moved-options', false );
 				if ( false !== $converted ) {
 					$allopts = get_option( $this->settings_field, array() );
 					if ( ! empty( $allopts ) && array_key_exists( $this->setting_name, $allopts ) ) {
-						$new = array();
+						$new = $allopts;
 						$old = $allopts[ $this->setting_name ];
+						unset( $new[ $this->setting_name ] );
 						if ( ! array_key_exists( 'image', $old ) || ! is_array( $old['image'] ) ) {
 							$old['image'] = array();
 						}
 
 						foreach ( $old['image'] as $k => $v ) {
-							$old[ 'image-' . $k ] = $v;
+							$new[ 'image-' . $k ] = $v;
 						}
 
 						unset( $old['image'] );
-						$new = $old;
+
+						foreach ( $old as $k => $v ) {
+							$new[ $k ] = $v;
+						}
+
 						update_option( $this->settings_field, $new );
+						update_option( 'umw-outreach-mods-moved-options', $this->version );
+
+						$tmp = get_option( $old_settings_field, array() );
+						if ( array_key_exists( 'umw_outreach_settings', $tmp ) ) {
+							unset( $tmp['umw_outreach_settings'] );
+							update_option( $old_settings_field, $tmp );
+						}
+
 						$allopts = $new;
 					}
 				}
@@ -1914,26 +1962,35 @@ if ( ! class_exists( 'Base' ) ) {
 				if ( false !== $converted ) {
 					$allopts = get_blog_option( $blog, $this->settings_field, array() );
 					if ( ! empty( $allopts ) && array_key_exists( $this->setting_name, $allopts ) ) {
-						$new = array();
+						$new = $allopts;
 						$old = $allopts[ $this->setting_name ];
+						unset( $allopts[ $this->setting_name ] );
 						if ( ! array_key_exists( 'image', $old ) || ! is_array( $old['image'] ) ) {
 							$old['image'] = array();
 						}
 
 						foreach ( $old['image'] as $k => $v ) {
-							$old[ 'image-' . $k ] = $v;
+							$new[ 'image-' . $k ] = $v;
 						}
 
 						unset( $old['image'] );
-						$new = $old;
+
+						foreach ( $old as $k => $v ) {
+							$new[ $k ] = $v;
+						}
+
 						update_blog_option( $blog, $this->settings_field, $new );
+						update_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
+
+						$tmp = get_blog_option( $blog, $old_settings_field, array() );
+						if ( array_key_exists( 'umw_outreach_settings', $tmp ) ) {
+							unset( $tmp['umw_outreach_settings'] );
+							update_blog_option( $blog, $old_settings_field, $tmp );
+						}
+
 						$allopts = $new;
 					}
 				}
-			}
-
-			if ( false === $converted ) {
-				$allopts = $this->convert_genesis_options( $blog );
 			}
 
 			if ( empty( $key ) ) {
@@ -1956,9 +2013,19 @@ if ( ! class_exists( 'Base' ) ) {
 		}
 
 		function convert_genesis_options( $blog = false ) {
-			$opt = $this->get_genesis_option( $this->setting_name, $blog );
-			/*error_log( '[UMW Settings Debug]: Retrieved Genesis Settings' );
-			error_log( print_r( $opt, true ) );*/
+			$allopts = ( empty( $blog ) ) ? get_option( $this->settings_field, array() ) : get_blog_option( $blog, $this->settings_field, array() );
+
+			if ( array_key_exists( 'umw_outreach_mods', $allopts ) ) {
+				$oldopts = $allopts['umw_outreach_mods'];
+				unset( $allopts['umw_outreach_mods'] );
+			} else {
+				$oldopts = array();
+			}
+
+			$opt = array_merge( $allopts, $oldopts );
+
+			error_log( '[UMW Settings Debug]: Retrieved Genesis Settings' );
+			error_log( print_r( $opt, true ) );
 			if ( is_array( $opt ) && ! empty( $opt ) ) {
 				$opt = stripslashes_deep( $opt );
 				foreach ( $opt as $k => $v ) {
@@ -1993,7 +2060,7 @@ if ( ! class_exists( 'Base' ) ) {
 			/*error_log( '[UMW Settings Debug]: Retrieved New Settings' );
 			error_log( print_r( $tmp, true ) );*/
 
-			return $opt;
+			return $tmp;
 		}
 
 		/**
@@ -2033,15 +2100,15 @@ if ( ! class_exists( 'Base' ) ) {
 		 * Add a new submenu page to link directly to the Customizer panel
 		 */
 		public function add_submenu_page() {
-		    add_submenu_page(
-		            'genesis',
-                __( 'UMW Settings', 'genesis' ),
-                __( 'UMW Settings', 'genesis' ),
-                'edit_theme_options',
-                'umw-site-settings',
-                array( $this, 'do_submenu_page' )
-            );
-        }
+			add_submenu_page(
+				'genesis',
+				__( 'UMW Settings', 'genesis' ),
+				__( 'UMW Settings', 'genesis' ),
+				'edit_theme_options',
+				'umw-site-settings',
+				array( $this, 'do_submenu_page' )
+			);
+		}
 
 		/**
 		 * Handle the redirect from the submenu page to the Customizer panel
@@ -2050,13 +2117,14 @@ if ( ! class_exists( 'Base' ) ) {
 			$redirect_to = admin_url( 'customize.php?autofocus[panel]=genesis-umw' );
 
 			if ( ! genesis_is_menu_page( 'umw-site-settings' ) ) {
-			    echo '<p>This page has moved. Please <a href="' . $redirect_to . '">visit the new location in the Customizer.</a></p>';
+				echo '<p>This page has moved. Please <a href="' . $redirect_to . '">visit the new location in the Customizer.</a></p>';
+
 				return;
 			}
 
 			wp_safe_redirect( esc_url_raw( $redirect_to ) );
 			exit;
-        }
+		}
 
 		/**
 		 * Add any metaboxes that need to appear on the Genesis settings page
@@ -2285,43 +2353,29 @@ if ( ! class_exists( 'Base' ) ) {
 			if ( true === $this->sanitized_settings ) {
 				return $val;
 			}
-
-			$val = is_array( $val ) && array_key_exists( $this->setting_name, $val ) ? $val[ $this->setting_name ] : null;
-
 			if ( empty( $val ) ) {
 				return null;
 			}
-
-			$rt = array();
-
-			$allowedtags        = wp_kses_allowed_html( 'user_description' );
-			$allowedtags['img'] = array(
+			$rt                   = array();
+			$allowedtags          = wp_kses_allowed_html( 'user_description' );
+			$allowedtags['img']   = array(
 				'class' => true,
 				'id'    => true,
 				'title' => true,
 				'src'   => true,
 				'alt'   => true,
 			);
-
-			$rt['site-title'] = empty( $val['site-title'] ) ? null : sanitize_text_field( $val['site-title'] );
-			$rt['statement']  = empty( $val['statement'] ) ? null : wp_kses_post( $val['statement'] );
-			$rt['content']    = empty( $val['content'] ) ? null : wp_kses_post( $val['content'] );
-			$rt['image']      = array();
-			if ( array_key_exists( 'image', $val ) ) {
-				$rt['image']['url']      = esc_url( $val['image']['url'] ) ? sanitize_url( $val['image']['url'] ) : null;
-				$rt['image']['title']    = empty( $val['image']['title'] ) ? null : sanitize_text_field( $val['image']['title'] );
-				$rt['image']['subtitle'] = empty( $val['image']['subtitle'] ) ? null : wp_kses( $val['image']['subtitle'], $allowedtags );
-				$rt['image']['link']     = esc_url( $val['image']['link'] ) ? sanitize_url( $val['image']['link'] ) : null;
-			} else {
-				$rt['image']['url']      = esc_url( $val['image-url'] ) ? sanitize_url( $val['image-url'] ) : null;
-				$rt['image']['title']    = empty( $val['image-title'] ) ? null : sanitize_text_field( $val['image-title'] );
-				$rt['image']['subtitle'] = empty( $val['image-subtitle'] ) ? null : wp_kses( $val['image-subtitle'], $allowedtags );
-				$rt['image']['link']     = esc_url( $val['image-link'] ) ? sanitize_url( $val['image-link'] ) : null;
-			}
+			$rt['site-title']     = empty( $val['site-title'] ) ? null : sanitize_text_field( $val['site-title'] );
+			$rt['statement']      = empty( $val['statement'] ) ? null : wp_kses_post( $val['statement'] );
+			$rt['content']        = empty( $val['content'] ) ? null : wp_kses_post( $val['content'] );
+			$rt['image-url']      = esc_url( $val['image-url'] ) ? esc_url_raw( $val['image-url'] ) : null;
+			$rt['image-title']    = empty( $val['image-title'] ) ? null : sanitize_text_field( $val['image-title'] );
+			$rt['image-subtitle'] = empty( $val['image-subtitle'] ) ? null : wp_kses( $val['image-subtitle'], $allowedtags );
+			$rt['image-link']     = esc_url( $val['image-link'] ) ? esc_url_raw( $val['image-link'] ) : null;
 
 			$this->sanitized_settings = true;
 
-			return array( $this->setting_name => $rt );
+			return apply_filters( 'umw-site-settings-sanitized', $rt, $val );
 		}
 
 		/**
@@ -2416,7 +2470,7 @@ if ( ! class_exists( 'Base' ) ) {
 				/* Original number was complete, including country code */
 				case 11 :
 					break;
-				/* If the original number didn't have 4, 7, 10 or 11 digits in the first place, it 
+				/* If the original number didn't have 4, 7, 10 or 11 digits in the first place, it
 						probably wasn't valid to begin with, so just return it all by itself */
 				default :
 					return $original;

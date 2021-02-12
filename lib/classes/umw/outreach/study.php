@@ -5,6 +5,8 @@
 
 namespace UMW\Outreach;
 
+use League\HTMLToMarkdown\HtmlConverter;
+
 if ( ! class_exists( 'Study' ) ) {
 	class Study extends Base {
 		/**
@@ -13,6 +15,10 @@ if ( ! class_exists( 'Study' ) ) {
 		public $blog = 5;
 
 		function __construct() {
+			if ( defined( 'UMW_STUDY_SITE' ) && is_numeric( UMW_STUDY_SITE ) ) {
+				$this->blog = UMW_STUDY_SITE;
+			}
+
 			parent::__construct();
 
 			if ( intval( $this->blog ) !== intval( $GLOBALS['blog_id'] ) ) {
@@ -26,6 +32,18 @@ if ( ! class_exists( 'Study' ) ) {
 			add_action( 'genesis_before_loop', array( $this, 'do_program_feature' ), 11 );
 
 			add_shortcode( 'wpv-oembed', array( $this, 'do_wpv_oembed' ) );
+
+			add_filter( 'wpghs_whitelisted_post_types', array( $this, 'wpg2hs_post_types' ) );
+			add_filter( 'wpghs_post_meta', array( $this, 'wp2ghs_post_meta' ), 10, 2 );
+			add_filter( 'wpghs_content_export', array( $this, 'wp2ghs_template_content' ), 10, 2 );
+			add_filter( 'wpghs_content_import', array( $this, 'wp2ghs_untemplate_content' ) );
+			add_action( 'wpghs_export', function () {
+				if ( isset( $_POST ) ) {
+					$_POST['doing_wpghs_all_export'] = 1;
+				}
+			}, 1 );
+			add_filter( 'wpghs_sync_branch', array( $this, 'wp2ghs_branch' ) );
+			add_filter( 'wpghs_pre_import_meta', array( $this, 'wp2ghs_set_terms' ), 10, 2 );
 		}
 
 		function do_wpv_oembed( $atts = array(), $content = '' ) {
@@ -151,6 +169,371 @@ if ( ! class_exists( 'Study' ) ) {
 			}
 
 			return __( 'Areas of Study A to Z' );
+		}
+
+		/**
+		 * Retrieve the array of meta fields applied to Areas of Study
+		 *
+		 * @access public
+		 * @return array the list of meta fields
+		 * @since  2019.12.04
+		 */
+		public function get_meta_fields() {
+			return apply_filters( 'umw/outreach/study/meta-fields', array(
+				'wpcf' =>
+					array(
+						'degree-awarded',
+						'home-page-feature',
+						'value-proposition',
+						'areas-of-study',
+						'career-opportunties',
+						'internships',
+						'honors',
+						'minor-requirements',
+						'major-requirements',
+						'scholarships',
+						'testimonial',
+						'department',
+						'courses',
+						'example-schedule',
+						'video',
+					)
+			) );
+		}
+
+		/**
+		 * Make sure the Areas of Study post type is synced with WP Github Sync
+		 *
+		 * @param $types array the existing list of post types synced
+		 *
+		 * @access public
+		 * @return array the updated list of post types
+		 * @since  2019.12.03
+		 */
+		public function wpg2hs_post_types( $types ) {
+			return array_merge( $types, array( 'areas' ) );
+		}
+
+		/**
+		 * Whitelist all of the Areas of Study custom field meta for Github Sync
+		 *
+		 * @param array $meta the existing list of meta data
+		 * @param \WordPress_GitHub_Sync_Post $post the post object being synced
+		 *
+		 * @access public
+		 * @return array the updated list of meta data
+		 * @since  2019.12.03
+		 */
+		public function wp2ghs_post_meta( $meta, $post ) {
+			$tmp = get_blog_option( get_main_network_id(), 'home', '' );
+			$tmp = str_replace( array( 'http://', 'https://' ), '', $tmp );
+			$meta['permalink'] = str_replace( array( 'http://', 'https://' ), '', $meta['permalink'] );
+			$meta['permalink'] = untrailingslashit( str_replace( $tmp, '', $meta['permalink'] ) ) . '/index.html';
+
+			if ( 'areas' !== get_post_type( $post->post ) ) {
+				return $meta;
+			}
+
+			$new_meta = $this->get_meta_fields();
+
+			//wp_cache_delete( $post->post->ID, 'post_meta' );
+
+			foreach ( $new_meta['wpcf'] as $item ) {
+				$tmp = $this->get_new_post_meta( 'wpcf-' . $item, $post );
+				if ( ! empty( $tmp ) ) {
+					$meta[ 'wpcf-' . $item ] = stripslashes( $tmp );
+				}
+			}
+
+			$taxes = array(
+				'department',
+				'key',
+			);
+			foreach ( $taxes as $tax ) {
+				$meta['terms'][$tax] = wp_get_object_terms( $post->post->ID, $tax, array( 'fields' => 'slugs' ) );
+			}
+
+			return $meta;
+		}
+
+		/**
+		 * Attempt to retrieve/return updated post meta when a post is being saved/exported
+		 *
+		 * @param string $key the meta key to be retrieved
+		 * @param \WordPress_GitHub_Sync_Post $post the post object
+		 *
+		 * @access public
+		 * @return mixed the retrieved post meta
+		 * @since  2019.12.03
+		 */
+		public function get_new_post_meta( $key, $post ) {
+			if ( isset( $_GET['page'] ) && 'wp-github-sync' == $_GET['page'] && isset( $_GET['action'] ) && 'export' == $_GET['action'] ) {
+				return get_post_meta( $post->post->ID, $key, true );
+			}
+
+			if ( isset( $_POST ) && ! isset( $_POST['doing_wpghs_all_export'] ) ) {
+				if ( array_key_exists( 'wpcf', $_POST ) && is_array( $_POST['wpcf'] ) ) {
+					$tmp_key = str_replace( 'wpcf-', '', $key );
+					if ( array_key_exists( $tmp_key, $_POST['wpcf'] ) ) {
+						return $_POST['wpcf'][ $tmp_key ];
+					} else {
+						return false;
+					}
+				} else if ( array_key_exists( $key, $_POST ) ) {
+					return $_POST[ $key ];
+				} else {
+					return false;
+				}
+			}
+
+			/* Fix the permalink meta tag, since Jekyll will break if it uses the WP permalink */
+			return get_post_meta( $post->post->ID, $key, true );
+		}
+
+		/**
+		 * Attempt to template an Area of Study when syncing to Github
+		 *
+		 * @param string $content the existing content
+		 * @param \WordPress_GitHub_Sync_Post $post the post being queried
+		 *
+		 * @access public
+		 * @return string the updated content
+		 * @since  2019.12.03
+		 */
+		public function wp2ghs_template_content( $content, $post ) {
+			if ( 'areas' !== get_post_type( $post->post ) ) {
+				return $content;
+			}
+
+			$new_meta = $this->get_meta_fields();
+
+			$content_add = array();
+			$converter   = new HtmlConverter();
+			$converter->getConfig()->setOption( 'preserve_comments', true );
+			foreach ( $new_meta['wpcf'] as $item ) {
+				$tmp = $this->get_new_post_meta( 'wpcf-' . $item, $post );
+				if ( ! empty( $tmp ) ) {
+					switch ( $item ) {
+						case 'video' :
+						case 'home-page-feature' :
+						case 'testimonial' :
+							$content_add[ $item ] = $tmp;
+							break;
+						case 'courses' :
+						case 'department' :
+						case 'example-schedule' :
+							$content_add[ $item ] = esc_url( $tmp );
+							break;
+						default :
+							$content_add[ $item ] = $converter->convert( $tmp );
+							break;
+					}
+				}
+			}
+
+			$new_content = '';
+			if ( array_key_exists( 'home-page-feature', $content_add ) ) {
+				$new_content .= "\n<!-- home-page-feature -->\n";
+				$new_content = sprintf( '[![](%1$s)](%1$s)', $content_add['home-page-feature'] );
+				$new_content .= "\n<!-- End home-page-feature -->\n";
+			}
+
+			if ( array_key_exists( 'video', $content_add ) ) {
+				$new_content .= "\n<!-- video -->\n";
+				$new_content .= $this->do_markdown_embed( $content_add['video'] );
+				//$new_content .= $content_add['video'];
+				$new_content .= "\n<!-- End video -->\n";
+			}
+
+			if ( array_key_exists( 'value-proposition', $content_add ) ) {
+				$new_content .= "\n<!-- value-proposition -->\n";
+				$new_content .= $content_add['value-proposition'];
+				$new_content .= "\n<!-- End value-proposition -->\n";
+			}
+
+			if ( array_key_exists( 'degree-awarded', $content_add ) ) {
+				$new_content .= "\n<!-- degree-awarded -->\n";
+				$new_content .= '## Degree Awarded' . "\n";
+				$new_content .= $content_add['degree-awarded'];
+				$new_content .= "\n<!-- End degree-awarded -->";
+			}
+
+			if ( array_key_exists( 'areas-of-study', $content_add ) ) {
+				$new_content .= "\n<!-- areas-of-study -->\n";
+				$new_content .= '## Areas of Study' . "\n";
+				$new_content .= $content_add['areas-of-study'];
+				$new_content .= "\n<!-- End areas-of-study -->\n";
+			}
+
+			if ( array_key_exists( 'career-opportunities', $content_add ) ) {
+				$new_content .= "\n<!-- career-opportunities -->\n";
+				$new_content .= '## Career Opportunities' . "\n";
+				$new_content .= $content_add['career-opportunities'];
+				$new_content .= "\n<!-- End career-opportunities -->\n";
+			}
+
+			if ( array_key_exists( 'internships', $content_add ) ) {
+				$new_content .= "\n<!-- internships -->\n";
+				$new_content .= '## Internships' . "\n";
+				$new_content .= $content_add['internships'];
+				$new_content .= "\n<!-- End internships -->\n";
+			}
+
+			if ( array_key_exists( 'testimonial', $content_add ) ) {
+				$new_content .= "\n<!-- testimonial -->\n";
+				$new_content .= sprintf( '> %s', $content_add['testimonial'] );
+				$new_content .= "\n<!-- End testimonial -->\n";
+			}
+
+			if ( array_key_exists( 'honors', $content_add ) ) {
+				$new_content .= "\n<!-- honors -->\n";
+				$new_content .= '## Honors' . "\n";
+				$new_content .= $content_add['honors'];
+				$new_content .= "\n<!-- End honors -->\n";
+			}
+
+			if ( array_key_exists( 'major-requirements', $content_add ) || array_key_exists( 'minor-requirements', $content_add ) ) {
+				$new_content .= "\n<!-- requirements -->\n";
+				$new_content .= '## Requirements' . "\n";
+				if ( array_key_exists( 'major-requirements', $content_add ) ) {
+					$new_content .= "\n<!-- major-requirements -->\n";
+					$new_content .= '### Major Requirements' . "\n";
+					$new_content .= $content_add['major-requirements'];
+					$new_content .= "\n<!-- End major-requirements -->\n";
+				}
+				if ( array_key_exists( 'minor-requirements', $content_add ) ) {
+					$new_content .= "\n<!-- minor-requirements -->\n";
+					$new_content .= '### Minor Requirements' . "\n";
+					$new_content .= $content_add['minor-requirements'];
+					$new_content .= "\n<!-- End minor-requirements -->\n";
+				}
+				$new_content .= "\n<!-- End requirements -->\n";
+			}
+
+			if ( array_key_exists( 'scholarships', $content_add ) ) {
+				$new_content .= "\n<!-- scholarships -->\n";
+				$new_content .= '## Scholarships' . "\n";
+				$new_content .= $content_add['scholarships'];
+				$new_content .= "\n<!-- End scholarships -->\n";
+			}
+
+			$labels = array(
+				'courses'          => 'Course Listing',
+				'department'       => 'Department Website',
+				'example-schedule' => 'Example Course Schedule',
+			);
+
+			$resource_links = array();
+
+			foreach ( $labels as $k => $v ) {
+				if ( array_key_exists( $k, $content_add ) ) {
+					$tmp = "\n<!-- {$k} -->\n";
+					$tmp .= sprintf( '[%2$s](%1$s)', $content_add[ $k ], $v ) . "\n";
+					$tmp .= "\n<!-- End {$k} -->\n";
+
+					$resource_links[] = $tmp;
+				}
+			}
+
+			if ( ! empty( $resource_links ) ) {
+				$new_content .= "\n<!-- resource-links -->\n";
+				$new_content .= '## Resource Links' . "\n";
+				$new_content .= implode( "\n", $resource_links );
+				$new_content .= "\n<!-- End resource-links -->\n";
+			}
+
+			if ( ! empty( $new_content ) ) {
+				$content = "\n<!-- Types Custom Fields: -->\n";
+				$content .= stripslashes( $new_content );
+				$content .= "\n<!-- End Types Custom Fields -->";
+			}
+
+			return $content;
+		}
+
+		/**
+		 * Remove all Types Custom Field data from content before importing back from Github
+		 *
+		 * @param string $content the Github content
+		 * @param \WordPress_GitHub_Sync_Post $post the post being queried
+		 *
+		 * @access public
+		 * @return string the updated content
+		 * @since  2019.12.03
+		 */
+		public function wp2ghs_untemplate_content( $content ) {
+			if ( 'areas' !== get_post_type() ) {
+				return $content;
+			}
+
+			// We can safely return an empty string, since Areas of Study do not include the content editor
+			return '';
+		}
+
+		/**
+		 * Set the custom taxonomy terms for imported content
+		 *
+		 * @param array $meta the imported meta data
+		 * @param \WordPress_GitHub_Sync_Post $post the post being queried
+		 *
+		 * @access public
+		 * @return array the modified array of meta data
+		 * @since  2019.12.04
+		 */
+		public function wp2ghs_set_terms( $meta, $post ) {
+			if ( ! array_key_exists( 'terms', $meta ) ) {
+				return $meta;
+			}
+
+			foreach ( $meta['terms'] as $tax => $term ) {
+				wp_set_object_terms( $post->post->ID, $term, $tax );
+			}
+
+			unset( $meta['terms'] );
+
+			return $meta;
+		}
+
+		/**
+		 * Attempt to embed a video or image in mark-down-compatible HTML
+		 *
+		 * @param string $url the URL to the item being embedded
+		 *
+		 * @access public
+		 * @return string the updated HTML that can be converted to markdown
+		 * @since  2019.12.03
+		 */
+		public function do_markdown_embed( $url ) {
+			if ( ! esc_url( $url ) ) {
+				return '';
+			}
+
+			$t = '[![](%2$s)](%1$s)';
+
+			$oembed = _wp_oembed_get_object();
+			$data   = $oembed->get_data( $url );
+
+			return sprintf( $t, $url, $data->thumbnail_url );
+		}
+
+		/**
+		 * Attempts to determine which Github branch to use for this site
+		 *
+		 * @param string $branch the existing branch name
+		 *
+		 * @access public
+		 * @return string the updated branch name
+		 * @since  2019.12.04
+		 */
+		public function wp2ghs_branch( $branch = 'master' ) {
+			$tmp = get_bloginfo( 'url' );
+			if ( stristr( $tmp, 'umw.edu' ) ) {
+				return 'master';
+			} else if ( stristr( $tmp, 'staging.wpengine' ) ) {
+				return 'legacy-staging';
+			} else {
+				return str_replace( array( 'https://', 'http://', '.wpengine.com', '/' ), '', $tmp );
+			}
 		}
 	}
 }

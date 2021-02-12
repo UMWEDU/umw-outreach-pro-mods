@@ -75,6 +75,7 @@ class Latest_News extends \WP_Widget {
 			'columns' => 4,
 			'thumbsize' => '',
 			'count' => 4,
+			'excerpt-length' => 0,
 			'categories' => '',
 			'tags' => '',
 		) );
@@ -83,6 +84,7 @@ class Latest_News extends \WP_Widget {
 		$source = esc_url( $instance['source'] );
 		$columns = intval( $instance['columns'] );
 		$count = intval( $instance['count'] );
+		$length = intval( $instance['excerpt-length'] );
 		$thumbsize = is_array( $instance['thumbsize'] ) ? '' : esc_attr( $instance['thumbsize'] );
 		$categories = isset( $instance['categories'] ) ? explode( ',', $instance['categories'] ) : array();
 		$tags = isset( $instance['tags'] ) ? explode( ',', $instance['tags'] ) : array();
@@ -95,6 +97,7 @@ class Latest_News extends \WP_Widget {
 		printf( $textfield, $this->get_field_id( 'source' ), __( 'Website', 'umw-outreach-mods' ), $this->get_field_name( 'source' ), $source, 'url' );
 		printf( $intfield, $this->get_field_id( 'columns' ), __( 'Number of Columns', 'umw-outreach-mods' ), $this->get_field_name( 'columns' ), $columns, 'number' );
 		printf( $intfield, $this->get_field_id( 'count' ), __( 'Total number of items to show', 'umw-outreach-mods' ), $this->get_field_name( 'count' ), $count, 'number' );
+		printf( $intfield, $this->get_field_id( 'excerpt-length' ), __( 'Number of words to include in the excerpt', 'umw-outreach-mods' ), $this->get_field_name( 'excerpt-length' ), $length, 'number' );
 		/*printf( $intfield, $this->get_field_id( 'thumbsize[width]' ), __( 'Desired width of image', 'umw-outreach-mods' ), $this->get_field_name( 'thumbsize[width]' ), $thumbwidth, 'number' );
 		printf( $intfield, $this->get_field_id( 'thumbsize[height]' ), __( 'Desired height of image', 'umw-outreach-mods' ), $this->get_field_name( 'thumbsize[height]' ), $thumbheight, 'number' );
 		printf( $textfield, $this->get_field_id( 'categories' ), __( 'List of category IDs to include (separated by commas)', 'umw-outreach-mods' ), $this->get_field_name( 'categories' ), implode( ',', $categories ), 'text' );
@@ -285,6 +288,7 @@ class Latest_News extends \WP_Widget {
 			'columns' => null,
 			'thumbsize' => '',
 			'count' => null,
+			'excerpt-length' => null,
 			'categories' => null,
 			'tags' => null,
 		) );
@@ -297,6 +301,7 @@ class Latest_News extends \WP_Widget {
 		$instance['source'] = esc_url( $new_instance['source'] );
 		$instance['columns'] = intval( $new_instance['columns'] );
 		$instance['count'] = intval( $new_instance['count'] );
+		$instance['excerpt-length'] = intval( $new_instance['excerpt-length'] );
 		$instance['thumbsize'] = esc_attr( $new_instance['size_select'] );
 		$instance['categories'] = empty( $new_instance['categories_select'] ) ? null : implode( ',', $new_instance['categories_select'] );
 		$instance['tags'] = empty( $new_instance['tags_select'] ) ? null : implode( ',', $new_instance['tags_select'] );
@@ -325,6 +330,7 @@ class Latest_News extends \WP_Widget {
 			'columns' => 4,
 			'thumbsize' => '',
 			'count' => 4,
+			'excerpt-length' => 0,
 		) );
 		$instance['widget_id'] = $args['id'];
 		self::$widget_id = $instance['widget_id'];
@@ -388,11 +394,37 @@ class Latest_News extends \WP_Widget {
 				'link' => $post->link,
 				'title' => $post->title->rendered,
 				'date' => date( 'F j, Y g:i a', strtotime( $post->modified ) ),
+				'excerpt' => ( $instance['excerpt-length'] ? '<div class="latest-news-entry-excerpt">' . $this->truncate_excerpt( $post->content->rendered, $instance['excerpt-length'] ) . '</div>' : '' ),
 			);
 			vprintf( $this->get_template(), $opts );
 		}
 
 		echo '</div>';
+	}
+
+	/**
+	 * Truncate an excerpt to a specific number of words
+	 *
+	 * @param string $content
+	 * @param int $length
+	 *
+	 * @access private
+	 * @return string the truncated string
+	 * @since  2020.04.10
+	 */
+	private function truncate_excerpt( $content, $length ) {
+		if ( $length <= 0 ) {
+			return '';
+		}
+
+		$excerpt = strip_tags( $content );
+		$excerpt = explode( ' ', $excerpt );
+		if ( count( $excerpt ) >= $length ) {
+			return $content;
+		}
+
+		$excerpt = array_slice( $excerpt, 0, $length );
+		return implode( ' ', $excerpt );
 	}
 
 	/**
@@ -580,6 +612,7 @@ class Latest_News extends \WP_Widget {
       <a href="%3$s">%4$s</a>
     </h1>
   </header>
+  %6$s
   <footer>
     <p class="publish-date">
       %5$s
