@@ -44,6 +44,11 @@ if ( ! class_exists( 'Direc' ) ) {
 			add_shortcode( 'expert-file-list', array( $this, 'do_expertfile_shortcode' ) );
 			add_action( 'init', array( $this, 'add_expert_rewrite_tag' ), 10, 0 );
 			add_filter( 'the_posts', array( &$this, 'is_single_expert' ) );
+
+			add_filter( 'rest_endpoints', array( $this, 'add_child_of_rest_arg' ) );
+			foreach( array( 'department', 'building', 'page' ) as $type ) {
+				add_filter( "rest_{$type}_query", array( $this, 'add_child_of_to_rest_query' ) );
+			}
 		}
 
 		/**
@@ -539,6 +544,21 @@ EOD;
 			}
 
 			return $routes;
+		}
+
+		/**
+		 * Map the `child_of` argument to the REST query
+		 * @param array $vars the existing list of variables/arguments
+		 * @param \WP_REST_Request $request the REST request being processed
+		 *
+		 * @access public
+		 * @return array the updated variables/arguments
+		 * @since  2021.02
+		 */
+		public function add_child_of_to_rest_query( array $vars, \WP_REST_Request $request ) {
+			$vars['child_of'] = $request->get_param( 'child_of' );
+
+			return $vars;
 		}
 	}
 }
