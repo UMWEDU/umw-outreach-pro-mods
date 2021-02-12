@@ -568,6 +568,11 @@ EOD;
 				$vars['include'][] = $item->ID;
 			}
 
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'REST vars look like: ' );
+				error_log( print_r( $vars, true ) );
+			}
+
 			return $vars;
 		}
 	}
