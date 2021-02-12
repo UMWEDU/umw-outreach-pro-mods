@@ -571,14 +571,30 @@ EOD;
 				return $vars;
 			}
 
-			$all = get_pages( array( 'child_of' => $child_of, 'post_type' => $type ) );
+			$page_args = array(
+				'child_of' => $child_of,
+				'post_type' => $type
+			);
+			$all = get_pages( $page_args );
 
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'Page List args look like: ' );
+				error_log( print_r( $page_args, true ) );
 				error_log( 'Page list looks like: ' );
 				error_log( print_r( $all, true ) );
 			}
 
-			$vars['include'] = array();
+			if ( empty( $all ) ) {
+
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log( 'REST vars look like: ' );
+					error_log( print_r( $vars, true ) );
+				}
+
+				return $vars;
+			}
+
+			$vars['post__in'] = array();
 			foreach( $all as $item ) {
 				$vars['post__in'][] = $item->ID;
 			}
