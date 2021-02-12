@@ -45,9 +45,9 @@ if ( ! class_exists( 'Direc' ) ) {
 			add_action( 'init', array( $this, 'add_expert_rewrite_tag' ), 10, 0 );
 			add_filter( 'the_posts', array( &$this, 'is_single_expert' ) );
 
-			add_filter( 'rest_endpoints', array( $this, 'add_child_of_rest_arg' ) );
+			add_filter( 'rest_endpoints', array( $this, 'add_child_of_rest_arg' ), 10, 2 );
 			foreach( array( 'department', 'building', 'page' ) as $type ) {
-				add_filter( "rest_{$type}_query", array( $this, 'add_child_of_to_rest_query' ) );
+				add_filter( "rest_{$type}_query", array( $this, 'add_child_of_to_rest_query' ), 10, 2 );
 			}
 		}
 
