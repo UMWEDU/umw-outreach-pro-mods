@@ -559,6 +559,14 @@ EOD;
 			$child_of = $request->get_param( 'child_of' );
 			$type = $request->get_content_type();
 			if ( empty( $child_of ) || false === is_post_type_hierarchical( $type ) ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					if ( empty( $child_of ) ) {
+						error_log( 'The child_of parameter was empty' );
+					}
+					if ( false === is_post_type_hierarchical( $type ) ) {
+						error_log( 'The post type ' . $type . ' does not appear to be hierarchical' );
+					}
+				}
 				return $vars;
 			}
 
