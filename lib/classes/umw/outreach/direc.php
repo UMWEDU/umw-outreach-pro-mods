@@ -557,8 +557,14 @@ EOD;
 		 */
 		public function add_child_of_to_rest_query( array $vars, \WP_REST_Request $request ) {
 			$child_of = $request->get_param( 'child_of' );
-			$type = $request->get_content_type();
-			if ( empty( $child_of ) || false === is_post_type_hierarchical( $type ) ) {
+			$args = $request->get_params();
+
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'REST params look like: ' );
+				error_log( print_r( $args, true ) );
+			}
+
+			if ( empty( $child_of ) ) {
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 					if ( empty( $child_of ) ) {
 						error_log( 'The child_of parameter was empty' );
