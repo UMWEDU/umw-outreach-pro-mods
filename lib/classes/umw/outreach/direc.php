@@ -557,7 +557,7 @@ EOD;
 		 */
 		public function add_child_of_to_rest_query( array $vars, \WP_REST_Request $request ) {
 			$child_of = $request->get_param( 'child_of' );
-			$args = $request->get_params();
+			$type = $vars['post_type'];
 
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log( 'REST params look like: ' );
@@ -579,7 +579,7 @@ EOD;
 			$all = get_pages( array( 'child_of' => $child_of, 'post_type' => $type ) );
 			$vars['include'] = array();
 			foreach( $all as $item ) {
-				$vars['include'][] = $item->ID;
+				$vars['post__in'][] = $item->ID;
 			}
 
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
