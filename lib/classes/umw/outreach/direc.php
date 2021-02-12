@@ -510,5 +510,35 @@ EOD;
 
 			return false;
 		}
+
+		/**
+		 * Allow REST requests for hierarchical post types to use the child_of parameter in the query
+		 * @param array $routes the existing list of route information
+		 *
+		 * @access public
+		 * @return array the updated route information
+		 * @since  2021.02
+		 */
+		public function add_child_of_rest_arg( array $routes ) {
+			$types = array( 'department', 'building', 'page' );
+			foreach ( $types as $type ) {
+				if ( ! ( $route =& $routes[ '/wp/v2/' . $type ] ) ) {
+					continue;
+				}
+
+				// Allow ordering by my meta value
+				$route[0]['args']['child_of'] = array(
+					'description' => __( 'Query all descendants of the specified ID', 'umw-outreach' ),
+					'type' => 'array',
+					'items' => array(
+						'type' => 'integer',
+					),
+					'default' => [],
+					'required' => false,
+				);
+			}
+
+			return $routes;
+		}
 	}
 }
