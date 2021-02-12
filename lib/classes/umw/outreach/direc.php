@@ -556,7 +556,17 @@ EOD;
 		 * @since  2021.02
 		 */
 		public function add_child_of_to_rest_query( array $vars, \WP_REST_Request $request ) {
-			$vars['child_of'] = $request->get_param( 'child_of' );
+			$child_of = $request->get_param( 'child_of' );
+			$type = $request->get_content_type();
+			if ( empty( $child_of ) || false === is_post_type_hierarchical( $type ) ) {
+				return $vars;
+			}
+
+			$all = get_pages( array( 'child_of' => $child_of, 'post_type' => $type ) );
+			$vars['include'] = array();
+			foreach( $all as $item ) {
+				$vars['include'][] = $item->ID;
+			}
 
 			return $vars;
 		}
