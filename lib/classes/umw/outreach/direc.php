@@ -572,7 +572,7 @@ EOD;
 			}
 
 			$page_args = array(
-				'child_of' => $child_of,
+				'child_of' => implode( ',', $child_of ),
 				'post_type' => $type
 			);
 			$all = get_pages( $page_args );
