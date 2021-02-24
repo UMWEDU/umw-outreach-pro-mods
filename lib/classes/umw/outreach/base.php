@@ -80,7 +80,18 @@ if ( ! class_exists( 'Base' ) ) {
             }
 
 			add_filter( 'plugins_url', array( $this, 'protocol_relative_plugins_url' ), 99 );
-			$this->plugins_url = untrailingslashit( plugins_url( '', dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ) );
+			add_filter( 'plugins_url', array( $this, 'fix_local_plugins_url' ), 98 );
+
+			if ( is_link( __FILE__ ) ) {
+				self::log( 'Plugin file was a symlink; now it looks like: ' . $base );
+			    $base = readlink( __FILE__ );
+            } else {
+			    $base = __FILE__;
+            }
+			$base = dirname( dirname( dirname( dirname( $base ) ) ) );
+			$tmp = untrailingslashit( plugins_url( '', $base ) );
+
+			$this->plugins_url = $tmp;
 
 			/**
 			 * Back to normal
@@ -185,6 +196,22 @@ if ( ! class_exists( 'Base' ) ) {
 			 */
 			add_filter( 'prli_target_url', array( $this, 'prli_target_url' ) );
 		}
+
+		/**
+		 * Attempt to fix local handling of plugins_url, especially with symlinks
+		 * @param string $url    The complete URL to the plugins directory including scheme and path.
+		 * @param string $path   Path relative to the URL to the plugins directory. Blank string
+		 *                       if no path is specified.
+		 * @param string $plugin The plugin file path to be relative to. Blank string if no plugin
+		 *                       is specified.
+         *
+         * @access public
+         * @return string the updated URL
+         * @since  2021.02
+		 */
+		public function fix_local_plugins_url( string $url, string $path='', string $plugin='' ): string {
+		    return preg_replace( '/(.+)\/wp-content\/.+\/wp-content\/(.*?)/', '$1/wp-content/$2', $url );
+        }
 
 		/**
 		 * Attempt to fix Pretty Link Pro's handling of SSL
