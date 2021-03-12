@@ -83,8 +83,8 @@ if ( ! class_exists( 'Base' ) ) {
 			add_filter( 'plugins_url', array( $this, 'fix_local_plugins_url' ), 98 );
 
 			if ( is_link( __FILE__ ) ) {
-				self::log( 'Plugin file was a symlink; now it looks like: ' . $base );
 			    $base = readlink( __FILE__ );
+				self::log( 'Plugin file was a symlink; now it looks like: ' . $base );
             } else {
 			    $base = __FILE__;
             }
@@ -1470,6 +1470,9 @@ if ( ! class_exists( 'Base' ) ) {
 				if ( ! $this->shortcode_exists( 'current-date' ) || ! $this->shortcode_exists( 'current-url' ) ) {
 					$this->add_shortcodes();
 				}
+
+				error_log( '[Footer Debug]: Global footer looks like the following.' );
+				error_log( print_r( $footer, true ) );
 
 				$footer = do_shortcode( $footer );
 				echo $footer;
