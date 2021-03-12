@@ -1474,6 +1474,11 @@ if ( ! class_exists( 'Base' ) ) {
 				error_log( '[Footer Debug]: Global footer looks like the following.' );
 				error_log( print_r( $footer, true ) );
 
+				preg_match_all( '/%5Bcurrent-url(.*)%5D/', $footer, $matches );
+				foreach ( $matches[0] as $key => $match ) {
+				    $footer = str_replace( $match, urldecode( $match ), $footer );
+				}
+
 				$footer = do_shortcode( $footer );
 				echo $footer;
 			} else {
