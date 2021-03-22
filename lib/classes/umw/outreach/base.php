@@ -147,6 +147,7 @@ if ( ! class_exists( 'Base' ) ) {
 				$this->settings_field = 'genesis-settings';*/
 
 			add_filter( 'oembed_dataparse', array( $this, 'remove_oembed_link_wrapper' ), 10, 3 );
+
 			add_filter( 'oembed_dataparse', array( $this, 'add_title_attr_to_oembed' ), 10, 3 );
 			add_filter( 'oembed_iframe_title_attribute', array( $this, 'oembed_iframe_title_attribute' ), 11, 4 );
 
