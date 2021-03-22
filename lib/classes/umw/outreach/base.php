@@ -147,6 +147,8 @@ if ( ! class_exists( 'Base' ) ) {
 				$this->settings_field = 'genesis-settings';*/
 
 			add_filter( 'oembed_dataparse', array( $this, 'remove_oembed_link_wrapper' ), 10, 3 );
+			add_filter( 'oembed_dataparse', array( $this, 'add_title_attr_to_oembed' ), 10, 3 );
+			add_filter( 'oembed_iframe_title_attribute', array( $this, 'oembed_iframe_title_attribute' ), 11, 4 );
 
 			$this->transient_timeout = HOUR_IN_SECONDS;
 
@@ -884,6 +886,49 @@ if ( ! class_exists( 'Base' ) ) {
 			$title = ! empty( $data->title ) && is_string( $data->title ) ? $data->title : '';
 
 			return '<img src="' . esc_url( $data->url ) . '" alt="' . esc_attr( $title ) . '" width="' . esc_attr( $data->width ) . '" height="' . esc_attr( $data->height ) . '" />';
+		}
+
+		/**
+		 * Attempt to ensure that video & rich oEmbeds use a title attribute
+         * @param $html string The returned oEmbed HTML.
+         * @param $data \stdClass A data object result from an oEmbed provider.
+         * @param $url string URL of the content to be embedded.
+         *
+         * @access public
+         * @return string the updated HTML
+         * @since  2021.03.22
+		 */
+		public function add_title_attr_to_oembed( string $html, \stdClass $data, string $url ): string {
+            return wp_filter_oembed_iframe_title_attribute( $html, $data, $url );
+		}
+
+		/**
+		 * Attempt to add a title attribute to oEmbeds that don't have one
+         * @param $title string The title attribute.
+         * @param $result string The oEmbed HTML result.
+         * @param $data \stdClass A data object result from an oEmbed provider.
+         * @param $url string The URL of the content to be embedded.
+		 *
+         * @access public
+         * @return string the updated title attribute
+         * @since  2021.03.22
+		 */
+		public function oembed_iframe_title_attribute( string $title, string $result, \stdClass $data, string $url ): string {
+		    if ( ! empty( $title ) ) {
+		        return $title;
+		    }
+
+		    if ( stristr( $url, 'youtube' ) || stristr( $url, 'youtu.be' ) ) {
+		        return __( 'Embedded YouTube video', 'umw-outreach-mods' );
+		    }
+
+		    if ( stristr( $url, 'vimeo' ) ) {
+		        return __( 'Embedded Vimeo video', 'umw-outreach-mods' );
+		    }
+
+		    if ( 'video' == $data->type ) {
+		        return __( 'Embedded video', 'umw-outreach-mods' );
+		    }
 		}
 
 		/**
