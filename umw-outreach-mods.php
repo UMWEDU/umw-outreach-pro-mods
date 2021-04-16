@@ -99,7 +99,11 @@ namespace UMW\Outreach {
 				$umw_outreach_mods_obj = new Base;
 			}
 		} else {
-			$umw_outreach_mods_obj = new Base;
+			if ( defined( 'UMW_OUTREACH_ENABLE_SIDEBAR' ) ) {
+				$umw_outreach_mods_obj = new Extra_Layouts;
+			} else {
+				$umw_outreach_mods_obj = new Base;
+			}
 		}
 	}
 
