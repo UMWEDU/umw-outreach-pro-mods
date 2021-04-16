@@ -1744,7 +1744,8 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	margin: 0 auto;
 	max-width: 1140px;
 	display: grid;
-	grid-column-gap: 4rem;
+	grid-column-gap: 2rem;
+	padding: 2rem;
 }
 .below-content-widget-wrapper.one-column {
 	grid-template-columns: minmax(0, 1fr);
