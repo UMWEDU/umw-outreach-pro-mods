@@ -31,7 +31,7 @@ if ( ! class_exists( 'Extra_Layouts' ) ) {
 
 			$this->register_sidebars();
 			add_action( 'genesis_sidebar', 'genesis_do_sidebar', 11 );
-			add_action( 'genesis_before_footer', array( $this, 'do_below_content_sidebars' ), 1 );
+			add_action( 'genesis_after_loop', array( $this, 'do_below_content_sidebars' ), 1 );
 		}
 
 		/**
