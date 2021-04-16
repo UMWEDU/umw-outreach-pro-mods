@@ -1739,3 +1739,19 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	background: #3A5B7D;
 	color: #fff;
 }
+
+.below-content-widget-wrapper {
+	margin: 0 auto;
+	max-width: 1140px;
+	display: grid;
+	grid-column-gap: 4rem;
+}
+.below-content-widget-wrapper.one-column {
+	grid-template-columns: minmax(0, 1fr);
+}
+.below-content-widget-wrapper.two-columns {
+	grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+}
+.below-content-widget-wrapper.three-columns {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
