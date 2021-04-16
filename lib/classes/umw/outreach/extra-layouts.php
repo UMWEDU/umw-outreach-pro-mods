@@ -1,6 +1,6 @@
 <?php
 /**
- * Special treatment for older sites
+ * Special treatment for older sites that need the old-style sidebar & widget areas
  */
 
 namespace UMW\Outreach;
