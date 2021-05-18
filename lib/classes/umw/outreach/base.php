@@ -1115,7 +1115,7 @@ if ( ! class_exists( 'Base' ) ) {
 		 * Return the URL to our custom favicon
 		 */
 		function favicon_url( $url ) {
-			return $this->plugins_url( '/lib/images/favicon.ico' );
+			return $this->plugins_url( '/lib/images/favicon.ico?v=' . $this->version );
 		}
 
 		/**
