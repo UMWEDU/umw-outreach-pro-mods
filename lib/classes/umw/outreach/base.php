@@ -67,6 +67,21 @@ if ( ! class_exists( 'Base' ) ) {
 		 */
 		function __construct() {
 		    $theme = get_stylesheet();
+
+			add_filter( 'plugins_url', array( $this, 'protocol_relative_plugins_url' ), 99 );
+			add_filter( 'plugins_url', array( $this, 'fix_local_plugins_url' ), 98 );
+
+			if ( is_link( __FILE__ ) ) {
+				$base = readlink( __FILE__ );
+				self::log( 'Plugin file was a symlink; now it looks like: ' . $base );
+			} else {
+				$base = __FILE__;
+			}
+			$base = dirname( dirname( dirname( dirname( $base ) ) ) );
+			$tmp = untrailingslashit( plugins_url( '', $base ) );
+
+			$this->plugins_url = $tmp;
+
 			/**
 			 * Somewhat hacky way to use just the small pieces we need if we're still
 			 *        on the old UMW site
@@ -78,20 +93,6 @@ if ( ! class_exists( 'Base' ) ) {
 					return;
 				}
             }
-
-			add_filter( 'plugins_url', array( $this, 'protocol_relative_plugins_url' ), 99 );
-			add_filter( 'plugins_url', array( $this, 'fix_local_plugins_url' ), 98 );
-
-			if ( is_link( __FILE__ ) ) {
-			    $base = readlink( __FILE__ );
-				self::log( 'Plugin file was a symlink; now it looks like: ' . $base );
-            } else {
-			    $base = __FILE__;
-            }
-			$base = dirname( dirname( dirname( dirname( $base ) ) ) );
-			$tmp = untrailingslashit( plugins_url( '', $base ) );
-
-			$this->plugins_url = $tmp;
 
 			/**
 			 * Back to normal
