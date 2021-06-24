@@ -369,6 +369,12 @@ if ( ! class_exists( 'Base' ) ) {
 
 			$this->login_link_ajax_hooks();
 
+			/* Remove the default favicon & replace it with ours */
+			if ( ! has_action( 'genesis_meta', 'genesis_load_favicon' ) ) {
+				add_action( 'genesis_meta', 'genesis_load_favicon' );
+			}
+			add_filter( 'genesis_pre_load_favicon', array( $this, 'favicon_url' ) );
+
 			return true;
 		}
 
