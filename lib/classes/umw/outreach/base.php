@@ -214,7 +214,15 @@ if ( ! class_exists( 'Base' ) ) {
          * @since  2021.02
 		 */
 		public function fix_local_plugins_url( string $url, string $path='', string $plugin='' ): string {
-		    return preg_replace( '/(.+)\/wp-content\/.+\/wp-content\/(.*?)/', '$1/wp-content/$2', $url );
+			if ( stristr( $url, 'local-content-folders' ) ) {
+				self::log( 'Found a URL that needs to be fixed: ' . $url );
+				return preg_replace( '/(.+)\/wp-content\/.+\/local-content-folders\/[^\/]+\/(.*?)/', '$1/wp-content/$2', $url );
+			}
+			if ( substr_count( $url, 'wp-content' ) > 1 ) {
+				return preg_replace( '/(.+)\/wp-content\/.+\/wp-content\/(.*?)/', '$1/wp-content/$2', $url );
+			}
+
+			return $url;
         }
 
 		/**
@@ -1497,6 +1505,10 @@ if ( ! class_exists( 'Base' ) ) {
 				if ( false === $footer || is_wp_error( $footer ) ) { /* We did not successfully retrieve the feed */
 					$footer = get_site_option( 'global-umw-footer', false );
 				}
+			}
+
+			if ( empty( $footer ) ) {
+			    return '';
 			}
 
 			$script_html = array();

@@ -381,6 +381,9 @@ class Latest_News extends \WP_Widget {
 			'_embed' => 1
 		), $api_url );
 		$posts = $this->get_posts( $api_url );
+		if ( empty( $posts ) || ! is_array( $posts ) ) {
+			return;
+		}
 		if ( count( $posts ) <= 0 ) {
 			return;
 		}
