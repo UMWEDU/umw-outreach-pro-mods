@@ -295,11 +295,21 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 
 .homepage-cta {
 	max-width: 1140px;
-	margin: auto 0;
+	margin: 0 auto;
 	color: #002D61;
 	float: none;
 	clear: both;
-	display: block;
+	display: grid;
+	grid-template-columns: repeat(3,minmax(0,1fr));
+	column-gap: 1rem;
+	justify-items: stretch;
+	align-items: stretch;
+	justify-content: space-between;
+	align-content: stretch;
+}
+
+.homepage-cta div.cta {
+
 }
 
 .homepage-cta h1 {
