@@ -416,6 +416,10 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	border: none;
 }
 
+.content h4.widget-title {
+	color: #0067a2;
+}
+
 /*
  * Universal Footer styles - might need tweaks
  */
