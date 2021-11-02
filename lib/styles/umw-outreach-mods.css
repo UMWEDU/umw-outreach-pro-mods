@@ -593,7 +593,7 @@ footer.site-footer .widget {
 .home-top .flexslider .slide-caption,
 .home-featured-image figcaption {
 	top: 0;
-	background: rgba(0, 43, 90, 0.7);
+	background: rgba(0, 45, 97, 0.7);
 	margin-top: 0;
 	padding: 64px 32px 100px;
 	padding: 4rem 2rem 6.25rem;
@@ -1772,4 +1772,43 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 }
 .below-content-widget-wrapper.three-columns {
 	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/**
+ * Home Page CTA Slider Styles
+ */
+.home-featured-image figcaption h2 a, .home-top .flexslider .slide-caption h2 a {
+	font-family: "MuseoSans", Arial, sans-serif;
+	font-size: 48px;
+	font-size: 3.5rem;
+	text-transform: uppercase;
+	font-weight: 900;
+	line-height: 1.0;
+	color: #F7BF0A;
+}
+
+
+.home-feature-subtitle {
+	font-size: 20px;
+	font-size: 1.5rem;
+	font-weight: 900;
+	text-transform: uppercase;
+	line-height: 1.5;
+}
+
+.home-feature-subtitle a, .slider-cta {
+	color: #F7BF0A !important;
+	display: block;
+	margin-top:0.5em;
+	font-size: 16px;
+	font-size: 1rem
+}
+
+@media all and (max-width: 480px) {
+	.home-featured-image figcaption h2 a {
+		font-size: 1.75rem;
+	}
+	.home-feature-subtitle {
+		font-size: 1rem;
+	}
 }
