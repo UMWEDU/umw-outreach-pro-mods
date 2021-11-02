@@ -295,7 +295,7 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 
 .homepage-cta {
 	max-width: 1140px;
-	margin: 1rem auto 0;
+	margin: auto 0;
 	color: #002D61;
 	float: none;
 	clear: both;
@@ -315,6 +315,16 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	float: left;
 	width: auto;
 	height: auto;
+}
+
+.homepage-cta br.clearfix {
+	clear: both;
+	display: block;
+	margin: 0;
+	padding: 0;
+	height: 0;
+	width: 0;
+	overflow: hidden;
 }
 
 .umw-is-root.home .homepage-cta .one-third {
