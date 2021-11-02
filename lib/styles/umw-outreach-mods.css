@@ -81,6 +81,15 @@ div.sub-footer {
 	background: rgba(141, 201, 247, 0.5);
 }
 
+.sub-footer .widget a {
+	color: #002D61;
+}
+
+.sub-footer .widget a:hover,
+.sub-footer .widget a:focus {
+	text-decoration: underline;
+}
+
 .home-top .pcs-entry h1,
 .home-top .latest-news-entry h1,
 .sub-footer-left .latest-news-entry h1 {
