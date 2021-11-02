@@ -1812,3 +1812,28 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 		font-size: 1rem;
 	}
 }
+
+/**
+ * Home Page COVID Banner
+ */
+.site-root .home .widget .alert {
+	background: #F7BF0A;
+	padding: 1rem;
+	margin: 1rem 0;
+}
+
+.site-root .home .widget .alert p.alert-heading {
+	text-align: center;
+	margin: 0;
+	font-size: 1.5rem;
+	font-family: MuseoSlab, "museo-slab", Georgia, "Times New Roman", Times, serif;
+}
+
+.site-root .home .widget .alert p.alert-heading a {
+	color: #002D61;
+}
+
+.site-root .home .widget .alert p.alert-heading a:hover,
+.site-root .home .widget .alert p.alert-heading a:focus {
+	text-decoration: underline;
+}
