@@ -297,6 +297,9 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	max-width: 1140px;
 	margin: 1rem auto 0;
 	color: #002D61;
+	float: none;
+	clear: both;
+	display: block;
 }
 
 .homepage-cta h1 {
@@ -307,16 +310,15 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	font-size: 5em;
 	float: left;
 }
-.homepage-cta span.dashicon {
+.homepage-cta span.dashicons {
 	font-size: 5em;
 	float: left;
 	width: auto;
 	height: auto;
 }
 
-.homepage-cta .one-third {
-	border-left: 1px solid #e6eaee;
-	border-bottom: 1px solid #e6eaee;
+.umw-is-root.home .homepage-cta .one-third {
+	border: none;
 	padding-bottom: .5em;
 	padding-top: .5em;
 }
