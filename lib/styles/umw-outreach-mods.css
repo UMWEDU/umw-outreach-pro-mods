@@ -1814,12 +1814,28 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 }
 
 /**
+ * Home Top Stories CTA Buttons
+ */
+.site-root.home .widget .top-stories-cta .first .button.odd {
+	text-transform: uppercase;
+}
+
+.site-root.home .widget .top-stories-cta .button.odd {
+	border-radius: .5rem;
+	font-weight: normal;
+	text-align: center;
+	padding: 5px;
+	width: 100%;
+	background: #0067A2;
+}
+
+/**
  * Home Page COVID Banner
  */
 .site-root.home .widget .alert {
 	background: #F7BF0A;
 	padding: 1rem;
-	margin: 1rem 0;
+	margin: 0 0 4rem;
 }
 
 .site-root.home .widget .alert p.alert-heading {
