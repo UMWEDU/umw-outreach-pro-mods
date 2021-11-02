@@ -78,7 +78,7 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
  */
 
 div.sub-footer {
-	background: #8dc9f7;
+	background: rgba(141, 201, 247, 0.5);
 }
 
 .home-top .pcs-entry h1,
