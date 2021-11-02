@@ -282,33 +282,45 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	padding-top: 20px;
 }
 
-#homepageCTA {
-	color: #002b5a;
-	margin-top: 1em;
+.homepage-cta-wrapper {
+	margin: 1rem 0;
+	padding: 1rem 0;
+	border-top: 1px solid #002D61;
+	border-bottom: 1px solid #002D61;
+	width: 100vw;
+	position: relative;
+	margin-left: -50vw;
+	left: 50%;
 }
 
-#homepageCTA h1 {
+.homepage-cta {
+	max-width: 1140px;
+	margin: 1rem auto 0;
+	color: #002D61;
+}
+
+.homepage-cta h1 {
 	font-size: 1.75em;
 }
 
-#homepageCTA span.genericon {
+.homepage-cta span.genericon {
 	font-size: 5em;
 	float: left;
 }
-#homepageCTA span.dashicon {
+.homepage-cta span.dashicon {
 	font-size: 5em;
 	float: left;
 	width: auto;
 	height: auto;
 }
 
-#homepageCTA .one-third {
+.homepage-cta .one-third {
 	border-left: 1px solid #e6eaee;
 	border-bottom: 1px solid #e6eaee;
 	padding-bottom: .5em;
 	padding-top: .5em;
 }
-#homepageCTA a:hover, #homepageCTA a:focus {text-decoration: underline;}
+.homepage-cta a:hover, .homepage-cta a:focus {text-decoration: underline;}
 
 #impactStatement {
 	font-family: MuseoSlab, "museo-slab", Georgia, "Times New Roman", Times, serif;
