@@ -1821,7 +1821,7 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 }
 
 .site-root.home .widget .top-stories-cta .button.odd {
-	border-radius: .5rem;
+	border-radius: .5rem !important;
 	font-weight: normal;
 	text-align: center;
 	padding: 5px;
