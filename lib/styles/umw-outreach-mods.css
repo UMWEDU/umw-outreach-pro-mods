@@ -77,6 +77,10 @@ body .umw-header-bar > .wrap, body .umw-helpful-links .umw-tools {
  * Home Widget Areas
  */
 
+div.sub-footer {
+	background: #8dc9f7;
+}
+
 .home-top .pcs-entry h1,
 .home-top .latest-news-entry h1,
 .sub-footer-left .latest-news-entry h1 {
