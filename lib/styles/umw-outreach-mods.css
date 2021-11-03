@@ -1869,6 +1869,12 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	background: #0067A2;
 }
 
+@media all and (max-width: 800px) {
+	.site-root.home .widget .top-stories-cta .button.odd {
+		border-radius: none !important;
+	}
+}
+
 /**
  * Home Page COVID Banner
  */
