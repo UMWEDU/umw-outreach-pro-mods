@@ -308,7 +308,7 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	align-content: stretch;
 }
 
-@media all and (max-width: 640px) {
+@media all and (max-width: 800px) {
 	.homepage-cta {
 		grid-template-columns: minmax(0,1fr);
 	}
@@ -1909,7 +1909,7 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	justify-content: stretch;
 	align-content: stretch;
 }
-@media all and (max-width: 640px) {
+@media all and (max-width: 800px) {
 	.site-root.home .facts-container {
 		grid-template-areas: "first" "second" "third" "fourth" "fifth";
 		grid-template-columns: minmax(0, 1fr);
@@ -1917,7 +1917,9 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	}
 }
 .site-root.home .facts-container h3 {
-	font-size: 3.2rem;
+	font-font: MuseoSans, "museo-sans", Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 3rem;
+	font-weight: 700;
 	margin-top: 0;
 	margin-bottom: 0;
 	padding: 0;
@@ -1930,6 +1932,7 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	overflow: hidden;
 }
 .site-root.home .facts-container .fact-text {
+	font-size: 1.3125rem;
 	text-align: center;
 }
 .site-root.home .facts-container .citation:before {
