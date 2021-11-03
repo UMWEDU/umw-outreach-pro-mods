@@ -308,6 +308,12 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	align-content: stretch;
 }
 
+@media all and (max-width: 640px) {
+	.homepage-cta {
+		grid-template-columns: minmax(0,1fr);
+	}
+}
+
 .homepage-cta div.cta {
 
 }
