@@ -308,7 +308,7 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	align-content: stretch;
 }
 
-@media all and (max-width: 800px) {
+@media all and (max-width: 860px) {
 	.homepage-cta {
 		grid-template-columns: minmax(0,1fr);
 	}
@@ -467,6 +467,14 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 
 .content h4.widget-title {
 	color: #0067a2;
+}
+
+.site-root.home .content .home-top h4.widget-title {
+	font-size: 1.75rem;
+}
+
+.site-root.home .home-intro {
+	font-size: 1.125rem;
 }
 
 /*
@@ -1869,8 +1877,8 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	background: #0067A2;
 }
 
-@media all and (max-width: 800px) {
-	.site-root.home .widget .top-stories-cta .button.odd {
+@media all and (max-width: 860px) {
+	.site-root.home .widget .top-stories-cta .one-half .button.odd {
 		border-radius: none !important;
 	}
 }
@@ -1915,7 +1923,7 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	justify-content: stretch;
 	align-content: stretch;
 }
-@media all and (max-width: 800px) {
+@media all and (max-width: 860px) {
 	.site-root.home .facts-container {
 		grid-template-areas: "first" "second" "third" "fourth" "fifth";
 		grid-template-columns: minmax(0, 1fr);
