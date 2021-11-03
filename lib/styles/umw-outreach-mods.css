@@ -2001,10 +2001,10 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 /**
  * Admissions Home Page styles
  */
-.site-admissions.home .home-top .widget_sp_image .widget-wrap {
+.site-admissions.home .home-featured-image {
 	position: relative;
 }
-.site-admissions.home .home-top .widget_sp_image h4.widget-title {
+.site-admissions.home .home-featured-image figcaption {
 	position: absolute;
 	text-align: left;
 	top: 12%;
@@ -2012,38 +2012,18 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	bottom: 12%;
 	margin-bottom: 0;
 	padding: 50px 40px;
-	font-size: 57px;
+	font-size: 56px;
+	font-size: 3.5rem;
 	color: #fff;
 	text-shadow: 1px 0 29px rgba(0, 0, 0, 0.7);
 	font-family: MuseoSans, Arial, sans-serif;
 	font-weight: 900;
-	background: rgba(3, 32, 80, 0.8);
+	background: rgba(0, 45, 97, 0.8);
 }
-.site-admissions.home .home-top .widget_sp_image .widget_sp_image-description {
+.site-admissions.home .home-featured-image figcaption .home-feature-title {
 	position: absolute;
 	bottom: 20%;
 	left: 40px;
-}
-.site-admissions.home .home-top .widget_sp_image .widget_sp_image-description a {
-	color: #031e48;
-	background: #d7c034;
-	font-size: 16px;
-	text-transform: uppercase;
-	font-family: MuseoSans, Arial, sans-serif;
-	font-weight: 900;
-	box-shadow: 1px 0 15px rgba(0, 0, 0, 0.7);
-}
-.site-admissions.home .home-top .widget_sp_image .widget_sp_image-description a:hover,
-.site-admissions.home .home-top .widget_sp_image .widget_sp_image-description a:focus {
-	text-decoration: underline;
-	box-shadow: 1px 0 20px rgba(0, 0, 0, 0.8);
-}
-.site-admissions.home .home-top .widget_sp_image h4.widget-title:before {
-	display: block;
-	content: "Welcome to";
-	font-size: 36px;
-	font-weight: 700;
-	color: #d7c034;
 }
 @media all and (max-width: 1140px) {
 	.site-admissions.home .home-top.widget-area > .widget.widget_text {
@@ -2051,14 +2031,14 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	}
 }
 @media all and (max-width: 800px) {
-	.site-admissions.home .home-top .widget_sp_image h4.widget-title {
+	.site-admissions.home .home-featured-image figcaption .home-feature-title {
 		background: #002b5a;
 		position: static;
 		margin: 0;
 		padding: 15px;
 		text-align: center;
 	}
-	.site-admissions.home .home-top .widget_sp_image h4.widget-title:after {
+	.site-admissions.home .home-featured-image figcaption .home-feature-title:after {
 		display: inline-block;
 	}
 }
