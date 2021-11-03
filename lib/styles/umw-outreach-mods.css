@@ -1912,7 +1912,6 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 }
 .site-root.home .facts-container .fact {
 	padding: 0;
-	background-image: url(https://placekitten.com/600/400);
 	background-repeat: no-repeat;
 	background-size: cover;
 	overflow: hidden;
@@ -1947,20 +1946,24 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	height: 100%;
 }
 .site-root.home .facts-container .fact-one {
-	background-image: url(https://placekitten.com/600/400);
+	background-image: url(/wp-content/uploads/2021/11/Mask-Group-13@2x.jpg);
 	background-repeat: no-repeat;
 	background-size: cover;
 	grid-area: first;
 }
 .site-root.home .facts-container .fact-two {
+	background-image: url(/wp-content/uploads/2021/11/Mask-Group-15@2x.jpg);
 	grid-area: second;
 }
 .site-root.home .facts-container .fact-three {
+	background-image: url(/wp-content/uploads/2021/11/Mask-Group-18@2x.jpg);
 	grid-area: third;
 }
 .site-root.home .facts-container .fact-four {
+	background-image: url(/wp-content/uploads/2021/11/Mask-Group-17@2x.jpg);
 	grid-area: fourth;
 }
 .site-root.home .facts-container .fact-five {
+	background-image: url(/wp-content/uploads/2021/11/Mask-Group-19@2x.jpg);
 	grid-area: fifth;
 }
