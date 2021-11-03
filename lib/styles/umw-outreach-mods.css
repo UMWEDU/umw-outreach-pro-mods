@@ -473,7 +473,7 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	font-size: 1.75rem;
 }
 
-.site-root.home .home-intro {
+.home .home-top .home-intro {
 	font-size: 1.125rem;
 }
 
@@ -932,7 +932,7 @@ div.footer-widgets a:hover, div.footer-widgets a:focus, div.footer-widgets div.e
 
 
 /* Site title & value proposition */
-.site-info {background-color: #e6eaee; font-size: 14px; font-size: .875rem; padding: .5rem;}
+.site-info {background-color: rgba(141, 201, 247, 0.5); font-size: 14px; font-size: .875rem; padding: .5rem;}
 .site-info-title {width: 100%; font-family: MuseoSlab, "museo-slab"; color: #002b5a; font-weight: 500; text-transform: uppercase; font-size: 1.3125rem; line-height: 1.625; margin-bottom: 0;}
 .site-info p {margin-bottom: 0;}
 @media all and (max-width: 860px) {
@@ -1879,7 +1879,7 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 
 @media all and (max-width: 860px) {
 	.site-root.home .widget .top-stories-cta .one-half .button.odd {
-		border-radius: none !important;
+		border-radius: 0 !important;
 	}
 }
 
@@ -1996,4 +1996,77 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 .site-root.home .facts-container .fact-five {
 	background-image: url(/wp-content/uploads/2021/11/Mask-Group-19@2x.jpg);
 	grid-area: fifth;
+}
+
+/**
+ * Admissions Home Page styles
+ */
+.site-admissions.home .home-top .widget_sp_image .widget-wrap {
+	position: relative;
+}
+.site-admissions.home .home-top .widget_sp_image h4.widget-title {
+	position: absolute;
+	text-align: left;
+	top: 12%;
+	left: 0px;
+	bottom: 12%;
+	margin-bottom: 0;
+	padding: 50px 40px;
+	font-size: 57px;
+	color: #fff;
+	text-shadow: 1px 0 29px rgba(0, 0, 0, 0.7);
+	font-family: MuseoSans, Arial, sans-serif;
+	font-weight: 900;
+	background: rgba(3, 32, 80, 0.8);
+}
+.site-admissions.home .home-top .widget_sp_image .widget_sp_image-description {
+	position: absolute;
+	bottom: 20%;
+	left: 40px;
+}
+.site-admissions.home .home-top .widget_sp_image .widget_sp_image-description a {
+	color: #031e48;
+	background: #d7c034;
+	font-size: 16px;
+	text-transform: uppercase;
+	font-family: MuseoSans, Arial, sans-serif;
+	font-weight: 900;
+	box-shadow: 1px 0 15px rgba(0, 0, 0, 0.7);
+}
+.site-admissions.home .home-top .widget_sp_image .widget_sp_image-description a:hover,
+.site-admissions.home .home-top .widget_sp_image .widget_sp_image-description a:focus {
+	text-decoration: underline;
+	box-shadow: 1px 0 20px rgba(0, 0, 0, 0.8);
+}
+.site-admissions.home .home-top .widget_sp_image h4.widget-title:before {
+	display: block;
+	content: "Welcome to";
+	font-size: 36px;
+	font-weight: 700;
+	color: #d7c034;
+}
+@media all and (max-width: 1140px) {
+	.site-admissions.home .home-top.widget-area > .widget.widget_text {
+		padding: 0 15px;
+	}
+}
+@media all and (max-width: 800px) {
+	.site-admissions.home .home-top .widget_sp_image h4.widget-title {
+		background: #002b5a;
+		position: static;
+		margin: 0;
+		padding: 15px;
+		text-align: center;
+	}
+	.site-admissions.home .home-top .widget_sp_image h4.widget-title:after {
+		display: inline-block;
+	}
+}
+@media all and (max-width: 480px) {
+	.site-admissions.home .home-top .widget_text .CTAbutton {
+		margin-bottom: 16px;
+	}
+}
+.site-admissions.home .sub-footer-right {
+	padding-top: 3em;
 }
