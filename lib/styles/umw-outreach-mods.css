@@ -2057,6 +2057,7 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	font-size: 1.625rem;
 	color: #002D61;
 	font-weight: 700;
+	text-transform: none;
 }
 
 /**
