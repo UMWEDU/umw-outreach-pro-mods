@@ -2035,15 +2035,12 @@ body .facts-container .fact-five {
 	}
 }
 @media all and (max-width: 860px) {
-	.site-admissions .home-featured-image figcaption .home-feature-title {
+	.site-admissions .home-featured-image figcaption {
 		background: #002b5a;
 		position: static;
 		margin: 0;
 		padding: 15px;
 		text-align: center;
-	}
-	.site-admissions .home-featured-image figcaption .home-feature-title:after {
-		display: inline-block;
 	}
 }
 @media all and (max-width: 480px) {
