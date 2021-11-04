@@ -2019,6 +2019,7 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	color: #fff;
 	text-shadow: 1px 0 29px rgba(0, 0, 0, 0.7);
 	background: rgba(0, 45, 97, 0.8);
+	width: 450px;
 }
 .site-admissions.home .home-featured-image figcaption .home-feature-title {
 	font-size: 56px;
