@@ -311,6 +311,7 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 @media all and (max-width: 860px) {
 	.homepage-cta {
 		grid-template-columns: minmax(0,1fr);
+		justify-items: center;
 	}
 }
 
