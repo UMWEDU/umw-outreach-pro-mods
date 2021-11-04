@@ -2005,10 +2005,10 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 /**
  * Admissions Home Page styles
  */
-.site-admissions.home .home-featured-image {
+.site-admissions .home-featured-image {
 	position: relative;
 }
-.site-admissions.home .home-featured-image figcaption {
+.site-admissions .home-featured-image figcaption {
 	position: absolute;
 	text-align: left;
 	top: 12%;
@@ -2021,7 +2021,7 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	background: rgba(0, 45, 97, 0.8);
 	width: 450px;
 }
-.site-admissions.home .home-featured-image figcaption .home-feature-title {
+.site-admissions .home-featured-image figcaption .home-feature-title {
 	font-size: 56px;
 	font-size: 3.5rem;
 	font-family: MuseoSans, Arial, sans-serif;
@@ -2032,20 +2032,20 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 		padding: 0 15px;
 	}
 }
-@media all and (max-width: 800px) {
-	.site-admissions.home .home-featured-image figcaption .home-feature-title {
+@media all and (max-width: 860px) {
+	.site-admissions .home-featured-image figcaption .home-feature-title {
 		background: #002b5a;
 		position: static;
 		margin: 0;
 		padding: 15px;
 		text-align: center;
 	}
-	.site-admissions.home .home-featured-image figcaption .home-feature-title:after {
+	.site-admissions .home-featured-image figcaption .home-feature-title:after {
 		display: inline-block;
 	}
 }
 @media all and (max-width: 480px) {
-	.site-admissions.home .home-top .widget_text .CTAbutton {
+	.site-admissions .home-top .widget_text .CTAbutton {
 		margin-bottom: 16px;
 	}
 }
@@ -2072,6 +2072,8 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	margin-bottom: 3rem;
 }
 .site-admissions.home .admissions-ctas {
+	max-width: 1140px;
+	margin: 0 auto;
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	justify-items: center;
