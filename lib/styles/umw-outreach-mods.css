@@ -2117,3 +2117,13 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	padding: 0;
 	grid-area: text;
 }
+
+/**
+ * Admissions Link Blocks
+ */
+body h2.reslife-home-feature-title {
+	background-color: #002D61;
+}
+body .reslife-home-feature {
+	background: rgba(141, 201, 247, 0.5);
+}
