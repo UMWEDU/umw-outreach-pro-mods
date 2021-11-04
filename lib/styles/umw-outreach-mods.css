@@ -309,19 +309,19 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 }
 
 @media all and (max-width: 860px) {
+	.homepage-cta-wrapper,
+	.home-intro,
+	.home-top.widget-area > .widget {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
 	.homepage-cta {
 		grid-template-columns: minmax(0,1fr);
-		justify-items: center;
 	}
 
 	.homepage-cta .cta {
-		min-width: 300px;
-		max-width: 100%;
+		width: 100%;
 	}
-}
-
-.homepage-cta div.cta {
-
 }
 
 .homepage-cta h1 {
@@ -1941,7 +1941,7 @@ body .facts-container {
 	}
 }
 body .facts-container h3 {
-	font-font: MuseoSans, "museo-sans", Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: MuseoSans, "museo-sans", Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 3rem;
 	font-weight: 700;
 	margin-top: 0;
