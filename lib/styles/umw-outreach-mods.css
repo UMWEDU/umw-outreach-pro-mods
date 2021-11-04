@@ -2169,12 +2169,12 @@ body .reslife-home-feature {
 	margin-bottom: 3rem;
 }
 
-.site-admissions.page-id-20 .facts-container .widget-title {
+.site-admissions.page-id-20 .facts-container h4.widget-title {
 	font-size: 1.75rem;
 	color: #0067A2;
 }
 
-.site-admissions.page-id-20 .facts-container h3 {
+.site-admissions.page-id-20 .facts-container-wrapper h3 {
 	font-size: 5.3125rem;
 	font-family: MuseoSans, Arial, sans-serif;
 	color: #002D61;
