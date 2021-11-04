@@ -2133,3 +2133,13 @@ body h2.reslife-home-feature-title {
 body .reslife-home-feature {
 	background: rgba(141, 201, 247, 0.5);
 }
+
+.site-admissions .homepage-cta-wrapper h1 a {
+	color: #4C6A8B;
+	text-decoration: none;
+}
+
+.site-admissions .homepage-cta-wrapper h1 a:hover,
+.site-admissions .homepage-cta-wrapper h1 a:focus {
+	text-decoration: underline;
+}
