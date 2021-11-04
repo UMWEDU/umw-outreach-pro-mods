@@ -2149,7 +2149,42 @@ body .reslife-home-feature {
 }
 
 .site-admissions.page-id-20 .homepage-cta-wrapper,
-.site-admissions.page-id-20 .facts-container {
+.site-admissions.page-id-20 .facts-container-wrapper  {
 	margin-top: 3rem;
 	margin-bottom: 3rem;
+}
+
+.site-admissions.page-id-20 .facts-container h3 {
+	font-size: 5.3125rem;
+	font-family: MuseoSans, Arial, sans-serif;
+	color: #002D61;
+	text-align: center;
+	font-weight: 900;
+}
+
+.site-admissions.page-id-20 .facts-container .fact-text {
+	font-size: 1.5rem;
+	font-weight: 500;
+	font-family: MuseoSans, Arial, sans-serif;
+	color: #002D61;
+}
+
+.site-admissions.page-id-20 .facts-container .fact-one {
+	background-image: url("/admissions/wp-content/uploads/sites/6/2021/11/Mask-Group-23@2x.jpg");
+}
+
+.site-admissions.page-id-20 .facts-container .fact-two {
+	background-image: url("/admissions/wp-content/uploads/sites/6/2021/11/Mask-Group-20@2x.jpg");
+}
+
+.site-admissions.page-id-20 .facts-container .fact-three {
+	background-image: url("/admissions/wp-content/uploads/sites/6/2021/11/Mask-Group-22@2x.jpg");
+}
+
+.site-admissions.page-id-20 .facts-container .fact-four {
+	background-image: url("/admissions/wp-content/uploads/sites/6/2021/11/Mask-Group-21@2x.jpg");
+}
+
+.site-admissions.page-id-20 .facts-container .fact-five {
+	background-image: url("/admissions/wp-content/uploads/sites/6/2021/11/Mask-Group-24@2x.jpg");
 }
