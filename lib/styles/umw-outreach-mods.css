@@ -2068,7 +2068,8 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
  */
 .site-admissions.home .homepage-cta-wrapper {
 	padding: 1rem 0;
-	margin: 1rem 0 3rem;
+	margin-top: 1rem;
+	margin-bottom: 3rem;
 }
 .site-admissions.home .admissions-ctas {
 	display: grid;
