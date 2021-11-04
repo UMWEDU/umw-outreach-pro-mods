@@ -313,6 +313,11 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 		grid-template-columns: minmax(0,1fr);
 		justify-items: center;
 	}
+
+	.homepage-cta .cta {
+		min-width: 300px;
+		max-width: 100%;
+	}
 }
 
 .homepage-cta div.cta {
@@ -2042,6 +2047,8 @@ body .facts-container .fact-five {
 		margin: 0;
 		padding: 15px;
 		text-align: center;
+		width: 100%;
+		max-width: 100%;
 	}
 }
 @media all and (max-width: 480px) {
