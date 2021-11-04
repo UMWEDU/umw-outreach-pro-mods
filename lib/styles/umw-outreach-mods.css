@@ -477,6 +477,10 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	font-size: 1.125rem;
 }
 
+.site-admissions.home .home-top .home-intro {
+	margin: 1rem auto;
+}
+
 /*
  * Universal Footer styles - might need tweaks
  */
@@ -2012,18 +2016,15 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	bottom: 12%;
 	margin-bottom: 0;
 	padding: 50px 40px;
-	font-size: 56px;
-	font-size: 3.5rem;
 	color: #fff;
 	text-shadow: 1px 0 29px rgba(0, 0, 0, 0.7);
-	font-family: MuseoSans, Arial, sans-serif;
-	font-weight: 900;
 	background: rgba(0, 45, 97, 0.8);
 }
 .site-admissions.home .home-featured-image figcaption .home-feature-title {
-	position: absolute;
-	bottom: 20%;
-	left: 40px;
+	font-size: 56px;
+	font-size: 3.5rem;
+	font-family: MuseoSans, Arial, sans-serif;
+	font-weight: 900;
 }
 @media all and (max-width: 1140px) {
 	.site-admissions.home .home-top.widget-area > .widget.widget_text {
