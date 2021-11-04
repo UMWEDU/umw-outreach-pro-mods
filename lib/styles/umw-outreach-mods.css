@@ -1942,6 +1942,7 @@ body .facts-container h3 {
 	margin-bottom: 0;
 	padding: 0;
 	text-align: center;
+	color: #002D61;
 }
 body .facts-container .fact {
 	padding: 0;
@@ -1952,6 +1953,7 @@ body .facts-container .fact {
 body .facts-container .fact-text {
 	font-size: 1.3125rem;
 	text-align: center;
+	color: #002D61;
 }
 body .facts-container .citation:before {
 	content: "—";
