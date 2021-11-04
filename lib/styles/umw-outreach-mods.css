@@ -2143,3 +2143,13 @@ body .reslife-home-feature {
 .site-admissions .homepage-cta-wrapper h1 a:focus {
 	text-decoration: underline;
 }
+
+.site-admissions.page-id-20 .home-intro {
+	margin: 3rem auto;
+}
+
+.site-admissions.page-id-20 .homepage-cta-wrapper,
+.site-admissions.page-id-20 .facts-container {
+	margin-top: 3rem;
+	margin-bottom: 3rem;
+}
