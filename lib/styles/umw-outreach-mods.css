@@ -2049,6 +2049,9 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 		margin-bottom: 16px;
 	}
 }
+.site-admissions .footer-widgets {
+	background-color: #0067A2;
+}
 .site-admissions.home .sub-footer-right {
 	padding-top: 3em;
 }
