@@ -325,11 +325,13 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	}
 }
 
-.homepage-cta h1 {
+.homepage-cta h1,
+.homepage-cta h3 {
 	font-size: 1.75em;
 }
 
-.homepage-cta span.genericon {
+.homepage-cta span.genericon,
+.homepage-cta span.umw-icon {
 	font-size: 5em;
 	float: left;
 }
@@ -1947,12 +1949,14 @@ body .facts-container {
 body .facts-container h3 {
 	font-family: MuseoSans, "museo-sans", Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 3rem;
+	line-height: 1;
 	font-weight: 700;
 	margin-top: 0;
 	margin-bottom: 0;
 	padding: 0;
 	text-align: center;
 	color: #002D61;
+	letter-spacing: -0.015em;
 }
 body .facts-container .fact {
 	padding: 0;
@@ -1964,6 +1968,7 @@ body .facts-container .fact-text {
 	font-size: 1.3125rem;
 	text-align: center;
 	color: #002D61;
+	letter-spacing: -0.015em;
 }
 body .facts-container .citation:before {
 	content: "—";
@@ -2128,6 +2133,7 @@ body .footer-widgets {
 	font-size: 1.75rem;
 	color: #4c6a8b;
 	font-weight: 700;
+	align-self: end;
 }
 .site-admissions.home .admissions-ctas .cta h3 a {
 	color: #4c6a8b;
@@ -2140,6 +2146,7 @@ body .footer-widgets {
 	margin: 0;
 	padding: 0;
 	grid-area: text;
+	align-self: start;
 }
 
 /**
@@ -2152,13 +2159,16 @@ body .reslife-home-feature {
 	background: rgba(141, 201, 247, 0.5);
 }
 
-.site-admissions .homepage-cta-wrapper h1 a {
+.site-admissions .homepage-cta-wrapper h1 a,
+.site-admissions .homepage-cta-wrapper h3 a {
 	color: #4C6A8B;
 	text-decoration: none;
 }
 
 .site-admissions .homepage-cta-wrapper h1 a:hover,
-.site-admissions .homepage-cta-wrapper h1 a:focus {
+.site-admissions .homepage-cta-wrapper h1 a:focus,
+.site-admissions .homepage-cta-wrapper h3 a:hover,
+.site-admissions .homepage-cta-wrapper h3 a:focus {
 	text-decoration: underline;
 }
 
