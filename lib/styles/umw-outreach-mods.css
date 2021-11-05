@@ -2202,6 +2202,7 @@ body .reslife-home-feature {
 	color: #002D61;
 	text-align: center;
 	font-weight: 900;
+	letter-spacing: -0.03em;
 }
 
 .site-admissions.page-id-20 .facts-container .fact-text {
@@ -2209,6 +2210,8 @@ body .reslife-home-feature {
 	font-weight: 500;
 	font-family: MuseoSans, Arial, sans-serif;
 	color: #002D61;
+	letter-spacing: -0.015em;
+	line-height: 1.875rem;
 }
 
 .site-admissions.page-id-20 .facts-container .fact-one {
