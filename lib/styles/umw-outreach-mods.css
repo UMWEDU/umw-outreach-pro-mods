@@ -335,6 +335,11 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	font-size: 5em;
 	float: left;
 }
+.homepage-cta span.umw-icon:before {
+	font-size: .9em;
+	line-height: normal;
+	padding-right: 8px;
+}
 .homepage-cta span.dashicons {
 	font-size: 5em;
 	float: left;
@@ -2173,13 +2178,17 @@ body .reslife-home-feature {
 }
 
 .site-admissions.page-id-20 .home-intro {
-	margin: 2rem auto;
+	margin: 1.5rem auto;
 }
 
 .site-admissions.page-id-20 .homepage-cta-wrapper,
 .site-admissions.page-id-20 .facts-container-wrapper  {
 	margin-top: 3rem;
 	margin-bottom: 3rem;
+}
+
+.site-admissions.page-id-20 .homepage-cta-wrapper p {
+	margin-bottom: 0;
 }
 
 .site-admissions.page-id-20 .facts-container-wrapper h4.widget-title {
