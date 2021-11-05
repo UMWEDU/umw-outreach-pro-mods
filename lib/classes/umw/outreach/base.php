@@ -17,7 +17,7 @@ if ( ! class_exists( 'Base' ) ) {
 		/**
 		 * @var string $version holds the version number that's appended to script/style files
 		 */
-		var $version = '2021.11.04.18';
+		var $version = '2021.11.04.19';
 		/**
 		 * @var null|string $header_feed holds the URL of the custom header feed
 		 */
@@ -66,7 +66,7 @@ if ( ! class_exists( 'Base' ) ) {
 		 * @since   0.1
 		 */
 		function __construct() {
-		    $theme = get_stylesheet();
+			$theme = get_stylesheet();
 
 			add_filter( 'plugins_url', array( $this, 'protocol_relative_plugins_url' ), 99 );
 			add_filter( 'plugins_url', array( $this, 'fix_local_plugins_url' ), 98 );
@@ -77,8 +77,8 @@ if ( ! class_exists( 'Base' ) ) {
 			} else {
 				$base = __FILE__;
 			}
-			$base = dirname( dirname( dirname( dirname( $base ) ) ) );
-			$tmp = untrailingslashit( plugins_url( '', $base ) );
+			$base = dirname( $base, 4 );
+			$tmp  = untrailingslashit( plugins_url( '', $base ) );
 
 			$this->plugins_url = $tmp;
 
@@ -92,7 +92,7 @@ if ( ! class_exists( 'Base' ) ) {
 
 					return;
 				}
-            }
+			}
 
 			/**
 			 * Back to normal
@@ -203,19 +203,21 @@ if ( ! class_exists( 'Base' ) ) {
 
 		/**
 		 * Attempt to fix local handling of plugins_url, especially with symlinks
-		 * @param string $url    The complete URL to the plugins directory including scheme and path.
-		 * @param string $path   Path relative to the URL to the plugins directory. Blank string
+		 *
+		 * @param string $url The complete URL to the plugins directory including scheme and path.
+		 * @param string $path Path relative to the URL to the plugins directory. Blank string
 		 *                       if no path is specified.
 		 * @param string $plugin The plugin file path to be relative to. Blank string if no plugin
 		 *                       is specified.
-         *
-         * @access public
-         * @return string the updated URL
-         * @since  2021.02
+		 *
+		 * @access public
+		 * @return string the updated URL
+		 * @since  2021.02
 		 */
-		public function fix_local_plugins_url( string $url, string $path='', string $plugin='' ): string {
+		public function fix_local_plugins_url( string $url, string $path = '', string $plugin = '' ): string {
 			if ( stristr( $url, 'local-content-folders' ) ) {
 				self::log( 'Found a URL that needs to be fixed: ' . $url );
+
 				return preg_replace( '/(.+)\/wp-content\/.+\/local-content-folders\/[^\/]+\/(.*?)/', '$1/wp-content/$2', $url );
 			}
 			if ( substr_count( $url, 'wp-content' ) > 1 ) {
@@ -223,7 +225,7 @@ if ( ! class_exists( 'Base' ) ) {
 			}
 
 			return $url;
-        }
+		}
 
 		/**
 		 * Attempt to fix Pretty Link Pro's handling of SSL
@@ -396,7 +398,7 @@ if ( ! class_exists( 'Base' ) ) {
 		 * @since   0.1
 		 */
 		function enqueue_legacy_styles() {
-			wp_enqueue_style( 'umw-global-footer-legacy', plugins_url( '/lib/styles/umw-legacy-styles.css', dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ), array(), $this->version, 'all' );
+			wp_enqueue_style( 'umw-global-footer-legacy', plugins_url( '/lib/styles/umw-legacy-styles.css', dirname( __FILE__, 4 ) ), array(), $this->version, 'all' );
 		}
 
 		/**
@@ -906,45 +908,49 @@ if ( ! class_exists( 'Base' ) ) {
 
 		/**
 		 * Attempt to ensure that video & rich oEmbeds use a title attribute
-         * @param $html string The returned oEmbed HTML.
-         * @param $data \stdClass A data object result from an oEmbed provider.
-         * @param $url string URL of the content to be embedded.
-         *
-         * @access public
-         * @return string the updated HTML
-         * @since  2021.03.22
+		 *
+		 * @param $html string The returned oEmbed HTML.
+		 * @param $data \stdClass A data object result from an oEmbed provider.
+		 * @param $url string URL of the content to be embedded.
+		 *
+		 * @access public
+		 * @return string the updated HTML
+		 * @since  2021.03.22
 		 */
 		public function add_title_attr_to_oembed( string $html, \stdClass $data, string $url ): string {
-            return wp_filter_oembed_iframe_title_attribute( $html, $data, $url );
+			return wp_filter_oembed_iframe_title_attribute( $html, $data, $url );
 		}
 
 		/**
 		 * Attempt to add a title attribute to oEmbeds that don't have one
-         * @param $title string The title attribute.
-         * @param $result string The oEmbed HTML result.
-         * @param $data \stdClass A data object result from an oEmbed provider.
-         * @param $url string The URL of the content to be embedded.
 		 *
-         * @access public
-         * @return string the updated title attribute
-         * @since  2021.03.22
+		 * @param $title string The title attribute.
+		 * @param $result string The oEmbed HTML result.
+		 * @param $data \stdClass A data object result from an oEmbed provider.
+		 * @param $url string The URL of the content to be embedded.
+		 *
+		 * @access public
+		 * @return string the updated title attribute
+		 * @since  2021.03.22
 		 */
 		public function oembed_iframe_title_attribute( string $title, string $result, \stdClass $data, string $url ): string {
-		    if ( ! empty( $title ) ) {
-		        return $title;
-		    }
+			if ( ! empty( $title ) ) {
+				return $title;
+			}
 
-		    if ( stristr( $url, 'youtube' ) || stristr( $url, 'youtu.be' ) ) {
-		        return __( 'Embedded YouTube video', 'umw-outreach-mods' );
-		    }
+			if ( stristr( $url, 'youtube' ) || stristr( $url, 'youtu.be' ) ) {
+				return __( 'Embedded YouTube video', 'umw-outreach-mods' );
+			}
 
-		    if ( stristr( $url, 'vimeo' ) ) {
-		        return __( 'Embedded Vimeo video', 'umw-outreach-mods' );
-		    }
+			if ( stristr( $url, 'vimeo' ) ) {
+				return __( 'Embedded Vimeo video', 'umw-outreach-mods' );
+			}
 
-		    if ( 'video' == $data->type ) {
-		        return __( 'Embedded video', 'umw-outreach-mods' );
-		    }
+			if ( 'video' == $data->type ) {
+				return __( 'Embedded video', 'umw-outreach-mods' );
+			}
+
+			return $title;
 		}
 
 		/**
@@ -1052,6 +1058,8 @@ if ( ! class_exists( 'Base' ) ) {
 			 * Remove the header-right sidebar, since we are replacing it with a nav menu
 			 */
 			unregister_sidebar( 'header-right' );
+
+			return true;
 		}
 
 		/**
@@ -1508,27 +1516,27 @@ if ( ! class_exists( 'Base' ) ) {
 			}
 
 			if ( empty( $footer ) ) {
-			    return '';
+				return '';
 			}
 
 			$script_html = array();
 
 			$dom = new \DOMDocument();
-			libxml_use_internal_errors(true);
-			$dom->loadHTML($footer);
-			$footer_els = $dom->getElementsByTagName('footer');
+			libxml_use_internal_errors( true );
+			$dom->loadHTML( $footer );
+			$footer_els = $dom->getElementsByTagName( 'footer' );
 			foreach ( $footer_els as $footer_el ) {
-			    $footer = $dom->saveHTML($footer_el);
+				$footer = $dom->saveHTML( $footer_el );
 			}
 			$footer = '<!-- Parsed UMW Global Footer -->' . $footer . '<!-- /Parsed UMW Global Footer -->';
 
-			$script_els = $dom->getElementsByTagName('script');
-			foreach( $script_els as $script_el ) {
-			    $script_html[] = $dom->saveHTML($script_el);
+			$script_els = $dom->getElementsByTagName( 'script' );
+			foreach ( $script_els as $script_el ) {
+				$script_html[] = $dom->saveHTML( $script_el );
 			}
 			libxml_clear_errors();
 
-			$this->footer_scripts = implode('',$script_html);
+			$this->footer_scripts = implode( '', $script_html );
 			add_action( 'wp_print_footer_scripts', array( $this, 'do_syndicated_footer_scripts' ), 11 );
 
 			if ( is_string( $footer ) ) {
@@ -1541,7 +1549,7 @@ if ( ! class_exists( 'Base' ) ) {
 
 				preg_match_all( '/%5Bcurrent-url(.*)%5D/', $footer, $matches );
 				foreach ( $matches[0] as $key => $match ) {
-				    $footer = str_replace( $match, urldecode( $match ), $footer );
+					$footer = str_replace( $match, urldecode( $match ), $footer );
 				}
 
 				$footer = do_shortcode( $footer );
@@ -1560,19 +1568,21 @@ if ( ! class_exists( 'Base' ) ) {
 				var_dump( $footer );
 				print( "</code></pre>\n" );*/
 			}
+
+			return;
 		}
 
 		/**
 		 * Print out the necessary script tags for the global footer
 		 */
 		public function do_syndicated_footer_scripts() {
-		    if ( ! isset( $this->footer_scripts ) || empty( $this->footer_scripts ) ) {
-		        return;
-		    }
+			if ( ! isset( $this->footer_scripts ) || empty( $this->footer_scripts ) ) {
+				return;
+			}
 
-		    echo '<!-- Moved UMW Global Footer Scripts -->';
-		    echo $this->footer_scripts;
-		    echo '<!-- /Moved UMW Global Footer Scripts -->';
+			echo '<!-- Moved UMW Global Footer Scripts -->';
+			echo $this->footer_scripts;
+			echo '<!-- /Moved UMW Global Footer Scripts -->';
 		}
 
 		/**
@@ -1621,6 +1631,8 @@ if ( ! class_exists( 'Base' ) ) {
 
 				return $header;
 			}
+
+			return '';
 		}
 
 		/**
@@ -1801,7 +1813,6 @@ if ( ! class_exists( 'Base' ) ) {
 							'field'    => is_numeric( $v ) ? 'term_id' : 'slug',
 							'terms'    => explode( ' ', $v )
 						);
-						continue;
 					} else {
 						if ( ! array_key_exists( 'meta_query', $query ) ) {
 							$query['meta_query'] = array();
@@ -2006,7 +2017,7 @@ if ( ! class_exists( 'Base' ) ) {
 			$old_settings_field = defined( 'GENESIS_SETTINGS_FIELD' ) ? GENESIS_SETTINGS_FIELD : 'genesis-settings';
 
 			if ( empty( $blog ) ) {
-			    $blog = $GLOBALS['blog_id'];
+				$blog = $GLOBALS['blog_id'];
 			}
 
 			if ( is_multisite() ) {
@@ -2018,11 +2029,11 @@ if ( ! class_exists( 'Base' ) ) {
 					update_blog_option( $blog, 'umw-outreach-mods-moved-options', $this->version );
 				}
 			} else {
-			    $test = get_option( $this->settings_field, array() );
+				$test = get_option( $this->settings_field, array() );
 
-			    if ( ! is_array( $test ) || array_key_exists( $this->setting_name, $test ) ) {
-			        update_option( 'umw-outreach-mods-moved-options', $this->version );
-			    }
+				if ( ! is_array( $test ) || array_key_exists( $this->setting_name, $test ) ) {
+					update_option( 'umw-outreach-mods-moved-options', $this->version );
+				}
 			}
 
 			if ( empty( $blog ) || ( isset( $GLOBALS['blog_id'] ) && intval( $blog ) === $GLOBALS['blog_id'] ) ) {
@@ -2264,13 +2275,13 @@ if ( ! class_exists( 'Base' ) ) {
 		/**
 		 * Add UMW theme settings to Genesis Customizer panel
 		 *
-		 * @param array $config the existing set of customizer areas
+		 * @param Genesis_Customizer $genesis_customizer the existing configuration
 		 *
 		 * @access public
-		 * @return array the updated list of settings
+		 * @return void
 		 * @since  0.1
 		 */
-		public function umw_customizer_theme_settings_config( Genesis_Customizer $genesis_customizer ) {
+		public function umw_customizer_theme_settings_config( Genesis_Customizer $genesis_customizer ): array {
 			$umw_config = array(
 				'genesis-umw' => array(
 					'active_callback' => '__return_true',
@@ -2368,7 +2379,7 @@ if ( ! class_exists( 'Base' ) ) {
 
 			$umw_config = apply_filters( 'umw-outreach-genesis-customizer-config', $umw_config );
 
-			$genesis_customizer->register( $umw_config );
+			return $genesis_customizer->register( $umw_config );
 		}
 
 		/**
@@ -2600,9 +2611,8 @@ if ( ! class_exists( 'Base' ) ) {
 			$format = vsprintf( $format, $linktext );
 			$title  = do_shortcode( $atts['title'] );
 			$title  = empty( $atts['title'] ) ? '' : esc_attr( 'Call ' . $title );
-			$rt     = sprintf( $link, $linknum, $title, $format );
 
-			return $rt;
+			return sprintf( $link, $linknum, $title, $format );
 		}
 
 		/**
@@ -2791,7 +2801,7 @@ if ( ! class_exists( 'Base' ) ) {
 		 * @since  1.0
 		 */
 		public static function set_plugin_path() {
-			self::$plugin_path = plugin_dir_path( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
+			self::$plugin_path = plugin_dir_path( dirname( __FILE__, 4 ) );
 		}
 
 		/**
@@ -2802,7 +2812,7 @@ if ( ! class_exists( 'Base' ) ) {
 		 * @since  1.0
 		 */
 		public static function set_plugin_url() {
-			self::$plugin_url = plugin_dir_url( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
+			self::$plugin_url = plugin_dir_url( dirname( __FILE__, 4 ) );
 		}
 
 		/**
