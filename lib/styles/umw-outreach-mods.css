@@ -1973,8 +1973,8 @@ body .facts-container .wrapper {
 }
 body .facts-container .wrapper:hover {
 	transition: padding-top 1s, margin-bottom 1s;
-	padding-top: 100%;
-	margin-bottom: -100%;
+	padding-top: 100vh;
+	margin-bottom: -100vh;
 }
 body .facts-container .wrap-inner {
 	background: rgba(141, 201, 247, 0.9);
