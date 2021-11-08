@@ -1846,7 +1846,8 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 /**
  * Home Page CTA Slider Styles
  */
-.home-featured-image figcaption h2 a, .home-top .flexslider .slide-caption h2 a {
+.site-root.home .home-featured-image figcaption h2 a,
+.site-root.home .home-top .flexslider .slide-caption h2 a {
 	font-family: "MuseoSans", Arial, sans-serif;
 	font-size: 48px;
 	font-size: 3.5rem;
@@ -1857,7 +1858,7 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 }
 
 
-.home-feature-subtitle {
+.site-root.home .home-feature-subtitle {
 	font-size: 20px;
 	font-size: 1.5rem;
 	font-weight: 900;
@@ -1865,7 +1866,8 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	line-height: 1.5;
 }
 
-.home-feature-subtitle a, .slider-cta {
+.site-root.home .home-feature-subtitle a,
+.site-root.home .slider-cta {
 	color: #F7BF0A !important;
 	display: block;
 	margin-top:0.5em;
@@ -1874,10 +1876,10 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 }
 
 @media all and (max-width: 480px) {
-	.home-featured-image figcaption h2 a {
+	.site-root.home .home-featured-image figcaption h2 a {
 		font-size: 1.75rem;
 	}
-	.home-feature-subtitle {
+	.site-root.home .home-feature-subtitle {
 		font-size: 1rem;
 	}
 }
