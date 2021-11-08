@@ -487,7 +487,8 @@ div.home-top h3.widgettitle, div.home-bottom h3.widgettitle, div.sub-footer h3.w
 	font-size: 1.75rem;
 }
 
-.home .home-top .home-intro {
+.home .home-top .home-intro,
+.site-admissions.page-id-20 .home-intro {
 	font-size: 1.125rem;
 	line-height: 1.333;
 }
