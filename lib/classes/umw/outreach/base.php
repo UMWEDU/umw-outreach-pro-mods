@@ -2281,7 +2281,7 @@ if ( ! class_exists( 'Base' ) ) {
 		 * @return void
 		 * @since  0.1
 		 */
-		public function umw_customizer_theme_settings_config( Genesis_Customizer $genesis_customizer ): array {
+		public function umw_customizer_theme_settings_config( Genesis_Customizer $genesis_customizer ) {
 			$umw_config = array(
 				'genesis-umw' => array(
 					'active_callback' => '__return_true',
