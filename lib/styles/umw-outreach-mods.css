@@ -1974,6 +1974,7 @@ body .facts-container .fact-text {
 	text-align: center;
 	color: #002D61;
 	letter-spacing: -0.015em;
+	line-height: 1.5rem;
 }
 body .facts-container .citation:before {
 	content: "—";
