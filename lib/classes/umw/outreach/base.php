@@ -17,7 +17,7 @@ if ( ! class_exists( 'Base' ) ) {
 		/**
 		 * @var string $version holds the version number that's appended to script/style files
 		 */
-		var $version = '2021.11.08.04';
+		var $version = '2021.12.07.01';
 		/**
 		 * @var null|string $header_feed holds the URL of the custom header feed
 		 */
