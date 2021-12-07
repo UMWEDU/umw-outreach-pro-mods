@@ -2238,3 +2238,10 @@ body .reslife-home-feature {
 .site-admissions.page-id-20 .facts-container .fact-five {
 	background-image: url("/admissions/wp-content/uploads/sites/6/2021/11/Mask-Group-24@2x.jpg");
 }
+
+/**
+ * Localist Card Widget Styles
+ */
+body .localist-widget-hl .event-list>li {
+	list-style: none;
+}
