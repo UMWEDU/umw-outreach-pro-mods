@@ -1845,6 +1845,63 @@ body .ten321-accordion .accordion-item button.accordion-control-button[aria-expa
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+body .entry-content details:last-child {
+	margin-bottom: 26px;
+}
+
+body .entry-content details {
+	border: 1px solid #ccc;
+}
+
+body .entry-content details > * {
+	padding: 1rem;
+}
+
+body .entry-content details > summary {
+	background: #fff;
+	color: #333;
+	text-transform: none;
+	font-family: MuseoSlab, "museo-slab", Georgia, 'Times New Roman', Times, serif;
+	line-height: 1.2;
+	border: none;
+	font-size: 18px;
+	font-weight: normal;
+	margin: 0;
+	padding: 10px 35px 10px 20px;
+	position: relative;
+	cursor: pointer;
+}
+
+body .entry-content details > summary:hover,
+body .entry-content details > summary:focus {
+	background: #eee;
+	color: #333;
+}
+
+body .entry-content details[open] > summary {
+	background: #3A5B7D;
+	color: #fff;
+}
+
+body .entry-content details > summary:after {
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 6px solid #777777;
+	content: "";
+	display: block;
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	height: 0;
+	width: 0;
+}
+
+body .entry-content details[open] > summary:after {
+	border-bottom: 6px solid #ffffff;
+	border-top: 0;
+	top: 18px;
+}
+
 /**
  * Home Page CTA Slider Styles
  */
