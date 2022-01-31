@@ -1141,6 +1141,7 @@ div.CTAbutton a:hover, div.CTAbutton a:focus, .reslife-home-main-area div.CTAbut
 .CTAburgundy, .CTAred {background-color: #862633;}
 .CTApurple, .CTAlightblue {background-color:#3b567d;}
 .CTAsubtext {line-height: 1.5; text-align: left; clear: both; font-family: MuseoSans, helvetica, arial, tahoma, sans-serif; font-size: .5em; color: black; font-weight: normal;}
+.CTAburgundy a, .CTAred a, .CTAdkgreen a, .CTAgreen a, .CTAblue a {color:#fff}
 
 /**
  * Specialized styles for Study site
