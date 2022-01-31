@@ -1132,8 +1132,8 @@ div.footer-widgets a:hover, div.footer-widgets a:focus, div.footer-widgets div.e
 
 /*Call to Action buttons - uses secondary palette only*/
 div.CTAbutton {margin-bottom: .5em; padding: .75em; text-align: center; color: white; font-size: 2em; font-family: MuseoSlab, "museo-slab", serif; font-weight: 700; line-height: 1em;}
-div.CTAbutton a, .reslife-home-main-area div.CTAbutton a {color: white;}
-div.CTAbutton a:hover, div.CTAbutton a:focus, .reslife-home-main-area div.CTAbutton a:hover, .reslife-home-main-area div.CTAbutton a:focus {color: #e6eaee; text-decoration: underline;}
+div.CTAbutton a, .reslife-home-main-area div.CTAbutton a, .sub-footer .widget div.CTAbutton a {color: white;}
+div.CTAbutton a:hover, div.CTAbutton a:focus, .reslife-home-main-area div.CTAbutton a:hover, .reslife-home-main-area div.CTAbutton a:focus, .sub-footer .widget div.CTAbutton a:hover, .sub-footer .widget div.CTAbutton a:focus {color: #e6eaee; text-decoration: underline;}
 .CTAblue {background-color: #002e5d;}
 .CTAgreen {background-color: #1d5b24;}
 .CTAdkgreen {background-color: #1d5b24;}
@@ -1141,7 +1141,6 @@ div.CTAbutton a:hover, div.CTAbutton a:focus, .reslife-home-main-area div.CTAbut
 .CTAburgundy, .CTAred {background-color: #862633;}
 .CTApurple, .CTAlightblue {background-color:#3b567d;}
 .CTAsubtext {line-height: 1.5; text-align: left; clear: both; font-family: MuseoSans, helvetica, arial, tahoma, sans-serif; font-size: .5em; color: black; font-weight: normal;}
-.CTAburgundy a, .CTAred a, .CTAdkgreen a, .CTAgreen a, .CTAblue a {color:#fff}
 
 /**
  * Specialized styles for Study site
