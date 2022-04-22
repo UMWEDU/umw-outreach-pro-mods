@@ -793,19 +793,24 @@ if ( ! class_exists( 'News' ) ) {
 				}
 			}
 
-            $post = $posts[ self::$latest_social_posts_counter ];
+			$post = $posts[ self::$latest_social_posts_counter ];
 
-            print( "\n<!-- FB Post data looks like:\n" );
-            var_dump( $post );
-            print( "\n -->\n" );
+			print( "\n<!-- FB Post data looks like:\n" );
+			var_dump( $post );
+			print( "\n -->\n" );
 
 			$link    = $post->link;
 			$caption = $post->message;
-            if ( empty( $caption ) ) {
-                if ( property_exists( $post, 'story' ) ) {
-                    $caption = $post->story;
-                }
-            }
+			$style   = '';
+			if ( empty( $caption ) ) {
+				if ( property_exists( $post, 'story' ) ) {
+					$caption = $post->story;
+
+					if ( property_exists( $post, 'full_picture' ) ) {
+						$style = ' style="background-image: url(\'' . $post->full_picture . '\')"';
+					}
+				}
+			}
 
 			if ( strlen( $caption ) > 150 ) {
 				$arr = explode( ' ', $caption );
@@ -824,13 +829,13 @@ if ( ! class_exists( 'News' ) ) {
 
 			return sprintf( '
 	<a href="%3$s" class="recent-social facebook">
-		<figure>
+		<figure%4$s>
 			<figcaption>
 				%1$s
 				<footer class="datetime">%2$s</footer>
 			</figcaption>
 		</figure>
-	</a>', $caption, $date, $link );
+	</a>', $caption, $date, $link, $style );
 		}
 
 		/**
