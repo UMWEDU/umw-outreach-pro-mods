@@ -775,11 +775,11 @@ if ( ! class_exists( 'News' ) ) {
 
 			/* For some reason, the current version of FTS seems to be adding 1 to the number of posts in the cache for Facebook */
 			$posts = get_transient( sprintf( 'fts_t_fb_page_%1$s_num%2$d', $facebook_name, $this->latest_social_posts_count ) );
-			if ( false === $posts ) {
+			if ( false === $posts || empty( $posts ) ) {
 				$posts = get_transient( sprintf( 'fts_t_fb_page_%1$s_num%2$d', $facebook_name, ( $this->latest_social_posts_count + 1 ) ) );
 			}
 
-			$posts = json_decode( $posts );
+			$posts = unserialize( $posts );
 
 			print( "\n<!-- FB Posts array looks like: \n" );
 			var_dump( $posts );
