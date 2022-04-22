@@ -799,8 +799,13 @@ if ( ! class_exists( 'News' ) ) {
             var_dump( $post );
             print( "\n -->\n" );
 
-			$link    = $posts[ self::$latest_social_posts_counter ]->link;
-			$caption = $posts[ self::$latest_social_posts_counter ]->message;
+			$link    = $post->link;
+			$caption = $post->message;
+            if ( empty( $caption ) ) {
+                if ( property_exists( $post, 'story' ) ) {
+                    $caption = $post->story;
+                }
+            }
 
 			if ( strlen( $caption ) > 150 ) {
 				$arr = explode( ' ', $caption );
@@ -849,17 +854,9 @@ if ( ! class_exists( 'News' ) ) {
 
 			$posts = get_transient( sprintf( 'fts_t_twitter_data_cache_%1$s_num%2$d', $twitter_name, $this->latest_social_posts_count ) );
 
-			print( "\n<!-- Twitter Posts array looks like: \n" );
-			var_dump( $posts );
-			print( "\n-->\n" );
-
 			if ( isset( $this->fts_data_protection ) ) {
 				$posts = json_decode( $this->fts_data_protection->decrypt( $posts ) );
 			}
-
-			print( "\n<!-- Twitter Posts array looks like: \n" );
-			var_dump( $posts );
-			print( "\n-->\n" );
 
 			if ( false !== $posts ) {
 				if ( is_object( $posts ) && property_exists( $posts, 'data' ) ) {
