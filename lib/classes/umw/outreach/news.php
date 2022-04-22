@@ -255,7 +255,8 @@ if ( ! class_exists( 'News' ) ) {
                     display: block;
                 }
 
-                .recent-social.instagram figure {
+                .recent-social.instagram figure,
+                .recent-social.facebook.has-background figure {
                     padding: 0;
                     padding-top: 100%;
                     height: auto;
@@ -293,7 +294,8 @@ if ( ! class_exists( 'News' ) ) {
                     margin-bottom: 16px;
                 }
 
-                .recent-social-posts .instagram figcaption {
+                .recent-social-posts .instagram figcaption,
+                .recent-social-posts .facebook.has-background figcaption {
                     display: none;
                 }
 
@@ -808,6 +810,7 @@ if ( ! class_exists( 'News' ) ) {
 
 					if ( property_exists( $post, 'full_picture' ) ) {
 						$style = ' style="background-image: url(\'' . $post->full_picture . '\')"';
+                        $class = ' has-background';
 					}
 				}
 			}
@@ -828,14 +831,14 @@ if ( ! class_exists( 'News' ) ) {
 			/*$caption = '<span class="dashicons dashicons-facebook"></span><div class="_5pbx userContent" data-ft="{&quot;tn&quot;:&quot;K&quot;}" id="js_jd"><p>It\'s <a class="_58cn" href="/hashtag/nationalrelaxationday?source=feed_text&amp;story_id=10155626650646660" data-ft="{&quot;tn&quot;:&quot;*N&quot;,&quot;type&quot;:104}"><span class="_5afx"><span aria-label="hashtag" class="_58cl _5afz">#</span><span class="_58cm">NationalRelaxationDay</span></span></a>. Which of these is your favorite Mary Wash way to relax?</p><p> A) Hanging out by the fountain<br> B) Bench-sitting on Campus Walk<br> C) Kicking back on Ball Circle</p></div>';*/
 
 			return sprintf( '
-	<a href="%3$s" class="recent-social facebook">
+	<a href="%3$s" class="recent-social facebook%5$s">
 		<figure%4$s>
 			<figcaption>
 				%1$s
 				<footer class="datetime">%2$s</footer>
 			</figcaption>
 		</figure>
-	</a>', $caption, $date, $link, $style );
+	</a>', $caption, $date, $link, $style, $class );
 		}
 
 		/**
