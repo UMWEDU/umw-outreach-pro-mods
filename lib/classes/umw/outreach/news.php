@@ -781,19 +781,11 @@ if ( ! class_exists( 'News' ) ) {
 
 			$posts = unserialize( $posts );
 
-			print( "\n<!-- FB Posts array looks like: \n" );
-			var_dump( $posts );
-			print( "\n-->\n" );
-
 			if ( false !== $posts ) {
 				if ( array_key_exists( 'feed_data', $posts ) ) {
 					if ( isset( $this->fts_data_protection ) ) {
 						$posts = json_decode( $this->fts_data_protection->decrypt( $posts['feed_data'] ) );
 					}
-
-					print( "\n<!-- FB Posts array looks like: \n" );
-					var_dump( $posts );
-					print( "\n-->\n" );
 
 					if ( property_exists( $posts, 'data' ) ) {
 						$posts = $posts->data;
@@ -801,6 +793,11 @@ if ( ! class_exists( 'News' ) ) {
 				}
 			}
 
+            $post = $posts[ self::$latest_social_posts_counter ];
+
+            print( "\n<!-- FB Post data looks like:\n" );
+            var_dump( $post );
+            print( "\n -->\n" );
 
 			$link    = $posts[ self::$latest_social_posts_counter ]->link;
 			$caption = $posts[ self::$latest_social_posts_counter ]->message;
@@ -857,11 +854,11 @@ if ( ! class_exists( 'News' ) ) {
 			print( "\n-->\n" );
 
 			if ( isset( $this->fts_data_protection ) ) {
-				$posts = $this->fts_data_protection->decrypt( $posts );
+				$posts = json_decode( $this->fts_data_protection->decrypt( $posts ) );
 			}
 
 			print( "\n<!-- Twitter Posts array looks like: \n" );
-			var_dump( json_decode( $posts ) );
+			var_dump( $posts );
 			print( "\n-->\n" );
 
 			if ( false !== $posts ) {
