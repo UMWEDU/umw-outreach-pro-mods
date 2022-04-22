@@ -788,7 +788,7 @@ if ( ! class_exists( 'News' ) ) {
 			if ( false !== $posts ) {
 				if ( array_key_exists( 'feed_data', $posts ) ) {
 					if ( isset( $this->fts_data_protection ) ) {
-						$posts = $this->fts_data_protection->decrypt( $posts['feed_data'] );
+						$posts = json_decode( $this->fts_data_protection->decrypt( $posts['feed_data'] ) );
 					}
 
 					print( "\n<!-- FB Posts array looks like: \n" );
@@ -861,7 +861,7 @@ if ( ! class_exists( 'News' ) ) {
 			}
 
 			print( "\n<!-- Twitter Posts array looks like: \n" );
-			var_dump( unserialize( $posts ) );
+			var_dump( json_decode( $posts ) );
 			print( "\n-->\n" );
 
 			if ( false !== $posts ) {
