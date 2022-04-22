@@ -249,7 +249,8 @@ if ( ! class_exists( 'News' ) ) {
                     border: 1px solid #062d5d;
                 }
 
-                .sidebar .widget .recent-social-posts a.recent-social.instagram {
+                .sidebar .widget .recent-social-posts a.recent-social.instagram,
+                .sidebar .widget .recent-social-posts a.recent-social.facebook.has-background {
                     background: #b81237;
                     padding: 0;
                     display: block;
