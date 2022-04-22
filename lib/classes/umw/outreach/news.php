@@ -636,6 +636,10 @@ if ( ! class_exists( 'News' ) ) {
 
 			$posts = get_transient( sprintf( 'fts_t_instagram_basic_cache%1$d_num%2$d', $instagram_name, $this->latest_social_posts_count ) );
 
+			print( "\n<!-- Posts array looks like: \n" );
+			var_dump( $posts );
+			print( "\n-->\n" );
+
 			if ( isset( $this->fts_data_protection ) ) {
 				$posts = $this->fts_data_protection->decrypt( $posts );
 			}
@@ -775,6 +779,10 @@ if ( ! class_exists( 'News' ) ) {
 				$posts = get_transient( sprintf( 'fts_t_fb_page_%1$s_num%2$d', $facebook_name, ( $this->latest_social_posts_count + 1 ) ) );
 			}
 
+			print( "\n<!-- Posts array looks like: \n" );
+			var_dump( $posts );
+			print( "\n-->\n" );
+
 			if ( isset( $this->fts_data_protection ) ) {
 				$posts = $this->fts_data_protection->decrypt( $posts );
 			}
@@ -842,6 +850,10 @@ if ( ! class_exists( 'News' ) ) {
 			do_shortcode( sprintf( '[fts_twitter twitter_name=%1$s tweets_count=%2$d cover_photo=no stats_bar=no show_retweets=yes show_replies=no]', $twitter_name, $this->latest_social_posts_count ) );
 
 			$posts = get_transient( sprintf( 'fts_t_twitter_data_cache_%1$s_num%2$d', $twitter_name, $this->latest_social_posts_count ) );
+
+			print( "\n<!-- Posts array looks like: \n" );
+			var_dump( $posts );
+			print( "\n-->\n" );
 
 			if ( isset( $this->fts_data_protection ) ) {
 				$posts = $this->fts_data_protection->decrypt( $posts );
