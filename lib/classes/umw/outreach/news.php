@@ -654,11 +654,11 @@ if ( ! class_exists( 'News' ) ) {
 			print( "\n-->\n" );
 
 			if ( isset( $this->fts_data_protection ) ) {
-				$posts = $this->fts_data_protection->decrypt( $posts );
+				$posts = json_decode( $this->fts_data_protection->decrypt( $posts ) );
 			}
 
 			print( "\n<!-- Instagram Posts array looks like: \n" );
-			var_dump( json_decode( $posts ) );
+			var_dump( $posts );
 			print( "\n-->\n" );
 
 			if ( false !== $posts ) {
@@ -678,9 +678,11 @@ if ( ! class_exists( 'News' ) ) {
 				return '';
 			}
 
-			$link    = $posts[ self::$latest_social_posts_counter ]->permalink;
-			$imgurl  = $posts[ self::$latest_social_posts_counter ]->media_url;
-			$caption = $posts[ self::$latest_social_posts_counter ]->caption;
+            $post = $posts[ self::$latest_social_posts_counter ];
+
+			$link    = $post->permalink;
+			$imgurl  = $post->media_url;
+			$caption = $post->caption;
 
 			/*$link = 'https://www.instagram.com/p/BXqlt0ClJqj/?taken-by=marywash';
 			$imgurl = 'https://scontent-iad3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/c135.0.810.810/20766551_111200026226263_4624646013523591168_n.jpg';
