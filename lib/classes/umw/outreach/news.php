@@ -23,9 +23,9 @@ if ( ! class_exists( 'News' ) ) {
 		private static $latest_social_posts_counter = 0;
 
 		function __construct() {
-		    if ( defined( 'UMW_NEWS_SITE' ) && is_numeric( UMW_NEWS_SITE ) ) {
-		        $this->blog = UMW_NEWS_SITE;
-            }
+			if ( defined( 'UMW_NEWS_SITE' ) && is_numeric( UMW_NEWS_SITE ) ) {
+				$this->blog = UMW_NEWS_SITE;
+			}
 
 			parent::__construct();
 
@@ -629,23 +629,32 @@ if ( ! class_exists( 'News' ) ) {
 				$instagram_name = 'uofmarywashington';
 			}
 
-			$instagram_name = $this->get_instagram_id( $instagram_name );
+			$instagram_name  = $this->get_instagram_id( $instagram_name );
 			$instagram_token = $this->get_instagram_token( $instagram_name );
 
 			do_shortcode( sprintf( '[fts_instagram instagram_id=%1$d access_token=%3$s pics_count=%2$d type=basic width=250px super_gallery=yes columns=1 force_columns=no space_between_photos=1px icon_size=65px hide_date_likes_comments=yes profile_photo=no profile_stats=no profile_name=no profile_description=no]', $instagram_name, $this->latest_social_posts_count, $instagram_token ) );
 
 			$posts = get_transient( sprintf( 'fts_t_instagram_basic_cache%1$d_num%2$d', $instagram_name, $this->latest_social_posts_count ) );
+
+			if ( isset( $this->fts_data_protection ) ) {
+				$posts = $this->fts_data_protection->decrypt( $posts );
+			}
+
+			print( "\n<!-- Posts array looks like: \n" );
+			var_dump( $posts );
+			print( "\n-->\n" );
+
 			if ( false !== $posts ) {
-			    if ( is_array( $posts ) ) {
-				    if ( array_key_exists( 'data', $posts ) ) {
-					    $posts = json_decode( $posts['data'] );
-					    if ( property_exists( $posts, 'data' ) ) {
-						    $posts = $posts->data;
-					    }
-				    }
-			    } else if ( property_exists( $posts, 'data' ) ) {
-			        $posts = $posts->data;
-                }
+				if ( is_array( $posts ) ) {
+					if ( array_key_exists( 'data', $posts ) ) {
+						$posts = json_decode( $posts['data'] );
+						if ( property_exists( $posts, 'data' ) ) {
+							$posts = $posts->data;
+						}
+					}
+				} else if ( property_exists( $posts, 'data' ) ) {
+					$posts = $posts->data;
+				}
 			}
 
 			if ( ! is_array( $posts ) ) {
@@ -723,13 +732,14 @@ if ( ! class_exists( 'News' ) ) {
 
 		/**
 		 * Attempt to find the Instagram API access token
-         * @param $name the Instagram username being queried
-         *
-         * @access public
-         * @return bool|string the access token if it's found
-         * @since  2020.03.31
+		 *
+		 * @param $name the Instagram username being queried
+		 *
+		 * @access public
+		 * @return bool|string the access token if it's found
+		 * @since  2020.03.31
 		 */
-		public function get_instagram_token( $name='' ) {
+		public function get_instagram_token( $name = '' ) {
 			$id = get_option( 'umwnews_instagram_token_' . $name, false );
 			if ( false !== $id ) {
 				return $id;
@@ -764,6 +774,15 @@ if ( ! class_exists( 'News' ) ) {
 			if ( false === $posts ) {
 				$posts = get_transient( sprintf( 'fts_t_fb_page_%1$s_num%2$d', $facebook_name, ( $this->latest_social_posts_count + 1 ) ) );
 			}
+
+			if ( isset( $this->fts_data_protection ) ) {
+				$posts = $this->fts_data_protection->decrypt( $posts );
+			}
+
+			print( "\n<!-- Posts array looks like: \n" );
+			var_dump( $posts );
+			print( "\n-->\n" );
+
 			if ( false !== $posts ) {
 				if ( array_key_exists( 'feed_data', $posts ) ) {
 					$posts = json_decode( $posts['feed_data'] );
@@ -823,6 +842,15 @@ if ( ! class_exists( 'News' ) ) {
 			do_shortcode( sprintf( '[fts_twitter twitter_name=%1$s tweets_count=%2$d cover_photo=no stats_bar=no show_retweets=yes show_replies=no]', $twitter_name, $this->latest_social_posts_count ) );
 
 			$posts = get_transient( sprintf( 'fts_t_twitter_data_cache_%1$s_num%2$d', $twitter_name, $this->latest_social_posts_count ) );
+
+			if ( isset( $this->fts_data_protection ) ) {
+				$posts = $this->fts_data_protection->decrypt( $posts );
+			}
+
+			print( "\n<!-- Posts array looks like: \n" );
+			var_dump( $posts );
+			print( "\n-->\n" );
+
 			if ( false !== $posts ) {
 				if ( is_object( $posts ) && property_exists( $posts, 'data' ) ) {
 					$posts = $posts->data;
@@ -861,6 +889,9 @@ if ( ! class_exists( 'News' ) ) {
 		 * @since  2018.05
 		 */
 		public function do_latest_social_posts( $atts = array() ) {
+			if ( class_exists( 'feedthemsocial\Data_Protection' ) ) {
+				$this->fts_data_protection = new \feedthemsocial\Data_Protection();
+			}
 			$count = 1;
 			if ( is_array( $atts ) && ! empty( $atts ) ) {
 				$count = $atts[0];
