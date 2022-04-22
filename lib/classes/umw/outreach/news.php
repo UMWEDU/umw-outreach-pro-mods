@@ -636,7 +636,7 @@ if ( ! class_exists( 'News' ) ) {
 
 			$posts = get_transient( sprintf( 'fts_t_instagram_basic_cache%1$d_num%2$d', $instagram_name, $this->latest_social_posts_count ) );
 
-			print( "\n<!-- Posts array looks like: \n" );
+			print( "\n<!-- Instagram Posts array looks like: \n" );
 			var_dump( $posts );
 			print( "\n-->\n" );
 
@@ -644,7 +644,7 @@ if ( ! class_exists( 'News' ) ) {
 				$posts = $this->fts_data_protection->decrypt( $posts );
 			}
 
-			print( "\n<!-- Posts array looks like: \n" );
+			print( "\n<!-- Instagram Posts array looks like: \n" );
 			var_dump( $posts );
 			print( "\n-->\n" );
 
@@ -779,21 +779,22 @@ if ( ! class_exists( 'News' ) ) {
 				$posts = get_transient( sprintf( 'fts_t_fb_page_%1$s_num%2$d', $facebook_name, ( $this->latest_social_posts_count + 1 ) ) );
 			}
 
-			print( "\n<!-- Posts array looks like: \n" );
-			var_dump( $posts );
-			print( "\n-->\n" );
+			$posts = json_decode( $posts );
 
-			if ( isset( $this->fts_data_protection ) ) {
-				$posts = $this->fts_data_protection->decrypt( $posts );
-			}
-
-			print( "\n<!-- Posts array looks like: \n" );
+			print( "\n<!-- FB Posts array looks like: \n" );
 			var_dump( $posts );
 			print( "\n-->\n" );
 
 			if ( false !== $posts ) {
 				if ( array_key_exists( 'feed_data', $posts ) ) {
-					$posts = json_decode( $posts['feed_data'] );
+					if ( isset( $this->fts_data_protection ) ) {
+						$posts = $this->fts_data_protection->decrypt( $posts['feed_data'] );
+					}
+
+					print( "\n<!-- FB Posts array looks like: \n" );
+					var_dump( $posts );
+					print( "\n-->\n" );
+
 					if ( property_exists( $posts, 'data' ) ) {
 						$posts = $posts->data;
 					}
@@ -851,7 +852,7 @@ if ( ! class_exists( 'News' ) ) {
 
 			$posts = get_transient( sprintf( 'fts_t_twitter_data_cache_%1$s_num%2$d', $twitter_name, $this->latest_social_posts_count ) );
 
-			print( "\n<!-- Posts array looks like: \n" );
+			print( "\n<!-- Twitter Posts array looks like: \n" );
 			var_dump( $posts );
 			print( "\n-->\n" );
 
@@ -859,7 +860,7 @@ if ( ! class_exists( 'News' ) ) {
 				$posts = $this->fts_data_protection->decrypt( $posts );
 			}
 
-			print( "\n<!-- Posts array looks like: \n" );
+			print( "\n<!-- Twitter Posts array looks like: \n" );
 			var_dump( $posts );
 			print( "\n-->\n" );
 
