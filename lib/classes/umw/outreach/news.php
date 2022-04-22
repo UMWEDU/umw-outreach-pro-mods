@@ -798,10 +798,6 @@ if ( ! class_exists( 'News' ) ) {
 
 			$post = $posts[ self::$latest_social_posts_counter ];
 
-			print( "\n<!-- FB Post data looks like:\n" );
-			var_dump( $post );
-			print( "\n -->\n" );
-
 			$link    = $post->link;
 			$caption = $post->message;
 			$style   = '';
