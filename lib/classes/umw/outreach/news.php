@@ -861,7 +861,7 @@ if ( ! class_exists( 'News' ) ) {
 			}
 
 			print( "\n<!-- Twitter Posts array looks like: \n" );
-			var_dump( $posts );
+			var_dump( unserialize( $posts ) );
 			print( "\n-->\n" );
 
 			if ( false !== $posts ) {
