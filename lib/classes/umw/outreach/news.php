@@ -639,7 +639,13 @@ if ( ! class_exists( 'News' ) ) {
                 $instagram_token = $this->fts_data_protection->decrypt( $instagram_token );
             }
 
-			do_shortcode( sprintf( '[fts_instagram instagram_id=%1$s access_token=%3$s pics_count=%4$s type=basic super_gallery=yes columns=3 force_columns=no space_between_photos=1px icon_size=65px hide_date_likes_comments=no]', $instagram_name, $this->latest_social_posts_count, $instagram_token ) );
+            $shortcode = sprintf( '[fts_instagram instagram_id=%1$s access_token=%3$s pics_count=%2$s type=basic super_gallery=yes columns=3 force_columns=no space_between_photos=1px icon_size=65px hide_date_likes_comments=no]', $instagram_name, $this->latest_social_posts_count, $instagram_token );
+
+            print( "\n<!-- Instagram token: \n" );
+            var_dump( $shortcode );
+            print( "\n -->\n" );
+
+			do_shortcode( $shortcode );
 
 			$posts = get_transient( sprintf( 'fts_t_instagram_basic_cache%1$d_num%2$d', $instagram_name, $this->latest_social_posts_count ) );
 
