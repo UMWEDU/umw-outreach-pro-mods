@@ -29,7 +29,7 @@ if ( ! class_exists( 'Root' ) ) {
 			add_action( 'genesis_setup', array( $this, 'register_sidebars' ) );
 
 			add_action( 'umw-header-logo', array( $this, 'get_logo' ) );
-			add_action( 'init', array( $this, 'add_feed' ) );
+			add_action( 'init', array( $this, 'add_feed' ), 5 );
 			add_action( 'plugins_loaded', array( $this, 'use_plugins' ), 55 );
 			add_filter( 'feed_content_type', array( $this, 'fake_query' ), 10, 2 );
 
@@ -230,14 +230,8 @@ if ( ! class_exists( 'Root' ) ) {
 		 */
 		function do_full_header() {
 			do_action( 'umw-above-header' );
-			print( '<header class="site-header umw-global-header"><div class="wrap">' );
-			do_action( 'umw-header-logo' );
-			if ( has_action( 'umw-header-right' ) ) {
-				print( '<aside class="widget-area header-widget-area">' );
-				do_action( 'umw-header-right' );
-				print( '</aside>' );
-			}
-			print( '</div></header>' );
+			// Calls the action that is defined in the UMW Custom Blocks Plugin.
+			do_action('umw-cb-header');
 			do_action( 'umw-below-header' );
 		}
 
@@ -246,9 +240,8 @@ if ( ! class_exists( 'Root' ) ) {
 		 */
 		function do_full_footer() {
 			do_action( 'umw-above-footer' );
-			print( '<footer class="site-footer umw-global-footer"><div class="wrap">' );
-			do_action( 'umw-footer' );
-			print( '</div></footer>' );
+			// Calls the action that is defined in the UMW Custom Blocks Plugin.
+            do_action('umw-cb-footer');
 			do_action( 'umw-below-footer' );
 		}
 
