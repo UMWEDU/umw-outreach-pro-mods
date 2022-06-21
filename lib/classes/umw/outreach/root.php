@@ -215,23 +215,12 @@ if ( ! class_exists( 'Root' ) ) {
 		}
 
 		/**
-		 * Handle the header-right navigation menu
-		 */
-		function do_header_right() {
-			wp_nav_menu( array(
-				'theme_location' => 'header-right',
-				'container'      => 'nav',
-				'fallback_cb'    => false,
-			) );
-		}
-
-		/**
 		 * Output the global UMW header
 		 */
 		function do_full_header() {
 			do_action( 'umw-above-header' );
 			// Calls the action that is defined in the UMW Custom Blocks Plugin.
-			do_action('umw-cb-header');
+			do_action( 'umw-cb-header' );
 			do_action( 'umw-below-header' );
 		}
 
@@ -241,7 +230,7 @@ if ( ! class_exists( 'Root' ) ) {
 		function do_full_footer() {
 			do_action( 'umw-above-footer' );
 			// Calls the action that is defined in the UMW Custom Blocks Plugin.
-            do_action('umw-cb-footer');
+      do_action( 'umw-cb-footer' );
 			do_action( 'umw-below-footer' );
 		}
 
