@@ -819,7 +819,7 @@ if ( ! class_exists( 'Base' ) ) {
 		 */
 		function do_value_prop() {
 			$current = $this->get_option( $this->setting_name );
-			if ( empty( $current ) || ! is_array( $current ) ) {
+			if ( empty( $current ) || ! is_array( $current ) || has_blocks()) {
 				return;
 			}
 
