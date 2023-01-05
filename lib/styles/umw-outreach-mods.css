@@ -2343,3 +2343,7 @@ body .localist-widget-hl .event-list>li {
 		grid-template-columns: minmax(0, 1fr);
 	}
 }
+
+.genesis-title-hidden .page-title {
+	display: none;
+}
