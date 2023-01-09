@@ -441,9 +441,9 @@ if ( ! class_exists( 'Base' ) ) {
 		 */
 		public function get_umw_login_link() {
             $prefix = '';
-            if ( ! doing_action( 'umw-cb-footer' ) ) {
+            /*if ( ! doing_action( 'umw-cb-footer' ) ) {
                 $prefix = '| ';
-            }
+            }*/
 			if ( is_user_logged_in() ) {
 				$link = sprintf( '%4$s<a rel="noindex, nofollow" href="%1$s" title="Go to the administration area for %2$s">%3$s</a>', admin_url(), esc_attr( get_bloginfo( 'name' ) ), __( 'Website Admin' ), $prefix );
 			} else {
