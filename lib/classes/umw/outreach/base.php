@@ -969,6 +969,9 @@ if ( ! class_exists( 'Base' ) ) {
 			wp_dequeue_style( 'google-fonts' );
 			/* Register our modified copy of the Outreach Pro base style sheet */
 			wp_register_style( 'outreach-pro', $this->plugins_url( '/lib/styles/outreach-pro.css' ), array(), $this->version, 'all' );
+            if ( ! wp_style_is( 'umw-online-tools-font', 'registered' ) ) {
+	            wp_register_style( 'umw-online-tools-font', $this->plugins_url( '/lib/images/icons/svg-online-tools/icon-font/style.css' ), array(), $this->version, 'all' );
+            }
 			/* Enqueue our additional styles */
 			if ( ! wp_style_is( 'genericons', 'registered' ) ) {
 				wp_register_style( 'genericons', $this->plugins_url( '/lib/styles/genericons/genericons.css' ), array(), $GLOBALS['wp_version'], 'all' );
@@ -976,7 +979,8 @@ if ( ! class_exists( 'Base' ) ) {
 			wp_enqueue_style( 'umw-outreach-mods', $this->plugins_url( '/lib/styles/umw-outreach-mods.css' ), array(
 				'outreach-pro',
 				'genericons',
-				'dashicons'
+				'dashicons',
+                'umw-online-tools-font',
 			), $this->version, 'all' );
 		}
 
