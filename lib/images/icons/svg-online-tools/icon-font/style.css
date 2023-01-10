@@ -1,16 +1,16 @@
 @font-face {
   font-family: 'umw-online-tool-icons';
-  src:  url('fonts/icomoon.eot?10znos');
-  src:  url('fonts/icomoon.eot?10znos#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?10znos') format('truetype'),
-    url('fonts/icomoon.woff?10znos') format('woff'),
-    url('fonts/icomoon.svg?10znos#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?qarr87');
+  src:  url('fonts/icomoon.eot?qarr87#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?qarr87') format('truetype'),
+    url('fonts/icomoon.woff?qarr87') format('woff'),
+    url('fonts/icomoon.svg?qarr87#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-[class^="icon-"]:before, [class*=" icon-"]:before {
+[class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'umw-online-tool-icons' !important;
   speak: never;
@@ -25,6 +25,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-umwicon-documents:before {
+  content: "\e903";
+}
+.icon-umwicon-eagleeye:before {
+  content: "\e904";
+}
+.icon-umwicon-eva:before {
+  content: "\e905";
+}
 .icon-viewbook:before {
   content: "\e902";
 }
