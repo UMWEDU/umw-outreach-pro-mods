@@ -60,6 +60,7 @@ if ( ! class_exists( 'News' ) ) {
 
 			if ( has_blocks() ) {
                 if ( ! has_block( 'umw/hero' ) ) {
+                    wp_die( 'The hero block does not exist' );
 	                add_action( 'genesis_entry_header', 'genesis_entry_header_markup_open', 5 );
 	                add_action( 'genesis_entry_header', 'genesis_entry_header_markup_close', 15 );
 	                add_action( 'genesis_entry_header', 'genesis_do_post_title' );
