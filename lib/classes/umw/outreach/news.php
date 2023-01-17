@@ -74,9 +74,9 @@ if ( ! class_exists( 'News' ) ) {
 		}
 
         public function re_add_post_title() {
-	        add_action( 'genesis_before_content', 'genesis_entry_header_markup_open', 5 );
-	        add_action( 'genesis_before_content', 'genesis_entry_header_markup_close', 15 );
-	        add_action( 'genesis_before_content', 'genesis_do_post_title' );
+	        add_action( 'genesis_entry_header', 'genesis_entry_header_markup_open', 5 );
+	        add_action( 'genesis_entry_header', 'genesis_entry_header_markup_close', 15 );
+	        add_action( 'genesis_entry_header', 'genesis_do_post_title' );
         }
 
 		/**
