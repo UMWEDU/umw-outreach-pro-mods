@@ -59,6 +59,7 @@ if ( ! class_exists( 'News' ) ) {
 
 			if ( class_exists( 'UmwCbPublic' ) && UmwCbPublic::has_blocks() ) {
                 remove_all_actions( 'genesis_sidebar' );
+                remove_theme_support( 'genesis-footer-widgets' );
 				return;
 			}
 
