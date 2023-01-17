@@ -45,6 +45,7 @@ if ( ! class_exists( 'News' ) ) {
 			add_shortcode( 'latest-social-posts', array( $this, 'do_latest_social_posts' ) );
 
 			add_action( 'wp', array( $this, 'genesis_tweaks' ), 12 );
+			remove_action( 'after_setup_theme', array( $this, 'genesis_tweaks' ), 11 );
 		}
 
 		/**
