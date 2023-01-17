@@ -58,6 +58,7 @@ if ( ! class_exists( 'News' ) ) {
 			parent::genesis_tweaks();
 
 			if ( class_exists( 'UmwCbPublic' ) && UmwCbPublic::has_blocks() ) {
+                remove_all_actions( 'genesis_sidebar' );
 				return;
 			}
 
