@@ -5,6 +5,8 @@
 
 namespace UMW\Outreach;
 
+use UmwCb\UmwCbPublic;
+
 if ( ! class_exists( 'Extra_Layouts' ) ) {
 	class Extra_Layouts extends Base {
 		function __construct() {
@@ -30,6 +32,11 @@ if ( ! class_exists( 'Extra_Layouts' ) ) {
 			}
 
 			$this->register_sidebars();
+
+			if ( class_exists( 'UmwCbPublic' ) && UmwCbPublic::has_blocks() ) {
+				return;
+			}
+
 			add_action( 'genesis_sidebar', 'genesis_do_sidebar', 11 );
 			add_action( 'genesis_after_loop', array( $this, 'do_below_content_sidebars' ), 1 );
 		}

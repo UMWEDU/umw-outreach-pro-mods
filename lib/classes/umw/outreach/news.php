@@ -5,6 +5,8 @@
 
 namespace UMW\Outreach;
 
+use UmwCb\UmwCbPublic;
+
 if ( ! class_exists( 'News' ) ) {
 	class News extends Base {
 		/**
@@ -54,6 +56,10 @@ if ( ! class_exists( 'News' ) ) {
 		 */
 		public function genesis_tweaks() {
 			parent::genesis_tweaks();
+
+			if ( class_exists( 'UmwCbPublic' ) && UmwCbPublic::has_blocks() ) {
+				return;
+			}
 
 			remove_action( 'genesis_before_content', 'genesis_do_breadcrumbs' );
 			add_action( 'genesis_before_content', array( $this, 'topic_navigation' ) );
