@@ -60,10 +60,7 @@ if ( ! class_exists( 'News' ) ) {
 
 			if ( has_blocks() ) {
                 if ( ! has_block( 'umw/hero' ) ) {
-                    wp_die( 'The hero block does not exist' );
-	                add_action( 'genesis_entry_header', 'genesis_entry_header_markup_open', 5 );
-	                add_action( 'genesis_entry_header', 'genesis_entry_header_markup_close', 15 );
-	                add_action( 'genesis_entry_header', 'genesis_do_post_title' );
+                    add_action( 'wp_head', array( $this, 're_add_post_title' ), 11 );
                 }
 				add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_full_width_content' );
                 remove_all_actions( 'genesis_sidebar' );
@@ -75,6 +72,12 @@ if ( ! class_exists( 'News' ) ) {
 			remove_action( 'genesis_before_content', 'genesis_do_breadcrumbs' );
 			add_action( 'genesis_before_content', array( $this, 'topic_navigation' ) );
 		}
+
+        public function re_add_post_title() {
+	        add_action( 'genesis_before_content', 'genesis_entry_header_markup_open', 5 );
+	        add_action( 'genesis_before_content', 'genesis_entry_header_markup_close', 15 );
+	        add_action( 'genesis_before_content', 'genesis_do_post_title' );
+        }
 
 		/**
 		 * Output any custom CSS for the News site
