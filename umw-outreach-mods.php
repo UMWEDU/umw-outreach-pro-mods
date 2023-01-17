@@ -93,8 +93,8 @@ namespace UMW\Outreach {
 				$umw_outreach_mods_obj = new Study;
 			} else if ( $res === absint( $blog_id ) ) {
 				$umw_outreach_mods_obj = new Residence;
-			/*} else if ( $news === absint( $blog_id ) ) {
-				$umw_outreach_mods_obj = new News;*/
+			} else if ( $news === absint( $blog_id ) ) {
+				$umw_outreach_mods_obj = new News;
 			} else {
 				$umw_outreach_mods_obj = new Base;
 			}
