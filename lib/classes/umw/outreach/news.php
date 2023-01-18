@@ -101,20 +101,24 @@ if ( ! class_exists( 'News' ) ) {
 		 * @return void
 		 */
         public function do_hero_post_title(): void {
-            ?>
-            <section class="wp-block-umw-hero alignfull umw-custom-block umw-hero umw-hero--dark-text umw-hero--white umw-hero--with-no-media">
-                <div class="umw-hero__inner">
-                    <div class="umw-hero__media"></div>
-                    <div class="umw-hero__title">
-                        <div class="container">
-                            <div class="umw-hero__title__wrapper">
-                                <h1 class="umw-hero__title__header"><?php the_title() ?></h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-                <?php
+            $title = get_the_title();
+            $output = <<<'EOF'
+<!-- wp:umw/hero {"mainTitle":"%1$s","hasContent":true} -->
+<section class="wp-block-umw-hero alignfull umw-custom-block umw-hero umw-hero--dark-text umw-hero--white umw-hero--with-no-media">
+  <div class="umw-hero__inner">
+    <div class="umw-hero__media"></div>
+    <div class="umw-hero__title">
+      <div class="container">
+        <div class="umw-hero__title__wrapper">
+          <h1 class="umw-hero__title__header">%1$s</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /wp:umw/hero -->
+EOF;
+            echo do_blocks( sprintf( $output, $title ) );
         }
 
 		/**
