@@ -81,8 +81,18 @@ if ( ! class_exists( 'News' ) ) {
 	        add_action( 'genesis_entry_header', 'genesis_entry_header_markup_open', 5 );
 	        add_action( 'genesis_entry_header', 'genesis_entry_header_markup_close', 15 );
 	        if ( ! has_block( 'umw/hero' ) ) {
+                add_action( 'umw_cb_header_classes', array( $this, 'news_post_title_header_classes' ) );
 		        add_action( 'genesis_before_content_sidebar_wrap', array( $this, 'do_hero_post_title' ), 10.5 );
 	        }
+        }
+
+		/**
+		 * Add extra classes to the header element for single news posts
+         *
+         * @return void
+		 */
+        public function news_post_title_header_classes(): void {
+            echo ' header--adjust-margin';
         }
 
 		/**
@@ -98,7 +108,7 @@ if ( ! class_exists( 'News' ) ) {
                     <div class="umw-hero__title">
                         <div class="container">
                             <div class="umw-hero__title__wrapper">
-                                <h1 class="umw-hero__title__header"><?php the_title() ?>></h1>
+                                <h1 class="umw-hero__title__header"><?php the_title() ?></h1>
                             </div>
                         </div>
                     </div>
