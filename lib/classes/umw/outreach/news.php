@@ -58,7 +58,7 @@ if ( ! class_exists( 'News' ) ) {
 		public function genesis_tweaks() {
 			parent::genesis_tweaks();
 
-			if ( has_blocks() ) {
+			if ( has_blocks() && is_singular( 'post' ) ) {
                 add_action( 'wp_head', array( $this, 're_add_post_title' ), 11 );
 				add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_full_width_content' );
                 remove_all_actions( 'genesis_sidebar' );
