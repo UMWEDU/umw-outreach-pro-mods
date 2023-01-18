@@ -81,7 +81,7 @@ if ( ! class_exists( 'News' ) ) {
 	        add_action( 'genesis_entry_header', 'genesis_entry_header_markup_open', 5 );
 	        add_action( 'genesis_entry_header', 'genesis_entry_header_markup_close', 15 );
 	        if ( ! has_block( 'umw/hero' ) ) {
-                add_action( 'umw_cb_header_classes', array( $this, 'news_post_title_header_classes' ) );
+                /*add_action( 'umw_cb_header_classes', array( $this, 'news_post_title_header_classes' ) );*/
 		        add_action( 'genesis_before_content_sidebar_wrap', array( $this, 'do_hero_post_title' ), 10.5 );
 	        }
         }
