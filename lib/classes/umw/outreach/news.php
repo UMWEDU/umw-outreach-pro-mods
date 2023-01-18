@@ -72,12 +72,39 @@ if ( ! class_exists( 'News' ) ) {
 			add_action( 'genesis_before_content', array( $this, 'topic_navigation' ) );
 		}
 
-        public function re_add_post_title() {
+		/**
+         * Output the post title at the top of the page, since the Custom Blocks plugin removes it by default
+         *
+		 * @return void
+		 */
+        public function re_add_post_title(): void {
 	        add_action( 'genesis_entry_header', 'genesis_entry_header_markup_open', 5 );
 	        add_action( 'genesis_entry_header', 'genesis_entry_header_markup_close', 15 );
 	        if ( ! has_block( 'umw/hero' ) ) {
-		        add_action( 'genesis_entry_header', 'genesis_do_post_title' );
+		        add_action( 'genesis_before_content_sidebar_wrap', array( $this, 'do_hero_post_title' ), 9 );
 	        }
+        }
+
+		/**
+         * Output the post title inside of a Hero Block structure
+         *
+		 * @return void
+		 */
+        public function do_hero_post_title(): void {
+            ?>
+            <section class="wp-block-umw-hero alignfull umw-custom-block umw-hero umw-hero--dark-text umw-hero--white umw-hero--with-no-media">
+                <div class="umw-hero__inner">
+                    <div class="umw-hero__media"></div>
+                    <div class="umw-hero__title">
+                        <div class="container">
+                            <div class="umw-hero__title__wrapper">
+                                <h1 class="umw-hero__title__header"><?php the_title() ?>></h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+                <?php
         }
 
 		/**
