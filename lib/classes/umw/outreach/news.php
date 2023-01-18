@@ -67,6 +67,7 @@ if ( ! class_exists( 'News' ) ) {
 				return;
 			}
 
+			add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_full_width_content' );
 			remove_action( 'genesis_before_content', 'genesis_do_breadcrumbs' );
 			add_action( 'genesis_before_content', array( $this, 'topic_navigation' ) );
 		}
