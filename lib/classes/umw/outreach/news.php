@@ -65,7 +65,7 @@ if ( ! class_exists( 'News' ) ) {
                 remove_all_actions( 'genesis_sidebar' );
                 remove_theme_support( 'genesis-footer-widgets' );
 				remove_action( 'genesis_before_content', 'genesis_do_breadcrumbs' );
-                UmwSidebar::get_instance()->move_hero();
+                /*UmwSidebar::get_instance()->move_hero();*/
 				return;
 			}
 
