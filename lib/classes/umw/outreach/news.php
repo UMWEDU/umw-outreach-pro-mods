@@ -66,6 +66,7 @@ if ( ! class_exists( 'News' ) ) {
 	                remove_all_actions( 'genesis_sidebar' );
 	                remove_theme_support( 'genesis-footer-widgets' );
                 } else if ( is_archive() ) {
+	                remove_action( 'genesis_before_content_sidebar_wrap', 'genesis_do_breadcrumbs', 11 );
 	                remove_action( 'genesis_before_loop', 'genesis_do_posts_page_heading' );
 	                remove_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 );
                 }
