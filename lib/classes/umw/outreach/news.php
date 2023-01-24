@@ -70,9 +70,14 @@ if ( ! class_exists( 'News' ) ) {
 	                remove_action( 'genesis_before_loop', 'genesis_do_posts_page_heading' );
 	                remove_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 );
                 }
+
 				remove_action( 'genesis_before_content', 'genesis_do_breadcrumbs' );
-                /*UmwSidebar::get_instance()->move_hero();*/
+
 				return;
+			} else if ( is_archive() ) {
+				remove_action( 'genesis_before_content_sidebar_wrap', 'genesis_do_breadcrumbs', 11 );
+				remove_action( 'genesis_before_loop', 'genesis_do_posts_page_heading' );
+				remove_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 );
 			}
 
 			remove_action( 'genesis_before_content', 'genesis_do_breadcrumbs' );
