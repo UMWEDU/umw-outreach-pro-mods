@@ -60,24 +60,27 @@ if ( ! class_exists( 'News' ) ) {
 			parent::genesis_tweaks();
 			add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_full_width_content' );
 
+			if ( is_archive() || is_category() || is_tax() || is_tag() ) {
+				remove_action( 'genesis_before_content_sidebar_wrap', 'genesis_do_breadcrumbs', 11 );
+				remove_action( 'genesis_before_loop', 'genesis_do_posts_page_heading' );
+				remove_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 );
+				remove_action( 'genesis_before_loop', 'genesis_do_author_title_description', 15 );
+				remove_action( 'genesis_before_loop', 'genesis_do_author_box_archive', 15 );
+				remove_action( 'genesis_before_loop', 'genesis_do_cpt_archive_title_description' );
+				remove_action( 'genesis_before_loop', 'genesis_do_date_archive_title' );
+				remove_action( 'genesis_before_loop', 'genesis_do_blog_template_heading' );
+			}
+
 			if ( has_blocks() ) {
                 if ( is_singular( 'post' ) ) {
 	                add_action( 'wp_head', array( $this, 're_add_post_title' ), 11 );
 	                remove_all_actions( 'genesis_sidebar' );
 	                remove_theme_support( 'genesis-footer-widgets' );
-                } else if ( is_archive() ) {
-	                remove_action( 'genesis_before_content_sidebar_wrap', 'genesis_do_breadcrumbs', 11 );
-	                remove_action( 'genesis_before_loop', 'genesis_do_posts_page_heading' );
-	                remove_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 );
                 }
 
 				remove_action( 'genesis_before_content', 'genesis_do_breadcrumbs' );
 
 				return;
-			} else if ( is_archive() ) {
-				remove_action( 'genesis_before_content_sidebar_wrap', 'genesis_do_breadcrumbs', 11 );
-				remove_action( 'genesis_before_loop', 'genesis_do_posts_page_heading' );
-				remove_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 );
 			}
 
 			remove_action( 'genesis_before_content', 'genesis_do_breadcrumbs' );
