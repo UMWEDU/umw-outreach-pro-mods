@@ -72,7 +72,9 @@ if ( ! class_exists( 'News' ) ) {
 			}
 
 			if ( has_blocks() || is_archive() ) {
-                add_action( 'wp_head', array( $this, 're_add_post_title' ), 11 );
+                if ( is_singular() ) {
+	                add_action( 'wp_head', array( $this, 're_add_post_title' ), 11 );
+                }
                 remove_all_actions( 'genesis_sidebar' );
                 remove_theme_support( 'genesis-footer-widgets' );
 
