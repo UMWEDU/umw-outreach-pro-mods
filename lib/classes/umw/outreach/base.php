@@ -2912,6 +2912,10 @@ if ( ! class_exists( 'Base' ) ) {
          * @return void
          */
         public function custom_posts_columns( string $column_name, int $post_id ): void {
+            if ( 'featured' !== $column_name ) {
+                return;
+            }
+
             $featured = false;
 	        if ( defined( 'UMW_LOCALIST_VERSION' ) ) {
                 // This is the Events site
