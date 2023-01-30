@@ -26,19 +26,7 @@ if ( ! class_exists( 'Columns' ) ) {
 		 * @since  0.1
 		 */
 		private function __construct() {
-			$this->is_events = ( defined( 'UMW_LOCALIST_VERSION' ) );
-			$this->is_news = is_a( $GLOBALS['umw_outreach_mods_obj'], 'UMW\Outreach\News' );
-
-			/**
-			 * Add extra info to the post list on News & Events sites
-			 */
-			add_filter( 'manage_post_posts_columns', array( $this, 'posts_columns' ) );
-			add_filter( 'manage_umw-localist_posts_columns', array( $this, 'posts_columns' ) );
-			add_action( 'manage_post_posts_custom_column', array( $this, 'custom_posts_columns' ), 10, 2 );
-			add_action( 'manage_umw-localist_posts_custom_column', array( $this, 'custom_posts_columns' ), 10, 2 );
-			add_action( 'manage_edit-post_sortable_columns', array( $this, 'custom_posts_sortable' ) );
-			add_action( 'manage_edit-umw-localist_sortable_columns', array( $this, 'custom_posts_sortable' ) );
-			add_action( 'pre_get_posts', array( $this, 'do_sortable' ) );
+			add_action( 'admin_init', array( $this, 'init' ) );
 		}
 
 		/**
@@ -55,6 +43,29 @@ if ( ! class_exists( 'Columns' ) ) {
 			}
 
 			return self::$instance;
+		}
+
+		/**
+		 * Instantiate necessary actions
+		 *
+		 * @access public
+		 * @since  2023.01
+		 * @return void
+		 */
+		public function init() {
+			$this->is_events = ( defined( 'UMW_LOCALIST_VERSION' ) );
+			$this->is_news = is_a( $GLOBALS['umw_outreach_mods_obj'], 'UMW\Outreach\News' );
+
+			/**
+			 * Add extra info to the post list on News & Events sites
+			 */
+			add_filter( 'manage_post_posts_columns', array( $this, 'posts_columns' ) );
+			add_filter( 'manage_umw-localist_posts_columns', array( $this, 'posts_columns' ) );
+			add_action( 'manage_post_posts_custom_column', array( $this, 'custom_posts_columns' ), 10, 2 );
+			add_action( 'manage_umw-localist_posts_custom_column', array( $this, 'custom_posts_columns' ), 10, 2 );
+			add_action( 'manage_edit-post_sortable_columns', array( $this, 'custom_posts_sortable' ) );
+			add_action( 'manage_edit-umw-localist_sortable_columns', array( $this, 'custom_posts_sortable' ) );
+			add_action( 'pre_get_posts', array( $this, 'do_sortable' ) );
 		}
 
 
