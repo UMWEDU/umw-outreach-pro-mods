@@ -199,6 +199,14 @@ if ( ! class_exists( 'Base' ) ) {
 			 * Attempt to fix Pretty Link Pro handling of SSL
 			 */
 			add_filter( 'prli_target_url', array( $this, 'prli_target_url' ) );
+
+            /**
+             * Add extra info to the post list on News & Events sites
+             */
+            add_filter( 'manage_post_posts_columns', array( $this, 'posts_columns' ) );
+            add_filter( 'manage_umw-localist_posts_columns', array( $this, 'posts_columns' ) );
+            add_action( 'manage_post_posts_custom_column', array( $this, 'custom_posts_columns' ), 10, 2 );
+			add_action( 'manage_umw-localist_posts_custom_column', array( $this, 'custom_posts_columns' ), 10, 2 );
 		}
 
 		/**
@@ -2869,5 +2877,59 @@ if ( ! class_exists( 'Base' ) ) {
 			return $rt . $url;
 		}
 
+        /**
+         * Add extra meta data to the post list on specific sites/post types
+         *
+         * @param array $columns the list of post columns
+         *
+         * @access public
+         * @since  2023.01
+         * @return array the updated list of columns
+         */
+        public function posts_columns( array $columns ): array {
+            if ( defined( 'UMW_LOCALIST_VERSION' ) ) {
+                // This is the Events site
+                if ( isset( $_GET['post_type'] ) && 'umw-localist' === $_GET['post_type'] ) {
+	                return array_merge( $columns, array( 'featured' => __( 'Featured', 'umw/outreach-mods' ) ) );
+                }
+            }
+
+            if ( is_a( $this, 'UMW\Outreach\News' ) ) {
+	            return array_merge( $columns, array( 'featured' => __( 'Featured', 'umw/outreach-mods' ) ) );
+            }
+
+            return $columns;
+        }
+
+        /**
+         * Handle building and outputting the custom meta data columns in the posts list
+         *
+         * @param string $column_name the handle for the column being handled
+         * @param int $post_id the ID of the post being listed
+         *
+         * @access public
+         * @since  2023.01
+         * @return void
+         */
+        public function custom_posts_columns( string $column_name, int $post_id ): void {
+            $featured = false;
+	        if ( defined( 'UMW_LOCALIST_VERSION' ) ) {
+                // This is the Events site
+                if ( 'umw-localist' === get_post_type( $post_id ) ) {
+	                $featured = get_post_meta( $post_id, 'umw_cb_post_is_featured', true );
+                }
+	        } else if ( is_a( $this, 'UMW\Outreach\News' ) ) {
+                // This is the News site
+		        $featured = get_post_meta( $post_id, 'umw_cb_post_is_featured', true );
+	        } else {
+                return;
+	        }
+
+            if ( in_array( $featured, array( 'true', '1', true, 1 ), true ) ) {
+                echo '<span class="dashicons dashicons-yes" aria-hidden="true"></span><span class="screen-reader-text">Yes</span>';
+            } else {
+                echo '&nbsp;';
+            }
+        }
 	}
 }
