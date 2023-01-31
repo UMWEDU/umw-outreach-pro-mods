@@ -69,9 +69,9 @@ if ( ! class_exists( 'Columns' ) ) {
 			add_action( 'pre_get_posts', array( $this, 'do_sortable' ) );
 
 			add_action( 'quick_edit_custom_box', array( $this, 'quick_edit_boxes' ), 10, 2 );
-            add_action( 'bulk_edit_custom_box', array( $this, 'quick_edit_boxes' ), 10, 2 );
+			add_action( 'bulk_edit_custom_box', array( $this, 'quick_edit_boxes' ), 10, 2 );
 			add_action( 'save_post', array( $this, 'save_quick_edit' ) );
-            add_action( 'save_post', array( $this, 'save_bulk_edit' ) );
+			add_action( 'save_post', array( $this, 'save_bulk_edit' ) );
 			add_action( 'admin_print_footer_scripts', array( $this, 'admin_footer_scripts' ) );
 		}
 
@@ -191,11 +191,13 @@ if ( ! class_exists( 'Columns' ) ) {
 			}
 
 			if ( ( $this->is_events && 'umw-localist' === $post_type ) || ( $this->is_news && 'post' === $post_type ) ) {
-				printf( '<div class="inline-edit-col">
+				$text = $this->is_news ? __( 'Is this a Featured news article?', 'umw/outreach' ) : __( 'Is this a Featured event?', 'umw/outreach' );
+				printf( '<fieldset class="inline-edit-col-right">
+                        <legend>%2$s</legend>
 						<label>
 							<input type="checkbox" name="umw_cb_post_is_featured" value="1"> %1$s
 						</label>
-					</div>', __( 'Featured', 'umw/outreach' ) );
+					</fieldset>', __( 'Featured', 'umw/outreach' ), $text );
 
 				return;
 			}
@@ -250,7 +252,7 @@ if ( ! class_exists( 'Columns' ) ) {
 			if ( ( $this->is_events && 'umw-localist' === $post_type ) || ( $this->is_news && 'post' === $post_type ) ) {
 
 				// check bulk edit nonce
-				if ( ! wp_verify_nonce( $_REQUEST[ '_wpnonce' ], 'bulk-posts' ) ) {
+				if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'bulk-posts' ) ) {
 					return;
 				}
 
