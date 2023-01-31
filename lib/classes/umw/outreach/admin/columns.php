@@ -192,12 +192,12 @@ if ( ! class_exists( 'Columns' ) ) {
 
 			if ( ( $this->is_events && 'umw-localist' === $post_type ) || ( $this->is_news && 'post' === $post_type ) ) {
 				$text = $this->is_news ? __( 'Is this a Featured news article?', 'umw/outreach' ) : __( 'Is this a Featured event?', 'umw/outreach' );
-				printf( '<fieldset class="inline-edit-col">
-                        <legend>%2$s</legend>
+				printf( '<div class="inline-edit-col">
+                        <h4>%2$s</h4>
 						<label>
 							<input type="checkbox" name="umw_cb_post_is_featured" value="1"> %1$s
 						</label>
-					</fieldset>', __( 'Featured', 'umw/outreach' ), $text );
+					</div>', __( 'Featured', 'umw/outreach' ), $text );
 
 				return;
 			}
