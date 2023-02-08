@@ -89,7 +89,12 @@ if ( ! class_exists( 'Columns' ) ) {
 			if ( $this->is_events ) {
 				// This is the Events site
 				if ( isset( $_GET['post_type'] ) && 'umw-localist' === $_GET['post_type'] ) {
-					return array_merge( $columns, array( 'featured' => __( 'Featured', 'umw/outreach-mods' ) ) );
+                    $new_columns = array(
+                        'featured' => __( 'Featured', 'umw/outreach-mods' ),
+                        'event-date' => __( 'Event Date', 'umw/outreach-mods' ),
+                    );
+
+					return array_merge( $columns, $new_columns );
 				}
 			}
 
@@ -111,28 +116,59 @@ if ( ! class_exists( 'Columns' ) ) {
 		 * @since  2023.01
 		 */
 		public function custom_posts_columns( string $column_name, int $post_id ): void {
-			if ( 'featured' !== $column_name ) {
+			if ( 'featured' !== $column_name && 'event-date' !== $column_name ) {
 				return;
 			}
 
-			$featured = false;
-			if ( $this->is_events ) {
-				// This is the Events site
-				if ( 'umw-localist' === get_post_type( $post_id ) ) {
-					$featured = get_post_meta( $post_id, 'umw_cb_post_is_featured', true );
-				}
-			} else if ( $this->is_news ) {
-				// This is the News site
-				$featured = get_post_meta( $post_id, 'umw_cb_post_is_featured', true );
-			} else {
-				return;
-			}
+            if ( 'featured' === $column_name ) {
+	            $featured = false;
+	            if ( $this->is_events ) {
+		            // This is the Events site
+		            if ( 'umw-localist' === get_post_type( $post_id ) ) {
+			            $featured = get_post_meta( $post_id, 'umw_cb_post_is_featured', true );
+		            }
+	            } else if ( $this->is_news ) {
+		            // This is the News site
+		            $featured = get_post_meta( $post_id, 'umw_cb_post_is_featured', true );
+	            } else {
+		            return;
+	            }
 
-			if ( in_array( $featured, array( 'true', '1', true, 1 ), true ) ) {
-				echo '<span class="dashicons dashicons-yes" aria-hidden="true"></span><span class="screen-reader-text">Yes</span>';
-			} else {
-				echo '&nbsp;';
-			}
+	            if ( in_array( $featured, array( 'true', '1', true, 1 ), true ) ) {
+		            echo '<span class="dashicons dashicons-yes" aria-hidden="true"></span><span class="screen-reader-text">Yes</span>';
+	            } else {
+		            echo '&nbsp;';
+	            }
+            } else if ( $this->is_events ) {
+                $dates = array(
+                    'start-date' => get_post_meta( $post_id, 'umw_localist_start_timestamp', true ),
+                    'end-date' => get_post_meta( $post_id, 'umw_localist_end_timestamp', true ),
+                );
+
+	            if ( empty( $dates['end-date'] ) ) {
+		            $dates['end-date'] = $dates['start-date'];
+	            }
+
+	            try {
+                    $dates['start-date'] = new \DateTime( $dates['start-date'] );
+                } catch( \Exception $e ) {
+                    return;
+                }
+
+                try {
+                    $dates['end-date'] = new \DateTime( $dates['end-date'] );
+                } catch ( \Exception $e ) {
+                    return;
+                }
+
+                if ( $dates['start-date'] === $dates['end-date'] ) {
+                    echo $dates['start-date']->format( 'Y-m-d' );
+                } else if ( $dates['start-date']->format( 'Y-m-d' ) === $dates['end-date']->format( 'Y-m-d' ) ) {
+                    echo $dates['start-date']->format( 'Y-m-d g:i a' ) . '-' . $dates['end-date']->format( 'g:i a' );
+                } else {
+                    echo $dates['start-date']->format( 'Y-m-d g:i a' ) . '-' . $dates['end-date']->format( 'Y-m-d g:i a' );
+                }
+            }
 		}
 
 		/**
@@ -151,6 +187,10 @@ if ( ! class_exists( 'Columns' ) ) {
 
 			$columns['featured'] = 'featured';
 
+            if ( $this->is_events ) {
+                $columns['event-date'] = 'event-date';
+            }
+
 			return $columns;
 		}
 
@@ -168,7 +208,10 @@ if ( ! class_exists( 'Columns' ) ) {
 			if ( 'featured' === $orderby ) {
 				$query->set( 'meta_key', 'umw_cb_post_is_featured' );
 				$query->set( 'orderby', 'meta_value' );
-			}
+			} else if ( 'event-date' === $orderby ) {
+                $query->set( 'meta_key', 'umw_localist_end_timestamp' );
+                $query->set( 'orderby', 'meta_value_num' );
+            }
 		}
 
 		/**
