@@ -123,84 +123,112 @@ if ( ! class_exists( 'Columns' ) ) {
 			}
 
             if ( 'featured' === $column_name ) {
-	            $featured = false;
-	            if ( $this->is_events ) {
-		            // This is the Events site
-		            if ( 'umw-localist' === get_post_type( $post_id ) ) {
-			            $featured = get_post_meta( $post_id, 'umw_cb_post_is_featured', true );
-		            }
-	            } else if ( $this->is_news ) {
-		            // This is the News site
-		            $featured = get_post_meta( $post_id, 'umw_cb_post_is_featured', true );
-	            } else {
-		            return;
-	            }
-
-	            if ( in_array( $featured, array( 'true', '1', true, 1 ), true ) ) {
-		            echo '<span class="dashicons dashicons-yes" aria-hidden="true"></span><span class="screen-reader-text">Yes</span>';
-	            } else {
-		            echo '&nbsp;';
-	            }
+                $this->do_featured_column( $post_id );
+                return;
             } else if ( $this->is_events ) {
-                $dates = array(
-                    'start-date' => get_post_meta( $post_id, 'umw_localist_start_timestamp', true ),
-                    'end-date' => get_post_meta( $post_id, 'umw_localist_end_timestamp', true ),
-                );
-
-                Base::log( 'Retrieved the following values for start & end dates: ' . print_r( $dates, true ) );
-
-                if ( empty( $dates['start-date'] ) ) {
-                    Base::log( 'The event with an ID of ' . $post_id . ' does not appear to have a start date' );
-	                echo '&nbsp;';
-                    return;
-                }
-
-                $eq = false;
-
-                if ( $dates['end-date'] === $dates['start-date'] || empty( $dates['end-date'] ) ) {
-                    $eq = true;
-                }
-
-                $continue = false;
-
-                if ( $dates['start-date'] = \DateTime::createFromFormat( 'U', $dates['start-date'] ) ) {
-                    $continue = true;
-                } else {
-		            Base::log( 'There was an error processing start date; it appears the date was empty' );
-                }
-
-                if ( $eq ) {
-                    $dates['end-date'] = $dates['start-date'];
-                }
-
-	            if ( $dates['end-date'] = \DateTime::createFromFormat( 'U', $dates['end-date'] ) ) {
-		            $continue = true;
-	            } else {
-		            Base::log( 'There was an error processing end date; it appears the date was empty' );
-	            }
-
-                if ( ! $continue ) {
-                    echo '&nbsp;';
-                    return;
-                }
-
-                if ( $dates['start-date'] === $dates['end-date'] ) {
-                    if ( $dates['start-date']->format( 'Hi' ) === '0000' ) {
-                        echo $dates['start-date']->format( 'Y-m-d' );
-                    } else {
-	                    echo $dates['start-date']->format( 'Y-m-d g:i a' );
-                    }
-                } else if ( $dates['start-date']->format( 'Y-m-d' ) === $dates['end-date']->format( 'Y-m-d' ) ) {
-                    if ( $dates['start-date']->format( 'a' ) === $dates['end-date']->format( 'a' ) ) {
-                        echo $dates['start-date']->format( 'Y-m-d g:i' ) . '-' . $dates['end-date']->format( 'g:i a' );
-                    } else {
-	                    echo $dates['start-date']->format( 'Y-m-d g:i a' ) . '-' . $dates['end-date']->format( 'g:i a' );
-                    }
-                } else {
-                    echo $dates['start-date']->format( 'Y-m-d g:i a' ) . '-' . $dates['end-date']->format( 'Y-m-d g:i a' );
-                }
+                $this->do_event_date_column( $post_id );
+                return;
             }
 		}
+
+		/**
+		 * Output the content of the "Featured" column
+         *
+         * @param int $post_id the ID of the post being displayed
+         *
+         * @access private
+         * @since  0.1
+         * @return void
+		 */
+        private function do_featured_column( int $post_id ) {
+	        $featured = false;
+	        if ( $this->is_events ) {
+		        // This is the Events site
+		        if ( 'umw-localist' === get_post_type( $post_id ) ) {
+			        $featured = get_post_meta( $post_id, 'umw_cb_post_is_featured', true );
+		        }
+	        } else if ( $this->is_news ) {
+		        // This is the News site
+		        $featured = get_post_meta( $post_id, 'umw_cb_post_is_featured', true );
+	        } else {
+		        return;
+	        }
+
+	        if ( in_array( $featured, array( 'true', '1', true, 1 ), true ) ) {
+		        echo '<span class="dashicons dashicons-yes" aria-hidden="true"></span><span class="screen-reader-text">Yes</span>';
+	        } else {
+		        echo '&nbsp;';
+	        }
+        }
+
+		/**
+		 * Output the contents of the event date column
+         *
+         * @param int $post_id the ID of the post being displayed
+         *
+         * @access private
+         * @since  0.1
+         * @return void
+		 */
+        private function do_event_date_column( int $post_id ) {
+	        $dates = array(
+		        'start-date' => get_post_meta( $post_id, 'umw_localist_start_timestamp', true ),
+		        'end-date' => get_post_meta( $post_id, 'umw_localist_end_timestamp', true ),
+	        );
+
+	        Base::log( 'Retrieved the following values for start & end dates: ' . print_r( $dates, true ) );
+
+	        if ( empty( $dates['start-date'] ) ) {
+		        Base::log( 'The event with an ID of ' . $post_id . ' does not appear to have a start date' );
+		        echo '&nbsp;';
+		        return;
+	        }
+
+	        $eq = false;
+
+	        if ( $dates['end-date'] === $dates['start-date'] || empty( $dates['end-date'] ) ) {
+		        $eq = true;
+	        }
+
+	        $continue = false;
+
+	        if ( $dates['start-date'] = \DateTime::createFromFormat( 'U', $dates['start-date'] ) ) {
+		        $continue = true;
+	        } else {
+		        Base::log( 'There was an error processing start date; it appears the date was empty' );
+	        }
+
+	        if ( $eq ) {
+		        $dates['end-date'] = $dates['start-date'];
+	        }
+
+	        if ( $dates['end-date'] = \DateTime::createFromFormat( 'U', $dates['end-date'] ) ) {
+		        $continue = true;
+	        } else {
+		        Base::log( 'There was an error processing end date; it appears the date was empty' );
+	        }
+
+	        if ( ! $continue ) {
+		        echo '&nbsp;';
+		        return;
+	        }
+
+	        if ( $dates['start-date'] === $dates['end-date'] ) {
+		        if ( $dates['start-date']->format( 'Hi' ) === '0000' ) {
+			        echo $dates['start-date']->format( 'Y-m-d' );
+		        } else {
+			        echo $dates['start-date']->format( 'Y-m-d g:i a' );
+		        }
+	        } else if ( $dates['start-date']->format( 'Y-m-d' ) === $dates['end-date']->format( 'Y-m-d' ) ) {
+		        if ( $dates['start-date']->format( 'a' ) === $dates['end-date']->format( 'a' ) ) {
+			        echo $dates['start-date']->format( 'Y-m-d g:i' ) . '-' . $dates['end-date']->format( 'g:i a' );
+		        } else {
+			        echo $dates['start-date']->format( 'Y-m-d g:i a' ) . '-' . $dates['end-date']->format( 'g:i a' );
+		        }
+	        } else {
+		        echo $dates['start-date']->format( 'Y-m-d g:i a' ) . '-' . $dates['end-date']->format( 'Y-m-d g:i a' );
+	        }
+        }
 
 		/**
 		 * Allow sorting by "Featured"
