@@ -172,6 +172,7 @@ if ( ! class_exists( 'Columns' ) ) {
 		 */
         private function do_event_date_column( int $post_id ) {
             $timezone = new \DateTimeZone( 'GMT' );
+            $local_tz = new \DateTimeZone( 'America/New_York' );
 
 	        $dates = array(
 		        'start-date' => get_post_meta( $post_id, 'umw_localist_start_timestamp', true ),
@@ -214,6 +215,9 @@ if ( ! class_exists( 'Columns' ) ) {
 		        echo '&nbsp;';
 		        return;
 	        }
+
+            $dates['start-date']->setTimezone( $local_tz );
+            $dates['end-date']->setTimezone( $local_tz );
 
 	        if ( $dates['start-date'] === $dates['end-date'] ) {
 		        if ( $dates['start-date']->format( 'Hi' ) === '0000' ) {
