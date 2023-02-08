@@ -200,12 +200,12 @@ if ( ! class_exists( 'Columns' ) ) {
 
 	        if ( $eq ) {
 		        $dates['end-date'] = $dates['start-date'];
-	        }
-
-	        if ( $dates['end-date'] = \DateTime::createFromFormat( 'U', $dates['end-date'] ) ) {
-		        $continue = true;
 	        } else {
-		        Base::log( 'There was an error processing end date; it appears the date was empty' );
+		        if ( $dates['end-date'] = \DateTime::createFromFormat( 'U', $dates['end-date'] ) ) {
+			        $continue = true;
+		        } else {
+			        Base::log( 'There was an error processing end date; it appears the date was empty' );
+		        }
 	        }
 
 	        if ( ! $continue ) {
