@@ -149,21 +149,30 @@ if ( ! class_exists( 'Columns' ) ) {
 
                 Base::log( 'Retrieved the following values for start & end dates: ' . print_r( $dates, true ) );
 
+                if ( empty( $dates['start-date'] ) ) {
+                    Base::log( 'The event with an ID of ' . $post_id . ' does not appear to have a start date' );
+                    return;
+                }
+
 	            if ( empty( $dates['end-date'] ) ) {
 		            $dates['end-date'] = $dates['start-date'];
 	            }
 
-	            try {
-                    $dates['start-date'] = \DateTime::createFromFormat( 'U', $dates['start-date'] );
-                } catch( \Exception $e ) {
-                    Base::log( 'There was an exception creating a DateTime object from the start date: ' . $e->getMessage() );
-                    return;
+                $continue = false;
+
+                if ( $dates['start-date'] = \DateTime::createFromFormat( 'U', $dates['start-date'] ) ) {
+                    $continue = true;
+                } else {
+		            Base::log( 'There was an error processing start date; it appears the date was empty' );
                 }
 
-                try {
-                    $dates['end-date'] = \DateTime::createFromFormat( 'U', $dates['end-date'] );
-                } catch ( \Exception $e ) {
-	                Base::log( 'There was an exception creating a DateTime object from the end date: ' . $e->getMessage() );
+	            if ( $dates['end-date'] = \DateTime::createFromFormat( 'U', $dates['end-date'] ) ) {
+		            $continue = true;
+	            } else {
+		            Base::log( 'There was an error processing end date; it appears the date was empty' );
+	            }
+
+                if ( ! $continue ) {
                     return;
                 }
 
