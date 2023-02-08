@@ -171,7 +171,7 @@ if ( ! class_exists( 'Columns' ) ) {
          * @return void
 		 */
         private function do_event_date_column( int $post_id ) {
-            $timezone = new \DateTimeZone( 'America/New_York' );
+            $timezone = new \DateTimeZone( 'GMT' );
 
 	        $dates = array(
 		        'start-date' => get_post_meta( $post_id, 'umw_localist_start_timestamp', true ),
