@@ -154,14 +154,14 @@ if ( ! class_exists( 'Columns' ) ) {
 	            }
 
 	            try {
-                    $dates['start-date'] = new \DateTime( $dates['start-date'] );
+                    $dates['start-date'] = \DateTime::createFromFormat( 'U', $dates['start-date'] );
                 } catch( \Exception $e ) {
                     Base::log( 'There was an exception creating a DateTime object from the start date: ' . $e->getMessage() );
                     return;
                 }
 
                 try {
-                    $dates['end-date'] = new \DateTime( $dates['end-date'] );
+                    $dates['end-date'] = \DateTime::createFromFormat( 'U', $dates['end-date'] );
                 } catch ( \Exception $e ) {
 	                Base::log( 'There was an exception creating a DateTime object from the end date: ' . $e->getMessage() );
                     return;
