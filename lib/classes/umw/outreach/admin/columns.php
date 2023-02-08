@@ -171,6 +171,8 @@ if ( ! class_exists( 'Columns' ) ) {
          * @return void
 		 */
         private function do_event_date_column( int $post_id ) {
+            $timezone = new \DateTimeZone( 'America/New_York' );
+
 	        $dates = array(
 		        'start-date' => get_post_meta( $post_id, 'umw_localist_start_timestamp', true ),
 		        'end-date' => get_post_meta( $post_id, 'umw_localist_end_timestamp', true ),
@@ -192,7 +194,7 @@ if ( ! class_exists( 'Columns' ) ) {
 
 	        $continue = false;
 
-	        if ( $dates['start-date'] = \DateTime::createFromFormat( 'U', $dates['start-date'] ) ) {
+	        if ( $dates['start-date'] = \DateTime::createFromFormat( 'U', $dates['start-date'], $timezone ) ) {
 		        $continue = true;
 	        } else {
 		        Base::log( 'There was an error processing start date; it appears the date was empty' );
@@ -201,7 +203,7 @@ if ( ! class_exists( 'Columns' ) ) {
 	        if ( $eq ) {
 		        $dates['end-date'] = $dates['start-date'];
 	        } else {
-		        if ( $dates['end-date'] = \DateTime::createFromFormat( 'U', $dates['end-date'] ) ) {
+		        if ( $dates['end-date'] = \DateTime::createFromFormat( 'U', $dates['end-date'], $timezone ) ) {
 			        $continue = true;
 		        } else {
 			        Base::log( 'There was an error processing end date; it appears the date was empty' );
