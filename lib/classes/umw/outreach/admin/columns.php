@@ -151,12 +151,15 @@ if ( ! class_exists( 'Columns' ) ) {
 
                 if ( empty( $dates['start-date'] ) ) {
                     Base::log( 'The event with an ID of ' . $post_id . ' does not appear to have a start date' );
+	                echo '&nbsp;';
                     return;
                 }
 
-	            if ( empty( $dates['end-date'] ) ) {
-		            $dates['end-date'] = $dates['start-date'];
-	            }
+                $eq = false;
+
+                if ( $dates['end-date'] === $dates['start-date'] || empty( $dates['end-date'] ) ) {
+                    $eq = true;
+                }
 
                 $continue = false;
 
@@ -166,6 +169,10 @@ if ( ! class_exists( 'Columns' ) ) {
 		            Base::log( 'There was an error processing start date; it appears the date was empty' );
                 }
 
+                if ( $eq ) {
+                    $dates['end-date'] = $dates['start-date'];
+                }
+
 	            if ( $dates['end-date'] = \DateTime::createFromFormat( 'U', $dates['end-date'] ) ) {
 		            $continue = true;
 	            } else {
@@ -173,13 +180,22 @@ if ( ! class_exists( 'Columns' ) ) {
 	            }
 
                 if ( ! $continue ) {
+                    echo '&nbsp;';
                     return;
                 }
 
                 if ( $dates['start-date'] === $dates['end-date'] ) {
-                    echo $dates['start-date']->format( 'Y-m-d' );
+                    if ( $dates['start-date']->format( 'Hi' ) === '0000' ) {
+                        echo $dates['start-date']->format( 'Y-m-d' );
+                    } else {
+	                    echo $dates['start-date']->format( 'Y-m-d g:i a' );
+                    }
                 } else if ( $dates['start-date']->format( 'Y-m-d' ) === $dates['end-date']->format( 'Y-m-d' ) ) {
-                    echo $dates['start-date']->format( 'Y-m-d g:i a' ) . '-' . $dates['end-date']->format( 'g:i a' );
+                    if ( $dates['start-date']->format( 'a' ) === $dates['end-date']->format( 'a' ) ) {
+                        echo $dates['start-date']->format( 'Y-m-d g:i' ) . '-' . $dates['end-date']->format( 'g:i a' );
+                    } else {
+	                    echo $dates['start-date']->format( 'Y-m-d g:i a' ) . '-' . $dates['end-date']->format( 'g:i a' );
+                    }
                 } else {
                     echo $dates['start-date']->format( 'Y-m-d g:i a' ) . '-' . $dates['end-date']->format( 'Y-m-d g:i a' );
                 }
