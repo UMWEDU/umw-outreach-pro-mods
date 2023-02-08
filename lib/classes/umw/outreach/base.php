@@ -2801,7 +2801,7 @@ if ( ! class_exists( 'Base' ) ) {
 				return;
 			}
 
-			error_log( '[News Site Debug]: ' . $message );
+			error_log( '[Outreach Mods Site Debug]: ' . $message );
 		}
 
 		/**

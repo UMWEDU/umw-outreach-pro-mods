@@ -21,6 +21,11 @@ if ( ! class_exists( 'Columns' ) ) {
 		 * @access private
 		 */
 		private bool $is_events = false;
+		/**
+		 * @var array $fields the list of columns added through this class
+         * @access private
+		 */
+        private array $fields = array();
 
 		/**
 		 * Construct our Columns object
@@ -96,12 +101,17 @@ if ( ! class_exists( 'Columns' ) ) {
                         'event-date' => __( 'Event Date', 'umw/outreach-mods' ),
                     );
 
+                    $this->fields = array_keys( $new_columns );
+
 					return array_merge( $columns, $new_columns );
 				}
 			}
 
 			if ( $this->is_news ) {
-				return array_merge( $columns, array( 'featured' => __( 'Featured', 'umw/outreach-mods' ) ) );
+                $new_columns = array( 'featured' => __( 'Featured', 'umw/outreach-mods' ) );
+                $this->fields = array_keys( $new_columns );
+
+				return array_merge( $columns, $new_columns );
 			}
 
 			return $columns;
@@ -118,14 +128,14 @@ if ( ! class_exists( 'Columns' ) ) {
 		 * @since  2023.01
 		 */
 		public function custom_posts_columns( string $column_name, int $post_id ): void {
-			if ( 'featured' !== $column_name && 'event-date' !== $column_name ) {
+			if ( ! in_array( $column_name, $this->fields, true ) ) {
 				return;
 			}
 
             if ( 'featured' === $column_name ) {
                 $this->do_featured_column( $post_id );
                 return;
-            } else if ( $this->is_events ) {
+            } else if ( 'event-date' === $column_name && $this->is_events ) {
                 $this->do_event_date_column( $post_id );
                 return;
             }
