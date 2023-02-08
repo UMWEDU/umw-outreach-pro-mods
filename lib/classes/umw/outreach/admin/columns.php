@@ -2,6 +2,8 @@
 
 namespace UMW\Outreach\Admin;
 
+use UMW\Outreach\Base;
+
 if ( ! class_exists( 'Columns' ) ) {
 	class Columns {
 		/**
@@ -145,6 +147,8 @@ if ( ! class_exists( 'Columns' ) ) {
                     'end-date' => get_post_meta( $post_id, 'umw_localist_end_timestamp', true ),
                 );
 
+                Base::log( 'Retrieved the following values for start & end dates: ' . print_r( $dates, true ) );
+
 	            if ( empty( $dates['end-date'] ) ) {
 		            $dates['end-date'] = $dates['start-date'];
 	            }
@@ -152,12 +156,14 @@ if ( ! class_exists( 'Columns' ) ) {
 	            try {
                     $dates['start-date'] = new \DateTime( $dates['start-date'] );
                 } catch( \Exception $e ) {
+                    Base::log( 'There was an exception creating a DateTime object from the start date: ' . $e->getMessage() );
                     return;
                 }
 
                 try {
                     $dates['end-date'] = new \DateTime( $dates['end-date'] );
                 } catch ( \Exception $e ) {
+	                Base::log( 'There was an exception creating a DateTime object from the end date: ' . $e->getMessage() );
                     return;
                 }
 
@@ -209,7 +215,7 @@ if ( ! class_exists( 'Columns' ) ) {
 				$query->set( 'meta_key', 'umw_cb_post_is_featured' );
 				$query->set( 'orderby', 'meta_value' );
 			} else if ( 'event-date' === $orderby ) {
-                $query->set( 'meta_key', 'umw_localist_end_timestamp' );
+                $query->set( 'meta_key', 'umw_localist_start_timestamp' );
                 $query->set( 'orderby', 'meta_value_num' );
             }
 		}
