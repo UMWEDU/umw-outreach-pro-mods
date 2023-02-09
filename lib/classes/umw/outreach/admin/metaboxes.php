@@ -143,7 +143,7 @@ if ( ! class_exists( 'Metaboxes' ) ) {
 					case 'umw_localist_start_timestamp' :
 					case 'umw_localist_end_timestamp' :
 						$timezone = new \DateTimeZone( 'GMT' );
-						$local_tz = new \DateTimeZone( 'America/New_York' );
+						$local_tz = wp_timezone();
 
 						$time = get_post_meta( $post_id, $key, true );
 						if ( ! empty( $time ) ) {

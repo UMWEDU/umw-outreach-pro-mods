@@ -182,7 +182,7 @@ if ( ! class_exists( 'Columns' ) ) {
 		 */
         private function do_event_date_column( int $post_id ) {
             $timezone = new \DateTimeZone( 'GMT' );
-            $local_tz = new \DateTimeZone( 'America/New_York' );
+            $local_tz = wp_timezone();
 
 	        $dates = array(
 		        'start-date' => get_post_meta( $post_id, 'umw_localist_start_timestamp', true ),
