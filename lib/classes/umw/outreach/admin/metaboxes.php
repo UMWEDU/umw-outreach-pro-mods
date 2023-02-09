@@ -95,7 +95,7 @@ if ( ! class_exists( 'Metaboxes' ) ) {
 
 			add_meta_box(
 				'event-information',
-				__( 'Event Information', 'umw/outreach-mods' ),
+				__( 'Localist Information', 'umw/outreach-mods' ),
 				array( $this, 'event_information_metabox' ),
 				$post_type,
 				'advanced',
