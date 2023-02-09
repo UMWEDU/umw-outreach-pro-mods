@@ -201,7 +201,7 @@ if ( ! class_exists( 'Base' ) ) {
 			 */
 			add_filter( 'prli_target_url', array( $this, 'prli_target_url' ) );
 
-			Columns::instance();
+			Admin::instance();
 		}
 
 		/**
