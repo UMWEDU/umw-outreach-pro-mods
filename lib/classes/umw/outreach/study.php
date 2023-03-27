@@ -28,7 +28,7 @@ if ( ! class_exists( 'Study' ) ) {
 			/**
 			 * Fix the Areas of Study archives until I find a better way to handle this
 			 */
-			add_action( 'template_redirect', array( $this, 'do_study_archives' ) );
+			/*add_action( 'template_redirect', array( $this, 'do_study_archives' ) );
 			add_action( 'genesis_before_loop', array( $this, 'do_program_feature' ), 11 );
 
 			add_shortcode( 'wpv-oembed', array( $this, 'do_wpv_oembed' ) );
@@ -43,7 +43,7 @@ if ( ! class_exists( 'Study' ) ) {
 				}
 			}, 1 );
 			add_filter( 'wpghs_sync_branch', array( $this, 'wp2ghs_branch' ) );
-			add_filter( 'wpghs_pre_import_meta', array( $this, 'wp2ghs_set_terms' ), 10, 2 );
+			add_filter( 'wpghs_pre_import_meta', array( $this, 'wp2ghs_set_terms' ), 10, 2 );*/
 		}
 
 		function do_wpv_oembed( $atts = array(), $content = '' ) {

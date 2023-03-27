@@ -1,0 +1,60 @@
+[
+  {
+    "key": "group_6421edb0f2c51",
+    "title": "Links",
+    "fields": [
+      {
+        "key": "field_6421edb4f2990",
+        "label": "Department site",
+        "name": "department",
+        "aria-label": "",
+        "type": "url",
+        "instructions": "",
+        "required": 1,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "",
+        "placeholder": ""
+      },
+      {
+        "key": "field_6421edfcf2991",
+        "label": "Course Listing",
+        "name": "courses",
+        "aria-label": "",
+        "type": "url",
+        "instructions": "Link to the appropriate page in the academic catalog.",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "",
+        "placeholder": ""
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "post_type",
+          "operator": "==",
+          "value": "areas"
+        }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "key": "group_6421ee40c7f6c",
+    "title": "Additional Information",
+    "fields": [
+      {
+        "key": "field_6421ee43d9a10",
+        "label": "Additional Info",
+        "name": "additional_info",
+        "aria-label": "",
+        "type": "wysiwyg",
+        "instructions": "If you have additional keywords or phrases to help folks search for this Area of Study, add that information here.",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "",
+        "tabs": "all",
+        "toolbar": "full",
+        "media_upload": 1,
+        "delay": 0
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "post_type",
+          "operator": "==",
+          "value": "post"
+        }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0
+  }
+]
