@@ -28,7 +28,7 @@
       {
         "param": "post_type",
         "operator": "==",
-        "value": "post"
+        "value": "areas"
       }
     ]
   ],
@@ -41,5 +41,5 @@
   "active": true,
   "description": "",
   "show_in_rest": 0,
-  "modified": 1650978392
+  "modified": 1650978393
 }
