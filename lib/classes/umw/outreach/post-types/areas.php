@@ -81,6 +81,7 @@ namespace UMW\Outreach\Post_Types {
 					'supports'              => array( 'title', 'editor', 'thumbnail' ),
 					'show_in_graphql'       => false,
 					'taxonomies'            => array( 'department', 'key' ),
+					'menu_icon'             => 'dashicons-book-alt',
 				);
 			}
 
