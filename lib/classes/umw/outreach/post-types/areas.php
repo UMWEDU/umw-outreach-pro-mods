@@ -76,7 +76,7 @@ namespace UMW\Outreach\Post_Types {
 					'capability_type'       => 'post',
 					'map_meta_cap'          => true,
 					'hierarchical'          => false,
-					'rewrite'               => array( 'slug' => 'area', 'with_front' => false ),
+					'rewrite'               => array( 'slug' => 'areas', 'with_front' => false ),
 					'query_var'             => true,
 					'supports'              => array( 'title', 'editor', 'thumbnail' ),
 					'show_in_graphql'       => false,
