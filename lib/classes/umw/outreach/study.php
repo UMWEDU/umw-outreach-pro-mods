@@ -67,7 +67,8 @@ if ( ! class_exists( 'Study' ) ) {
 			);
 
 			$posts = get_posts( array(
-				'post_type' => 'areas'
+				'post_type' => 'areas',
+				'posts_per_page' => -1
 			) );
 
 			foreach ( $posts as $post ) {
