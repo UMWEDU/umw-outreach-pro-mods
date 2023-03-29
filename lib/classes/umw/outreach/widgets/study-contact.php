@@ -95,6 +95,11 @@ class Study_Contact extends \WP_Widget {
 		$instance['widget_id'] = $args['id'];
 		self::$widget_id       = $instance['widget_id'];
 
+		$test = $this->get_content( $instance );
+		if ( empty( $test ) ) {
+			return;
+		}
+
 		$args = wp_parse_args( $args, array(
 			'before_widget' => '',
 			'after_widget'  => '',
@@ -126,39 +131,19 @@ class Study_Contact extends \WP_Widget {
 	 * @since  0.1
 	 */
 	public function content( array $instance = array() ) {
-		return get_field( 'contact_information', get_the_ID(), true );
+		echo $this->get_content( $instance );
 	}
 
 	/**
-	 * Add the "Department" and "Course List" links to the nav menu
+	 * Retrieve the content of the widget
 	 *
-	 * @param string $items The HTML list content for the menu items.
-	 * @param \stdClass $args An object containing wp_nav_menu() arguments.
+	 * @param array $instance the specific settings for this instance of the widget
 	 *
 	 * @access public
-	 * @return string the updated menu items
 	 * @since  0.1
+	 * @return string the content of the widget
 	 */
-	public function add_menu_items( string $items, \stdClass $args ): string {
-		$format = '<li class="%3$s"><a href="%1$s">%2$s</a></li>';
-
-		$extra = array(
-			'department' => array(
-				'url'   => get_field( 'department', get_the_ID(), false ),
-				'label' => __( 'Department Website', 'umw-outreach-mods' ),
-			),
-			'courses'    => array(
-				'url'   => get_field( 'courses', get_the_ID(), false ),
-				'label' => __( 'Course Listings', 'umw-outreach-mods' ),
-			),
-		);
-
-		$rt = '';
-
-		foreach ( $extra as $item ) {
-			$rt .= sprintf( $format, $item['url'], $item['label'], 'menu-item menu-item-type-custom menu-item-object-custom' );
-		}
-
-		return $rt . $items;
+	public function get_content( array $instance = array() ) {
+		return get_field( 'contact_information', get_the_ID(), true );
 	}
 }
