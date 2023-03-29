@@ -72,14 +72,14 @@ if ( ! class_exists( 'Study' ) ) {
 			foreach ( $posts as $post ) {
 
 				$v = get_post_meta( $post->ID, 'outreach-upgraded', true );
-				if ( version_compare( $this->version, $v, '>=' ) ) {
+				if ( version_compare( $v, $this->version, '>=' ) ) {
 					/* We already performed the upgrade */
 					return;
 				}
 
 				foreach ( $meta as $key ) {
 					Base::log( 'Preparing to delete ' . $key . ' from the post meta for ' . $post->ID );
-					/*switch ( $key ) {
+					switch ( $key ) {
 						case 'department' :
 						case 'courses' :
 							$old = get_post_meta( $post->ID, 'wpcf-' . $key, true );
@@ -87,7 +87,7 @@ if ( ! class_exists( 'Study' ) ) {
 						default :
 							delete_post_meta( $post->ID, 'wpcf-' . $key );
 							break;
-					}*/
+					}
 				}
 
 				add_post_meta( $post->ID, 'outreach-upgraded', $this->version );
