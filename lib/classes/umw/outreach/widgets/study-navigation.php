@@ -42,7 +42,7 @@ class Study_Navigation extends \WP_Widget {
 	public function form( $instance ): string {
 		$instance = wp_parse_args( $instance, array(
 			'title' => '',
-			'menu'  => null,
+			'menu'  => 0,
 		) );
 
 		$title = esc_attr( $instance['title'] );
@@ -70,7 +70,7 @@ class Study_Navigation extends \WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance = wp_parse_args( $new_instance, array(
 			'title' => '',
-			'menu'  => null,
+			'menu'  => 0,
 		) );
 
 		$instance['title'] = esc_attr( $new_instance['title'] );
@@ -101,7 +101,7 @@ class Study_Navigation extends \WP_Widget {
 
 		$instance              = wp_parse_args( $instance, array(
 			'title' => '',
-			'menu'  => null,
+			'menu'  => 0,
 		) );
 		$instance['widget_id'] = $args['id'];
 		self::$widget_id       = $instance['widget_id'];
