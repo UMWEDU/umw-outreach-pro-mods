@@ -84,7 +84,7 @@ if ( ! class_exists( 'Study' ) ) {
 						case 'department' :
 						case 'courses' :
 							$old = get_post_meta( $post->ID, 'wpcf-' . $key, true );
-							$new = update_field( $key, $old, $post->ID );
+							$new = update_post_meta( $post->ID, $key, $old );
 						default :
 							delete_post_meta( $post->ID, 'wpcf-' . $key );
 							break;
