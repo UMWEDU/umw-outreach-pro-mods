@@ -84,7 +84,7 @@ if ( ! class_exists( 'Study' ) ) {
 						case 'department' :
 						case 'courses' :
 							$old = get_post_meta( $post->ID, 'wpcf-' . $key, true );
-							$new = add_post_meta( $post->ID, $key, $old );
+							$new = update_field( $key, $old, $post->ID );
 						default :
 							delete_post_meta( $post->ID, 'wpcf-' . $key );
 							break;
@@ -113,8 +113,8 @@ if ( ! class_exists( 'Study' ) ) {
 		 * Instantiate our Areas of Study widgets
 		 *
 		 * @access public
-		 * @since  1.0
 		 * @return void
+		 * @since  1.0
 		 */
 		public function register_widgets() {
 			foreach ( array( 'Navigation', 'Contact' ) as $item ) {
