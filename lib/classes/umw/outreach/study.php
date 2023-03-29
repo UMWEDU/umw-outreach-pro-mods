@@ -36,6 +36,7 @@ if ( ! class_exists( 'Study' ) ) {
 
 			add_action( 'init', array( $this, 'load_types' ) );
 			ACF_Setup::instance();
+			add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 			$this->do_upgrade();
 		}
 
@@ -105,6 +106,19 @@ if ( ! class_exists( 'Study' ) ) {
 			Post_Types\Areas::instance();
 			foreach ( array( 'Department', 'Key' ) as $type ) {
 				call_user_func( array( '\UMW\Outreach\Taxonomies\\' . $type, 'instance' ) );
+			}
+		}
+
+		/**
+		 * Instantiate our Areas of Study widgets
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @return void
+		 */
+		public function register_widgets() {
+			foreach ( array( 'Navigation', 'Contact' ) as $item ) {
+				register_widget( '\UMW\Outreach\Widgets\Study_' . $item );
 			}
 		}
 	}
