@@ -3,12 +3,12 @@
   "title": "Additional Information",
   "fields": [
     {
-      "key": "field_6421ee43d9a10",
-      "label": "Additional Info",
-      "name": "additional_info",
+      "key": "field_642427caf03be",
+      "label": "Contact Information",
+      "name": "contact_information",
       "aria-label": "",
       "type": "wysiwyg",
-      "instructions": "If you have additional keywords or phrases to help folks search for this Area of Study, add that information here.",
+      "instructions": "",
       "required": 0,
       "conditional_logic": 0,
       "wrapper": {
@@ -19,8 +19,28 @@
       "default_value": "",
       "tabs": "all",
       "toolbar": "full",
-      "media_upload": 1,
+      "media_upload": 0,
       "delay": 0
+    },
+    {
+      "key": "field_6421ee43d9a10",
+      "label": "Additional Info",
+      "name": "additional_info",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "If you have additional keywords or phrases to help folks search for this Area of Study, add that information here.",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "rows": "",
+      "placeholder": "",
+      "new_lines": ""
     }
   ],
   "location": [
@@ -41,5 +61,5 @@
   "active": true,
   "description": "",
   "show_in_rest": 0,
-  "modified": 1680031577
+  "modified": 1680091200
 }
