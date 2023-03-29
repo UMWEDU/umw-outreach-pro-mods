@@ -89,10 +89,6 @@ class Study_Contact extends \WP_Widget {
 			return;
 		}
 
-		if ( ! array_key_exists( 'menu', $instance ) || empty( $instance['menu'] ) ) {
-			return;
-		}
-
 		$instance              = wp_parse_args( $instance, array(
 			'title' => '',
 		) );
