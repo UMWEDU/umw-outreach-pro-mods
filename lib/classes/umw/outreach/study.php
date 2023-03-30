@@ -45,11 +45,11 @@ if ( ! class_exists( 'Study' ) ) {
 		/**
 		 * Upgrade the information in the database
 		 *
-		 * @access private
+		 * @access public
 		 * @return void
 		 * @since  2023.03
 		 */
-		private function do_upgrade() {
+		public function do_upgrade() {
 			Base::log( 'Entered the do_upgrade method' );
 			$meta = array(
 				'degree-awarded',
