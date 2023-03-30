@@ -37,7 +37,9 @@ if ( ! class_exists( 'Study' ) ) {
 			add_action( 'init', array( $this, 'load_types' ) );
 			ACF_Setup::instance();
 			add_action( 'widgets_init', array( $this, 'register_widgets' ) );
-			$this->do_upgrade();
+			if ( is_admin() ) {
+				add_action( 'plugins_loaded', array( $this, 'do_upgrade' ), 11 );
+			}
 		}
 
 		/**
@@ -85,7 +87,11 @@ if ( ! class_exists( 'Study' ) ) {
 						case 'department' :
 						case 'courses' :
 							$old = get_post_meta( $post->ID, 'wpcf-' . $key, true );
-							$new = update_post_meta( $post->ID, $key, $old );
+							if ( function_exists( 'update_field' ) ) {
+								$new = update_field( $key, $old, $post->ID );
+							} else {
+								$new = update_post_meta( $post->ID, $key, $old );
+							}
 						default :
 							delete_post_meta( $post->ID, 'wpcf-' . $key );
 							break;
