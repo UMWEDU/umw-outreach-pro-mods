@@ -88,7 +88,7 @@ if ( ! class_exists( 'Study' ) ) {
 				if ( version_compare( $v, $this->version, '>=' ) ) {
 					/* We already performed the upgrade */
 					Base::log( 'It appears that the information for post ' . $post->ID . ' has already been upgraded to ' . $this->version );
-					return;
+					continue;
 				}
 
 				foreach ( $meta as $key ) {
