@@ -51,6 +51,14 @@ if ( ! class_exists( 'Study' ) ) {
 		 */
 		public function do_upgrade() {
 			Base::log( 'Entered the do_upgrade method' );
+
+			$upgraded = get_option( 'outreach-upgraded/study', 0 );
+
+			if ( version_compare( $upgraded, $this->version, '>=' ) ) {
+				Base::log( 'It appears we have already upgraded all posts on this site to version ' . $upgraded );
+				return;
+			}
+
 			$meta = array(
 				'degree-awarded',
 				'home-page-feature',
@@ -103,15 +111,20 @@ if ( ! class_exists( 'Study' ) ) {
 								Base::log( 'Preparing to run update_post_meta() on ' . $post->ID . ' for ' . $key );
 								$new = update_post_meta( $post->ID, $key, $old );
 							}
+							Base::log( 'Preparing to delete wpcf-' . $key . ' from the post meta for ' . $post->ID );
+							delete_post_meta( $post->ID, 'wpcf-' . $key );
+							break;
 						default :
-							Base::log( 'Preparing to delete ' . $key . ' from the post meta for ' . $post->ID );
+							Base::log( 'Preparing to delete wpcf-' . $key . ' from the post meta for ' . $post->ID );
 							delete_post_meta( $post->ID, 'wpcf-' . $key );
 							break;
 					}
 				}
 
-				add_post_meta( $post->ID, 'outreach-upgraded', $this->version );
+				update_post_meta( $post->ID, 'outreach-upgraded', $this->version );
 			}
+
+			update_option( 'outreach-upgraded/study', $this->version );
 		}
 
 		/**
