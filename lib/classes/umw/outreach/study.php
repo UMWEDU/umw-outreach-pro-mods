@@ -78,6 +78,7 @@ if ( ! class_exists( 'Study' ) ) {
 				$v = get_post_meta( $post->ID, 'outreach-upgraded', true );
 				if ( version_compare( $v, $this->version, '>=' ) ) {
 					/* We already performed the upgrade */
+					Base::log( 'It appears that the information for post ' . $post->ID . ' has already been upgraded to ' . $this->version );
 					return;
 				}
 
