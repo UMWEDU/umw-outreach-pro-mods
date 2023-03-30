@@ -50,6 +50,7 @@ if ( ! class_exists( 'Study' ) ) {
 		 * @since  2023.03
 		 */
 		private function do_upgrade() {
+			Base::log( 'Entered the do_upgrade method' );
 			$meta = array(
 				'degree-awarded',
 				'home-page-feature',
@@ -70,8 +71,16 @@ if ( ! class_exists( 'Study' ) ) {
 
 			$posts = get_posts( array(
 				'post_type' => 'areas',
-				'posts_per_page' => -1
+				'posts_per_page' => -1,
+				'meta_query' => array(
+					array(
+						'key' => 'wpcf-department',
+						'compare' => 'EXISTS',
+					),
+				),
 			) );
+
+			Base::log( 'Retrieved ' . count( $posts ) . ' posts to evaluate' );
 
 			foreach ( $posts as $post ) {
 
@@ -83,17 +92,19 @@ if ( ! class_exists( 'Study' ) ) {
 				}
 
 				foreach ( $meta as $key ) {
-					Base::log( 'Preparing to delete ' . $key . ' from the post meta for ' . $post->ID );
 					switch ( $key ) {
 						case 'department' :
 						case 'courses' :
 							$old = get_post_meta( $post->ID, 'wpcf-' . $key, true );
 							if ( function_exists( 'update_field' ) ) {
+								Base::log( 'Preparing to run update_field() on ' . $post->ID . ' for ' . $key );
 								$new = update_field( $key, $old, $post->ID );
 							} else {
+								Base::log( 'Preparing to run update_post_meta() on ' . $post->ID . ' for ' . $key );
 								$new = update_post_meta( $post->ID, $key, $old );
 							}
 						default :
+							Base::log( 'Preparing to delete ' . $key . ' from the post meta for ' . $post->ID );
 							delete_post_meta( $post->ID, 'wpcf-' . $key );
 							break;
 					}
