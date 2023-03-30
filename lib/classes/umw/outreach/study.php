@@ -38,7 +38,7 @@ if ( ! class_exists( 'Study' ) ) {
 			ACF_Setup::instance();
 			add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 			if ( is_admin() ) {
-				add_action( 'plugins_loaded', array( $this, 'do_upgrade' ), 11 );
+				add_action( 'admin_init', array( $this, 'do_upgrade' ) );
 			}
 		}
 
