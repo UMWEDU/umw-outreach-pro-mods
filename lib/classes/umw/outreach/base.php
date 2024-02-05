@@ -57,6 +57,21 @@ if ( ! class_exists( 'Base' ) ) {
 		 * @access public
 		 */
 		public static $plugin_url = '';
+		/**
+		 * @var int $transient_timeout the amount of time to hold transients in cache
+         * @access protected
+		 */
+		protected int $transient_timeout;
+		/**
+		 * @var array $types_that_clear_atoz_transients the array of post types that clear the A to Z cache
+         * @access protected
+		 */
+		protected array $types_that_clear_atoz_transients = array();
+		/**
+		 * @var bool $sanitized_settings whether or not the settings have already been sanitized
+         * @access protected
+		 */
+		protected bool $sanitized_settings = false;
 
 		/**
 		 * Build our UMW_Outreach_Mods_Sub object
@@ -755,7 +770,7 @@ if ( ! class_exists( 'Base' ) ) {
             <feed
                     xmlns="http://www.w3.org/2005/Atom"
                     xmlns:thr="http://purl.org/syndication/thread/1.0"
-                    xmlns:umwns="http://www.umw.edu/"
+                    xmlns:umwns="https://www.umw.edu/"
                     xml:lang="<?php bloginfo_rss( 'language' ); ?>"
                     xml:base="<?php bloginfo_rss( 'url' ) ?>/wp-atom.php"
 				<?php
