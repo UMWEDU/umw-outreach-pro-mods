@@ -6,15 +6,17 @@
  * @author        WP Engine
  *
  * @wordpress-plugin
- * Plugin Name:   Advanced Custom Fields PRO
- * Plugin URI:    https://www.advancedcustomfields.com
- * Description:   Customize WordPress with powerful, professional and intuitive fields.
- * Version:       6.0.7
- * Author:        WP Engine
- * Author URI:    https://wpengine.com/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=plugin_directory&utm_content=advanced_custom_fields
- * Update URI:    https://www.advancedcustomfields.com/pro
- * Text Domain:   acf
- * Domain Path:   /lang
+ * Plugin Name:       Advanced Custom Fields PRO
+ * Plugin URI:        https://www.advancedcustomfields.com
+ * Description:       Customize WordPress with powerful, professional and intuitive fields.
+ * Version:           6.2.6.1
+ * Author:            WP Engine
+ * Author URI:        https://wpengine.com/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=plugin_directory&utm_content=advanced_custom_fields
+ * Update URI:        https://www.advancedcustomfields.com/pro
+ * Text Domain:       acf
+ * Domain Path:       /lang
+ * Requires PHP:      7.0
+ * Requires at least: 5.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -26,6 +28,7 @@ if ( ! class_exists( 'ACF' ) ) {
 	/**
 	 * The main ACF class
 	 */
+	#[AllowDynamicProperties]
 	class ACF {
 
 		/**
@@ -33,7 +36,7 @@ if ( ! class_exists( 'ACF' ) ) {
 		 *
 		 * @var string
 		 */
-		public $version = '6.0.7';
+		public $version = '6.2.6.1';
 
 		/**
 		 * The plugin settings array.
@@ -87,43 +90,49 @@ if ( ! class_exists( 'ACF' ) ) {
 			$this->define( 'ACF_FIELD_API_VERSION', 5 );
 			$this->define( 'ACF_UPGRADE_VERSION', '5.5.0' ); // Highest version with an upgrade routine. See upgrades.php.
 
+			// Register activation hook.
+			register_activation_hook( __FILE__, array( $this, 'acf_plugin_activated' ) );
+
 			// Define settings.
 			$this->settings = array(
-				'name'                   => __( 'Advanced Custom Fields', 'acf' ),
-				'slug'                   => dirname( ACF_BASENAME ),
-				'version'                => ACF_VERSION,
-				'basename'               => ACF_BASENAME,
-				'path'                   => ACF_PATH,
-				'file'                   => __FILE__,
-				'url'                    => plugin_dir_url( __FILE__ ),
-				'show_admin'             => true,
-				'show_updates'           => true,
-				'stripslashes'           => false,
-				'local'                  => true,
-				'json'                   => true,
-				'save_json'              => '',
-				'load_json'              => array(),
-				'default_language'       => '',
-				'current_language'       => '',
-				'capability'             => 'manage_options',
-				'uploader'               => 'wp',
-				'autoload'               => false,
-				'l10n'                   => true,
-				'l10n_textdomain'        => '',
-				'google_api_key'         => '',
-				'google_api_client'      => '',
-				'enqueue_google_maps'    => true,
-				'enqueue_select2'        => true,
-				'enqueue_datepicker'     => true,
-				'enqueue_datetimepicker' => true,
-				'select2_version'        => 4,
-				'row_index_offset'       => 1,
-				'remove_wp_meta_box'     => true,
-				'rest_api_enabled'       => true,
-				'rest_api_format'        => 'light',
-				'rest_api_embed_links'   => true,
-				'preload_blocks'         => true,
-				'enable_shortcode'       => true,
+				'name'                    => __( 'Advanced Custom Fields', 'acf' ),
+				'slug'                    => dirname( ACF_BASENAME ),
+				'version'                 => ACF_VERSION,
+				'basename'                => ACF_BASENAME,
+				'path'                    => ACF_PATH,
+				'file'                    => __FILE__,
+				'url'                     => plugin_dir_url( __FILE__ ),
+				'show_admin'              => true,
+				'show_updates'            => true,
+				'enable_post_types'       => true,
+				'enable_options_pages_ui' => true,
+				'stripslashes'            => false,
+				'local'                   => true,
+				'json'                    => true,
+				'save_json'               => '',
+				'load_json'               => array(),
+				'default_language'        => '',
+				'current_language'        => '',
+				'capability'              => 'manage_options',
+				'uploader'                => 'wp',
+				'autoload'                => false,
+				'l10n'                    => true,
+				'l10n_textdomain'         => '',
+				'google_api_key'          => '',
+				'google_api_client'       => '',
+				'enqueue_google_maps'     => true,
+				'enqueue_select2'         => true,
+				'enqueue_datepicker'      => true,
+				'enqueue_datetimepicker'  => true,
+				'select2_version'         => 4,
+				'row_index_offset'        => 1,
+				'remove_wp_meta_box'      => true,
+				'rest_api_enabled'        => true,
+				'rest_api_format'         => 'light',
+				'rest_api_embed_links'    => true,
+				'preload_blocks'          => true,
+				'enable_shortcode'        => true,
+				'enable_bidirection'      => true,
 			);
 
 			// Include utility functions.
@@ -136,6 +145,7 @@ if ( ! class_exists( 'ACF' ) ) {
 
 			// Include classes.
 			acf_include( 'includes/class-acf-data.php' );
+			acf_include( 'includes/class-acf-internal-post-type.php' );
 			acf_include( 'includes/fields/class-acf-field.php' );
 			acf_include( 'includes/locations/abstract-acf-legacy-location.php' );
 			acf_include( 'includes/locations/abstract-acf-location.php' );
@@ -144,6 +154,10 @@ if ( ! class_exists( 'ACF' ) ) {
 			acf_include( 'includes/acf-helper-functions.php' );
 			acf_include( 'includes/acf-hook-functions.php' );
 			acf_include( 'includes/acf-field-functions.php' );
+			acf_include( 'includes/acf-bidirectional-functions.php' );
+			acf_include( 'includes/acf-internal-post-type-functions.php' );
+			acf_include( 'includes/acf-post-type-functions.php' );
+			acf_include( 'includes/acf-taxonomy-functions.php' );
 			acf_include( 'includes/acf-field-group-functions.php' );
 			acf_include( 'includes/acf-form-functions.php' );
 			acf_include( 'includes/acf-meta-functions.php' );
@@ -166,10 +180,12 @@ if ( ! class_exists( 'ACF' ) ) {
 			acf_include( 'includes/loop.php' );
 			acf_include( 'includes/media.php' );
 			acf_include( 'includes/revisions.php' );
-			acf_include( 'includes/updates.php' );
 			acf_include( 'includes/upgrades.php' );
 			acf_include( 'includes/validation.php' );
 			acf_include( 'includes/rest-api.php' );
+
+			// Include field group class.
+			acf_include( 'includes/post-types/class-acf-field-group.php' );
 
 			// Include ajax.
 			acf_include( 'includes/ajax/class-acf-ajax.php' );
@@ -195,8 +211,8 @@ if ( ! class_exists( 'ACF' ) ) {
 			// Include admin.
 			if ( is_admin() ) {
 				acf_include( 'includes/admin/admin.php' );
-				acf_include( 'includes/admin/admin-field-group.php' );
-				acf_include( 'includes/admin/admin-field-groups.php' );
+				acf_include( 'includes/admin/admin-internal-post-type-list.php' );
+				acf_include( 'includes/admin/admin-internal-post-type.php' );
 				acf_include( 'includes/admin/admin-notices.php' );
 				acf_include( 'includes/admin/admin-tools.php' );
 				acf_include( 'includes/admin/admin-upgrade.php' );
@@ -208,10 +224,14 @@ if ( ! class_exists( 'ACF' ) ) {
 			// Include PRO.
 			acf_include( 'pro/acf-pro.php' );
 
+			if ( is_admin() && function_exists( 'acf_is_pro' ) && ! acf_is_pro() ) {
+				acf_include( 'includes/admin/admin-options-pages-preview.php' );
+			}
+
 			// Add actions.
+			add_action( 'init', array( $this, 'register_post_status' ), 4 );
 			add_action( 'init', array( $this, 'init' ), 5 );
 			add_action( 'init', array( $this, 'register_post_types' ), 5 );
-			add_action( 'init', array( $this, 'register_post_status' ), 5 );
 			add_action( 'activated_plugin', array( $this, 'deactivate_other_instances' ) );
 			add_action( 'pre_current_active_plugins', array( $this, 'plugin_deactivated_notice' ) );
 
@@ -252,6 +272,15 @@ if ( ! class_exists( 'ACF' ) ) {
 			if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
 				acf_include( 'includes/wpml.php' );
 			}
+
+			// Add post types and taxonomies.
+			if ( acf_get_setting( 'enable_post_types' ) ) {
+				acf_include( 'includes/post-types/class-acf-taxonomy.php' );
+				acf_include( 'includes/post-types/class-acf-post-type.php' );
+			}
+
+			// Add other ACF internal post types.
+			do_action( 'acf/init_internal_post_types' );
 
 			// Include fields.
 			acf_include( 'includes/fields/class-acf-field-text.php' );
@@ -340,6 +369,24 @@ if ( ! class_exists( 'ACF' ) ) {
 			do_action( 'acf/include_fields', ACF_FIELD_API_VERSION );
 
 			/**
+			 * Fires during initialization. Used to add local post types.
+			 *
+			 * @since 6.1
+			 *
+			 * @param int ACF_MAJOR_VERSION The major version of ACF.
+			 */
+			do_action( 'acf/include_post_types', ACF_MAJOR_VERSION );
+
+			/**
+			 * Fires during initialization. Used to add local taxonomies.
+			 *
+			 * @since 6.1
+			 *
+			 * @param int ACF_MAJOR_VERSION The major version of ACF.
+			 */
+			do_action( 'acf/include_taxonomies', ACF_MAJOR_VERSION );
+
+			/**
 			 * Fires after ACF is completely "initialized".
 			 *
 			 * @date    28/09/13
@@ -359,8 +406,6 @@ if ( ! class_exists( 'ACF' ) ) {
 		 * @return  void
 		 */
 		public function register_post_types() {
-
-			// Vars.
 			$cap = acf_get_setting( 'capability' );
 
 			// Register the Field Group post type.
@@ -522,16 +567,18 @@ if ( ! class_exists( 'ACF' ) ) {
 		 * @date    31/8/19
 		 * @since   5.8.1
 		 *
-		 * @param   string   $where The WHERE clause.
-		 * @param   WP_Query $wp_query The query object.
-		 * @return  WP_Query $wp_query The query object.
+		 * @param  string   $where    The WHERE clause.
+		 * @param  WP_Query $wp_query The query object.
+		 * @return string
 		 */
 		public function posts_where( $where, $wp_query ) {
 			global $wpdb;
 
-			$field_key  = $wp_query->get( 'acf_field_key' );
-			$field_name = $wp_query->get( 'acf_field_name' );
-			$group_key  = $wp_query->get( 'acf_group_key' );
+			$field_key     = $wp_query->get( 'acf_field_key' );
+			$field_name    = $wp_query->get( 'acf_field_name' );
+			$group_key     = $wp_query->get( 'acf_group_key' );
+			$post_type_key = $wp_query->get( 'acf_post_type_key' );
+			$taxonomy_key  = $wp_query->get( 'acf_taxonomy_key' );
 
 			// Add custom "acf_field_key" arg.
 			if ( $field_key ) {
@@ -548,7 +595,16 @@ if ( ! class_exists( 'ACF' ) ) {
 				$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_name = %s", $group_key );
 			}
 
-			// Return.
+			// Add custom "acf_post_type_key" arg.
+			if ( $post_type_key ) {
+				$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_name = %s", $post_type_key );
+			}
+
+			// Add custom "acf_taxonomy_key" arg.
+			if ( $taxonomy_key ) {
+				$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_name = %s", $taxonomy_key );
+			}
+
 			return $where;
 		}
 
@@ -558,7 +614,7 @@ if ( ! class_exists( 'ACF' ) ) {
 		 * @date    3/5/17
 		 * @since   5.5.13
 		 *
-		 * @param   string $name The constant name.
+		 * @param   string $name  The constant name.
 		 * @param   mixed  $value The constant value.
 		 * @return  void
 		 */
@@ -600,7 +656,7 @@ if ( ! class_exists( 'ACF' ) ) {
 		 * @date    28/09/13
 		 * @since   5.0.0
 		 *
-		 * @param   string $name The setting name.
+		 * @param   string $name  The setting name.
 		 * @param   mixed  $value The setting value.
 		 * @return  true
 		 */
@@ -628,7 +684,7 @@ if ( ! class_exists( 'ACF' ) ) {
 		 * @date    28/09/13
 		 * @since   5.0.0
 		 *
-		 * @param   string $name The data name.
+		 * @param   string $name  The data name.
 		 * @param   mixed  $value The data value.
 		 * @return  void
 		 */
@@ -673,7 +729,7 @@ if ( ! class_exists( 'ACF' ) ) {
 		 * @since   5.9.0
 		 *
 		 * @param   string $key Key name.
-		 * @return  bool
+		 * @return  boolean
 		 */
 		public function __isset( $key ) {
 			return in_array( $key, array( 'locations', 'json' ), true );
@@ -696,6 +752,21 @@ if ( ! class_exists( 'ACF' ) ) {
 					return acf_get_instance( 'ACF_Local_JSON' );
 			}
 			return null;
+		}
+
+		/**
+		 * Plugin Activation Hook
+		 *
+		 * @since 6.2.6
+		 */
+		public function acf_plugin_activated() {
+			// Set the first activated version of ACF.
+			if ( null === get_option( 'acf_first_activated_version', null ) ) {
+				// If acf_version is set, this isn't the first activated version, so leave it unset so it's legacy.
+				if ( null === get_option( 'acf_version', null ) ) {
+					update_option( 'acf_first_activated_version', ACF_VERSION, true );
+				}
+			}
 		}
 	}
 
@@ -723,5 +794,4 @@ if ( ! class_exists( 'ACF' ) ) {
 
 	// Instantiate.
 	acf();
-
 } // class_exists check

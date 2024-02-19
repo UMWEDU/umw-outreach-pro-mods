@@ -5,38 +5,115 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'acf_revisions' ) ) :
-
+	#[AllowDynamicProperties]
 	class acf_revisions {
 
 		// vars
 		var $cache = array();
 
-
-		/*
-		*  __construct
-		*
-		*  A good place to add actions / filters
-		*
-		*  @type    function
-		*  @date    11/08/13
-		*
-		*  @param   N/A
-		*  @return  N/A
-		*/
-
-		function __construct() {
-
-			// actions
+		/**
+		 * Constructs the acf_revisions class.
+		 *
+		 * @return void
+		 */
+		public function __construct() {
 			add_action( 'wp_restore_post_revision', array( $this, 'wp_restore_post_revision' ), 10, 2 );
-
-			// filters
-			add_filter( 'wp_save_post_revision_check_for_changes', array( $this, 'wp_save_post_revision_check_for_changes' ), 10, 3 );
 			add_filter( '_wp_post_revision_fields', array( $this, 'wp_preview_post_fields' ), 10, 2 );
 			add_filter( '_wp_post_revision_fields', array( $this, 'wp_post_revision_fields' ), 10, 2 );
 			add_filter( 'acf/validate_post_id', array( $this, 'acf_validate_post_id' ), 10, 2 );
 
+			// WP 6.4+ handles things differently.
+			if ( version_compare( get_bloginfo( 'version' ), '6.4', '>=' ) ) {
+				add_action( '_wp_put_post_revision', array( $this, 'maybe_save_revision' ), 10, 2 );
+				add_filter( 'wp_save_post_revision_post_has_changed', array( $this, 'check_acf_fields_have_changed' ), 9, 3 );
+				add_filter( 'wp_post_revision_meta_keys', array( $this, 'wp_post_revision_meta_keys' ) );
+
+				$this->register_meta();
+			} else {
+				add_filter( 'wp_save_post_revision_check_for_changes', array( $this, 'wp_save_post_revision_check_for_changes' ), 10, 3 );
+			}
 		}
 
+		/**
+		 * Registers any ACF meta that should be sent the REST/Gutenberg request.
+		 * For now, this is just our "_acf_changed" key that we use to detect if ACF fields have changed.
+		 *
+		 * @since 6.2.6
+		 *
+		 * @return void
+		 */
+		public function register_meta() {
+			register_meta(
+				'post',
+				'_acf_changed',
+				array(
+					'type'              => 'boolean',
+					'single'            => true,
+					'show_in_rest'      => true,
+					'revisions_enabled' => true,
+					'auth_callback'     => '__return_true',
+				)
+			);
+		}
+
+		/**
+		 * Lets WordPress know which meta keys to include in revisions.
+		 * For now, this is just our "_acf_changed" key, as we still handle revisions ourselves.
+		 *
+		 * @since 6.2.6
+		 *
+		 * @param array $keys The meta keys that should be revisioned.
+		 * @return array
+		 */
+		public function wp_post_revision_meta_keys( $keys ) {
+			$keys[] = '_acf_changed';
+			return $keys;
+		}
+
+		/**
+		 * Helps WordPress determine if fields have changed, and if in a legacy
+		 * metabox AJAX request, copies the metadata to the new revision.
+		 *
+		 * @since 6.2.6
+		 *
+		 * @param boolean $post_has_changed True if the post has changed, false if not.
+		 * @param WP_Post $last_revision    The WP_Post object for the latest revision.
+		 * @param WP_Post $post             The WP_Post object for the parent post.
+		 * @return boolean
+		 */
+		public function check_acf_fields_have_changed( $post_has_changed, $last_revision, $post ) {
+			if ( acf_maybe_get_GET( 'meta-box-loader', false ) ) {
+				// We're in a legacy AJAX request, so we copy fields over to the latest revision.
+				$this->maybe_save_revision( $last_revision->ID, $post->ID );
+			} elseif ( acf_maybe_get_POST( '_acf_changed', false ) ) {
+				// We're in a classic editor save request, so notify WP that fields have changed.
+				$post_has_changed = true;
+			}
+
+			// Let WordPress decide for REST/block editor requests.
+			return $post_has_changed;
+		}
+
+		/**
+		 * Copies ACF field data to the latest revision.
+		 *
+		 * @since 6.2.6
+		 *
+		 * @param integer $revision_id The ID of the revision that was just created.
+		 * @param integer $post_id     The ID of the post being updated.
+		 * @return void
+		 */
+		public function maybe_save_revision( $revision_id, $post_id ) {
+			// We don't have anything to copy over yet.
+			if ( ! did_action( 'acf/save_post' ) ) {
+				delete_metadata( 'post', $post_id, '_acf_changed' );
+				delete_metadata( 'post', $revision_id, '_acf_changed' );
+				return;
+			}
+
+			// Copy the saved meta from the main post to the latest revision.
+			acf_save_post_revision( $post_id );
+		}
 
 		/*
 		*  wp_preview_post_fields
@@ -62,14 +139,11 @@ if ( ! class_exists( 'acf_revisions' ) ) :
 
 			// add to fields if ACF has changed
 			if ( acf_maybe_get_POST( '_acf_changed' ) ) {
-
 				$fields['_acf_changed'] = 'different than 1';
-
 			}
 
 			// return
 			return $fields;
-
 		}
 
 
@@ -97,7 +171,6 @@ if ( ! class_exists( 'acf_revisions' ) ) :
 
 			// return
 			return $return;
-
 		}
 
 
@@ -126,12 +199,10 @@ if ( ! class_exists( 'acf_revisions' ) ) :
 				}
 
 				// allow
-
 			} else {
 
 				// bail early (most likely saving a post)
 				return $fields;
-
 			}
 
 			// vars
@@ -141,10 +212,8 @@ if ( ! class_exists( 'acf_revisions' ) ) :
 
 			// compatibility with WP < 4.5 (test)
 			if ( ! $post_id ) {
-
 				global $post;
 				$post_id = $post->ID;
-
 			}
 
 			// get all postmeta
@@ -191,7 +260,6 @@ if ( ! class_exists( 'acf_revisions' ) ) :
 					// update vars
 					$field_title = str_repeat( '- ', $count ) . $field_title;
 					$field_order = $oldest['menu_order'] . '.1';
-
 				}
 
 				// append
@@ -200,7 +268,6 @@ if ( ! class_exists( 'acf_revisions' ) ) :
 
 				// hook into specific revision field filter and return local value
 				add_filter( "_wp_post_revision_field_{$name}", array( $this, 'wp_post_revision_field' ), 10, 4 );
-
 			}
 
 			// append
@@ -221,12 +288,10 @@ if ( ! class_exists( 'acf_revisions' ) ) :
 
 				// append
 				$fields = $fields + $append;
-
 			}
 
 			// return
 			return $fields;
-
 		}
 
 
@@ -248,10 +313,10 @@ if ( ! class_exists( 'acf_revisions' ) ) :
 
 			// bail early if is empty.
 			if ( empty( $value ) ) {
-				return $value;
+				return '';
 			}
 
-			$value   = maybe_unserialize( $value );
+			$value   = acf_maybe_unserialize( $value );
 			$post_id = $post->ID;
 
 			// load field.
@@ -300,9 +365,7 @@ if ( ! class_exists( 'acf_revisions' ) ) :
 
 				// copy postmeta from revision to latest revision (potentialy may be the same, but most likely are different)
 				acf_copy_postmeta( $revision_id, $revision->ID );
-
 			}
-
 		}
 
 
@@ -344,17 +407,11 @@ if ( ! class_exists( 'acf_revisions' ) ) :
 
 			// validate
 			if ( isset( $_GET['preview_id'] ) ) {
-
 				$preview_id = (int) $_GET['preview_id'];
-
 			} elseif ( isset( $_GET['p'] ) ) {
-
 				$preview_id = (int) $_GET['p'];
-
 			} elseif ( isset( $_GET['page_id'] ) ) {
-
 				$preview_id = (int) $_GET['page_id'];
-
 			}
 			// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
@@ -368,9 +425,7 @@ if ( ! class_exists( 'acf_revisions' ) ) :
 
 			// save
 			if ( $revision && $revision->post_parent == $post_id ) {
-
 				$post_id = (int) $revision->ID;
-
 			}
 
 			// set cache
@@ -378,14 +433,11 @@ if ( ! class_exists( 'acf_revisions' ) ) :
 
 			// return
 			return $post_id;
-
 		}
-
 	}
 
 	// initialize
 	acf()->revisions = new acf_revisions();
-
 endif; // class_exists check
 
 
@@ -409,11 +461,8 @@ function acf_save_post_revision( $post_id = 0 ) {
 
 	// save
 	if ( $revision ) {
-
 		acf_copy_postmeta( $post_id, $revision->ID );
-
 	}
-
 }
 
 
@@ -440,8 +489,4 @@ function acf_get_post_latest_revision( $post_id ) {
 
 	// return
 	return $revision;
-
 }
-
-
-
