@@ -439,7 +439,8 @@ if ( ! class_exists( 'Root' ) ) {
 
 		function gather_scripts() {
 			if ( class_exists( '\UMW_Search_Engine' ) ) {
-				\UMW_Search_Engine::do_search_choices_js();
+                $umw_search_engine = new \UMW_Search_Engine();
+				$umw_search_engine->do_search_choices_js();
 			}
 			if ( class_exists( '\Mega_Menu_Style_Manager' ) ) {
 				$tmp = new \Mega_Menu_Style_Manager;
@@ -450,7 +451,8 @@ if ( ! class_exists( 'Root' ) ) {
 				$wp_scripts->done[] = 'jquery-migrate';
 				$wp_scripts->done[] = 'hoverIntent';
 				if ( defined( 'MEGAMENU_PRO_VERSION' ) && class_exists( 'Mega_Menu_Pro' ) ) {
-					\Mega_Menu_Pro::enqueue_public_scripts();
+                    $megamenu = new \Mega_Menu_Pro();
+					$megamenu->enqueue_public_scripts();
 					$wp_scripts->do_items( 'megamenu-pro' );
 				} else {
 					$wp_scripts->do_items( 'megamenu' );
