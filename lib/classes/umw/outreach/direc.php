@@ -258,7 +258,7 @@ if ( ! class_exists( 'Direc' ) ) {
 var SF = SF || {}; SF.featured = document.getElementById('{$iframeID}'), s = new SeamLess({ window : SF.featured .contentWindow, origin : '*' }); s.receiveHeight({ channel : "{$atts['channel']}" }, function(height){ SF.featured.style.height = height + 'px';});
 EOD;
 
-			$output = sprintf( '<iframe id="%1$s" class="embed_preview" frameborder="0" scrolling="no" style="border: none; width: 100\%;" src="%2$s"></iframe>', $iframeID, $url );
+			$output = sprintf( '<iframe id="%1$s" class="embed_preview" frameborder="0" scrolling="no" style="border: none; width: 100%%;" src="%2$s"></iframe>', $iframeID, $url );
 			$output .= sprintf( '<script type="text/javascript" src="%s"></script>', '//d2mo5pjlwftw8w.cloudfront.net/embed/seamless.ly.min.v1.0.4.js' );
 			$output .= sprintf( '<script type="text/javascript">%s</script>', $script );
 
