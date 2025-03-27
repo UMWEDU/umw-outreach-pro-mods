@@ -82,6 +82,10 @@ if ( ! class_exists( 'Base' ) ) {
 		 * @since   0.1
 		 */
 		function __construct() {
+            if ( ! defined( 'GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD' ) ) {
+                define( 'GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD', 'genesis-responsive-slider-settings' );
+            }
+
 			$theme = get_stylesheet();
 
 			add_filter( 'plugins_url', array( $this, 'protocol_relative_plugins_url' ), 99 );
@@ -1570,8 +1574,10 @@ if ( ! class_exists( 'Base' ) ) {
 					$this->add_shortcodes();
 				}
 
-				error_log( '[Footer Debug]: Global footer looks like the following.' );
-				error_log( print_r( $footer, true ) );
+                if ( is_defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+	                error_log( '[Footer Debug]: Global footer looks like the following.' );
+	                error_log( print_r( $footer, true ) );
+                }
 
 				preg_match_all( '/%5Bcurrent-url(.*)%5D/', $footer, $matches );
 				foreach ( $matches[0] as $key => $match ) {
@@ -2163,8 +2169,10 @@ if ( ! class_exists( 'Base' ) ) {
 
 			$opt = array_merge( $allopts, $oldopts );
 
-			error_log( '[UMW Settings Debug]: Retrieved Genesis Settings' );
-			error_log( print_r( $opt, true ) );
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+	            error_log( '[UMW Settings Debug]: Retrieved Genesis Settings' );
+	            error_log( print_r( $opt, true ) );
+            }
 			if ( is_array( $opt ) && ! empty( $opt ) ) {
 				$opt = stripslashes_deep( $opt );
 				foreach ( $opt as $k => $v ) {
@@ -2811,12 +2819,18 @@ if ( ! class_exists( 'Base' ) ) {
 		 * @return void
 		 * @since  0.1
 		 */
-		public static function log( $message ) {
+		public static function log( $message, $level='debug' ) {
 			if ( ( ! defined( 'WP_DEBUG' ) || false === WP_DEBUG ) && ! current_user_can( 'delete_users' ) ) {
 				return;
 			}
 
-			error_log( '[Outreach Mods Site Debug]: ' . $message );
+			$intro = '[Outreach Mods ' . ucfirst( $level ) . ']: ';
+
+			if ( class_exists( '\QM' ) ) {
+				do_action( 'qm/' . $level, $intro . $message );
+			} else {
+				error_log( $intro . $message );
+			}
 		}
 
 		/**

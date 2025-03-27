@@ -211,7 +211,9 @@ class Latest_News extends \WP_Widget {
 
 			if ( ! is_wp_error( $tmp ) ) {
 				$pages = wp_remote_retrieve_header( $tmp, 'x-wp-totalpages' );
-				error_log( '[Latest News Debug]: Total pages in this API request: ' . $pages );
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log( '[Latest News Debug]: Total pages in this API request: ' . $pages );
+				}
 				if ( $pages > 1 ) {
 					$page      = 1;
 					$tax_array = json_decode( wp_remote_retrieve_body( $tmp ) );
@@ -219,7 +221,9 @@ class Latest_News extends \WP_Widget {
 						$page++;
 						$tmpurl = add_query_arg( 'page', $page, $api_url );
 						$r = wp_remote_get( $tmpurl );
-						error_log( '[Latest News Debug]: Querying ' . $tmpurl . ' for more results' );
+						if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+							error_log( '[Latest News Debug]: Querying ' . $tmpurl . ' for more results' );
+						}
 						$tax_array = array_merge( $tax_array, json_decode( wp_remote_retrieve_body( $r ) ) );
 					}
 					$response[$t] = $tax_array;
