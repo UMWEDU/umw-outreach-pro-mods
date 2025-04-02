@@ -1574,7 +1574,7 @@ if ( ! class_exists( 'Base' ) ) {
 					$this->add_shortcodes();
 				}
 
-                if ( is_defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 	                error_log( '[Footer Debug]: Global footer looks like the following.' );
 	                error_log( print_r( $footer, true ) );
                 }

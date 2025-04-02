@@ -9,7 +9,7 @@
  * Plugin Name:       Advanced Custom Fields PRO
  * Plugin URI:        https://www.advancedcustomfields.com
  * Description:       Customize WordPress with powerful, professional and intuitive fields.
- * Version:           6.3.8
+ * Version:           6.3.12
  * Author:            WP Engine
  * Author URI:        https://wpengine.com/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=plugin_directory&utm_content=advanced_custom_fields
  * Update URI:        false
@@ -36,7 +36,7 @@ if ( ! class_exists( 'ACF' ) ) {
 		 *
 		 * @var string
 		 */
-		public $version = '6.3.8';
+		public $version = '6.3.12';
 
 		/**
 		 * The plugin settings array.
@@ -130,6 +130,7 @@ if ( ! class_exists( 'ACF' ) ) {
 				'enable_shortcode'        => true,
 				'enable_bidirection'      => true,
 				'enable_block_bindings'   => true,
+				'enable_meta_box_cb_edit' => true,
 			);
 
 			// Include utility functions.
@@ -227,15 +228,13 @@ if ( ! class_exists( 'ACF' ) ) {
 			// Include legacy.
 			acf_include( 'includes/legacy/legacy-locations.php' );
 
-			// Include PRO.
+			// Include updater if included with this build.
+			acf_include( 'includes/Updater/init.php' );
+
+			// Include PRO if included with this build.
 			acf_include( 'pro/acf-pro.php' );
 
 			if ( is_admin() && function_exists( 'acf_is_pro' ) && ! acf_is_pro() ) {
-
-				// Include WPE update system.
-				acf_include( 'includes/class-PluginUpdater.php' );
-				acf_include( 'includes/acf-upgrades.php' );
-
 				acf_include( 'includes/admin/admin-options-pages-preview.php' );
 			}
 
@@ -396,7 +395,7 @@ if ( ! class_exists( 'ACF' ) ) {
 			 */
 			do_action( 'acf/include_taxonomies', ACF_MAJOR_VERSION );
 
-			// If we're on 6.5 or newer, load block bindings. This will move to an autoloader in 6.3.
+			// If we're on 6.5 or newer, load block bindings. This will move to an autoloader in 6.4.
 			if ( version_compare( get_bloginfo( 'version' ), '6.5-beta1', '>=' ) ) {
 				acf_include( 'includes/Blocks/Bindings.php' );
 				new ACF\Blocks\Bindings();
@@ -786,6 +785,37 @@ if ( ! class_exists( 'ACF' ) ) {
 				do_action( 'acf/activated_pro' );
 			}
 		}
+	}
+
+	/**
+	 * An ACF specific getter to replace `home_url` in our license checks to ensure we can avoid third party filters.
+	 *
+	 * @since 6.0.1
+	 * @since 6.2.8 - Renamed to acf_pro_get_home_url to match pro exclusive function naming.
+	 * @since 6.3.10 - Renamed to acf_get_home_url now updater logic applies to free.
+	 *
+	 * @return string $home_url The output from home_url, sans known third party filters which cause license activation issues.
+	 */
+	function acf_get_home_url() {
+		if ( acf_is_pro() ) {
+			// Disable WPML and TranslatePress's home url overrides for our license check.
+			add_filter( 'wpml_get_home_url', 'acf_pro_license_ml_intercept', 99, 2 );
+			add_filter( 'trp_home_url', 'acf_pro_license_ml_intercept', 99, 2 );
+
+			if ( acf_pro_is_legacy_multisite() && acf_is_multisite_sub_site() ) {
+				$home_url = get_home_url( get_main_site_id() );
+			} else {
+				$home_url = home_url();
+			}
+
+			// Re-enable WPML and TranslatePress's home url overrides.
+			remove_filter( 'wpml_get_home_url', 'acf_pro_license_ml_intercept', 99 );
+			remove_filter( 'trp_home_url', 'acf_pro_license_ml_intercept', 99 );
+		} else {
+			$home_url = home_url();
+		}
+
+		return $home_url;
 	}
 
 	/**
