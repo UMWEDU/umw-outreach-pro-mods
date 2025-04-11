@@ -86,6 +86,10 @@ if ( ! class_exists( 'Base' ) ) {
                 define( 'GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD', 'genesis-responsive-slider-settings' );
             }
 
+            if ( 'production' === wp_get_environment_type() ) {
+                add_filter( 'genesis_pre_get_option_update', '__return_zero' );
+            }
+
 			$theme = get_stylesheet();
 
 			add_filter( 'plugins_url', array( $this, 'protocol_relative_plugins_url' ), 99 );
