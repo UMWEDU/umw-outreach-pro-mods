@@ -1221,6 +1221,11 @@ if ( ! class_exists( 'Base' ) ) {
 				return;
 			}
 
+            // Don't bother going through this if we're using blocks
+            if ( has_blocks() ) {
+                return;
+            }
+
 			$current = $this->get_option( $this->setting_name );
 			if ( ! is_array( $current ) || ! array_key_exists( 'image-url', $current ) ) {
 				return;
