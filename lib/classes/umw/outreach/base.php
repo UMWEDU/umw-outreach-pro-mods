@@ -1080,6 +1080,8 @@ if ( ! class_exists( 'Base' ) ) {
 
 			$this->add_image_sizes();
 
+            add_filter( 'genesis_attr_content', array( $this, 'add_main_landmark' ), 98, 2 );
+
 			/**
 			 * If Genesis Accessible isn't active and this is a version of Genesis older than 2.2,
 			 *        add an HTML ID to the main content section
@@ -2909,5 +2911,24 @@ if ( ! class_exists( 'Base' ) ) {
 
 			return $rt . $url;
 		}
+
+        /**
+         * Add the "main" landmark role to the Main HTML tag
+         *
+         * @param array $attr the attributes for the tag
+         * @param string $context the context of the tag being handled
+         *
+         * @access public
+         * @since  1.0
+         * @return array the updated attributes
+         */
+        public function add_main_landmark( array $attr, string $context ): array {
+            if ( 'content' !== $context ) {
+                return $attr;
+            }
+
+            $attr['role'] = 'main';
+            return $attr;
+        }
 	}
 }
