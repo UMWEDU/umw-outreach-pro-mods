@@ -515,13 +515,19 @@ if ( ! class_exists( 'Base' ) ) {
 		function login_link_ajax_scripts() {
 			?>
             <script>
-                jQuery(function () {
-                    if (document.querySelectorAll('.login-link').length <= 0) {
+                function replace_umw_login_link() {
+                    const links = document.querySelectorAll('.login-link');
+
+                    if ( links.length <= 0 ) {
                         return;
                     }
-                    jQuery('.login-link').html('<?php echo $this->get_umw_login_link() ?>');
-                });
-            </script>
+
+                    links.forEach((link) => {
+                        link.outerHTML = '<?php echo $this->get_umw_login_link() ?>';
+                    });
+                }
+                document.addEventListener('DOMContentLoaded',replace_umw_login_link);
+           </script>
 			<?php
 		}
 
