@@ -8,6 +8,10 @@
  */
 
 namespace {
+	if ( ! defined( 'GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD' ) ) {
+		define( 'GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD', 'genesis_slider_settings' );
+	}
+
 	/**
 	 * Set up an autoloader to automatically pull in the appropriate taxonomy class definitions
 	 *
