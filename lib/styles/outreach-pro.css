@@ -381,7 +381,7 @@ select,
 textarea {
 	background-color: #fff;
 	border: 1px solid #ddd;
-	color: #999;
+	color: #595959;
 	font-size: 14px;
 	font-size: .875rem;
 	font-weight: 400;
@@ -393,6 +393,7 @@ input:focus,
 textarea:focus {
 	border: 1px solid #999;
 	outline: none;
+	color: #000;
 }
 
 input[type="checkbox"],

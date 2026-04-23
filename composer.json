@@ -1,0 +1,59 @@
+{
+  "name": "umw/outreach-mods",
+  "description": "UMW Outreach Pro Modifications",
+  "version": "2.0",
+  "authors": [
+    {
+      "name": "Curtiss Grymala",
+      "email": "cgrymala@umw.edu"
+    }
+  ],
+  "config": {
+    "vendor-dir": "vendor",
+    "preferred-install": "dist",
+    "platform": {
+      "php": "8.4"
+    },
+    "allow-plugins": {
+      "composer/installers": true
+    }
+  },
+  "type": "project",
+  "license": "Proprietary",
+  "minimum-stability": "dev",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org",
+      "only": [
+        "wpackagist-plugin/*"
+      ]
+    },
+    {
+      "type": "composer",
+      "url": "https://connect.advancedcustomfields.com"
+    }
+  ],
+  "require": {
+    "php": "^8.4",
+    "vlucas/phpdotenv": "^5.6@dev",
+    "composer/installers": "*",
+    "wpengine/advanced-custom-fields-pro": "*"
+  },
+  "extra": {
+    "installer-paths": {
+      "lib/acf": [
+        "wpengine/advanced-custom-fields-pro"
+      ],
+      "vendor/{$name}": [
+        "type:wordpress-plugin"
+      ]
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "UMW\\Outreach\\": "lib/classes/umw/outreach",
+      "UMW\\Common\\": "lib/classes/umw/common"
+    }
+  }
+}
