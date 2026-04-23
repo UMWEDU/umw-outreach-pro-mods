@@ -8,6 +8,8 @@
  */
 
 namespace {
+	require_once __DIR__ . '/vendor/autoload.php';
+
 	if ( ! defined( 'GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD' ) ) {
 		define( 'GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD', 'genesis_slider_settings' );
 	}

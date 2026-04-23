@@ -42,7 +42,7 @@
   },
   "extra": {
     "installer-paths": {
-      "lib/acf": [
+      "lib/acf/acf": [
         "wpengine/advanced-custom-fields-pro"
       ],
       "vendor/{$name}": [
