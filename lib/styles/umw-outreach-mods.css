@@ -2347,3 +2347,14 @@ body .localist-widget-hl .event-list>li {
 .genesis-title-hidden .page-title {
 	display: none;
 }
+
+/**
+ * Some Gravity Forms a11y fixes
+ */
+body .gform_legacy_markup_wrapper .gform_fileupload_multifile .gform_drop_area {
+	color: #474747;
+}
+
+body .gform_wrapper form .gchoice label {
+	color: #52575B;
+}

@@ -11,9 +11,6 @@
   "config": {
     "vendor-dir": "vendor",
     "preferred-install": "dist",
-    "platform": {
-      "php": "8.4"
-    },
     "allow-plugins": {
       "composer/installers": true
     }
@@ -35,10 +32,11 @@
     }
   ],
   "require": {
-    "php": "^8.4",
+    "php": "8.*",
     "vlucas/phpdotenv": "^5.6@dev",
     "composer/installers": "*",
-    "wpengine/advanced-custom-fields-pro": "*"
+    "wpengine/advanced-custom-fields-pro": "*",
+    "ext-dom": "*"
   },
   "extra": {
     "installer-paths": {
